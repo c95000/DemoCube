@@ -48,7 +48,7 @@
       <x>610</x>
       <y>10</y>
       <width>181</width>
-      <height>141</height>
+      <height>111</height>
      </rect>
     </property>
    </widget>
@@ -56,9 +56,9 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>160</y>
+      <y>130</y>
       <width>181</width>
-      <height>131</height>
+      <height>111</height>
      </rect>
     </property>
    </widget>
@@ -91,7 +91,7 @@
    <widget class="QPushButton" name="btnCaptureVideo">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>570</x>
       <y>410</y>
       <width>81</width>
       <height>31</height>
@@ -104,7 +104,7 @@
    <widget class="QPushButton" name="btnCapturePanel">
     <property name="geometry">
      <rect>
-      <x>650</x>
+      <x>660</x>
       <y>410</y>
       <width>81</width>
       <height>31</height>
@@ -149,7 +149,7 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>300</y>
+      <y>260</y>
       <width>171</width>
       <height>81</height>
      </rect>

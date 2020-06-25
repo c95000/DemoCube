@@ -11,6 +11,7 @@ public:
     CRenderWidget(QWidget *parent = 0);
     virtual void paintEvent(QPaintEvent *ev);
     virtual void setPixmap(const QImage &pixmap);
+    virtual void getCurrentPixmap(QImage &p);
 
 protected:
     QImage m_currentFrame;

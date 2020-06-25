@@ -15,6 +15,13 @@ void CRenderWidget::setPixmap(const QImage &p)
     update();
 }
 
+void CRenderWidget::getCurrentPixmap(QImage &p)
+{
+    QMutexLocker lock(&m_pixmapMutex);
+    // [TODO] - prevent memory copy
+    p = m_currentFrame;
+}
+
 void CRenderWidget::paintEvent(QPaintEvent *ev)
 {
     QOpenGLWidget::paintEvent(ev);

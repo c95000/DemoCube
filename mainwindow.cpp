@@ -230,7 +230,10 @@ void MainWindow::on_btnCaptureScreen_clicked()
 
 void MainWindow::on_btnCaptureVideo_clicked()
 {
-
+    QImage p;
+    renderWidget->getCurrentPixmap(p);
+    QPixmap pixmap = QPixmap::fromImage(p);
+    showNotation(pixmap);
 }
 
 void MainWindow::on_btnCapturePanel_clicked()
