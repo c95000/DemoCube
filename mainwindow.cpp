@@ -1,7 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
+#include <QTime>
+#include <QScreen>
+#include <QLabel>
 #include "Util.h"
+#include<iostream>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,6 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
     , m_pvlcMedia(NULL)
 {
     ui->setupUi(this);
+
+    renderWidget = new CRenderWidget(this);
+    ui->gridLayout->addWidget(renderWidget, 0, 0);
+
+    whiteboard = new WhiteBoard(this);
+    ui->gridLayout->addWidget(whiteboard, 0, 1);
 
     char const* vlc_args[] =
     {
@@ -36,21 +48,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_btnPlay_clicked()
-{
-    QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
-    if(filename.isEmpty()) {
-        return;
-    }
-    filename.replace("/", "\\");
-    std::string s = filename.toStdString();
-    const char* videoPath = s.c_str();
-    openLocal(videoPath);
-}
-
 void MainWindow::openRtsp(const char* rtsp) {
+    onPause();
 
+    m_pvlcMedia = libvlc_media_new_location(m_vlcInstance, rtsp);
+    libvlc_media_player_set_media(m_vlcMediaPlayer, m_pvlcMedia);
+
+    libvlc_video_set_callbacks(m_vlcMediaPlayer, preDecode_cb, handleStream_cb, render_cb, this);
+
+    onPlay();
 }
 
 void MainWindow::openLocal(const char* local)
@@ -127,6 +133,11 @@ void MainWindow::onPause() {
     libvlc_media_player_pause(m_vlcMediaPlayer);
 }
 
+void MainWindow::onResume() {
+    libvlc_media_player_play(m_vlcMediaPlayer);
+}
+
+
 void* MainWindow::preDecode_cb(void *opaque, void **planes)
 {
     MainWindow* obj = (MainWindow*)opaque;
@@ -155,7 +166,7 @@ void MainWindow::render_cb(void *opaque, void *picture)
 {
     MainWindow* obj = (MainWindow*)opaque;
     QImage qimg((uchar*)picture, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);;
-    //obj->ui->renderWidget->setPixmap(qimg);
+    obj->renderWidget->setPixmap(qimg);
 }
 
 void MainWindow::allocVideoBuf(int width, int height)
@@ -167,3 +178,75 @@ char* MainWindow::getVideoBuf() const
 {
     return m_videobuf;
 }
+
+void MainWindow::showNotation(QPixmap& pixmap) {
+    int with = ui->displayPic->width();
+    int height = ui->displayPic->height();
+    QPixmap fitpixmap = pixmap.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);  // 按比例缩放
+    ui->displayPic->setPixmap(fitpixmap);
+    saveNotation(pixmap);
+}
+
+void MainWindow::saveNotation(QPixmap& pixmap) {
+
+    QString filePathName = "full-";
+    filePathName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+    filePathName += ".jpg";
+    if(!pixmap.save(filePathName, "jpg")) {
+        cout<<"save full screen failed"<<endl;
+    }
+}
+
+
+void MainWindow::on_btnPlay_clicked()
+{
+    QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
+    if(filename.isEmpty()) {
+        return;
+    }
+    filename.replace("/", "\\");
+    std::string s = filename.toStdString();
+    const char* videoPath = s.c_str();
+    openLocal(videoPath);
+}
+
+void MainWindow::on_btnPlayRtsp_clicked()
+{
+    openRtsp("rtsp://192.168.1.225/");
+}
+
+void MainWindow::on_btnNotaion_clicked()
+{
+
+}
+
+void MainWindow::on_btnCaptureScreen_clicked()
+{
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QPixmap p = screen->grabWindow(0);
+    showNotation(p);
+}
+
+void MainWindow::on_btnCaptureVideo_clicked()
+{
+
+}
+
+void MainWindow::on_btnCapturePanel_clicked()
+{
+    QRect rect = ui->centralwidget->geometry();
+    QPixmap p = this->grab(rect);
+    showNotation(p);
+    /*
+    QString filePathName = "widget";
+    filePathName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+    filePathName += ".png";
+    if(!p.save(filePathName,"png"))
+    {
+        cout<<"save widget screen failed"<<endl;
+    }
+    */
+}
+
+

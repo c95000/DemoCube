@@ -21,12 +21,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     RenderWidget.cpp \
-    Util.cpp
+    Util.cpp \
+    whiteboard.cpp
 
 HEADERS += \
     mainwindow.h \
     RenderWidget.h \
-    Util.h
+    Util.h \
+    whiteboard.h
 
 FORMS += \
     mainwindow.ui
