@@ -15,15 +15,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+
+
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    RenderWidget.cpp \
+    Util.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    RenderWidget.h \
+    Util.h
 
 FORMS += \
     mainwindow.ui
+
+
+QT += opengl network widgets
+
+win32{
+VLC_PATH = $$PWD/win32/vlc-2.2.2/sdk
+}
+win64{
+VLC_PATH = $$PWD/win64/vlc-2.2.2/sdk
+}
+INCLUDEPATH += $${VLC_PATH}/include
+LIBS += -L$${VLC_PATH}/lib -lvlc
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
