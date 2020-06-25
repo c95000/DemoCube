@@ -11,6 +11,14 @@ public:
     explicit WhiteBoard(QWidget *parent = nullptr);
     ~WhiteBoard();
 
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    void paintEvent(QPaintEvent *event);
+    void moveEvent(QMoveEvent *event);
+
 private:
 };
 

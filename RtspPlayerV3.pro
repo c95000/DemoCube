@@ -22,16 +22,19 @@ SOURCES += \
     mainwindow.cpp \
     RenderWidget.cpp \
     Util.cpp \
+    mypaint.cpp \
     whiteboard.cpp
 
 HEADERS += \
     mainwindow.h \
     RenderWidget.h \
     Util.h \
+    mypaint.h \
     whiteboard.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    mypaint.ui
 
 
 QT += opengl network widgets

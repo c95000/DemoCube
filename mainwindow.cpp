@@ -25,7 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->gridLayout->addWidget(renderWidget, 0, 0);
 
     whiteboard = new WhiteBoard(this);
-    ui->gridLayout->addWidget(whiteboard, 0, 1);
+
+    myPaint = new MyPaint(this);
+    ui->gridLayout->addWidget(myPaint, 0, 1);
 
     char const* vlc_args[] =
     {
@@ -45,6 +47,9 @@ MainWindow::~MainWindow()
     libvlc_media_player_release(m_vlcMediaPlayer);
     libvlc_release(m_vlcInstance);
     SAFE_DELETE_ARRAY(m_videobuf);
+    delete myPaint;
+    delete whiteboard;
+    delete renderWidget;
     delete ui;
 }
 

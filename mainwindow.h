@@ -5,6 +5,7 @@
 #include "vlc/vlc.h"
 #include "RenderWidget.h"
 #include "whiteboard.h"
+#include "mypaint.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -62,5 +63,6 @@ private:
 
     CRenderWidget* renderWidget;
     WhiteBoard* whiteboard;
+    MyPaint* myPaint;
 };
 #endif // MAINWINDOW_H
