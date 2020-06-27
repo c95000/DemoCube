@@ -32,6 +32,8 @@ private slots:
 
     void on_btnPlayRtsp_clicked();
 
+    void on_btnShowPanel_clicked();
+
 private:
     void openRtsp(const char* rtsp);
     void openLocal(const char* local);
@@ -62,7 +64,6 @@ private:
     libvlc_media_t* m_pvlcMedia;
 
     CRenderWidget* renderWidget;
-    WhiteBoard* whiteboard;
     MyPaint* myPaint;
 };
 #endif // MAINWINDOW_H

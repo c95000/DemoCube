@@ -22,15 +22,13 @@ SOURCES += \
     mainwindow.cpp \
     RenderWidget.cpp \
     Util.cpp \
-    mypaint.cpp \
-    whiteboard.cpp
+    mypaint.cpp
 
 HEADERS += \
     mainwindow.h \
     RenderWidget.h \
     Util.h \
-    mypaint.h \
-    whiteboard.h
+    mypaint.h
 
 FORMS += \
     mainwindow.ui \
