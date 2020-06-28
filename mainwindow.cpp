@@ -22,9 +22,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     renderWidget = new CRenderWidget(this);
-    //ui->gridLayout->addWidget(renderWidget, 0, 0);
+    ui->gridLayout->addWidget(renderWidget, 0, 0);
 
     myPaint = new MyPaint(this);
+    myPaint->setParent(nullptr);
+
+    myNotation = new MyPaint(this);
+    myNotation->setParent(nullptr);
     //ui->gridLayout->addWidget(myPaint, 0, 0);
 
     char const* vlc_args[] =
@@ -46,6 +50,7 @@ MainWindow::~MainWindow()
     libvlc_release(m_vlcInstance);
     SAFE_DELETE_ARRAY(m_videobuf);
     delete myPaint;
+    delete myNotation;
     delete renderWidget;
     delete ui;
 }
@@ -132,11 +137,21 @@ void MainWindow::onPlay() {
 }
 
 void MainWindow::onPause() {
-    libvlc_media_player_pause(m_vlcMediaPlayer);
+    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+    if (state == libvlc_Playing)
+    {
+        libvlc_media_player_pause(m_vlcMediaPlayer);
+        return;
+    }
 }
 
 void MainWindow::onResume() {
-    libvlc_media_player_play(m_vlcMediaPlayer);
+    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+    if (state == libvlc_Paused)
+    {
+        libvlc_media_player_play(m_vlcMediaPlayer);
+        return;
+    }
 }
 
 
@@ -203,23 +218,26 @@ void MainWindow::saveNotation(QPixmap& pixmap) {
 void MainWindow::on_btnShowPanel_clicked()
 {
     if(ui->gridLayout->isEmpty()) {
-        ui->gridLayout->addWidget(renderWidget, 0, 0);
+        ui->gridLayout->addWidget(myPaint, 0, 0);
         return;
     }
+
     QWidget* widget = ui->gridLayout->itemAtPosition(0, 0)->widget();
-    if(nullptr != widget) {
+    if(renderWidget == widget) {
         ui->gridLayout->removeWidget(widget);
         widget->setParent(nullptr);
-        if(widget == renderWidget) {
-            //onPause();
-            ui->gridLayout->addWidget(myPaint, 0, 0);
-        } else if(widget == myPaint) {
-            ui->gridLayout->addWidget(renderWidget, 0, 0);
-            //onResume();
-        }
-        ui->gridLayout->update();
+        onPause();
+        ui->gridLayout->addWidget(myPaint, 0, 0);
+        ui->btnShowPanel->setText("关闭白板");
+    } else if(myPaint == widget) {
+        ui->gridLayout->removeWidget(widget);
+        widget->setParent(nullptr);
+        ui->gridLayout->addWidget(renderWidget, 0, 0);
+        onResume();
+        ui->btnShowPanel->setText("打开白板");
     }
 
+    ui->gridLayout->update();
 }
 
 void MainWindow::on_btnPlay_clicked()
@@ -242,6 +260,25 @@ void MainWindow::on_btnPlayRtsp_clicked()
 void MainWindow::on_btnNotaion_clicked()
 {
     QWidget* widget = ui->gridLayout->itemAtPosition(0, 0)->widget();
+    if(nullptr == widget) {
+        return;
+    }
+
+    if(widget == renderWidget) {
+        onPause();
+        QImage p;
+        renderWidget->getCurrentPixmap(p);
+        QPixmap pixmap = QPixmap::fromImage(p);
+        showNotation(pixmap);
+
+        ui->gridLayout->removeWidget(widget);
+        widget->setParent(nullptr);
+        ui->gridLayout->addWidget(myPaint, 0, 0);
+        ui->gridLayout->update();
+        myPaint->loadPixmap(pixmap);
+    }
+
+#if 0
     if(nullptr != widget) {
         ui->gridLayout->removeWidget(widget);
         if(widget == renderWidget) {
@@ -257,6 +294,11 @@ void MainWindow::on_btnNotaion_clicked()
             onResume();
         }
     }
+#endif
+}
+
+void MainWindow::on_btnSaveNotaion_clicked()
+{
 
 }
 
@@ -290,6 +332,8 @@ void MainWindow::on_btnCapturePanel_clicked()
     }
     */
 }
+
+
 
 
 

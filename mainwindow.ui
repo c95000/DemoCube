@@ -50,7 +50,7 @@
      <rect>
       <x>10</x>
       <y>409</y>
-      <width>781</width>
+      <width>794</width>
       <height>41</height>
      </rect>
     </property>
@@ -58,7 +58,7 @@
      <item>
       <widget class="QPushButton" name="btnShowPanel">
        <property name="text">
-        <string>白板</string>
+        <string>打开白板</string>
        </property>
       </widget>
      </item>
@@ -73,6 +73,13 @@
       <widget class="QPushButton" name="btnNotaion">
        <property name="text">
         <string>批注</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSaveNotaion">
+       <property name="text">
+        <string>保存批注</string>
        </property>
       </widget>
      </item>

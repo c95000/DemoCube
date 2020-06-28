@@ -34,6 +34,8 @@ private slots:
 
     void on_btnShowPanel_clicked();
 
+    void on_btnSaveNotaion_clicked();
+
 private:
     void openRtsp(const char* rtsp);
     void openLocal(const char* local);
@@ -65,5 +67,6 @@ private:
 
     CRenderWidget* renderWidget;
     MyPaint* myPaint;
+    MyPaint* myNotation;
 };
 #endif // MAINWINDOW_H

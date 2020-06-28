@@ -439,3 +439,22 @@ void MyPaint::keyPressEvent(QKeyEvent *e) //按键事件
         SavePic();//Ctrl+S保存
      }
 }
+
+void MyPaint::clear() //按键事件
+{
+    _lines.clear();
+    _shape.clear();
+    update();
+}
+
+void MyPaint::loadPixmap(QPixmap& p) //按键事件
+{
+    int with = this->width();
+    int height = this->height();
+    //QPixmap fitpixmap = p.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);  // 按比例缩放
+    //this->setPixmap(fitpixmap);
+    _pixmap = p.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    _openflag = 1;//设置文件打开标志
+    update();
+}

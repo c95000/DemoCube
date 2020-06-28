@@ -69,6 +69,10 @@ public slots:
     void OpenPic();//打开图片
     void Texts();//文字
     void AddTexts();//添加文字
+
+public:
+    void clear();
+    void loadPixmap(QPixmap& p);
 };
 
 #endif // MYPAINT_H
