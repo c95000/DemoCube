@@ -6,6 +6,7 @@
 #include "RenderWidget.h"
 #include "whiteboard.h"
 #include "mypaint.h"
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,6 +36,12 @@ private slots:
     void on_btnShowPanel_clicked();
 
     void on_btnSaveNotaion_clicked();
+
+    void on_timeout();
+
+    void on_btnPausePlay_clicked();
+
+    void on_btnStop_clicked();
 
 private:
     void openRtsp(const char* rtsp);
@@ -68,5 +75,7 @@ private:
     CRenderWidget* renderWidget;
     MyPaint* myPaint;
     MyPaint* myNotation;
+
+    QTimer* timerClock;
 };
 #endif // MAINWINDOW_H

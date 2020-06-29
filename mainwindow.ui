@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>797</width>
-    <height>511</height>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -113,6 +113,39 @@
       <widget class="QPushButton" name="btnCapturePanel">
        <property name="text">
         <string>截取画板</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>470</y>
+      <width>311</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="labelTime">
+       <property name="text">
+        <string>00:00:00</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnPausePlay">
+       <property name="text">
+        <string>播放</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnStop">
+       <property name="text">
+        <string>停止</string>
        </property>
       </widget>
      </item>

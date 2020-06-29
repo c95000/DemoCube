@@ -31,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
     myNotation->setParent(nullptr);
     //ui->gridLayout->addWidget(myPaint, 0, 0);
 
+    timerClock = new QTimer();
+    connect(timerClock,  SIGNAL(timeout()), this, SLOT(on_timeout()));
+    timerClock->setInterval(1000);
+
     char const* vlc_args[] =
     {
         "-I",
@@ -52,6 +56,7 @@ MainWindow::~MainWindow()
     delete myPaint;
     delete myNotation;
     delete renderWidget;
+    delete timerClock;
     delete ui;
 }
 
@@ -333,8 +338,37 @@ void MainWindow::on_btnCapturePanel_clicked()
     */
 }
 
+void MainWindow::on_timeout()
+{
+    QDateTime current_date_time = QDateTime::currentDateTime();
+    QString current_date = current_date_time.toString("hh:mm:ss");//current_date_time.toString("yyyy-MM-dd hh:mm::ss.zzz");
+    ui->labelTime->setText(current_date);
+}
 
 
 
 
 
+
+
+void MainWindow::on_btnPausePlay_clicked()
+{
+    static int flag = 0;
+    if(0 == flag) {
+        flag = 1;
+        ui->btnPausePlay->setText("暂停");
+        timerClock->start();
+    } else if(1 == flag) {
+        flag = 0;
+        ui->btnPausePlay->setText("播放");
+        timerClock->stop();
+    } else {
+        cout<<"...."<<endl;
+    }
+    ui->btnPausePlay->update();
+}
+
+void MainWindow::on_btnStop_clicked()
+{
+
+}
