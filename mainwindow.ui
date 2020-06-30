@@ -14,156 +14,115 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>611</width>
-      <height>371</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0">
-     <property name="horizontalSpacing">
-      <number>3</number>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" colspan="5">
+     <widget class="CRenderWidget" name="renderWidget">
+     <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>688</width>
+             <height>483</height>
+            </size>
+           </property>
+     </widget>
+    </item>
+    <item row="0" column="5">
+     <widget class="QLabel" name="displayPic"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="btnShowPanel">
+      <property name="text">
+       <string>打开白板</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+        <widget class="QPushButton" name="btnPlay">
+         <property name="text">
+          <string>打开本地视频</string>
+         </property>
+        </widget>
+    </item>
+    <item row="1" column="2">
+    <widget class="QPushButton" name="btnNotaion">
+     <property name="text">
+      <string>批注</string>
      </property>
-    </layout>
-   </widget>
-   <widget class="QLabel" name="displayPic">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>20</y>
-      <width>141</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>409</y>
-      <width>794</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="btnShowPanel">
-       <property name="text">
-        <string>打开白板</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnPlay">
-       <property name="text">
-        <string>打开本地视频</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnNotaion">
-       <property name="text">
-        <string>批注</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnSaveNotaion">
-       <property name="text">
-        <string>保存批注</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnPlayRtsp">
-       <property name="font">
-        <font>
-         <family>Arial</family>
-        </font>
-       </property>
-       <property name="text">
-        <string>打开摄像头</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnCaptureScreen">
-       <property name="text">
-        <string>截取屏幕</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnCaptureVideo">
-       <property name="text">
-        <string>截取视频</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnCapturePanel">
-       <property name="text">
-        <string>截取画板</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>470</y>
-      <width>311</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="labelTime">
-       <property name="text">
-        <string>00:00:00</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnPausePlay">
-       <property name="text">
-        <string>播放</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnStop">
-       <property name="text">
-        <string>停止</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
+    </widget>
+    </item>
+    <item row="1" column="3">
+    <widget class="QPushButton" name="btnSaveNotaion">
+     <property name="text">
+      <string>保存批注</string>
+     </property>
+    </widget>
+    </item>
+    <item row="1" column="4">
+    <widget class="QPushButton" name="btnPlayRtsp">
+     <property name="font">
+      <font>
+       <family>Arial</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>打开摄像头</string>
+     </property>
+    </widget>
+    </item>
+    <item row="1" column="5">
+    <widget class="QPushButton" name="btnCaptureScreen">
+     <property name="text">
+      <string>截取屏幕</string>
+     </property>
+    </widget>
+    </item>
+    <item row="2" column="0">
+    <widget class="QPushButton" name="btnCaptureVideo">
+     <property name="text">
+      <string>截取视频</string>
+     </property>
+    </widget>
+    </item>
+    <item row="2" column="1">
+    <widget class="QPushButton" name="btnCapturePanel">
+     <property name="text">
+      <string>截取画板</string>
+     </property>
+    </widget>
+    </item>
+    <item row="2" column="2">
+    <widget class="QLabel" name="labelTime">
+     <property name="text">
+      <string>00:00:00</string>
+     </property>
+    </widget>
+    </item>
+    <item row="2" column="3">
+    <widget class="QPushButton" name="btnPausePlay">
+     <property name="text">
+      <string>播放</string>
+     </property>
+    </widget>
+    </item>
+    <item row="2" column="4">
+    <widget class="QPushButton" name="btnStop">
+     <property name="text">
+      <string>停止</string>
+     </property>
+    </widget>
+    </item>
+   </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>797</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+     <class>CRenderWidget</class>
+     <extends>QOpenGLWidget</extends>
+     <header location="global">RenderWidget.h</header>
+    </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

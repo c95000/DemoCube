@@ -21,9 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    renderWidget = new CRenderWidget(this);
-    ui->gridLayout->addWidget(renderWidget, 0, 0);
-
     myPaint = new MyPaint(this);
     myPaint->setParent(nullptr);
 
@@ -55,7 +52,6 @@ MainWindow::~MainWindow()
     SAFE_DELETE_ARRAY(m_videobuf);
     delete myPaint;
     delete myNotation;
-    delete renderWidget;
     delete timerClock;
     delete ui;
 }
@@ -188,7 +184,7 @@ void MainWindow::render_cb(void *opaque, void *picture)
 {
     MainWindow* obj = (MainWindow*)opaque;
     QImage qimg((uchar*)picture, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);;
-    obj->renderWidget->setPixmap(qimg);
+    obj->ui->renderWidget->setPixmap(qimg);
 }
 
 void MainWindow::allocVideoBuf(int width, int height)
@@ -227,6 +223,7 @@ void MainWindow::on_btnShowPanel_clicked()
         return;
     }
 
+#if 0
     QWidget* widget = ui->gridLayout->itemAtPosition(0, 0)->widget();
     if(renderWidget == widget) {
         ui->gridLayout->removeWidget(widget);
@@ -241,7 +238,7 @@ void MainWindow::on_btnShowPanel_clicked()
         onResume();
         ui->btnShowPanel->setText("打开白板");
     }
-
+#endif
     ui->gridLayout->update();
 }
 
@@ -268,7 +265,7 @@ void MainWindow::on_btnNotaion_clicked()
     if(nullptr == widget) {
         return;
     }
-
+#if 0
     if(widget == renderWidget) {
         onPause();
         QImage p;
@@ -282,7 +279,7 @@ void MainWindow::on_btnNotaion_clicked()
         ui->gridLayout->update();
         myPaint->loadPixmap(pixmap);
     }
-
+#endif
 #if 0
     if(nullptr != widget) {
         ui->gridLayout->removeWidget(widget);
@@ -317,7 +314,7 @@ void MainWindow::on_btnCaptureScreen_clicked()
 void MainWindow::on_btnCaptureVideo_clicked()
 {
     QImage p;
-    renderWidget->getCurrentPixmap(p);
+    //renderWidget->getCurrentPixmap(p);
     QPixmap pixmap = QPixmap::fromImage(p);
     showNotation(pixmap);
 }
@@ -344,12 +341,6 @@ void MainWindow::on_timeout()
     QString current_date = current_date_time.toString("hh:mm:ss");//current_date_time.toString("yyyy-MM-dd hh:mm::ss.zzz");
     ui->labelTime->setText(current_date);
 }
-
-
-
-
-
-
 
 void MainWindow::on_btnPausePlay_clicked()
 {

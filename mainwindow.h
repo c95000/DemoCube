@@ -72,7 +72,6 @@ private:
     libvlc_media_player_t* m_vlcMediaPlayer;
     libvlc_media_t* m_pvlcMedia;
 
-    CRenderWidget* renderWidget;
     MyPaint* myPaint;
     MyPaint* myNotation;
 
