@@ -7,6 +7,7 @@
 #include "whiteboard.h"
 #include "mypaint.h"
 #include <QTimer>
+#include "vlcwrapper.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -39,20 +40,14 @@ private slots:
 
     void on_timeout();
 
-    void on_btnPausePlay_clicked();
-
     void on_btnStop_clicked();
 
-private:
-    void openRtsp(const char* rtsp);
-    void openLocal(const char* local);
+    void on_btnPlay2_clicked();
 
-    void onPlay();
-    void onPause();
-    void onResume();
-    static void* preDecode_cb(void *opaque, void **planes);
-    static void handleStream_cb(void *opaque, void *picture, void *const *planes);
-    static void render_cb(void *opaque, void *picture);
+    void on_btnPause_clicked();
+
+private:
+
 
     void allocVideoBuf(int width, int height);
     char* getVideoBuf() const;
@@ -64,17 +59,11 @@ private:
 private:
     Ui::MainWindow *ui;
 
-    char * m_videobuf;
-    int m_frameWidth;
-    int m_frameHeight;
-
-    libvlc_instance_t* m_vlcInstance;
-    libvlc_media_player_t* m_vlcMediaPlayer;
-    libvlc_media_t* m_pvlcMedia;
-
     MyPaint* myPaint;
     MyPaint* myNotation;
 
     QTimer* timerClock;
+
+    VlcWrapper* vlcWrapper;
 };
 #endif // MAINWINDOW_H

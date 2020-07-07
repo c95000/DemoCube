@@ -21,13 +21,15 @@ SOURCES += \
     mainwindow.cpp \
     RenderWidget.cpp \
     Util.cpp \
-    mypaint.cpp
+    mypaint.cpp \
+    vlcwrapper.cpp
 
 HEADERS += \
     mainwindow.h \
     RenderWidget.h \
     Util.h \
-    mypaint.h
+    mypaint.h \
+    vlcwrapper.h
 
 FORMS += \
     mainwindow.ui \

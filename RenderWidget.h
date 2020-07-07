@@ -3,8 +3,9 @@
 
 #include <QOpenGLWidget>
 #include <QMutex>
+#include "vlcwrapper.h"
 
-class CRenderWidget : public QOpenGLWidget
+class CRenderWidget : public QOpenGLWidget, public VlcRenderCb
 {
     Q_OBJECT
 public:
@@ -13,6 +14,7 @@ public:
     virtual void setPixmap(const QImage &pixmap);
     virtual void getCurrentPixmap(QImage &p);
 
+    void onRender(const QImage &pixmap) override;
 protected:
     QImage m_currentFrame;
     QMutex m_pixmapMutex;
