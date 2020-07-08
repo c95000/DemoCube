@@ -16,13 +16,13 @@ public:
     VlcWrapper();
     ~VlcWrapper();
 
-    void start(std::string source);
     void start(std::string source, VlcRenderCb* renderCb);
     void stop();
     void resume();
     void pause();
 
 private:
+    void start(std::string source);
     static void* preDecode_cb(void *opaque, void **planes);
     static void handleStream_cb(void *opaque, void *picture, void *const *planes);
     static void render_cb(void *opaque, void *picture);
