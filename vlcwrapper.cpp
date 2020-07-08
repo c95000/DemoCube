@@ -26,17 +26,18 @@ VlcWrapper::~VlcWrapper() {
 }
 
 void VlcWrapper::start(std::string source) {
-//    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
-//    if (state != libvlc_Stopped && state != libvlc_NothingSpecial)
-//    {
-//        libvlc_media_player_stop(m_vlcMediaPlayer);
-//        while (state != libvlc_Stopped && state != libvlc_NothingSpecial)
-//        {
-//            state = libvlc_media_player_get_state(m_vlcMediaPlayer);
-//            MSleep(100);
-//        }
-//    }
-
+    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+    if (state != libvlc_Stopped && state != libvlc_NothingSpecial)
+    {
+        libvlc_media_release(m_pvlcMedia);
+        libvlc_media_player_stop(m_vlcMediaPlayer);
+        while (state != libvlc_Stopped && state != libvlc_NothingSpecial)
+        {
+            state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+            MSleep(100);
+        }
+    }
+    SAFE_DELETE_ARRAY(m_videobuf);
 
     if(source.substr(0, 4) == "rtsp") {
         const char * rtsp = source.c_str();
@@ -50,7 +51,7 @@ void VlcWrapper::start(std::string source) {
     libvlc_media_player_set_media(m_vlcMediaPlayer, m_pvlcMedia);
     libvlc_video_set_callbacks(m_vlcMediaPlayer, preDecode_cb, handleStream_cb, render_cb, this);
 
-    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+    state = libvlc_media_player_get_state(m_vlcMediaPlayer);
     if (state == libvlc_Playing)
     {
         return;
@@ -100,7 +101,7 @@ void VlcWrapper::start(std::string source) {
     libvlc_media_player_stop(m_vlcMediaPlayer);
 
     libvlc_video_set_format(m_vlcMediaPlayer, "RV32", m_frameWidth, m_frameHeight, m_frameWidth << 2);
-    SAFE_DELETE_ARRAY(m_videobuf);
+
     m_videobuf = new char[(m_frameWidth * m_frameHeight) << 2];
     libvlc_media_player_play(m_vlcMediaPlayer);
 }

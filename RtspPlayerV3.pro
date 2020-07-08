@@ -32,8 +32,7 @@ HEADERS += \
     vlcwrapper.h
 
 FORMS += \
-    mainwindow.ui \
-    mypaint.ui
+    mainwindow.ui
 
 
 QT += opengl network widgets

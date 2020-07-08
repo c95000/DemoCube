@@ -17,11 +17,6 @@
 #include <QFileDialog>
 #include <QTextEdit>
 
-
-namespace Ui {
-class MyPaint;
-}
-
 class MyPaint : public QWidget
 {
     Q_OBJECT
@@ -31,7 +26,6 @@ public:
     ~MyPaint();
 
 private:
-    Ui::MyPaint *ui;
 
 protected:
     void paintEvent(QPaintEvent *);//重写窗体重绘事件

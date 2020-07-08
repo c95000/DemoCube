@@ -30,7 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete vlcWrapper;
+    if(NULL!= vlcWrapper) {
+        delete vlcWrapper;
+    }
     delete myPaint;
     delete myNotation;
     delete timerClock;
@@ -56,17 +58,15 @@ void MainWindow::saveNotation(QPixmap& pixmap) {
     }
 }
 
-void MainWindow::on_btnShowPanel_clicked()
-{
-    //ui->renderWidget->setPixmap();
-}
-
 void MainWindow::on_btnPlay_clicked()
 {
     QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
     if(filename.isEmpty()) {
         return;
     }
+
+    ui->renderWidget->playVideo();
+
     filename.replace("/", "\\");
     std::string s = filename.toStdString();
     vlcWrapper->start(s, ui->renderWidget);
@@ -167,10 +167,17 @@ void MainWindow::on_btnStop_clicked()
 
 void MainWindow::on_btnPlay2_clicked()
 {
+    ui->renderWidget->playVideo();
     vlcWrapper->resume();
 }
 
 void MainWindow::on_btnPause_clicked()
 {
     vlcWrapper->pause();
+}
+
+void MainWindow::on_btnWhiteBoard_clicked()
+{
+    vlcWrapper->pause();
+    ui->renderWidget->whiteBoard();
 }

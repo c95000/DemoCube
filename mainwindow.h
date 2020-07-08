@@ -34,8 +34,6 @@ private slots:
 
     void on_btnPlayRtsp_clicked();
 
-    void on_btnShowPanel_clicked();
-
     void on_btnSaveNotaion_clicked();
 
     void on_timeout();
@@ -45,6 +43,8 @@ private slots:
     void on_btnPlay2_clicked();
 
     void on_btnPause_clicked();
+
+    void on_btnWhiteBoard_clicked();
 
 private:
 
