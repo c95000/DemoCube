@@ -65,11 +65,13 @@ public slots:
     void Texts();//文字
     void AddTexts();//添加文字
 
+    void renderShapes(QPainter& p);
+
 public:
     void clear();
     void whiteBoard();
     void playVideo();
-    void loadPixmap(QPixmap& p);
+    void loadPixmap();
 protected:
     QImage m_currentFrame;
     QMutex m_pixmapMutex;

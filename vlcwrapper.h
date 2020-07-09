@@ -20,6 +20,7 @@ public:
     void stop();
     void resume();
     void pause();
+    bool isPlaying();
 
 private:
     void start(std::string source);

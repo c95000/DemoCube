@@ -124,6 +124,18 @@ void VlcWrapper::pause() {
     }
 }
 
+bool VlcWrapper::isPlaying() {
+    int state = libvlc_media_player_is_playing(m_vlcMediaPlayer);
+    if(1 == state)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void VlcWrapper::resume() {
     libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
     if (state == libvlc_Paused)

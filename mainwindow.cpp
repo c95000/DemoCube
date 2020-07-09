@@ -79,47 +79,22 @@ void MainWindow::on_btnPlayRtsp_clicked()
 
 void MainWindow::on_btnNotaion_clicked()
 {
-    QWidget* widget = ui->gridLayout->itemAtPosition(0, 0)->widget();
-    if(nullptr == widget) {
-        return;
+    if(vlcWrapper->isPlaying())
+    {
+        vlcWrapper->pause();
+        ui->renderWidget->clear();
+        ui->renderWidget->loadPixmap();
     }
-#if 0
-    if(widget == renderWidget) {
-        onPause();
-        QImage p;
-        renderWidget->getCurrentPixmap(p);
-        QPixmap pixmap = QPixmap::fromImage(p);
-        showNotation(pixmap);
-
-        ui->gridLayout->removeWidget(widget);
-        widget->setParent(nullptr);
-        ui->gridLayout->addWidget(myPaint, 0, 0);
-        ui->gridLayout->update();
-        myPaint->loadPixmap(pixmap);
+    else
+    {
+        ui->renderWidget->clear();
+        ui->renderWidget->whiteBoard();
     }
-#endif
-#if 0
-    if(nullptr != widget) {
-        ui->gridLayout->removeWidget(widget);
-        if(widget == renderWidget) {
-            onPause();
-            QImage p;
-            renderWidget->getCurrentPixmap(p);
-            QPixmap pixmap = QPixmap::fromImage(p);
-            showNotation(pixmap);
-        } else if(widget == myPaint) {
-            QRect rect = ui->centralwidget->geometry();
-            QPixmap p = this->grab(rect);
-            showNotation(p);
-            onResume();
-        }
-    }
-#endif
 }
 
 void MainWindow::on_btnSaveNotaion_clicked()
 {
-
+    ui->renderWidget->SavePic();
 }
 
 void MainWindow::on_btnCaptureScreen_clicked()
@@ -179,5 +154,6 @@ void MainWindow::on_btnPause_clicked()
 void MainWindow::on_btnWhiteBoard_clicked()
 {
     vlcWrapper->pause();
+    ui->renderWidget->clear();
     ui->renderWidget->whiteBoard();
 }

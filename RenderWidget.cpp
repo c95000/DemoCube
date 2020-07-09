@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QPaintEvent>
+#include <QTime>
 
 CRenderWidget::CRenderWidget(QWidget *parent)
     : QOpenGLWidget(parent)
@@ -167,6 +168,42 @@ void CRenderWidget::AddTexts()//当输入框文本改变时调用
     last = _tEdit->toPlainText();//将输入框文本作为文本
 }
 
+void CRenderWidget::renderShapes(QPainter& p) {
+    p.setPen(Qt::red);
+    unsigned int i1=0,i2=0,i3=0,i4=0,i5=0;//各种图形的索引
+
+    for(int c = 0;c<_shape.size();++c)//控制用户当前所绘图形总数
+    {
+        if(_shape.at(c) == 1)//线条
+        {
+              const QVector<QPoint>& line = _lines.at(i1++);//取出一条线条
+              for(int j=0; j<line.size()-1; ++j)//将线条的所有线段描绘出
+              {
+                  p.drawLine(line.at(j), line.at(j+1));
+              }
+        }
+        else if(_shape.at(c) == 2)//矩形
+        {
+             p.drawRect(_rects.at(i2++));
+        }
+        else if(_shape.at(c) == 3)//椭圆
+        {
+            p.drawEllipse(_ellipse.at(i3++));
+        }
+        else if(_shape.at(c) == 4)//直线
+        {
+            p.drawLine(_line.at(i4).topLeft(),_line.at(i4).bottomRight());
+            i4++;
+        }
+        else if(_shape.at(c) == 5)//文本
+        {
+            p.drawText(_tpoint.at(i5),_text.at(i5));
+            i5++;
+        }
+    }
+    p.end();
+}
+
 void CRenderWidget::mouseMoveEvent(QMouseEvent *e)
 {
     if(_drag && ((_drawType == 2 && _rects.last().contains(e->pos()))
@@ -324,16 +361,40 @@ void CRenderWidget::Texts()
 void CRenderWidget::SavePic()
 {
     //弹出文件保存对话框
-    QString fileName = QFileDialog::getSaveFileName(this, tr("保存"), "new.jpg", "Image (*.jpg *.png *.bmp)");
-
+    //QString fileName = QFileDialog::getSaveFileName(this, tr("保存"), "new.jpg", "Image (*.jpg *.png *.bmp)");
+    QString fileName = "full-";
+    fileName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".jpg";
     if (fileName.length() > 0)
     {
+#if 0
+        QRect rect = this->geometry();
+        QPixmap p = this->grab(rect);
+        p.save(fileName, "jpg");
+#endif
+
+
+
+        if(10 == _drawType) {
+            QPixmap pixmap = QPixmap::fromImage(m_currentFrame);
+            pixmap.save(fileName);
+        } else if(1 == _drawType) {
+            QPixmap pixmap(size());//新建窗体大小的pixmap
+            QPainter painter(&_pixmap);//将pixmap作为画布
+            //painter.fillRect(QRect(0, 0, size().width(), size().height()), Qt::white);//设置绘画区域、画布颜色
+            //this->render(&painter);//将窗体渲染到painter，再由painter画到画布
+            renderShapes(painter);
+            //painter.begin(this);//将当前窗体作为画布
+            //painter.drawPixmap(0,0, pixmap);//将pixmap画到窗体
+            _pixmap.save(fileName);
+        }
+        #if 0
         _tEdit->hide();//防止文本输入框显示时，将文本框保存到图片
         QPixmap pixmap(size());//新建窗体大小的pixmap
         QPainter painter(&pixmap);//将pixmap作为画布
         painter.fillRect(QRect(0, 0, size().width(), size().height()), Qt::white);//设置绘画区域、画布颜色
-        this->render(&painter);//将窗体渲染到painter，再由painter画到画布
-        pixmap.copy(QRect(0,30,size().width(),size().height()-30)).save(fileName);//不包含工具栏
+        //this->render(&painter);//将窗体渲染到painter，再由painter画到画布
+        pixmap.copy(QRect(0,0,size().width(),size().height())).save(fileName);//不包含工具栏
+#endif
     }
 }
 
@@ -408,15 +469,18 @@ void CRenderWidget::playVideo() //按键事件
 }
 
 
-void CRenderWidget::loadPixmap(QPixmap& p) //按键事件
+void CRenderWidget::loadPixmap() //按键事件
 {
+    QPixmap pixmap = QPixmap::fromImage(m_currentFrame);
+
     int with = this->width();
     int height = this->height();
     //QPixmap fitpixmap = p.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
     //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);  // 按比例缩放
     //this->setPixmap(fitpixmap);
-    _pixmap = p.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    _pixmap = pixmap.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
     _openflag = 1;//设置文件打开标志
+    _drawType = 1;
     update();
 }
 
