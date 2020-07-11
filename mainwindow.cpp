@@ -79,17 +79,18 @@ void MainWindow::on_btnPlayRtsp_clicked()
 
 void MainWindow::on_btnNotaion_clicked()
 {
-    if(vlcWrapper->isPlaying())
-    {
-        vlcWrapper->pause();
-        ui->renderWidget->clear();
-        ui->renderWidget->loadPixmap();
-    }
-    else
-    {
-        ui->renderWidget->clear();
-        ui->renderWidget->whiteBoard();
-    }
+    vlcWrapper->pause();
+    ui->renderWidget->clear();
+    ui->renderWidget->loadPixmap();
+//    if(vlcWrapper->isPlaying())
+//    {
+
+//    }
+//    else
+//    {
+//        ui->renderWidget->clear();
+//        ui->renderWidget->whiteBoard();
+//    }
 }
 
 void MainWindow::on_btnSaveNotaion_clicked()

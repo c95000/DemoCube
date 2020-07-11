@@ -7,6 +7,9 @@
 CRenderWidget::CRenderWidget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
+    QPixmap pixmap(size());
+    pixmap.fill(Qt::white);
+    m_currentFrame = pixmap.toImage();
     _lpress = false;//初始鼠标左键未按下
          _drawType = 0;//初始为什么都不画
          _drag = 0;//默认非拖拽模式
