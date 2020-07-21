@@ -40,12 +40,12 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::showNotation(QPixmap& pixmap) {
-    int with = ui->displayPic->width();
-    int height = ui->displayPic->height();
-    QPixmap fitpixmap = pixmap.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
-    //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);  // 按比例缩放
-    ui->displayPic->setPixmap(fitpixmap);
-    saveNotation(pixmap);
+//    int with = ui->displayPic->width();
+//    int height = ui->displayPic->height();
+//    QPixmap fitpixmap = pixmap.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+//    //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);  // 按比例缩放
+//    ui->displayPic->setPixmap(fitpixmap);
+//    saveNotation(pixmap);
 }
 
 void MainWindow::saveNotation(QPixmap& pixmap) {
@@ -65,11 +65,11 @@ void MainWindow::on_btnPlay_clicked()
         return;
     }
 
-    ui->renderWidget->playVideo();
+    //ui->renderWidget->playVideo();
 
     filename.replace("/", "\\");
     std::string s = filename.toStdString();
-    vlcWrapper->start(s, ui->renderWidget);
+    vlcWrapper->start(s, ui->myRender);
 }
 
 void MainWindow::on_btnPlayRtsp_clicked()
@@ -80,22 +80,15 @@ void MainWindow::on_btnPlayRtsp_clicked()
 void MainWindow::on_btnNotaion_clicked()
 {
     vlcWrapper->pause();
-    ui->renderWidget->clear();
-    ui->renderWidget->loadPixmap();
-//    if(vlcWrapper->isPlaying())
-//    {
-
-//    }
-//    else
-//    {
-//        ui->renderWidget->clear();
-//        ui->renderWidget->whiteBoard();
-//    }
+//    ui->renderWidget->clear();
+//    ui->renderWidget->loadPixmap();
 }
 
 void MainWindow::on_btnSaveNotaion_clicked()
 {
-    ui->renderWidget->SavePic();
+//    ui->renderWidget->SavePic();
+//    ui->renderWidget->clear();
+    vlcWrapper->resume();
 }
 
 void MainWindow::on_btnCaptureScreen_clicked()
@@ -131,9 +124,9 @@ void MainWindow::on_btnCapturePanel_clicked()
 
 void MainWindow::on_timeout()
 {
-    QDateTime current_date_time = QDateTime::currentDateTime();
-    QString current_date = current_date_time.toString("hh:mm:ss");//current_date_time.toString("yyyy-MM-dd hh:mm::ss.zzz");
-    ui->labelTime->setText(current_date);
+//    QDateTime current_date_time = QDateTime::currentDateTime();
+//    QString current_date = current_date_time.toString("hh:mm:ss");//current_date_time.toString("yyyy-MM-dd hh:mm::ss.zzz");
+//    ui->labelTime->setText(current_date);
 }
 
 void MainWindow::on_btnStop_clicked()
@@ -143,7 +136,7 @@ void MainWindow::on_btnStop_clicked()
 
 void MainWindow::on_btnPlay2_clicked()
 {
-    ui->renderWidget->playVideo();
+    //ui->renderWidget->playVideo();
     vlcWrapper->resume();
 }
 
@@ -155,6 +148,6 @@ void MainWindow::on_btnPause_clicked()
 void MainWindow::on_btnWhiteBoard_clicked()
 {
     vlcWrapper->pause();
-    ui->renderWidget->clear();
-    ui->renderWidget->whiteBoard();
+//    ui->renderWidget->clear();
+//    ui->renderWidget->whiteBoard();
 }

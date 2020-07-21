@@ -22,6 +22,7 @@ SOURCES += \
     RenderWidget.cpp \
     Util.cpp \
     mypaint.cpp \
+    myrender.cpp \
     vlcwrapper.cpp
 
 HEADERS += \
@@ -29,6 +30,7 @@ HEADERS += \
     RenderWidget.h \
     Util.h \
     mypaint.h \
+    myrender.h \
     vlcwrapper.h
 
 FORMS += \

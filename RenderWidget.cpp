@@ -2,6 +2,7 @@
 
 #include <QPainter>
 #include <QPaintEvent>
+#include <QLayout>
 #include <QTime>
 
 CRenderWidget::CRenderWidget(QWidget *parent)
@@ -12,12 +13,13 @@ CRenderWidget::CRenderWidget(QWidget *parent)
     m_currentFrame = pixmap.toImage();
     _lpress = false;//初始鼠标左键未按下
          _drawType = 0;//初始为什么都不画
+         _lastDrawType = 0;
          _drag = 0;//默认非拖拽模式
          _begin = pos();//拖拽的参考坐标，方便计算位移
          _openflag = 0;//初始不打开图片
          _tEdit = new QTextEdit(this);//初始化文本输入框
          _tEdit->hide();//隐藏
-         this->setGeometry(350,200,600,400);//设置窗体大小、位置
+         //this->setGeometry(350,200,600,400);//设置窗体大小、位置
          setMouseTracking(true);//开启鼠标实时追踪，监听鼠标移动事件，默认只有按下时才监听
          //设置背景黑色
          //方法一
@@ -27,62 +29,63 @@ CRenderWidget::CRenderWidget(QWidget *parent)
          this->setPalette(palt);
          //方法二
          //this->setStyleSheet("background-color:yellow;");
+
+
+         _timeLabel = new QLabel(this);
+         _timeLabel->setText("00:00:00");//给按钮设置显示的字符串
+         _timeLabel->resize(100, 100);//设置按钮的宽度和高度
+         _timeLabel->setAlignment(Qt::AlignHCenter);
+         QPalette pa;
+         pa.setColor(QPalette::WindowText,Qt::red);
+         pa.setColor(QPalette::Background, Qt::transparent);
+         _timeLabel->setAutoFillBackground(true);
+         _timeLabel->setPalette(pa);
+         QHBoxLayout *topLayout = new QHBoxLayout;
+         //topLayout->setSizeConstraint(QLayout::SetFixedSize);
+         topLayout->addWidget(_timeLabel);
+         this->setLayout(topLayout);
+}
+
+CRenderWidget::~CRenderWidget() {
+    delete _timeLabel;
 }
 
 void CRenderWidget::paintEvent(QPaintEvent *ev)
 {
-    if(0 == _drawType) {
-        return;
-    } else if(10 == _drawType) {
-        QOpenGLWidget::paintEvent(ev);
-
-        QPainter painter(this);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform);
-        QRect targetRect(0, 0, width(), height());
-
-        QMutexLocker lock(&m_pixmapMutex);
-
-        QRect srcRect(0, 0, m_currentFrame.width(), m_currentFrame.height());
-        painter.drawImage(targetRect, m_currentFrame, srcRect);
-        return;
-    }
-    if(_openflag == 0)//不是打开图片的，每一次新建一个空白的画布
-    {
-        _pixmap = QPixmap(size());//新建pixmap
-        _pixmap.fill(Qt::white);//背景色填充为白色
-    }
     QPixmap pix = _pixmap;//以_pixmap作为画布
     QPainter p(&pix);//将_pixmap作为画布
     p.setPen(Qt::red);
     unsigned int i1=0,i2=0,i3=0,i4=0,i5=0;//各种图形的索引
 
-    for(int c = 0;c<_shape.size();++c)//控制用户当前所绘图形总数
-    {
-        if(_shape.at(c) == 1)//线条
+    if(1 == _drawType) {
+        for(int c = 0;c<_shape.size();++c)//控制用户当前所绘图形总数
         {
-              const QVector<QPoint>& line = _lines.at(i1++);//取出一条线条
-              for(int j=0; j<line.size()-1; ++j)//将线条的所有线段描绘出
-              {
-                  p.drawLine(line.at(j), line.at(j+1));
-              }
-        }
-        else if(_shape.at(c) == 2)//矩形
-        {
-             p.drawRect(_rects.at(i2++));
-        }
-        else if(_shape.at(c) == 3)//椭圆
-        {
-            p.drawEllipse(_ellipse.at(i3++));
-        }
-        else if(_shape.at(c) == 4)//直线
-        {
-            p.drawLine(_line.at(i4).topLeft(),_line.at(i4).bottomRight());
-            i4++;
-        }
-        else if(_shape.at(c) == 5)//文本
-        {
-            p.drawText(_tpoint.at(i5),_text.at(i5));
-            i5++;
+            if(_shape.at(c) == 1)//线条
+            {
+                  const QVector<QPoint>& line = _lines.at(i1++);//取出一条线条
+                  for(int j=0; j<line.size()-1; ++j)//将线条的所有线段描绘出
+                  {
+                      p.drawLine(line.at(j), line.at(j+1));
+                  }
+            }
+            else if(_shape.at(c) == 2)//矩形
+            {
+                 p.drawRect(_rects.at(i2++));
+            }
+            else if(_shape.at(c) == 3)//椭圆
+            {
+                p.drawEllipse(_ellipse.at(i3++));
+            }
+            else if(_shape.at(c) == 4)//直线
+            {
+                p.drawLine(_line.at(i4).topLeft(),_line.at(i4).bottomRight());
+                i4++;
+            }
+            else if(_shape.at(c) == 5)//文本
+            {
+                p.drawText(_tpoint.at(i5),_text.at(i5));
+                i5++;
+            }
         }
     }
     p.end();
@@ -369,35 +372,11 @@ void CRenderWidget::SavePic()
     fileName += QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".jpg";
     if (fileName.length() > 0)
     {
-#if 0
-        QRect rect = this->geometry();
-        QPixmap p = this->grab(rect);
-        p.save(fileName, "jpg");
-#endif
-
-
-
-        if(10 == _drawType) {
-            QPixmap pixmap = QPixmap::fromImage(m_currentFrame);
-            pixmap.save(fileName);
-        } else if(1 == _drawType) {
-            QPixmap pixmap(size());//新建窗体大小的pixmap
-            QPainter painter(&_pixmap);//将pixmap作为画布
-            //painter.fillRect(QRect(0, 0, size().width(), size().height()), Qt::white);//设置绘画区域、画布颜色
-            //this->render(&painter);//将窗体渲染到painter，再由painter画到画布
-            renderShapes(painter);
-            //painter.begin(this);//将当前窗体作为画布
-            //painter.drawPixmap(0,0, pixmap);//将pixmap画到窗体
-            _pixmap.save(fileName);
-        }
-        #if 0
-        _tEdit->hide();//防止文本输入框显示时，将文本框保存到图片
         QPixmap pixmap(size());//新建窗体大小的pixmap
-        QPainter painter(&pixmap);//将pixmap作为画布
-        painter.fillRect(QRect(0, 0, size().width(), size().height()), Qt::white);//设置绘画区域、画布颜色
-        //this->render(&painter);//将窗体渲染到painter，再由painter画到画布
-        pixmap.copy(QRect(0,0,size().width(),size().height())).save(fileName);//不包含工具栏
-#endif
+        QPainter painter(&_pixmap);//将pixmap作为画布
+        renderShapes(painter);
+        _pixmap.save(fileName);
+        _drawType = _lastDrawType;
     }
 }
 
@@ -459,6 +438,7 @@ void CRenderWidget::clear() //按键事件
 
 void CRenderWidget::whiteBoard() //按键事件
 {
+    _lastDrawType = _drawType;
     _drawType = 1;
     _pixmap = QPixmap(size());//新建pixmap
     _pixmap.fill(Qt::white);//背景色填充为白色
@@ -467,6 +447,7 @@ void CRenderWidget::whiteBoard() //按键事件
 
 void CRenderWidget::playVideo() //按键事件
 {
+    _lastDrawType = _drawType;
     _drawType = 10;
     update();
 }
@@ -492,6 +473,8 @@ void CRenderWidget::setPixmap(const QImage &p)
     QMutexLocker lock(&m_pixmapMutex);
     // [TODO] - prevent memory copy
     m_currentFrame = p;
+    QPixmap pixmap = QPixmap::fromImage(m_currentFrame);
+    _pixmap = pixmap.scaled(this->width(), this->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
     update();
 }
 
@@ -502,11 +485,15 @@ void CRenderWidget::getCurrentPixmap(QImage &p)
     p = m_currentFrame;
 }
 
-void CRenderWidget::onRender(const QImage &pixmap) {
-    QMutexLocker lock(&m_pixmapMutex);
-    // [TODO] - prevent memory copy
-    m_currentFrame = pixmap;
-    update();
+void CRenderWidget::onRender(const QImage &frame) {
+    if(1 != _drawType) {
+        QMutexLocker lock(&m_pixmapMutex);
+        // [TODO] - prevent memory copy
+        m_currentFrame = frame;
+        QPixmap pixmap = QPixmap::fromImage(m_currentFrame);
+        _pixmap = pixmap.scaled(this->width(), this->height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        update();
+    }
 }
 
 //void CRenderWidget::paintEvent(QPaintEvent *ev)

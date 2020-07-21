@@ -16,6 +16,7 @@
 #include <QMenu>
 #include <QFileDialog>
 #include <QTextEdit>
+#include <QLabel>
 #include "vlcwrapper.h"
 
 class CRenderWidget : public QOpenGLWidget, public VlcRenderCb
@@ -23,6 +24,7 @@ class CRenderWidget : public QOpenGLWidget, public VlcRenderCb
     Q_OBJECT
 public:
     CRenderWidget(QWidget *parent = 0);
+    ~CRenderWidget();
 //    virtual void paintEvent(QPaintEvent *ev);
     void setPixmap(const QImage &pixmap);
     void getCurrentPixmap(QImage &p);
@@ -40,10 +42,12 @@ private:
     int _lpress;//左键按下标志
     int _drag;//拖拽标志
     int _drawType;//描绘类型
+    int _lastDrawType;
     QMenu *_Rmenu;//右键菜单
     int _openflag;//打开图片
     QPixmap _pixmap;//画布图片
     QTextEdit *_tEdit;//文本输入框
+    QLabel *_timeLabel;
 public:
     QVector<QVector<QPoint> > _lines;//线条集合(一条线条可包含多个线段)
     QVector<QRect> _rects;//矩形集合
@@ -72,6 +76,7 @@ public:
     void whiteBoard();
     void playVideo();
     void loadPixmap();
+
 protected:
     QImage m_currentFrame;
     QMutex m_pixmapMutex;
