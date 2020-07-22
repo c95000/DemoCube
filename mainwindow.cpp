@@ -74,7 +74,7 @@ void MainWindow::on_btnPlay_clicked()
 
 void MainWindow::on_btnPlayRtsp_clicked()
 {
-    vlcWrapper->start("rtsp://192.168.1.225/", ui->renderWidget);
+    vlcWrapper->start("rtsp://192.168.1.225/", ui->myRender);
 }
 
 void MainWindow::on_btnNotaion_clicked()
@@ -150,4 +150,21 @@ void MainWindow::on_btnWhiteBoard_clicked()
     vlcWrapper->pause();
 //    ui->renderWidget->clear();
 //    ui->renderWidget->whiteBoard();
+}
+
+void MainWindow::on_btnPlayLocal_clicked()
+{
+    QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
+    if(filename.isEmpty()) {
+        return;
+    }
+
+    filename.replace("/", "\\");
+    std::string s = filename.toStdString();
+    vlcWrapper->start(s, ui->myRender);
+}
+
+void MainWindow::on_btnPlayPause_clicked()
+{
+
 }

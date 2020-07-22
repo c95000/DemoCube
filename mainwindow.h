@@ -46,6 +46,10 @@ private slots:
 
     void on_btnWhiteBoard_clicked();
 
+    void on_btnPlayLocal_clicked();
+
+    void on_btnPlayPause_clicked();
+
 private:
 
 
