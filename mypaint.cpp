@@ -3,6 +3,7 @@
 MyPaint::MyPaint(QWidget *parent) :
     QWidget(parent)
 {
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     _lpress = false;//初始鼠标左键未按下
          _drawType = 1;//初始为什么都不画
          _drag = 0;//默认非拖拽模式

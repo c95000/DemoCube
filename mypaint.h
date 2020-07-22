@@ -34,6 +34,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *);//重写鼠标移动事件
     void contextMenuEvent(QContextMenuEvent *);//重写菜单事件
     void keyPressEvent(QKeyEvent *e); //重写按键事件
+//    virtual QSize sizeHint () const;
 public:
 private:
     int _lpress;//左键按下标志

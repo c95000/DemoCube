@@ -30,6 +30,8 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);//重写窗体重绘事件
+    virtual QSize sizeHint () const;
+    void resizeEvent(QResizeEvent *e) override;
 
 private:
     QImage m_currentFrame;
