@@ -61,7 +61,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btnPlayPause">
+         <widget class="PlayPauseButton" name="btnPlayPause">
           <property name="text">
            <string>暂停</string>
           </property>
@@ -110,6 +110,11 @@
    <class>MyPaint</class>
    <extends>QWidget</extends>
    <header location="global">mypaint.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PlayPauseButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">playpausebutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

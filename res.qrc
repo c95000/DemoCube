@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/images">
         <file>res/images/main.jpg</file>
+        <file>res/images/media_control.png</file>
     </qresource>
 </RCC>

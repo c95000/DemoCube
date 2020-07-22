@@ -23,6 +23,7 @@ SOURCES += \
     Util.cpp \
     mypaint.cpp \
     myrender.cpp \
+    playpausebutton.cpp \
     vlcwrapper.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     Util.h \
     mypaint.h \
     myrender.h \
+    playpausebutton.h \
     vlcwrapper.h
 
 FORMS += \
