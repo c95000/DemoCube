@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>502</width>
-    <height>206</height>
+    <width>740</width>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,6 +55,9 @@
            <string>白板</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="TitleButton" name="btnWhiteBoard2" native="true"/>
         </item>
         <item>
          <widget class="QPushButton" name="btnPlayLocal">
@@ -107,17 +110,23 @@
   <customwidget>
    <class>MyRender</class>
    <extends>QOpenGLWidget</extends>
-   <header location="global">myrender.h</header>
+   <header>myrender.h</header>
   </customwidget>
   <customwidget>
    <class>MyPaint</class>
    <extends>QWidget</extends>
-   <header location="global">mypaint.h</header>
+   <header>mypaint.h</header>
   </customwidget>
   <customwidget>
    <class>PlayPauseButton</class>
    <extends>QPushButton</extends>
-   <header location="global">playpausebutton.h</header>
+   <header>playpausebutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TitleButton</class>
+   <extends>QWidget</extends>
+   <header location="global">titlebutton.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

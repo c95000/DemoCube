@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->btnWhiteBoard2->setText(QString("白板"));
 
     myPaint = new MyPaint(this);
     myPaint->setParent(nullptr);
