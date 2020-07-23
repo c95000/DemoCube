@@ -5,8 +5,7 @@
 #define printf qDebug
 
 TitleButton::TitleButton(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::TitleButton)
+    QWidget(parent),ui(new Ui::TitleButton)
 {
     ui->setupUi(this);
 
@@ -14,10 +13,16 @@ TitleButton::TitleButton(QWidget *parent) :
            this->geometry().left(), this->geometry().top(), this->geometry().right(), this->geometry().bottom(),
            this->geometry().width(), this->geometry().height());
 
-    ui->label->setStyleSheet ("background-color: rgb(255, 255, 0);");
-        ui->label->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-//        ui->label->resize(0, 0);
-    ui->pushButton->setStyleSheet("background-color: rgb(255, 0, 0);");
+//    ui->label->setStyleSheet ("background-color: rgb(255, 0, 0);");
+//    ui->label->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+//    ui->pushButton->setStyleSheet("background-color: rgb(255, 0, 0);");
+
+    ui->verticalLayout->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
+
+    setAutoFillBackground(true);
+    setStyleSheet ("background-color: rgb(255, 255, 0);");
+    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+//    setFixedSize(80, 0);
 }
 
 TitleButton::~TitleButton()
@@ -30,5 +35,5 @@ void TitleButton::setText(const QString &text) {
 }
 
 QString TitleButton::text() const {
-    return ui->label->text();
+//    return ui->label->text();
 }

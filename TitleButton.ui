@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
-    <height>192</height>
+    <width>171</width>
+    <height>65</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -36,50 +36,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="ImageButton" name="pushButton" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" stdset="0">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+    <widget class="ImageButton" name="button"/>
    </item>
    <item>
     <widget class="QLabel" name="label">
@@ -93,7 +50,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string>ll</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -105,7 +62,7 @@
  <customwidgets>
   <customwidget>
    <class>ImageButton</class>
-   <extends>QWidget</extends>
+   <extends>QPushButton</extends>
    <header location="global">ImageButton.h</header>
    <container>1</container>
   </customwidget>

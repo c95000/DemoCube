@@ -15,8 +15,8 @@ protected:
     virtual void leaveEvent ( QEvent * event );
     virtual void mousePressEvent ( QMouseEvent * event ) ;
     virtual void mouseReleaseEvent ( QMouseEvent * event );
-    virtual QSize sizeHint () const;
-    virtual void resizeEvent(QResizeEvent *event);
+//    virtual QSize sizeHint () const;
+//    virtual void resizeEvent(QResizeEvent *event);
 signals:
 
 private:

@@ -14,7 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->btnWhiteBoard2->setText(QString("白板"));
+    ui->btnWhiteBoard->setText(QString("白板"));
+    ui->btnCamera->setText(QString("插入"));
+    ui->btnComment->setText(QString("批注"));
+    ui->btnDevice->setText(QString("设备"));
 
     myPaint = new MyPaint(this);
     myPaint->setParent(nullptr);

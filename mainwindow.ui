@@ -50,14 +50,23 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QPushButton" name="btnWhiteBoard">
+         <widget class="QPushButton" name="btnWhiteBoard3">
           <property name="text">
            <string>白板</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="TitleButton" name="btnWhiteBoard2" native="true"/>
+         <widget class="TitleButton" name="btnWhiteBoard" native="true"/>
+        </item>
+        <item>
+         <widget class="TitleButton" name="btnCamera" native="true"/>
+        </item>
+        <item>
+         <widget class="TitleButton" name="btnComment" native="true"/>
+        </item>
+        <item>
+         <widget class="TitleButton" name="btnDevice" native="true"/>
         </item>
         <item>
          <widget class="QPushButton" name="btnPlayLocal">
@@ -67,7 +76,7 @@
          </widget>
         </item>
         <item>
-         <widget class="PlayPauseButton" name="btnPlayPause">
+         <widget class="ImageButton" name="btnPlayPause">
           <property name="text">
            <string>暂停</string>
           </property>
@@ -86,7 +95,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btnNotaion">
+         <widget class="QPushButton" name="btnNotaion2">
           <property name="text">
            <string>批注</string>
           </property>
@@ -118,14 +127,15 @@
    <header>mypaint.h</header>
   </customwidget>
   <customwidget>
-   <class>PlayPauseButton</class>
-   <extends>QPushButton</extends>
-   <header>playpausebutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>TitleButton</class>
    <extends>QWidget</extends>
-   <header location="global">titlebutton.h</header>
+   <header>titlebutton.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ImageButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">ImageButton.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
