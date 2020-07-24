@@ -48,14 +48,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="btnWhiteBoard3">
-          <property name="text">
-           <string>白板</string>
-          </property>
-         </widget>
-        </item>
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,0,4">
         <item>
          <widget class="TitleButton" name="btnWhiteBoard" native="true"/>
         </item>
@@ -69,44 +62,20 @@
          <widget class="TitleButton" name="btnDevice" native="true"/>
         </item>
         <item>
-         <widget class="QPushButton" name="btnPlayLocal">
-          <property name="text">
-           <string>视频</string>
-          </property>
-         </widget>
+         <widget class="MediaController" name="mediaController" native="true"/>
         </item>
         <item>
-         <widget class="ImageButton" name="btnPlayPause">
-          <property name="text">
-           <string>暂停</string>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnPlayRtsp">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-           </font>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
           </property>
-          <property name="text">
-           <string>摄像头</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnNotaion2">
-          <property name="text">
-           <string>批注</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnSaveNotaion">
-          <property name="text">
-           <string>保存批注</string>
-          </property>
-         </widget>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -131,11 +100,14 @@
    <extends>QWidget</extends>
    <header>titlebutton.h</header>
    <container>1</container>
+   <slots>
+    <slot>click()</slot>
+   </slots>
   </customwidget>
   <customwidget>
-   <class>ImageButton</class>
-   <extends>QPushButton</extends>
-   <header location="global">ImageButton.h</header>
+   <class>MediaController</class>
+   <extends>QWidget</extends>
+   <header>MediaController.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

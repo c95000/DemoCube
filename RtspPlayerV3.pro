@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ImageButton.cpp \
+    MediaController.cpp \
     TitleButton.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -30,7 +31,9 @@ SOURCES += \
 
 HEADERS += \
     ImageButton.h \
+    MediaController.h \
     TitleButton.h \
+    common.h \
     mainwindow.h \
     RenderWidget.h \
     Util.h \
@@ -40,6 +43,7 @@ HEADERS += \
     vlcwrapper.h
 
 FORMS += \
+    MediaController.ui \
     TitleButton.ui \
     mainwindow.ui
 

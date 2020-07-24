@@ -6,6 +6,7 @@
 #include <QLabel>
 #include "Util.h"
 #include<iostream>
+#include "common.h"
 
 using namespace std;
 
@@ -18,6 +19,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btnCamera->setText(QString("插入"));
     ui->btnComment->setText(QString("批注"));
     ui->btnDevice->setText(QString("设备"));
+
+    connect(ui->btnWhiteBoard->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnWhiteBoard_clicked);
+    connect(ui->btnCamera->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayRtsp_clicked);
+    connect(ui->btnComment->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
+    connect(ui->btnDevice->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
+
+    connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
+    connect(ui->mediaController->stopButton(), &QPushButton::clicked, this, &MainWindow::on_btnStop_clicked);
 
     myPaint = new MyPaint(this);
     myPaint->setParent(nullptr);
@@ -78,7 +87,8 @@ void MainWindow::on_btnPlay_clicked()
 
 void MainWindow::on_btnPlayRtsp_clicked()
 {
-    vlcWrapper->start("rtsp://192.168.1.225/", ui->myRender);
+    printf("on_btnPlayRtsp_clicked");
+    //vlcWrapper->start("rtsp://192.168.1.225/", ui->myRender);
 }
 
 void MainWindow::on_btnNotaion_clicked()
@@ -135,7 +145,8 @@ void MainWindow::on_timeout()
 
 void MainWindow::on_btnStop_clicked()
 {
-    vlcWrapper->stop();
+    printf("on_btnStop_clicked");
+//    vlcWrapper->stop();
 }
 
 void MainWindow::on_btnPlay2_clicked()
@@ -151,6 +162,7 @@ void MainWindow::on_btnPause_clicked()
 
 void MainWindow::on_btnWhiteBoard_clicked()
 {
+    printf("on_btnWhiteBoard_clicked");
     vlcWrapper->pause();
 //    ui->renderWidget->clear();
 //    ui->renderWidget->whiteBoard();
@@ -170,5 +182,15 @@ void MainWindow::on_btnPlayLocal_clicked()
 
 void MainWindow::on_btnPlayPause_clicked()
 {
+    printf("on_btnPlayPause_clicked");
+}
 
+void MainWindow::on_btnComment_clicked()
+{
+    printf("on_btnComment_clicked");
+}
+
+void MainWindow::on_btnDevice_clicked()
+{
+printf("on_btnDevice_clicked");
 }

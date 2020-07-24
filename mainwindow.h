@@ -50,6 +50,10 @@ private slots:
 
     void on_btnPlayPause_clicked();
 
+    void on_btnComment_clicked();
+
+    void on_btnDevice_clicked();
+
 private:
 
 

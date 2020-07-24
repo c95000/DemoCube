@@ -1,8 +1,7 @@
 #include "TitleButton.h"
 #include "ui_TitleButton.h"
 
-#include <QDebug>
-#define printf qDebug
+#include "common.h"
 
 TitleButton::TitleButton(QWidget *parent) :
     QWidget(parent),ui(new Ui::TitleButton)
@@ -35,5 +34,9 @@ void TitleButton::setText(const QString &text) {
 }
 
 QString TitleButton::text() const {
-//    return ui->label->text();
+    return ui->label->text();
+}
+
+const QPushButton *TitleButton::pushButton() {
+    return ui->button;
 }

@@ -6,6 +6,7 @@
 #include <QPaintEvent>
 #include <QColor>
 #include <QPaintEvent>
+#include <QBitmap>
 
 #include <QDebug>
 #define printf qDebug
@@ -26,6 +27,7 @@ ImageButton::ImageButton(QWidget *parent) : QPushButton(parent)
 //   setStyleSheet ("background-color: rgb(255, 0, 255);");
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
    setFixedSize(pixmapList[0].width(), pixmapList[0].height());
+   //setMask(QBitmap(pixmapList[0].mask()));
 }
 
 
@@ -41,8 +43,8 @@ void ImageButton::paintEvent(QPaintEvent *event)
                         pixmapList.at(m_index).width(),
                         pixmapList.at(m_index).height(),
                         pixmapList.at(m_index));//画图画到中间
-//     painter.background();
 
+//     painter.background();
 //     QPixmap pixmap = QPixmap(size());
 //     pixmap.fill(Qt::green);
 //     painter.drawPixmap(0, 0, pixmap);

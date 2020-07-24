@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QPushButton>
 
 namespace Ui {
 class TitleButton;
@@ -21,6 +22,8 @@ public:
     QString text() const;
 
     void setImages(const QPixmap &pixmaps);
+
+    const QPushButton *pushButton();
 
 private:
     Ui::TitleButton *ui;
