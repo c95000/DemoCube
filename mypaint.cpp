@@ -1,5 +1,8 @@
 #include "mypaint.h"
+#include "CommentToolBar.h"
 #include "common.h"
+#include "QBoxLayout"
+
 
 MyPaint::MyPaint(QWidget *parent) :
     QWidget(parent)
@@ -10,6 +13,9 @@ MyPaint::MyPaint(QWidget *parent) :
          _drag = 0;//默认非拖拽模式
          _begin = pos();//拖拽的参考坐标，方便计算位移
          _openflag = 0;//初始不打开图片
+
+         penColor = Qt::red;
+
          printf("[%p]_openflag:%d", this,  _openflag);
          _tEdit = new QTextEdit(this);//初始化文本输入框
          _tEdit->hide();//隐藏
@@ -24,9 +30,21 @@ MyPaint::MyPaint(QWidget *parent) :
          //方法二
          //this->setStyleSheet("background-color:yellow;");
 
+        CommentToolBar* commonToolBar = new CommentToolBar(this);
+        QVBoxLayout* layout = new QVBoxLayout();
+        layout->addWidget(commonToolBar, 0, Qt::AlignBottom);
+        layout->setMargin(0);
+        setLayout(layout);
+
+//        connect(commonToolBar->closeButton(), SIGNAL(clicked()), this, SLOT(test()));
+        connect(commonToolBar->redPenButton(), SIGNAL(clicked()), this, SLOT(redPen()));
+        connect(commonToolBar->blackPenButton(), SIGNAL(clicked()), this, SLOT(blackPen()));
+        connect(commonToolBar->whitePenButton(), SIGNAL(clicked()), this, SLOT(whitePen()));
+        connect(commonToolBar->rubberButton(), SIGNAL(clicked()), this, SLOT(rubber()));
+
 #if 0
         //创建工具栏
-        QToolBar *tbar = addToolBar(tr("工具栏"));
+        QToolBar *tbar = addToolBar(tr("工具栏"));   
         tbar->setMovable(false);//工具栏不可移动
         tbar->setIconSize(QSize(16, 16));//设置动作图标的尺寸
         tbar->setStyleSheet("background-color:rgb(199,237,204)");//背景色
@@ -95,21 +113,18 @@ MyPaint::~MyPaint()
 
 void MyPaint::paintEvent(QPaintEvent *)
 {
-    printf("[%p]_openflag:%d", this,  _openflag);
     if(_openflag == 0)//不是打开图片的，每一次新建一个空白的画布
     {
         _pixmap = QPixmap(size());//新建pixmap
         _pixmap.fill(Qt::white);//背景色填充为白色
-    } else {
-
     }
     QPixmap pix = _pixmap;//以_pixmap作为画布
     QPainter p(&pix);//将_pixmap作为画布
-    p.setPen(Qt::red);
     unsigned int i1=0,i2=0,i3=0,i4=0,i5=0;//各种图形的索引
 
     for(int c = 0;c<_shape.size();++c)//控制用户当前所绘图形总数
     {
+        p.setPen(_shapeColor.at(c));
         if(_shape.at(c) == 1)//线条
         {
               const QVector<QPoint>& line = _lines.at(i1++);//取出一条线条
@@ -214,6 +229,9 @@ void MyPaint::mousePressEvent(QMouseEvent *e)
             _shape.append(5);
         }
 
+        QColor currnetColor = penColor;
+        _shapeColor.append(currnetColor);
+
     }
 }
 
@@ -221,6 +239,19 @@ void MyPaint::AddTexts()//当输入框文本改变时调用
 {
     QString& last = _text.last();//拿到最后一个文本
     last = _tEdit->toPlainText();//将输入框文本作为文本
+}
+
+void MyPaint::redPen() {
+    penColor = Qt::red;
+}
+void MyPaint::whitePen() {
+penColor = Qt::green;
+}
+void MyPaint::blackPen(){
+penColor = Qt::black;
+}
+void MyPaint::rubber(){
+
 }
 
 void MyPaint::mouseMoveEvent(QMouseEvent *e)
@@ -447,6 +478,7 @@ void MyPaint::clear() //按键事件
      _openflag = 0;
     _lines.clear();
     _shape.clear();
+    _shapeColor.clear();
     update();
 }
 

@@ -8,14 +8,13 @@
 #include <QPaintEvent>
 #include <QBitmap>
 
-#include <QDebug>
-#define printf qDebug
+#include "common.h"
 
 using namespace std;
 
 ImageButton::ImageButton(QWidget *parent) : QPushButton(parent)
 {
-    QPixmap pixmap(":/images/res/images/icon_default.png");
+    QPixmap pixmap(":/images/res/images/default.png");
     pixmap = pixmap.scaled(QSize(60, 60), Qt::KeepAspectRatio);
 
     for(int i = 0; i < 4; i++) {
@@ -30,6 +29,8 @@ ImageButton::ImageButton(QWidget *parent) : QPushButton(parent)
    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
    setFixedSize(pixmapList[0].width(), pixmapList[0].height());
    //setMask(QBitmap(pixmapList[0].mask()));
+
+//   connect(this, SIGNAL(clicked()), this, SLOT(mouseClicked()));
 }
 
 
@@ -84,11 +85,36 @@ void ImageButton::mouseReleaseEvent ( QMouseEvent * event ){
 }
 
 void ImageButton::setImages(const QPixmap &pixmaps) {
-    QPixmap pixmap = pixmaps.scaled(QSize(60, 60), Qt::KeepAspectRatio);
+    setImages(pixmaps, pixmaps.width(), pixmaps.height());
+}
+
+void ImageButton::setImages(const QPixmap &pixmaps, int width, int height) {
+    QPixmap pixmap = pixmaps;
+    if(pixmap.width() != width || pixmap.height() != height) {
+        pixmap = pixmaps.scaled(QSize(width, height), Qt::KeepAspectRatio);
+    }
+
     pixmapList.clear();
     for(int i = 0; i < 4; i++) {
 //        pixmapList.push_back(pixmap.copy(i * pixmap.width() / 4 + i, 0, pixmap.width()/4, pixmap.height()));
         pixmapList.push_back(pixmap.copy());
     }
+    setFixedSize(width, height);
     update();
 }
+
+void ImageButton::setImages(const QString imgsrc)
+{
+    QPixmap pixmap(imgsrc);
+    setImages(pixmap, pixmap.width(), pixmap.height());
+}
+
+void ImageButton::setImages(const QString imgsrc, int width, int height) {
+    QPixmap pixmap(imgsrc);
+    setImages(pixmap, width, height);
+}
+
+//void ImageButton::mouseClicked() {
+//    emit imageButtonclicked();
+//}
+

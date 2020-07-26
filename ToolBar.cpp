@@ -7,13 +7,13 @@ ToolBar::ToolBar(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->btnWhiteBoard->setText(QString("白板"));
-    ui->btnWhiteBoard->setImages(QPixmap(":/images/res/images/icon_whiteboard.png"));
+    ui->btnWhiteBoard->setImages(QPixmap(":/images/res/images/whiteboard.png"));
     ui->btnInsert->setText(QString("插入"));
-    ui->btnInsert->setImages(QPixmap(":/images/res/images/icon_insert.png"));
+    ui->btnInsert->setImages(QPixmap(":/images/res/images/insert.png"));
     ui->btnComment->setText(QString("批注"));
-    ui->btnComment->setImages(QPixmap(":/images/res/images/icon_comment.png"));
+    ui->btnComment->setImages(QPixmap(":/images/res/images/comment.png"));
     ui->btnCapturePicture->setText(QString("拍照"));
-    ui->btnCapturePicture->setImages(QPixmap(":/images/res/images/icon_takepicture.png"));
+    ui->btnCapturePicture->setImages(QPixmap(":/images/res/images/takepicture.png"));
 }
 
 ToolBar::~ToolBar()

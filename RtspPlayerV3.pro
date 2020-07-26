@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     AddSubButton.cpp \
     CameraController.cpp \
+    CommentToolBar.cpp \
     HTitleButton.cpp \
     ImageButton.cpp \
     MediaController.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
 HEADERS += \
     AddSubButton.h \
     CameraController.h \
+    CommentToolBar.h \
     HTitleButton.h \
     ImageButton.h \
     MediaController.h \
@@ -53,6 +55,7 @@ HEADERS += \
 FORMS += \
     AddSubButton.ui \
     CameraController.ui \
+    CommentToolBar.ui \
     HTitleButton.ui \
     MediaController.ui \
     TitleButton.ui \

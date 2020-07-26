@@ -9,6 +9,12 @@ class ImageButton : public QPushButton
 public:
     explicit ImageButton(QWidget *parent = nullptr);
 
+//signals:
+//    void imageButtonclicked();
+
+//public slots:
+//    void mouseClicked();
+
 protected:
     virtual void paintEvent(QPaintEvent *event);
     virtual void enterEvent(QEvent *event);
@@ -20,6 +26,9 @@ protected:
 
 public:
     void setImages(const QPixmap &pixmaps);
+    void setImages(const QPixmap &pixmaps, int width, int height);
+    void setImages(const QString imgsrc);
+    void setImages(const QString imgsrc, int width, int height);
 
 private:
     QList<QPixmap> pixmapList;
