@@ -23,6 +23,7 @@ SOURCES += \
     ImageButton.cpp \
     MediaController.cpp \
     TitleButton.cpp \
+    ToolBar.cpp \
     main.cpp \
     mainwindow.cpp \
     RenderWidget.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     ImageButton.h \
     MediaController.h \
     TitleButton.h \
+    ToolBar.h \
     common.h \
     mainwindow.h \
     RenderWidget.h \
@@ -54,6 +56,7 @@ FORMS += \
     HTitleButton.ui \
     MediaController.ui \
     TitleButton.ui \
+    ToolBar.ui \
     mainwindow.ui
 
 

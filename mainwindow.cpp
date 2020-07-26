@@ -15,21 +15,21 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
 
-    QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(135,206,235)); //设置背景黑色
-    setAutoFillBackground(true);
-    setPalette(pal);
+//    QPalette pal(palette());
+//    pal.setColor(QPalette::Background, QColor(135,206,235)); //设置背景黑色
+//    setAutoFillBackground(true);
+//    setPalette(pal);
 
     ui->setupUi(this);
-    ui->btnWhiteBoard->setText(QString("白板"));
-    ui->btnCamera->setText(QString("插入"));
-    ui->btnComment->setText(QString("批注"));
-    ui->btnDevice->setText(QString("设备"));
+//    ui->btnWhiteBoard->setText(QString("白板"));
+//    ui->btnCamera->setText(QString("插入"));
+//    ui->btnComment->setText(QString("批注"));
+//    ui->btnDevice->setText(QString("设备"));
 
-    connect(ui->btnWhiteBoard->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnWhiteBoard_clicked);
-    connect(ui->btnCamera->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayRtsp_clicked);
-    connect(ui->btnComment->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
-    connect(ui->btnDevice->pushButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
+    connect(ui->toolBar->whiteBoardButton(), &QPushButton::clicked, this, &MainWindow::on_btnWhiteBoard_clicked);
+    connect(ui->toolBar->insertButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayLocal_clicked);
+    connect(ui->toolBar->commentButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
+    connect(ui->toolBar->capturePictureButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
 
     connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
     connect(ui->mediaController->stopButton(), &QPushButton::clicked, this, &MainWindow::on_btnStop_clicked);

@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">#MainWindow{border-image: url(:/images/res/images/background.png);}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -71,18 +71,9 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,1,1,1">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1">
         <item>
-         <widget class="TitleButton" name="btnWhiteBoard" native="true"/>
-        </item>
-        <item>
-         <widget class="TitleButton" name="btnCamera" native="true"/>
-        </item>
-        <item>
-         <widget class="TitleButton" name="btnComment" native="true"/>
-        </item>
-        <item>
-         <widget class="TitleButton" name="btnDevice" native="true"/>
+         <widget class="ToolBar" name="toolBar" native="true"/>
         </item>
         <item>
          <widget class="MediaController" name="mediaController" native="true"/>
@@ -122,15 +113,6 @@
    <header>mypaint.h</header>
   </customwidget>
   <customwidget>
-   <class>TitleButton</class>
-   <extends>QWidget</extends>
-   <header>titlebutton.h</header>
-   <container>1</container>
-   <slots>
-    <slot>click()</slot>
-   </slots>
-  </customwidget>
-  <customwidget>
    <class>MediaController</class>
    <extends>QWidget</extends>
    <header>MediaController.h</header>
@@ -146,6 +128,12 @@
    <class>CameraController</class>
    <extends>QWidget</extends>
    <header>CameraController.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ToolBar</class>
+   <extends>QWidget</extends>
+   <header>ToolBar.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

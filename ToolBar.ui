@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ToolBar</class>
+ <widget class="QWidget" name="ToolBar">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>743</width>
+    <height>154</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="TitleButton" name="btnWhiteBoard" native="true"/>
+   </item>
+   <item>
+    <widget class="TitleButton" name="btnInsert" native="true"/>
+   </item>
+   <item>
+    <widget class="TitleButton" name="btnComment" native="true"/>
+   </item>
+   <item>
+    <widget class="TitleButton" name="btnCapturePicture" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TitleButton</class>
+   <extends>QWidget</extends>
+   <header>titlebutton.h</header>
+   <container>1</container>
+   <slots>
+    <slot>click()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
