@@ -14,6 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
+    QPalette pal(palette());
+    pal.setColor(QPalette::Background, QColor(135,206,235)); //设置背景黑色
+    setAutoFillBackground(true);
+    setPalette(pal);
+
     ui->setupUi(this);
     ui->btnWhiteBoard->setText(QString("白板"));
     ui->btnCamera->setText(QString("插入"));
@@ -166,6 +172,19 @@ void MainWindow::on_btnWhiteBoard_clicked()
     vlcWrapper->pause();
 //    ui->renderWidget->clear();
 //    ui->renderWidget->whiteBoard();
+
+    int nCount = ui->stackedWidget->count();
+    int nIndex = ui->stackedWidget->currentIndex();
+
+    // 获取下一个需要显示的页面索引
+    ++nIndex;
+
+    // 当需要显示的页面索引大于等于总页面时，切换至首页
+    if (nIndex >= nCount)
+        nIndex = 0;
+
+    ui->stackedWidget->setCurrentIndex(nIndex);
+
 }
 
 void MainWindow::on_btnPlayLocal_clicked()
@@ -192,5 +211,5 @@ void MainWindow::on_btnComment_clicked()
 
 void MainWindow::on_btnDevice_clicked()
 {
-printf("on_btnDevice_clicked");
+    printf("on_btnDevice_clicked");
 }

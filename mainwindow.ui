@@ -14,41 +14,42 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#MainWindow{border-image: url(:/images/res/images/main.jpg);}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="0">
     <item row="1" column="0">
      <layout class="QVBoxLayout" name="verticalLayout" stretch="8,1">
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,1">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <item>
-         <widget class="MyPaint" name="myPaint" native="true">
-          <property name="enabled">
-           <bool>true</bool>
+         <widget class="QStackedWidget" name="stackedWidget">
+          <property name="currentIndex">
+           <number>0</number>
           </property>
+          <widget class="MyPaint" name="myPaint"/>
+          <widget class="MyRender" name="myRender"/>
          </widget>
         </item>
         <item>
-         <widget class="MyRender" name="myRender">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-         </widget>
+         <widget class="QWidget" name="widget_2" native="true"/>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,0,4">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,1,1,1">
         <item>
          <widget class="TitleButton" name="btnWhiteBoard" native="true"/>
         </item>
@@ -76,6 +77,9 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="AddSubButton" name="widget" native="true"/>
         </item>
        </layout>
       </item>
@@ -108,6 +112,12 @@
    <class>MediaController</class>
    <extends>QWidget</extends>
    <header>MediaController.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AddSubButton</class>
+   <extends>QWidget</extends>
+   <header>AddSubButton.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
