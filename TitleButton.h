@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QString>
 #include <QPushButton>
+#include "ImageButton.h"
 
 namespace Ui {
 class TitleButton;
@@ -24,6 +25,8 @@ public:
     void setImages(const QPixmap &pixmaps);
 
     const QPushButton *pushButton();
+
+    ImageButton *imageButton();
 
 private:
     Ui::TitleButton *ui;

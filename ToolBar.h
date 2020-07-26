@@ -17,13 +17,18 @@ public:
     ~ToolBar();
 
 public:
-    const QPushButton *whiteBoardButton();
 
     const QPushButton *insertButton();
 
     const QPushButton *commentButton();
 
-    const QPushButton *capturePictureButton();
+    const QPushButton *takePictureButton();
+
+    const QPushButton *takeVideoButton();
+
+    const QPushButton *playPauseButton();
+
+    const QPushButton *settingButton();
 
 private:
     Ui::ToolBar *ui;

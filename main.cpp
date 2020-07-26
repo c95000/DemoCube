@@ -8,12 +8,14 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+//    MainWindow w;
+//    w.show();
+
 //    ToolBar w;
 //    w.show();
-//    CommentToolBar w;
-//    w.show();
+
+    CommentToolBar w;
+    w.show();
 
 //    MyPaint mypaint;
 //    mypaint.show();

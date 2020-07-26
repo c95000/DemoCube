@@ -37,10 +37,10 @@ MyPaint::MyPaint(QWidget *parent) :
         setLayout(layout);
 
 //        connect(commonToolBar->closeButton(), SIGNAL(clicked()), this, SLOT(test()));
-        connect(commonToolBar->redPenButton(), SIGNAL(clicked()), this, SLOT(redPen()));
-        connect(commonToolBar->blackPenButton(), SIGNAL(clicked()), this, SLOT(blackPen()));
-        connect(commonToolBar->whitePenButton(), SIGNAL(clicked()), this, SLOT(whitePen()));
-        connect(commonToolBar->rubberButton(), SIGNAL(clicked()), this, SLOT(rubber()));
+//        connect(commonToolBar->redPenButton(), SIGNAL(clicked()), this, SLOT(redPen()));
+//        connect(commonToolBar->blackPenButton(), SIGNAL(clicked()), this, SLOT(blackPen()));
+//        connect(commonToolBar->whitePenButton(), SIGNAL(clicked()), this, SLOT(whitePen()));
+//        connect(commonToolBar->rubberButton(), SIGNAL(clicked()), this, SLOT(rubber()));
 
 #if 0
         //创建工具栏

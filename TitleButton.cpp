@@ -44,3 +44,7 @@ QString TitleButton::text() const {
 const QPushButton *TitleButton::pushButton() {
     return ui->button;
 }
+
+ImageButton *TitleButton::imageButton() {
+    return ui->button;
+}

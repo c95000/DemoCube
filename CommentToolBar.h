@@ -3,18 +3,11 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include "ImageButton.h"
 
 namespace Ui {
 class CommentToolBar;
 }
-
-enum CommentToolBarEvent {
-    Close,
-    Redpen,
-    Whitepen,
-    Blackpen,
-    Rubber,
-};
 
 class CommentToolBar : public QWidget
 {
@@ -24,26 +17,19 @@ public:
     explicit CommentToolBar(QWidget *parent = nullptr);
     ~CommentToolBar();
 
-    const QPushButton *closeButton();
-    const QPushButton *redPenButton();
-    const QPushButton *whitePenButton();
-    const QPushButton *blackPenButton();
-    const QPushButton *rubberButton();
-
-Q_SIGNALS:
-    void signalOfEvent(CommentToolBarEvent event);
-    void test();
-
-public Q_SLOTS:
-    void slotOfClose();
-    void slotOfRedpen();
-    void slotOfBlackpen();
-    void slotOfWhitepen();
-    void slotOfRubber();
-
+//    const QPushButton *closeButton();
+//    const QPushButton *redPenButton();
+//    const QPushButton *whitePenButton();
+//    const QPushButton *blackPenButton();
+//    const QPushButton *rubberButton();
 
 private:
     Ui::CommentToolBar *ui;
+
+    ImageButton* closeButton;
+    ImageButton* rubberButton;
+    ImageButton* whiteBoardButton;
+//    ImageButton* closeButton;
 };
 
 #endif // COMMENTTOOLBAR_H

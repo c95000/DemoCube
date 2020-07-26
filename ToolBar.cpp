@@ -6,14 +6,24 @@ ToolBar::ToolBar(QWidget *parent) :
     ui(new Ui::ToolBar)
 {
     ui->setupUi(this);
-    ui->btnWhiteBoard->setText(QString("白板"));
-    ui->btnWhiteBoard->setImages(QPixmap(":/images/res/images/whiteboard.png"));
+
     ui->btnInsert->setText(QString("插入"));
-    ui->btnInsert->setImages(QPixmap(":/images/res/images/insert.png"));
+    ui->btnInsert->imageButton()->setImages(":/images/res/images/insert.png", 50, 50);
+
     ui->btnComment->setText(QString("批注"));
-    ui->btnComment->setImages(QPixmap(":/images/res/images/comment.png"));
-    ui->btnCapturePicture->setText(QString("拍照"));
-    ui->btnCapturePicture->setImages(QPixmap(":/images/res/images/takepicture.png"));
+    ui->btnComment->imageButton()->setImages(QPixmap(":/images/res/images/comment.png"), 50, 50);
+
+    ui->btnTakePicture->setText(QString("拍照"));
+    ui->btnTakePicture->imageButton()->setImages(QPixmap(":/images/res/images/takepicture.png"), 50, 50);
+
+    ui->btnTakeVideo->setText(QString("录像"));
+    ui->btnTakeVideo->imageButton()->setImages(QPixmap(":/images/res/images/takevideo.png"), 50, 50);
+
+    ui->btnPlayPause->setText(QString("播放"));
+    ui->btnPlayPause->imageButton()->setImages(QPixmap(":/images/res/images/play.png"), 50, 50);
+
+    ui->btnSetting->setText(QString("设置"));
+    ui->btnSetting->imageButton()->setImages(QPixmap(":/images/res/images/setting.png"), 50, 50);
 }
 
 ToolBar::~ToolBar()
@@ -21,18 +31,28 @@ ToolBar::~ToolBar()
     delete ui;
 }
 
-const QPushButton *ToolBar::whiteBoardButton() {
-    return ui->btnWhiteBoard->pushButton();
-}
 
 const QPushButton *ToolBar::insertButton() {
-return ui->btnInsert->pushButton();
+    return ui->btnInsert->pushButton();
 }
 
 const QPushButton *ToolBar::commentButton() {
-return ui->btnComment->pushButton();
+    return ui->btnComment->pushButton();
 }
 
-const QPushButton *ToolBar::capturePictureButton() {
-return ui->btnCapturePicture->pushButton();
+
+const QPushButton *ToolBar::takePictureButton() {
+    return ui->btnTakePicture->pushButton();
+}
+
+const QPushButton *ToolBar::takeVideoButton() {
+    return ui->btnTakeVideo->pushButton();
+}
+
+const QPushButton *ToolBar::playPauseButton() {
+    return ui->btnComment->pushButton();
+}
+
+const QPushButton *ToolBar::settingButton() {
+    return ui->btnComment->pushButton();
 }

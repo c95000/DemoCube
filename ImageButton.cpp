@@ -97,7 +97,12 @@ void ImageButton::setImages(const QPixmap &pixmaps, int width, int height) {
     pixmapList.clear();
     for(int i = 0; i < 4; i++) {
 //        pixmapList.push_back(pixmap.copy(i * pixmap.width() / 4 + i, 0, pixmap.width()/4, pixmap.height()));
-        pixmapList.push_back(pixmap.copy());
+        if(i == 1) {
+            QPixmap p = pixmap.copy(2, 2, pixmap.width(), pixmap.height());
+            pixmapList.push_back(p);
+        } else {
+            pixmapList.push_back(pixmap.copy());
+        }
     }
     setFixedSize(width, height);
     update();
@@ -113,8 +118,4 @@ void ImageButton::setImages(const QString imgsrc, int width, int height) {
     QPixmap pixmap(imgsrc);
     setImages(pixmap, width, height);
 }
-
-//void ImageButton::mouseClicked() {
-//    emit imageButtonclicked();
-//}
 
