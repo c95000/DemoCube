@@ -44,7 +44,29 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="widget_2" native="true"/>
+         <widget class="QWidget" name="widget_2" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="HTitleButton" name="videoButton1" native="true"/>
+           </item>
+           <item>
+            <widget class="HTitleButton" name="videoButton2" native="true"/>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>357</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </item>
@@ -79,7 +101,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="AddSubButton" name="widget" native="true"/>
+         <widget class="CameraController" name="widget" native="true"/>
         </item>
        </layout>
       </item>
@@ -115,9 +137,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>AddSubButton</class>
+   <class>HTitleButton</class>
    <extends>QWidget</extends>
-   <header>AddSubButton.h</header>
+   <header>HTitleButton.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CameraController</class>
+   <extends>QWidget</extends>
+   <header>CameraController.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

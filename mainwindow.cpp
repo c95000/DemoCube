@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
     connect(ui->mediaController->stopButton(), &QPushButton::clicked, this, &MainWindow::on_btnStop_clicked);
 
+    ui->videoButton1->setText("视频1");
+    ui->videoButton2->setText("视频2");
+
     myPaint = new MyPaint(this);
     myPaint->setParent(nullptr);
 

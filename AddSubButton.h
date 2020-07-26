@@ -20,6 +20,9 @@ private slots:
 
     void on_btnSub_clicked();
 
+public:
+    void setText(const QString &text);
+
 private:
     Ui::AddSubButton *ui;
 
