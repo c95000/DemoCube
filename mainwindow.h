@@ -64,11 +64,13 @@ private:
 
     void saveNotation(QPixmap& pixmap);
 
+    void showWhiteBoard(bool state);
+
 private:
     Ui::MainWindow *ui;
 
-    MyPaint* myPaint;
-    MyPaint* myNotation;
+//    MyPaint* myPaint;
+//    MyPaint* myNotation;
 
     QTimer* timerClock;
 

@@ -164,5 +164,4 @@ void VlcWrapper::render_cb(void *opaque, void *picture) {
     if(NULL != obj->vlcRenderCb) {
         obj->vlcRenderCb->onRender(qimg);
     }
-    cout<<"save full screen failed"<<endl;
 }

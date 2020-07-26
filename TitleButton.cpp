@@ -18,8 +18,8 @@ TitleButton::TitleButton(QWidget *parent) :
 
     ui->verticalLayout->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
 
-    setAutoFillBackground(true);
-    setStyleSheet ("background-color: rgb(255, 255, 0);");
+//    setAutoFillBackground(true);
+//    setStyleSheet ("background-color: rgb(255, 255, 0);");
     setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 //    setFixedSize(80, 0);
 }
@@ -31,6 +31,10 @@ TitleButton::~TitleButton()
 
 void TitleButton::setText(const QString &text) {
     ui->label->setText(text);
+}
+
+void TitleButton::setImages(const QPixmap &pixmaps) {
+    ui->button->setImages(pixmaps);
 }
 
 QString TitleButton::text() const {

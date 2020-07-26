@@ -1,4 +1,5 @@
 #include "mypaint.h"
+#include "common.h"
 
 MyPaint::MyPaint(QWidget *parent) :
     QWidget(parent)
@@ -9,6 +10,7 @@ MyPaint::MyPaint(QWidget *parent) :
          _drag = 0;//默认非拖拽模式
          _begin = pos();//拖拽的参考坐标，方便计算位移
          _openflag = 0;//初始不打开图片
+         printf("[%p]_openflag:%d", this,  _openflag);
          _tEdit = new QTextEdit(this);//初始化文本输入框
          _tEdit->hide();//隐藏
          this->setGeometry(350,200,600,400);//设置窗体大小、位置
@@ -93,10 +95,13 @@ MyPaint::~MyPaint()
 
 void MyPaint::paintEvent(QPaintEvent *)
 {
+    printf("[%p]_openflag:%d", this,  _openflag);
     if(_openflag == 0)//不是打开图片的，每一次新建一个空白的画布
     {
         _pixmap = QPixmap(size());//新建pixmap
         _pixmap.fill(Qt::white);//背景色填充为白色
+    } else {
+
     }
     QPixmap pix = _pixmap;//以_pixmap作为画布
     QPainter p(&pix);//将_pixmap作为画布
@@ -439,6 +444,7 @@ void MyPaint::keyPressEvent(QKeyEvent *e) //按键事件
 
 void MyPaint::clear() //按键事件
 {
+     _openflag = 0;
     _lines.clear();
     _shape.clear();
     update();
@@ -453,5 +459,6 @@ void MyPaint::loadPixmap(QPixmap& p) //按键事件
     //this->setPixmap(fitpixmap);
     _pixmap = p.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
     _openflag = 1;//设置文件打开标志
+    printf("[%p] loadPixmap _openflag:%d", this, _openflag);
     update();
 }

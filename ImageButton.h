@@ -17,7 +17,9 @@ protected:
     virtual void mouseReleaseEvent ( QMouseEvent * event );
 //    virtual QSize sizeHint () const;
 //    virtual void resizeEvent(QResizeEvent *event);
-signals:
+
+public:
+    void setImages(const QPixmap &pixmaps);
 
 private:
     QList<QPixmap> pixmapList;

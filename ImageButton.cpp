@@ -15,10 +15,12 @@ using namespace std;
 
 ImageButton::ImageButton(QWidget *parent) : QPushButton(parent)
 {
-    QPixmap pixmap(":/images/res/images/media_control.png");
+    QPixmap pixmap(":/images/res/images/icon_default.png");
+    pixmap = pixmap.scaled(QSize(60, 60), Qt::KeepAspectRatio);
 
     for(int i = 0; i < 4; i++) {
-        pixmapList.push_back(pixmap.copy(i * pixmap.width() / 4 + i, 0, pixmap.width()/4, pixmap.height()));
+//        pixmapList.push_back(pixmap.copy(i * pixmap.width() / 4 + i, 0, pixmap.width()/4, pixmap.height()));
+        pixmapList.push_back(pixmap.copy());
     }
 
     m_index=0;
@@ -81,27 +83,12 @@ void ImageButton::mouseReleaseEvent ( QMouseEvent * event ){
         }
 }
 
-//QSize ImageButton::sizeHint() const
-//{
-//    return QSize(pixmapList[0].width(), pixmapList[0].height());
-//}
-
-//void ImageButton::resizeEvent(QResizeEvent *event) {
-
-//    printf("x:%d y:%d l:%d t:%d r:%d b:%d w:%d h:%d", this->geometry().x(), this->geometry().y(),
-//           this->geometry().left(), this->geometry().top(), this->geometry().right(), this->geometry().bottom(),
-//           this->geometry().width(), this->geometry().height());
-
-////    this->setGeometry(0, 0, 20, 20);
-
-////    QWidget* parent = this->parentWidget();
-////    int cx = 0;
-////    int cy = 0;
-////    if(NULL != parent) {
-////        cx = (parent->width() - width())/2;
-////        cy = (parent->height() - height())/2;
-////        printf("&p(%d x %d) me(%d x %d)", parent->width(), parent->height(), width(), height());
-////    }
-////    move(20, 20);
-//   //printf("resizeEvent p(%d x %d) me(%d x %d)", this->parentWidget()->width(), this->parentWidget()->height(), event->size().width(), event->size().height());
-//}
+void ImageButton::setImages(const QPixmap &pixmaps) {
+    QPixmap pixmap = pixmaps.scaled(QSize(60, 60), Qt::KeepAspectRatio);
+    pixmapList.clear();
+    for(int i = 0; i < 4; i++) {
+//        pixmapList.push_back(pixmap.copy(i * pixmap.width() / 4 + i, 0, pixmap.width()/4, pixmap.height()));
+        pixmapList.push_back(pixmap.copy());
+    }
+    update();
+}

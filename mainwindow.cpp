@@ -21,10 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 //    setPalette(pal);
 
     ui->setupUi(this);
-//    ui->btnWhiteBoard->setText(QString("白板"));
-//    ui->btnCamera->setText(QString("插入"));
-//    ui->btnComment->setText(QString("批注"));
-//    ui->btnDevice->setText(QString("设备"));
 
     connect(ui->toolBar->whiteBoardButton(), &QPushButton::clicked, this, &MainWindow::on_btnWhiteBoard_clicked);
     connect(ui->toolBar->insertButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayLocal_clicked);
@@ -37,11 +33,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->videoButton1->setText("视频1");
     ui->videoButton2->setText("视频2");
 
-    myPaint = new MyPaint(this);
-    myPaint->setParent(nullptr);
+//    myPaint = new MyPaint(this);
+//    myPaint->setParent(nullptr);
 
-    myNotation = new MyPaint(this);
-    myNotation->setParent(nullptr);
+//    myNotation = new MyPaint(this);
+//    myNotation->setParent(nullptr);
     //ui->gridLayout->addWidget(myPaint, 0, 0);
 
     timerClock = new QTimer();
@@ -55,8 +51,8 @@ MainWindow::~MainWindow()
     if(NULL!= vlcWrapper) {
         delete vlcWrapper;
     }
-    delete myPaint;
-    delete myNotation;
+//    delete myPaint;
+//    delete myNotation;
     delete timerClock;
     delete ui;
 }
@@ -77,6 +73,14 @@ void MainWindow::saveNotation(QPixmap& pixmap) {
     filePathName += ".jpg";
     if(!pixmap.save(filePathName, "jpg")) {
         cout<<"save full screen failed"<<endl;
+    }
+}
+
+void MainWindow::showWhiteBoard(bool state) {
+    if(state) {
+        ui->stackedWidget->setCurrentIndex(0);
+    } else {
+        ui->stackedWidget->setCurrentIndex(1);
     }
 }
 
@@ -173,20 +177,20 @@ void MainWindow::on_btnWhiteBoard_clicked()
 {
     printf("on_btnWhiteBoard_clicked");
     vlcWrapper->pause();
-//    ui->renderWidget->clear();
-//    ui->renderWidget->whiteBoard();
 
-    int nCount = ui->stackedWidget->count();
-    int nIndex = ui->stackedWidget->currentIndex();
+    ui->myPaint->clear();
 
-    // 获取下一个需要显示的页面索引
-    ++nIndex;
+//    int nCount = ui->stackedWidget->count();
+//    int nIndex = ui->stackedWidget->currentIndex();
 
-    // 当需要显示的页面索引大于等于总页面时，切换至首页
-    if (nIndex >= nCount)
-        nIndex = 0;
+//    // 获取下一个需要显示的页面索引
+//    ++nIndex;
 
-    ui->stackedWidget->setCurrentIndex(nIndex);
+//    // 当需要显示的页面索引大于等于总页面时，切换至首页
+//    if (nIndex >= nCount)
+//        nIndex = 0;
+
+    ui->stackedWidget->setCurrentIndex(0);
 
 }
 
@@ -200,6 +204,7 @@ void MainWindow::on_btnPlayLocal_clicked()
     filename.replace("/", "\\");
     std::string s = filename.toStdString();
     vlcWrapper->start(s, ui->myRender);
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
 void MainWindow::on_btnPlayPause_clicked()
@@ -210,6 +215,13 @@ void MainWindow::on_btnPlayPause_clicked()
 void MainWindow::on_btnComment_clicked()
 {
     printf("on_btnComment_clicked");
+    showWhiteBoard(true);
+    vlcWrapper->pause();
+    QImage image;
+    ui->myRender->copyCurrentImage(image);
+    QPixmap pixmap = QPixmap::fromImage(image);
+    ui->myPaint->clear();
+    ui->myPaint->loadPixmap(pixmap);
 }
 
 void MainWindow::on_btnDevice_clicked()

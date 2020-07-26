@@ -2,5 +2,14 @@
     <qresource prefix="/images">
         <file>res/images/media_control.png</file>
         <file>res/images/background.png</file>
+        <file>res/images/icon_default.png</file>
+        <file>res/images/icon_whiteboard.png</file>
+        <file>res/images/icon_comment.png</file>
+        <file>res/images/icon_insert.png</file>
+        <file>res/images/icon_pause.png</file>
+        <file>res/images/icon_play.png</file>
+        <file>res/images/icon_setting.png</file>
+        <file>res/images/icon_takepicture.png</file>
+        <file>res/images/icon_takevideo.png</file>
     </qresource>
 </RCC>

@@ -26,9 +26,14 @@ void MyRender::onRender(const QImage &pixmap) {
     update();
 }
 
+void MyRender::copyCurrentImage(QImage& image) {
+    QMutexLocker lock(&m_pixmapMutex);
+    image = m_currentFrame.copy();
+}
+
 void MyRender::paintEvent(QPaintEvent *ev)
 {
-    printf("paintEvent width:%d height:%d", size().width(), size().height());
+//    printf("paintEvent width:%d height:%d", size().width(), size().height());
     QOpenGLWidget::paintEvent(ev);
 
     QPainter painter(this);
@@ -61,7 +66,4 @@ QSize MyRender::sizeHint() const
     return size();
 }
 
-void MyRender::resizeEvent(QResizeEvent *e) {
-
-}
 

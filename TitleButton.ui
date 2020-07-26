@@ -21,7 +21,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1">
    <property name="spacing">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
@@ -36,7 +36,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="ImageButton" name="button"/>
+    <widget class="ImageButton" name="button" native="true"/>
    </item>
    <item>
     <widget class="QLabel" name="label">
@@ -62,8 +62,8 @@
  <customwidgets>
   <customwidget>
    <class>ImageButton</class>
-   <extends>QPushButton</extends>
-   <header location="global">ImageButton.h</header>
+   <extends>QWidget</extends>
+   <header>ImageButton.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
