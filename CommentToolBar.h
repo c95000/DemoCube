@@ -22,14 +22,10 @@ public:
 //    const QPushButton *whitePenButton();
 //    const QPushButton *blackPenButton();
 //    const QPushButton *rubberButton();
-
+protected:
+    void resizeEvent(QResizeEvent *event);
 private:
     Ui::CommentToolBar *ui;
-
-    ImageButton* closeButton;
-    ImageButton* rubberButton;
-    ImageButton* whiteBoardButton;
-//    ImageButton* closeButton;
 };
 
 #endif // COMMENTTOOLBAR_H

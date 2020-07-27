@@ -2,9 +2,9 @@
 #include "ui_CommentToolBar.h"
 #include <QLayout>
 #include <QSpacerItem>
+#include <QResizeEvent>
 #include "common.h"
 
-#include "common.h"
 
 CommentToolBar::CommentToolBar(QWidget *parent) :
     QWidget(parent),
@@ -12,41 +12,50 @@ CommentToolBar::CommentToolBar(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QHBoxLayout* hBoxLayout = new QHBoxLayout();
+//    QHBoxLayout* hBoxLayout = new QHBoxLayout();
+
+
+    ui->closeButton->setImages(QPixmap(":/images/res/images/close.png"), 40, 40);
+    ui->rubberButton->setImages(QPixmap(":/images/res/images/rubber.png"), 40, 40);
+    ui->whiteBoardButton->setImages(QPixmap(":/images/res/images/whiteboard.png"), 40, 40);
+
+    ui->redpenButton->setImages(QPixmap(":/images/res/images/redpen.png"), 20, 20);
+    ui->whitepenButton->setImages(QPixmap(":/images/res/images/whitepen.png"), 20, 20);
+    ui->blackpenButton->setImages(QPixmap(":/images/res/images/blackpen.png"), 20, 20);
+
+    ui->pensize1->setImages(QPixmap(":/images/res/images/textsize1.png"), 20, 20);
+    ui->pensize2->setImages(QPixmap(":/images/res/images/textsize2.png"), 20, 20);
+    ui->pensize3->setImages(QPixmap(":/images/res/images/textsize3.png"), 20, 20);
+
+//    redPenButton = new ImageButton(this);
+//    redPenButton->setImages(QPixmap(":/images/res/images/redpen.png"), 20, 20);
+
+//    ui->centerLayout->addStretch(1);
+//    ui->centerLayout->addWidget(closeButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
+//    ui->centerLayout->addWidget(rubberButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
+//    ui->centerLayout->addWidget(whiteBoardButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
+//    ui->centerLayout->addStretch(1);
 
 
 
-    closeButton = new ImageButton(this);
-    closeButton->setImages(QPixmap(":/images/res/images/close.png"), 40, 40);
-    rubberButton = new ImageButton(this);
-    rubberButton->setImages(QPixmap(":/images/res/images/rubber.png"), 40, 40);
-    whiteBoardButton = new ImageButton(this);
-    whiteBoardButton->setImages(QPixmap(":/images/res/images/whiteboard.png"), 40, 40);
-
-
-//    ui->horizontalLayout_2->setStretch(0, 1);
-//    ui->horizontalLayout_2->setStretch(1, 1);
-//    ui->horizontalLayout_2->setStretch(2, 1);
-
-//    ui->horizontalLayout_2->setSizeConstraint(QLayout::SetFixedSize);
-    ui->centerLayout->addStretch();
-    ui->centerLayout->addWidget(closeButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
-    ui->centerLayout->addWidget(rubberButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
-    ui->centerLayout->addWidget(whiteBoardButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
-    ui->centerLayout->addStretch();
-    ui->centerLayout->setSizeConstraint(QLayout::SetNoConstraint);
-
-
-    ui->leftLayout->addWidget(new QWidget(this));
-    ui->rightLayout->addWidget(new ImageButton(this));
+//    ui->leftLayout->addWidget(new QWidget(this));
+//    ui->rightLayout->addWidget(new ImageButton(this));
 
 //    whiteBoardButton = new ImageButton(this);
 
-//    QHBoxLayout* layout = new QHBoxLayout();
-//    layout->addWidget(closeButton);
-//    layout->addWidget(rubberButton);
-////    layout->addWidget(whiteBoardButton);
-//    setLayout(layout);
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->addStretch(1);
+    layout->addWidget(ui->closeButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
+    layout->addWidget(ui->rubberButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
+    layout->addWidget(ui->whiteBoardButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
+    layout->addStretch(1);
+    setLayout(layout);
+
+//    QGridLayout* gridLayout = new QGridLayout(this);
+
+//    gridLayout->
+
+//    ui->rightContainer->setLayout(gridLayout);
 
 //    layout()->addWidget(closeButton);
 
@@ -90,5 +99,21 @@ CommentToolBar::~CommentToolBar()
 //const QPushButton *CommentToolBar::rubberButton(){
 //    return ui->rubber;
 //}
+
+void CommentToolBar::resizeEvent(QResizeEvent *event) {
+//    printf("resizeEvent oldSize: %d x %d", event->oldSize().width(), event->oldSize().height());
+//    printf("resizeEvent: %d x %d", event->size().width(), event->size().height());
+//    QRect rect = ui->gridWidget->geometry();
+//    printf("resizeEvent: %d x %d x %d x %d", rect.x(), rect.y(), rect.width(), rect.height());
+
+    int ax = event->size().width() - ui->gridWidget->width();
+    int ay = event->size().height() - ui->gridWidget->height();
+
+    ui->gridWidget->move(ax, ay);
+//    rect.setX(rect.x() + 1);
+//    redPenButton->setGeometry(rect);
+
+//    layout->addWidget(ui->rightContainer, 0, Qt::AlignHCenter | Qt::AlignBottom);
+}
 
 
