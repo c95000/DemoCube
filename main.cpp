@@ -14,10 +14,10 @@ int main(int argc, char *argv[])
 //    ToolBar w;
 //    w.show();
 
-    CommentToolBar w;
-    w.show();
+//    CommentToolBar w;
+//    w.show();
 
-//    MyPaint mypaint;
-//    mypaint.show();
+    MyPaint mypaint;
+    mypaint.show();
     return a.exec();
 }

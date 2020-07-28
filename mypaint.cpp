@@ -15,6 +15,7 @@ MyPaint::MyPaint(QWidget *parent) :
          _openflag = 0;//初始不打开图片
 
          penColor = Qt::red;
+         penSize = 1;
 
          printf("[%p]_openflag:%d", this,  _openflag);
          _tEdit = new QTextEdit(this);//初始化文本输入框
@@ -31,16 +32,24 @@ MyPaint::MyPaint(QWidget *parent) :
          //this->setStyleSheet("background-color:yellow;");
 
         CommentToolBar* commonToolBar = new CommentToolBar(this);
+
         QVBoxLayout* layout = new QVBoxLayout();
-        layout->addWidget(commonToolBar, 0, Qt::AlignBottom);
-        layout->setMargin(0);
+//        layout->addWidget(commonToolBar, 1, Qt::AlignBottom);
+        layout->addWidget(commonToolBar);
         setLayout(layout);
 
-//        connect(commonToolBar->closeButton(), SIGNAL(clicked()), this, SLOT(test()));
-//        connect(commonToolBar->redPenButton(), SIGNAL(clicked()), this, SLOT(redPen()));
-//        connect(commonToolBar->blackPenButton(), SIGNAL(clicked()), this, SLOT(blackPen()));
-//        connect(commonToolBar->whitePenButton(), SIGNAL(clicked()), this, SLOT(whitePen()));
-//        connect(commonToolBar->rubberButton(), SIGNAL(clicked()), this, SLOT(rubber()));
+        connect(commonToolBar->closeButton(), SIGNAL(clicked()), this, SLOT(close()));
+        connect(commonToolBar->rubberButton(), SIGNAL(clicked()), this, SLOT(rubber()));
+        connect(commonToolBar->whiteboardButton(), SIGNAL(clicked()), this, SLOT(whiteboard()));
+
+        connect(commonToolBar->redPenButton(), SIGNAL(clicked()), this, SLOT(redPen()));
+        connect(commonToolBar->blackPenButton(), SIGNAL(clicked()), this, SLOT(blackPen()));
+        connect(commonToolBar->whitePenButton(), SIGNAL(clicked()), this, SLOT(whitePen()));
+
+        connect(commonToolBar->penSize1Button(), SIGNAL(clicked()), this, SLOT(penSize1()));
+        connect(commonToolBar->penSize2Button(), SIGNAL(clicked()), this, SLOT(penSize2()));
+        connect(commonToolBar->penSize3Button(), SIGNAL(clicked()), this, SLOT(penSize3()));
+
 
 #if 0
         //创建工具栏
@@ -124,7 +133,8 @@ void MyPaint::paintEvent(QPaintEvent *)
 
     for(int c = 0;c<_shape.size();++c)//控制用户当前所绘图形总数
     {
-        p.setPen(_shapeColor.at(c));
+//        p.setPen(_penColor.at(c));
+        p.setPen(QPen(_penColor.at(c), _penSize.at(c)));
         if(_shape.at(c) == 1)//线条
         {
               const QVector<QPoint>& line = _lines.at(i1++);//取出一条线条
@@ -229,9 +239,9 @@ void MyPaint::mousePressEvent(QMouseEvent *e)
             _shape.append(5);
         }
 
-        QColor currnetColor = penColor;
-        _shapeColor.append(currnetColor);
-
+        QColor currentColor = penColor;
+        _penColor.append(currentColor);
+        _penSize.append(penSize);
     }
 }
 
@@ -245,13 +255,32 @@ void MyPaint::redPen() {
     penColor = Qt::red;
 }
 void MyPaint::whitePen() {
-penColor = Qt::green;
+    penColor = Qt::green;
 }
 void MyPaint::blackPen(){
-penColor = Qt::black;
+    penColor = Qt::black;
 }
 void MyPaint::rubber(){
 
+}
+
+void MyPaint::close() {
+
+}
+
+void MyPaint::whiteboard() {
+    clear();
+    update();
+}
+
+void MyPaint::penSize1() {
+    penSize = 1;
+}
+void MyPaint::penSize2() {
+    penSize = 3;
+}
+void MyPaint::penSize3() {
+    penSize = 5;
 }
 
 void MyPaint::mouseMoveEvent(QMouseEvent *e)
@@ -478,7 +507,8 @@ void MyPaint::clear() //按键事件
      _openflag = 0;
     _lines.clear();
     _shape.clear();
-    _shapeColor.clear();
+    _penColor.clear();
+    _penSize.clear();
     update();
 }
 

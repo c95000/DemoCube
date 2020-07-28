@@ -25,6 +25,9 @@ protected:
 //    virtual void resizeEvent(QResizeEvent *event);
 
 public:
+
+    void setFixedSize(int w, int h);
+
     void setImages(const QPixmap &pixmaps);
     void setImages(const QPixmap &pixmaps, int width, int height);
     void setImages(const QString imgsrc);
@@ -34,6 +37,8 @@ private:
     QList<QPixmap> pixmapList;
     int m_index;
     bool m_enter;
+
+    int marginSize = 2;
 
 };
 

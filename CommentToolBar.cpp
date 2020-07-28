@@ -84,21 +84,35 @@ CommentToolBar::~CommentToolBar()
     delete ui;
 }
 
-//const QPushButton *CommentToolBar::closeButton() {
-//    return ui->close;
-//}
-//const QPushButton *CommentToolBar::redPenButton() {
-//    return ui->redPen;
-//}
-//const QPushButton *CommentToolBar::whitePenButton(){
-//    return ui->whitePen;
-//}
-//const QPushButton *CommentToolBar::blackPenButton(){
-//    return ui->blackPen;
-//}
-//const QPushButton *CommentToolBar::rubberButton(){
-//    return ui->rubber;
-//}
+const QPushButton *CommentToolBar::closeButton() {
+    return ui->closeButton;
+}
+const QPushButton *CommentToolBar::redPenButton() {
+    return ui->redpenButton;
+}
+const QPushButton *CommentToolBar::whitePenButton(){
+    return ui->whitepenButton;
+}
+const QPushButton *CommentToolBar::blackPenButton(){
+    return ui->blackpenButton;
+}
+const QPushButton *CommentToolBar::rubberButton(){
+    return ui->rubberButton;
+}
+
+const QPushButton *CommentToolBar::whiteboardButton(){
+    return ui->whiteBoardButton;
+}
+
+const QPushButton *CommentToolBar::penSize1Button() {
+    return ui->pensize1;
+}
+const QPushButton *CommentToolBar::penSize2Button() {
+    return ui->pensize2;
+}
+const QPushButton *CommentToolBar::penSize3Button() {
+    return ui->pensize3;
+}
 
 void CommentToolBar::resizeEvent(QResizeEvent *event) {
 //    printf("resizeEvent oldSize: %d x %d", event->oldSize().width(), event->oldSize().height());

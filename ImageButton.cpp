@@ -15,7 +15,7 @@ using namespace std;
 ImageButton::ImageButton(QWidget *parent) : QPushButton(parent)
 {
     QPixmap pixmap(":/images/res/images/default.png");
-    pixmap = pixmap.scaled(QSize(60, 60), Qt::KeepAspectRatio);
+    pixmap = pixmap.scaled(QSize(60, 60), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     for(int i = 0; i < 4; i++) {
 //        pixmapList.push_back(pixmap.copy(i * pixmap.width() / 4 + i, 0, pixmap.width()/4, pixmap.height()));
@@ -41,11 +41,20 @@ void ImageButton::paintEvent(QPaintEvent *event)
      painter.setBrush(QBrush(Qt::red, Qt::CrossPattern));
 //     painter.drawRect(0,0, width(), height());
 //     painter.drawPixmap(event->rect(), pixmapList[1]);
-     painter.drawPixmap((width()-pixmapList.at(m_index).width())/2,
-                        (height()-pixmapList.at(m_index).height())/2,
-                        pixmapList.at(m_index).width(),
-                        pixmapList.at(m_index).height(),
-                        pixmapList.at(m_index));//画图画到中间
+     if(m_index == 1) {
+         painter.drawPixmap((width()-pixmapList.at(m_index).width())/2,
+                            (height()-pixmapList.at(m_index).height())/2,
+                            pixmapList.at(m_index).width(),
+                            pixmapList.at(m_index).height(),
+                            pixmapList.at(m_index));//画图画到中间
+     } else {
+         painter.drawPixmap((width()-pixmapList.at(m_index).width())/2 + 2,
+                            (height()-pixmapList.at(m_index).height())/2 + 2,
+                            pixmapList.at(m_index).width(),
+                            pixmapList.at(m_index).height(),
+                            pixmapList.at(m_index));//画图画到中间
+    }
+
 
 //     painter.background();
 //     QPixmap pixmap = QPixmap(size());
@@ -84,6 +93,10 @@ void ImageButton::mouseReleaseEvent ( QMouseEvent * event ){
         }
 }
 
+void ImageButton::setFixedSize(int w, int h) {
+    QPushButton::setFixedSize(w + 3, h + 3);
+}
+
 void ImageButton::setImages(const QPixmap &pixmaps) {
     setImages(pixmaps, pixmaps.width(), pixmaps.height());
 }
@@ -91,18 +104,12 @@ void ImageButton::setImages(const QPixmap &pixmaps) {
 void ImageButton::setImages(const QPixmap &pixmaps, int width, int height) {
     QPixmap pixmap = pixmaps;
     if(pixmap.width() != width || pixmap.height() != height) {
-        pixmap = pixmaps.scaled(QSize(width, height), Qt::KeepAspectRatio);
+        pixmap = pixmaps.scaled(QSize(width, height), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 
     pixmapList.clear();
     for(int i = 0; i < 4; i++) {
-//        pixmapList.push_back(pixmap.copy(i * pixmap.width() / 4 + i, 0, pixmap.width()/4, pixmap.height()));
-        if(i == 1) {
-            QPixmap p = pixmap.copy(2, 2, pixmap.width(), pixmap.height());
-            pixmapList.push_back(p);
-        } else {
-            pixmapList.push_back(pixmap.copy());
-        }
+        pixmapList.push_back(pixmap.copy());
     }
     setFixedSize(width, height);
     update();

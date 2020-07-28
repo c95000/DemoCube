@@ -17,11 +17,18 @@ public:
     explicit CommentToolBar(QWidget *parent = nullptr);
     ~CommentToolBar();
 
-//    const QPushButton *closeButton();
-//    const QPushButton *redPenButton();
-//    const QPushButton *whitePenButton();
-//    const QPushButton *blackPenButton();
-//    const QPushButton *rubberButton();
+    const QPushButton *closeButton();
+    const QPushButton *rubberButton();
+    const QPushButton *whiteboardButton();
+
+    const QPushButton *redPenButton();
+    const QPushButton *whitePenButton();
+    const QPushButton *blackPenButton();
+
+    const QPushButton *penSize1Button();
+    const QPushButton *penSize2Button();
+    const QPushButton *penSize3Button();
+
 protected:
     void resizeEvent(QResizeEvent *event);
 private:
