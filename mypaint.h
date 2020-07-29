@@ -35,7 +35,7 @@ protected:
     void mouseMoveEvent(QMouseEvent *);//重写鼠标移动事件
     void contextMenuEvent(QContextMenuEvent *);//重写菜单事件
     void keyPressEvent(QKeyEvent *e); //重写按键事件
-//    virtual QSize sizeHint () const;
+    void revoke();
 public:
 private:
     int _lpress;//左键按下标志
@@ -47,6 +47,9 @@ private:
     QTextEdit *_tEdit;//文本输入框
     QColor penColor;
     int penSize;
+
+    CommentToolBar* commonToolBar;
+
 public:
     QVector<QVector<QPoint> > _lines;//线条集合(一条线条可包含多个线段)
     QVector<QRect> _rects;//矩形集合

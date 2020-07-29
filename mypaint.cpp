@@ -2,7 +2,7 @@
 #include "CommentToolBar.h"
 #include "common.h"
 #include "QBoxLayout"
-
+#include <QDateTime>
 
 MyPaint::MyPaint(QWidget *parent) :
     QWidget(parent)
@@ -31,7 +31,7 @@ MyPaint::MyPaint(QWidget *parent) :
          //方法二
          //this->setStyleSheet("background-color:yellow;");
 
-        CommentToolBar* commonToolBar = new CommentToolBar(this);
+        commonToolBar = new CommentToolBar(this);
 
         QVBoxLayout* layout = new QVBoxLayout();
 //        layout->addWidget(commonToolBar, 1, Qt::AlignBottom);
@@ -117,6 +117,7 @@ MyPaint::MyPaint(QWidget *parent) :
 
 MyPaint::~MyPaint()
 {
+    delete commonToolBar;
 }
 
 
@@ -261,11 +262,11 @@ void MyPaint::blackPen(){
     penColor = Qt::black;
 }
 void MyPaint::rubber(){
-
+    revoke();
 }
 
 void MyPaint::close() {
-
+    SavePic();
 }
 
 void MyPaint::whiteboard() {
@@ -356,8 +357,6 @@ void MyPaint::mouseMoveEvent(QMouseEvent *e)
             update();//触发窗体重绘
         }
     }
-
-
 }
 
 void MyPaint::mouseReleaseEvent(QMouseEvent *e)
@@ -402,7 +401,6 @@ void MyPaint::mouseReleaseEvent(QMouseEvent *e)
             QRect& lastLine = _line.last();//拿到新矩形
             lastLine.setBottomRight(e->pos());//更新矩形的右下角坐标)
             _lpress = false;
-
         }
     }
 }
@@ -440,17 +438,41 @@ void MyPaint::Texts()
 void MyPaint::SavePic()
 {
     //弹出文件保存对话框
-    QString fileName = QFileDialog::getSaveFileName(this, tr("保存"), "new.jpg", "Image (*.jpg *.png *.bmp)");
+//    QString fileName = QFileDialog::getSaveFileName(this, tr("保存"), "new.jpg", "Image (*.jpg *.png *.bmp)");
+
+    QString fileName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+    fileName += ".png";
 
     if (fileName.length() > 0)
     {
+        QByteArray qb;
+        printf("fileName:%s ", qb.append(fileName).data());
+        printf("%d x %d", size().width(), size().height());
+        commonToolBar->hide();
         _tEdit->hide();//防止文本输入框显示时，将文本框保存到图片
         QPixmap pixmap(size());//新建窗体大小的pixmap
         QPainter painter(&pixmap);//将pixmap作为画布
         painter.fillRect(QRect(0, 0, size().width(), size().height()), Qt::white);//设置绘画区域、画布颜色
         this->render(&painter);//将窗体渲染到painter，再由painter画到画布
-        pixmap.copy(QRect(0,30,size().width(),size().height()-30)).save(fileName);//不包含工具栏
+        commonToolBar->show();
+        pixmap.copy().save(fileName);//不包含工具栏
+
+//        QRect rect = geometry();
+//        printf("x:%d y:%d  %d x %d", rect.x(), rect.y(), rect.width(), rect.height());
+//        QPixmap pixmap = this->grab(QRect(0, 0, width(), height()));
+//        pixmap.save(fileName);
     }
+
+//    QRect rect = geometry();
+//    QPixmap p = this->grab(rect);
+
+//    QString filePathName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+//    filePathName += ".png";
+//    if(!p.save(filePathName,"png"))
+//    {
+//        printf("save widget screen failed");
+//    }
+
 }
 
 void MyPaint::OpenPic()
@@ -478,28 +500,34 @@ void MyPaint::keyPressEvent(QKeyEvent *e) //按键事件
      //Ctrl+Z撤销
      if (e->key() == Qt::Key_Z && e->modifiers() == Qt::ControlModifier)
      {
-         if(_shape.size()>0)
-         {
-             switch(_shape.last())
-             {
-                 case 1: _lines.pop_back();
-                         break;
-                 case 2: _rects.pop_back();
-                         break;
-                 case 3: _ellipse.pop_back();
-                         break;
-                 case 4: _line.pop_back();
-                         break;
-             }
-             _shape.pop_back();
-             _drag = 0;//设置为非拖拽模式
-             update();
-         }
+        revoke();
      }
      else if (e->key() == Qt::Key_S && e->modifiers() == Qt::ControlModifier)//保存
      {
         SavePic();//Ctrl+S保存
      }
+}
+
+void MyPaint::revoke() {
+    if(_shape.size()>0)
+    {
+        switch(_shape.last())
+        {
+            case 1: _lines.pop_back();
+                    break;
+            case 2: _rects.pop_back();
+                    break;
+            case 3: _ellipse.pop_back();
+                    break;
+            case 4: _line.pop_back();
+                    break;
+        }
+        _shape.pop_back();
+        _penSize.pop_back();
+        _penColor.pop_back();
+        _drag = 0;//设置为非拖拽模式
+        update();
+    }
 }
 
 void MyPaint::clear() //按键事件
