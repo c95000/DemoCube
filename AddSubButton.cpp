@@ -15,7 +15,14 @@ AddSubButton::AddSubButton(QWidget *parent) :
     setAutoFillBackground(true);
     setPalette(pal);
 
-//    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    ui->addButton->setImages(QPixmap(":/images/res/images/add1.png"), 20, 20);
+    ui->subButton->setImages(QPixmap(":/images/res/images/sub1.png"), 20, 20);
+
+//    ui->value->setAutoFillBackground(true);
+//    ui->value->setPalette(pal);
+    ui->value->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Preferred);
+
+    setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 //    setFixedSize(100,100);
 
 //    connect(ui->addButton, &QPushButton::clicked, this, &AddSubButton::on_btnAdd_clicked);
