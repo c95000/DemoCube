@@ -12,35 +12,44 @@ ToolBar::ToolBar(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    int iconSize = Resolution::getInstance()->scaleX() * 50;
+
     ui->btnInsert->setText(QString("插入"));
-    ui->btnInsert->imageButton()->setImages(":/images/res/images/insert.png", 50, 50);
+    ui->btnInsert->imageButton()->setImages(":/images/res/images/insert.png", iconSize, iconSize);
 
     ui->btnComment->setText(QString("批注"));
-    ui->btnComment->imageButton()->setImages(QPixmap(":/images/res/images/comment.png"), 50, 50);
+    ui->btnComment->imageButton()->setImages(QPixmap(":/images/res/images/comment.png"), iconSize, iconSize);
 
     ui->btnTakePicture->setText(QString("拍照"));
-    ui->btnTakePicture->imageButton()->setImages(QPixmap(":/images/res/images/takepicture.png"), 50, 50);
+    ui->btnTakePicture->imageButton()->setImages(QPixmap(":/images/res/images/takepicture.png"), iconSize, iconSize);
 
     ui->btnTakeVideo->setText(QString("录像"));
-    ui->btnTakeVideo->imageButton()->setImages(QPixmap(":/images/res/images/takevideo.png"), 50, 50);
+    ui->btnTakeVideo->imageButton()->setImages(QPixmap(":/images/res/images/takevideo.png"), iconSize, iconSize);
 
     ui->btnPlayPause->setText(QString("播放"));
-    ui->btnPlayPause->imageButton()->setImages(QPixmap(":/images/res/images/play.png"), 50, 50);
+    ui->btnPlayPause->imageButton()->setImages(QPixmap(":/images/res/images/play.png"), iconSize, iconSize);
 
     ui->btnSetting->setText(QString("设置"));
-    ui->btnSetting->imageButton()->setImages(QPixmap(":/images/res/images/setting.png"), 50, 50);
+    ui->btnSetting->imageButton()->setImages(QPixmap(":/images/res/images/setting.png"), iconSize, iconSize);
 
     QHBoxLayout* layout = new QHBoxLayout(this);
-    layout->addStretch(1);
-    layout->addWidget(ui->btnInsert, 0, Qt::AlignCenter);
-    layout->addWidget(ui->btnComment, 0, Qt::AlignHCenter);
-    layout->addWidget(ui->btnTakePicture, 0, Qt::AlignHCenter);
-    layout->addWidget(ui->btnTakeVideo, 0, Qt::AlignHCenter);
-    layout->addWidget(ui->btnPlayPause, 0, Qt::AlignHCenter);
-    layout->addWidget(ui->btnSetting, 0, Qt::AlignHCenter);
-//    layout->addWidget(ui->btnSetting, 0, Qt::AlignHCenter | Qt::AlignBottom);
-    layout->addStretch(1);
+    layout->addStretch(3);
+    layout->addWidget(ui->btnInsert, 1, Qt::AlignHCenter);
+    layout->addWidget(ui->btnComment, 1, Qt::AlignHCenter);
+    layout->addWidget(ui->btnTakePicture, 1, Qt::AlignHCenter);
+    layout->addWidget(ui->btnTakeVideo, 1, Qt::AlignHCenter);
+    layout->addWidget(ui->btnPlayPause, 1, Qt::AlignHCenter);
+    layout->addWidget(ui->btnSetting, 1, Qt::AlignHCenter);
+    layout->addStretch(3);
     setLayout(layout);
+
+//    int default_width = getDesktopWidth() / 12;
+//    int default_height = getDesktopHeight() / 12;
+
+//    printf("parent size: %d x %d", parentWidget()->size().width(), parentWidget()->size().height());
+//    printf("init size: %d x %d", size().width(), size().height());
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    setFixedHeight(Resolution::getInstance()->scaleY() * 120);
 
     connect(ui->btnSetting->pushButton(), &QPushButton::clicked, this, &ToolBar::onSettingButtonClicked);
 }
@@ -78,8 +87,8 @@ const QPushButton *ToolBar::settingButton() {
 
 void ToolBar::resizeEvent(QResizeEvent *event) {
 
-    int ax = event->size().width() - ui->cameraController->width() - 5;
-    int ay = (event->size().height() - ui->cameraController->height()) / 2;
+    int ax = event->size().width() - ui->cameraController->width() - 15;
+    int ay = (event->size().height() - ui->cameraController->height()) / 2 - 5;
 
     ui->cameraController->move(ax, ay);
 }

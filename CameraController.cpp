@@ -1,5 +1,6 @@
 #include "CameraController.h"
 #include "ui_CameraController.h"
+#include "common.h"
 
 CameraController::CameraController(QWidget *parent) :
     QWidget(parent),
@@ -10,10 +11,12 @@ CameraController::CameraController(QWidget *parent) :
 //    ui->zoom->setText("缩放");
 //    ui->focus->setText("对焦");
 
-    ui->zoomdown->setImages(QPixmap(":/images/res/images/sub1.png"), 20, 20);
-    ui->zoomup->setImages(QPixmap(":/images/res/images/add1.png"), 20, 20);
-    ui->focusdown->setImages(QPixmap(":/images/res/images/sub1.png"), 20, 20);
-    ui->focusup->setImages(QPixmap(":/images/res/images/add1.png"), 20, 20);
+    int iconSize = 22 * Resolution::getInstance()->scaleX();
+
+    ui->zoomdown->setImages(QPixmap(":/images/res/images/sub1.png"), iconSize, iconSize);
+    ui->zoomup->setImages(QPixmap(":/images/res/images/add1.png"), iconSize, iconSize);
+    ui->focusdown->setImages(QPixmap(":/images/res/images/sub1.png"), iconSize, iconSize);
+    ui->focusup->setImages(QPixmap(":/images/res/images/add1.png"), iconSize, iconSize);
 
     QPalette pal(palette());
     pal.setColor(QPalette::Background, QColor(180, 180, 180)); //设置背景黑色
@@ -25,8 +28,7 @@ CameraController::CameraController(QWidget *parent) :
     ui->focusContainer->setPalette(pal);
 
     setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    setFixedSize(80, 50);
-
+    setFixedSize(Resolution::getInstance()->scaleX() * 100, Resolution::getInstance()->scaleY() * 70);
 }
 
 CameraController::~CameraController()

@@ -4,4 +4,7 @@
 #include <QDebug>
 #define printf qDebug
 
+#include "Resolution.h"
+
+
 #endif // COMMON_H

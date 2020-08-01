@@ -5,8 +5,11 @@
 #include <QScreen>
 #include <QLabel>
 #include "Util.h"
-#include<iostream>
+#include <iostream>
+#include <QScreen>
+#include <QDesktopWidget>
 #include "common.h"
+#include "Resolution.h"
 
 using namespace std;
 
@@ -14,13 +17,49 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    ui->setupUi(this);
 
 //    QPalette pal(palette());
 //    pal.setColor(QPalette::Background, QColor(135,206,235)); //设置背景黑色
 //    setAutoFillBackground(true);
 //    setPalette(pal);
 
-    ui->setupUi(this);
+//    QScreen *screen=QGuiApplication::primaryScreen ();
+//    QRect mm = screen->availableGeometry() ;
+//    int screen_width = mm.width();
+//    int screen_height = mm.height();
+//    printf("screen %d x %d", screen_width, screen_height);
+
+//    int desktop_width = QApplication::desktop()->width();
+//    int desktop_height = QApplication::desktop()->height();
+//    printf("desktop %d x %d", desktop_width, desktop_height);
+
+
+//    printf("desktop %f x %f", Resolution::scaleX(), Resolution::scaleY());
+
+//    int default_width = 1280;
+//    int default_height = 720;
+//    if(desktop_width > 0 && desktop_height > 0) {
+//        default_width = desktop_width * 2 / 3;
+//        default_height = desktop_height * 2 / 3;
+//    }
+    int default_width = 1280 * Resolution::getInstance()->scaleX();
+    int default_height = 720 * Resolution::getInstance()->scaleY();
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    setMinimumSize(QSize(default_width, default_height));
+
+//    setStyleSheet("color:red;");
+
+//    QPalette pe;
+//    pe.setColor(QPalette::WindowText,Qt::white);
+//    setPalette(pe);
+
+    QPalette PAllbackground = this->palette();
+    QImage ImgAllbackground(":/images/res/images/background.png");
+    QImage fitimgpic=ImgAllbackground.scaled(this->width(),this->height(), Qt::IgnoreAspectRatio);
+    PAllbackground.setBrush(QPalette::Window, QBrush(fitimgpic));
+    this->setPalette(PAllbackground);
+
 
 //    connect(ui->toolBar->whiteBoardButton(), &QPushButton::clicked, this, &MainWindow::on_btnWhiteBoard_clicked);
     connect(ui->toolBar->insertButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayLocal_clicked);

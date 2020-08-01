@@ -24,9 +24,11 @@ SOURCES += \
     HTitleButton.cpp \
     ImageButton.cpp \
     MediaController.cpp \
+    Resolution.cpp \
     SettingDialog.cpp \
     TitleButton.cpp \
     ToolBar.cpp \
+    common.cpp \
     main.cpp \
     mainwindow.cpp \
     RenderWidget.cpp \
@@ -34,6 +36,7 @@ SOURCES += \
     mypaint.cpp \
     myrender.cpp \
     playpausebutton.cpp \
+    scaler.cpp \
     vlcwrapper.cpp
 
 HEADERS += \
@@ -44,6 +47,7 @@ HEADERS += \
     HTitleButton.h \
     ImageButton.h \
     MediaController.h \
+    Resolution.h \
     SettingDialog.h \
     TitleButton.h \
     ToolBar.h \
@@ -54,6 +58,7 @@ HEADERS += \
     mypaint.h \
     myrender.h \
     playpausebutton.h \
+    scaler.h \
     vlcwrapper.h
 
 FORMS += \

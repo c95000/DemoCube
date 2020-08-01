@@ -15,6 +15,9 @@ public:
     explicit CameraManager(QWidget *parent = nullptr);
     ~CameraManager();
 
+protected:
+    void resizeEvent(QResizeEvent *event);
+
 private slots:
     void onVideoSetting1_Clicked();
     void onVideoSetting2_Clicked();

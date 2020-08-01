@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>740</width>
-    <height>490</height>
+    <width>714</width>
+    <height>393</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>方舟实训1.0  千度实训1.0</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#MainWindow{border-image: url(:/images/res/images/background.png);}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">

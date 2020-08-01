@@ -6,12 +6,17 @@
 #include <mypaint.h>
 #include <CameraController.h>
 #include <CameraManager.h>
+//#include <scaler.h>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+//    Scaler s(&a);
+
+
     MainWindow w;
-    w.show();
+    w.showMaximized();
+//    w.show();
 
 //    ToolBar w;
 //    w.show();

@@ -8,9 +8,11 @@ TitleButton::TitleButton(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    printf("TitleButton x:%d y:%d l:%d t:%d r:%d b:%d w:%d h:%d", this->geometry().x(), this->geometry().y(),
-           this->geometry().left(), this->geometry().top(), this->geometry().right(), this->geometry().bottom(),
-           this->geometry().width(), this->geometry().height());
+    setStyleSheet("color:white;");
+
+//    printf("TitleButton x:%d y:%d l:%d t:%d r:%d b:%d w:%d h:%d", this->geometry().x(), this->geometry().y(),
+//           this->geometry().left(), this->geometry().top(), this->geometry().right(), this->geometry().bottom(),
+//           this->geometry().width(), this->geometry().height());
 
 //    ui->label->setStyleSheet ("background-color: rgb(255, 0, 0);");
 //    ui->label->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
@@ -20,7 +22,7 @@ TitleButton::TitleButton(QWidget *parent) :
 
 //    setAutoFillBackground(true);
 //    setStyleSheet ("background-color: rgb(255, 255, 0);");
-    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+//    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 //    setFixedSize(80, 0);
 }
 

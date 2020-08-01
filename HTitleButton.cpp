@@ -6,6 +6,7 @@ HTitleButton::HTitleButton(QWidget *parent) :
     ui(new Ui::HTitleButton)
 {
     ui->setupUi(this);
+    setStyleSheet("color:white;");
 }
 
 HTitleButton::~HTitleButton()

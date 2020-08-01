@@ -14,21 +14,23 @@ CommentToolBar::CommentToolBar(QWidget *parent) :
 
 //    QHBoxLayout* hBoxLayout = new QHBoxLayout();
 
+    int iconSize = 40 * Resolution::getInstance()->scaleX();
 
-    ui->closeButton->setImages(QPixmap(":/images/res/images/close.png"), 40, 40);
-    ui->rubberButton->setImages(QPixmap(":/images/res/images/rubber.png"), 40, 40);
-    ui->whiteBoardButton->setImages(QPixmap(":/images/res/images/whiteboard.png"), 40, 40);
+    ui->closeButton->setImages(QPixmap(":/images/res/images/close.png"), iconSize, iconSize);
+    ui->rubberButton->setImages(QPixmap(":/images/res/images/rubber.png"), iconSize, iconSize);
+    ui->whiteBoardButton->setImages(QPixmap(":/images/res/images/whiteboard.png"), iconSize, iconSize);
 
-    ui->redpenButton->setImages(QPixmap(":/images/res/images/redpen.png"), 20, 20);
-    ui->whitepenButton->setImages(QPixmap(":/images/res/images/whitepen.png"), 20, 20);
-    ui->blackpenButton->setImages(QPixmap(":/images/res/images/blackpen.png"), 20, 20);
+    iconSize = 20 * Resolution::getInstance()->scaleX();
+    ui->redpenButton->setImages(QPixmap(":/images/res/images/redpen.png"), iconSize, iconSize);
+    ui->whitepenButton->setImages(QPixmap(":/images/res/images/whitepen.png"), iconSize, iconSize);
+    ui->blackpenButton->setImages(QPixmap(":/images/res/images/blackpen.png"), iconSize, iconSize);
 
-    ui->pensize1->setImages(QPixmap(":/images/res/images/textsize1.png"), 20, 20);
-    ui->pensize2->setImages(QPixmap(":/images/res/images/textsize2.png"), 20, 20);
-    ui->pensize3->setImages(QPixmap(":/images/res/images/textsize3.png"), 20, 20);
+    ui->pensize1->setImages(QPixmap(":/images/res/images/textsize1.png"), iconSize, iconSize);
+    ui->pensize2->setImages(QPixmap(":/images/res/images/textsize2.png"), iconSize, iconSize);
+    ui->pensize3->setImages(QPixmap(":/images/res/images/textsize3.png"), iconSize, iconSize);
 
 //    redPenButton = new ImageButton(this);
-//    redPenButton->setImages(QPixmap(":/images/res/images/redpen.png"), 20, 20);
+//    redPenButton->setImages(QPixmap(":/images/res/images/redpen.png"), iconSize, iconSize);
 
 //    ui->centerLayout->addStretch(1);
 //    ui->centerLayout->addWidget(closeButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
