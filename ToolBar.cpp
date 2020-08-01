@@ -78,11 +78,15 @@ const QPushButton *ToolBar::takeVideoButton() {
 }
 
 const QPushButton *ToolBar::playPauseButton() {
-    return ui->btnComment->pushButton();
+    return ui->btnPlayPause->pushButton();
+}
+
+TitleButton *ToolBar::playPause() {
+    return ui->btnPlayPause;
 }
 
 const QPushButton *ToolBar::settingButton() {
-    return ui->btnComment->pushButton();
+    return ui->btnSetting->pushButton();
 }
 
 void ToolBar::resizeEvent(QResizeEvent *event) {

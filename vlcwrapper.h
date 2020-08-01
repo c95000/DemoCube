@@ -20,6 +20,7 @@ public:
     void stop();
     void resume();
     void pause();
+    bool isWorking();
     bool isPlaying();
 
 private:

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include "TitleButton.h"
 
 namespace Ui {
 class ToolBar;
@@ -30,6 +31,8 @@ public:
     const QPushButton *takeVideoButton();
 
     const QPushButton *playPauseButton();
+
+    TitleButton *playPause();
 
     const QPushButton *settingButton();
 

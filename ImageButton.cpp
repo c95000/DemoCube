@@ -98,7 +98,8 @@ void ImageButton::setFixedSize(int w, int h) {
 }
 
 void ImageButton::setImages(const QPixmap &pixmaps) {
-    setImages(pixmaps, pixmaps.width(), pixmaps.height());
+//    setImages(pixmaps, pixmaps.width(), pixmaps.height());
+    setImages(pixmaps, pixmapList[0].width(), pixmapList[0].width());
 }
 
 void ImageButton::setImages(const QPixmap &pixmaps, int width, int height) {

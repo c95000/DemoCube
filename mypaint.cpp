@@ -3,19 +3,20 @@
 #include "common.h"
 #include "QBoxLayout"
 #include <QDateTime>
+#include <QMessageBox>
 
 MyPaint::MyPaint(QWidget *parent) :
     QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     _lpress = false;//初始鼠标左键未按下
-         _drawType = 1;//初始为什么都不画
+         _drawType = 0;//初始为什么都不画
          _drag = 0;//默认非拖拽模式
          _begin = pos();//拖拽的参考坐标，方便计算位移
          _openflag = 0;//初始不打开图片
 
          penColor = Qt::red;
-         penSize = 1;
+         penSize = 2;
 
          printf("[%p]_openflag:%d", this,  _openflag);
          _tEdit = new QTextEdit(this);//初始化文本输入框
@@ -24,8 +25,8 @@ MyPaint::MyPaint(QWidget *parent) :
          setMouseTracking(true);//开启鼠标实时追踪，监听鼠标移动事件，默认只有按下时才监听
          //设置背景黑色
          //方法一
-         QPalette palt(this->palette());
-         palt.setColor(QPalette::Background, Qt::white);
+         QPalette palt(palette());
+         palt.setColor(QPalette::Background, QColor(180, 180, 180));
          this->setAutoFillBackground(true);
          this->setPalette(palt);
          //方法二
@@ -34,9 +35,10 @@ MyPaint::MyPaint(QWidget *parent) :
         commonToolBar = new CommentToolBar(this);
 
         QVBoxLayout* layout = new QVBoxLayout();
-//        layout->addWidget(commonToolBar, 1, Qt::AlignBottom);
         layout->addWidget(commonToolBar);
         setLayout(layout);
+
+        commonToolBar->hide();
 
         connect(commonToolBar->closeButton(), SIGNAL(clicked()), this, SLOT(close()));
         connect(commonToolBar->rubberButton(), SIGNAL(clicked()), this, SLOT(rubber()));
@@ -123,6 +125,9 @@ MyPaint::~MyPaint()
 
 void MyPaint::paintEvent(QPaintEvent *)
 {
+    if(_drawType == 0) {
+        return;
+    }
     if(_openflag == 0)//不是打开图片的，每一次新建一个空白的画布
     {
         _pixmap = QPixmap(size());//新建pixmap
@@ -266,7 +271,17 @@ void MyPaint::rubber(){
 }
 
 void MyPaint::close() {
-    SavePic();
+    int ret = QMessageBox::information( this, tr("提示"),
+      tr("是否保存批注?"),
+      tr("是"), tr("否"));
+
+    if(QMessageBox::Rejected == ret) {
+        SavePic();
+    }
+    //int ret = QMessageBox::question(this, "question", "是否保存批注?", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    commonToolBar->hide();
+    _drawType = 0;
+    update();
 }
 
 void MyPaint::whiteboard() {
@@ -409,6 +424,7 @@ void MyPaint::Lines()
 {
     _drawType = 1;//铅笔
     _tEdit->hide();//文本框隐藏
+    commonToolBar->show();
 }
 
 void MyPaint::Line()
@@ -528,6 +544,10 @@ void MyPaint::revoke() {
         _drag = 0;//设置为非拖拽模式
         update();
     }
+}
+
+bool MyPaint::isCommenting() {
+    return _drawType == 1;
 }
 
 void MyPaint::clear() //按键事件

@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(ui->toolBar->whiteBoardButton(), &QPushButton::clicked, this, &MainWindow::on_btnWhiteBoard_clicked);
     connect(ui->toolBar->insertButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayLocal_clicked);
     connect(ui->toolBar->commentButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
+    connect(ui->toolBar->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
 //    connect(ui->toolBar->capturePictureButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
 
 //    connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
@@ -256,23 +257,47 @@ void MainWindow::on_btnPlayLocal_clicked()
     std::string s = filename.toStdString();
     vlcWrapper->start(s, ui->myRender);
     ui->stackedWidget->setCurrentIndex(1);
+    ui->toolBar->playPause()->setText(QString("暂停"));
+    ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
 }
 
 void MainWindow::on_btnPlayPause_clicked()
 {
     printf("on_btnPlayPause_clicked");
+    if(vlcWrapper->isWorking()) {
+        if(vlcWrapper->isPlaying()) {
+            vlcWrapper->pause();
+            ui->toolBar->playPause()->setText(QString("播放"));
+            ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/play.png"));
+
+        } else {
+            vlcWrapper->resume();
+            ui->toolBar->playPause()->setText(QString("暂停"));
+            ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
+        }
+    }
 }
 
 void MainWindow::on_btnComment_clicked()
 {
     printf("on_btnComment_clicked");
-    showWhiteBoard(true);
-    vlcWrapper->pause();
-    QImage image;
-    ui->myRender->copyCurrentImage(image);
-    QPixmap pixmap = QPixmap::fromImage(image);
-    ui->myPaint->clear();
-    ui->myPaint->loadPixmap(pixmap);
+    if(ui->stackedWidget->currentIndex() == 0) {
+        if(!ui->myPaint->isCommenting()) {
+            ui->myPaint->clear();
+            ui->myPaint->Lines();
+        }
+    } else {
+        showWhiteBoard(true);
+        vlcWrapper->pause();
+        QImage image;
+        ui->myRender->copyCurrentImage(image);
+        QPixmap pixmap = QPixmap::fromImage(image);
+        ui->myPaint->clear();
+        ui->myPaint->Lines();
+        if(!pixmap.isNull()) {
+            ui->myPaint->loadPixmap(pixmap);
+        }
+    }
 }
 
 void MainWindow::on_btnDevice_clicked()

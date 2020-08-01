@@ -29,22 +29,6 @@ CommentToolBar::CommentToolBar(QWidget *parent) :
     ui->pensize2->setImages(QPixmap(":/images/res/images/textsize2.png"), iconSize, iconSize);
     ui->pensize3->setImages(QPixmap(":/images/res/images/textsize3.png"), iconSize, iconSize);
 
-//    redPenButton = new ImageButton(this);
-//    redPenButton->setImages(QPixmap(":/images/res/images/redpen.png"), iconSize, iconSize);
-
-//    ui->centerLayout->addStretch(1);
-//    ui->centerLayout->addWidget(closeButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
-//    ui->centerLayout->addWidget(rubberButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
-//    ui->centerLayout->addWidget(whiteBoardButton, 0, Qt::AlignHCenter | Qt::AlignBottom);
-//    ui->centerLayout->addStretch(1);
-
-
-
-//    ui->leftLayout->addWidget(new QWidget(this));
-//    ui->rightLayout->addWidget(new ImageButton(this));
-
-//    whiteBoardButton = new ImageButton(this);
-
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addStretch(1);
     layout->addWidget(ui->closeButton, 0, Qt::AlignHCenter | Qt::AlignBottom);

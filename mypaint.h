@@ -86,6 +86,7 @@ public slots:
     void penSize3();
 
 public:
+    bool isCommenting();
     void clear();
     void loadPixmap(QPixmap& p);
 };

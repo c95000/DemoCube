@@ -1,6 +1,7 @@
 #include "vlcwrapper.h"
 #include "Util.h"
 #include<iostream>
+#include "common.h"
 
 using namespace std;
 
@@ -124,9 +125,23 @@ void VlcWrapper::pause() {
     }
 }
 
+bool VlcWrapper::isWorking() {
+    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+    printf("state: %d", state);
+    if (state == libvlc_Opening || state == libvlc_Buffering || state == libvlc_Playing || state == libvlc_Paused)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 bool VlcWrapper::isPlaying() {
-    int state = libvlc_media_player_is_playing(m_vlcMediaPlayer);
-    if(1 == state)
+    int isPlaying = libvlc_media_player_is_playing(m_vlcMediaPlayer);
+    printf("isPlaying: %d", isPlaying);
+    if(1 == isPlaying)
     {
         return true;
     }
