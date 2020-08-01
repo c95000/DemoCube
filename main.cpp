@@ -5,12 +5,13 @@
 #include <CommentToolBar.h>
 #include <mypaint.h>
 #include <CameraController.h>
+#include <CameraManager.h>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    MainWindow w;
-//    w.show();
+    MainWindow w;
+    w.show();
 
 //    ToolBar w;
 //    w.show();
@@ -21,11 +22,14 @@ int main(int argc, char *argv[])
 //    MyPaint mypaint;
 //    mypaint.show();
 
-    CameraController cameraController;
-    cameraController.show();
+//    CameraController cameraController;
+//    cameraController.show();
 
 //    QWidget qq;
 //    qq.show();
+
+//    CameraManager cm;
+//    cm.show();
 
     return a.exec();
 }

@@ -2,6 +2,7 @@
 #define HTITLEBUTTON_H
 
 #include <QWidget>
+#include <ImageButton.h>
 
 namespace Ui {
 class HTitleButton;
@@ -18,6 +19,9 @@ public:
 public:
     void setText(const QString &text);
 
+    ImageButton *imageButton();
+
+    QPushButton *button();
 private:
     Ui::HTitleButton *ui;
 };

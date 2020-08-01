@@ -19,10 +19,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     AddSubButton.cpp \
     CameraController.cpp \
+    CameraManager.cpp \
     CommentToolBar.cpp \
     HTitleButton.cpp \
     ImageButton.cpp \
     MediaController.cpp \
+    SettingDialog.cpp \
     TitleButton.cpp \
     ToolBar.cpp \
     main.cpp \
@@ -37,10 +39,12 @@ SOURCES += \
 HEADERS += \
     AddSubButton.h \
     CameraController.h \
+    CameraManager.h \
     CommentToolBar.h \
     HTitleButton.h \
     ImageButton.h \
     MediaController.h \
+    SettingDialog.h \
     TitleButton.h \
     ToolBar.h \
     common.h \
@@ -55,9 +59,11 @@ HEADERS += \
 FORMS += \
     AddSubButton.ui \
     CameraController.ui \
+    CameraManager.ui \
     CommentToolBar.ui \
     HTitleButton.ui \
     MediaController.ui \
+    SettingDialog.ui \
     TitleButton.ui \
     ToolBar.ui \
     mainwindow.ui

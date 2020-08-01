@@ -27,11 +27,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->toolBar->commentButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
 //    connect(ui->toolBar->capturePictureButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
 
-    connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
-    connect(ui->mediaController->stopButton(), &QPushButton::clicked, this, &MainWindow::on_btnStop_clicked);
+//    connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
+//    connect(ui->mediaController->stopButton(), &QPushButton::clicked, this, &MainWindow::on_btnStop_clicked);
 
-    ui->videoButton1->setText("视频1");
-    ui->videoButton2->setText("视频2");
+//    ui->videoButton1->setText("视频1");
+//    ui->videoButton2->setText("视频2");
+
+//    QHBoxLayout* layout = new QHBoxLayout(this);
+//    layout->addStretch(1);
+//    layout->addWidget(ui->toolBar, 0, Qt::AlignHCenter);
+//    layout->addStretch(1);
+//    ui->footer->setLayout(layout);
+
 
 //    myPaint = new MyPaint(this);
 //    myPaint->setParent(nullptr);
@@ -55,6 +62,11 @@ MainWindow::~MainWindow()
 //    delete myNotation;
     delete timerClock;
     delete ui;
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+//    printf("resizeEvent oldSize: %d x %d", event->oldSize().width(), event->oldSize().height());
+//    printf("resizeEvent newSize: %d x %d", event->size().width(), event->size().height());
 }
 
 void MainWindow::showNotation(QPixmap& pixmap) {

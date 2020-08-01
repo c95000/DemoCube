@@ -16,6 +16,9 @@ public:
     explicit ToolBar(QWidget *parent = nullptr);
     ~ToolBar();
 
+protected:
+    void resizeEvent(QResizeEvent *event);
+
 public:
 
     const QPushButton *insertButton();
@@ -30,8 +33,13 @@ public:
 
     const QPushButton *settingButton();
 
+private slots:
+    void onSettingButtonClicked();
+
 private:
     Ui::ToolBar *ui;
+
+
 };
 
 #endif // TOOLBAR_H

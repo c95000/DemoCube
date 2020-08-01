@@ -78,7 +78,7 @@
   <customwidget>
    <class>ImageButton</class>
    <extends>QWidget</extends>
-   <header location="global">ImageButton.h</header>
+   <header>ImageButton.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

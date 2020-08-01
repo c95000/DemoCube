@@ -17,3 +17,12 @@ HTitleButton::~HTitleButton()
 void HTitleButton::setText(const QString &text) {
     ui->label->setText(text);
 }
+
+
+ImageButton *HTitleButton::imageButton() {
+    return ui->button;
+}
+
+QPushButton *HTitleButton::button() {
+    return ui->button;
+}

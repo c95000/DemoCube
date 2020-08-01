@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>方舟实训1.0  千度实训1.0</string>
   </property>
   <property name="styleSheet">
    <string notr="true">#MainWindow{border-image: url(:/images/res/images/background.png);}</string>
@@ -20,14 +20,14 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QGridLayout" name="gridLayout" columnstretch="0">
-    <item row="1" column="0">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,1">
+    <item>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="8,1">
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -43,60 +43,36 @@
           <widget class="MyRender" name="myRender"/>
          </widget>
         </item>
-        <item>
-         <widget class="QWidget" name="widget_2" native="true">
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="HTitleButton" name="videoButton1" native="true"/>
-           </item>
-           <item>
-            <widget class="HTitleButton" name="videoButton2" native="true"/>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>357</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-        </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1">
-        <item>
-         <widget class="ToolBar" name="toolBar" native="true"/>
-        </item>
-        <item>
-         <widget class="MediaController" name="mediaController" native="true"/>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="CameraController" name="widget" native="true"/>
-        </item>
-       </layout>
+       <widget class="QWidget" name="footer" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="ToolBar" name="toolBar" native="true"/>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="CameraManager" name="cameraManager" native="true"/>
     </item>
    </layout>
   </widget>
@@ -113,27 +89,15 @@
    <header>mypaint.h</header>
   </customwidget>
   <customwidget>
-   <class>MediaController</class>
-   <extends>QWidget</extends>
-   <header>MediaController.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>HTitleButton</class>
-   <extends>QWidget</extends>
-   <header>HTitleButton.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>CameraController</class>
-   <extends>QWidget</extends>
-   <header>CameraController.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ToolBar</class>
    <extends>QWidget</extends>
    <header>ToolBar.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CameraManager</class>
+   <extends>QWidget</extends>
+   <header>CameraManager.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

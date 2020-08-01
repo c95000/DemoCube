@@ -1,5 +1,10 @@
 #include "ToolBar.h"
 #include "ui_ToolBar.h"
+#include <QLayout>
+#include <QSpacerItem>
+#include <QResizeEvent>
+#include "SettingDialog.h"
+#include "common.h"
 
 ToolBar::ToolBar(QWidget *parent) :
     QWidget(parent),
@@ -24,6 +29,20 @@ ToolBar::ToolBar(QWidget *parent) :
 
     ui->btnSetting->setText(QString("设置"));
     ui->btnSetting->imageButton()->setImages(QPixmap(":/images/res/images/setting.png"), 50, 50);
+
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->addStretch(1);
+    layout->addWidget(ui->btnInsert, 0, Qt::AlignCenter);
+    layout->addWidget(ui->btnComment, 0, Qt::AlignHCenter);
+    layout->addWidget(ui->btnTakePicture, 0, Qt::AlignHCenter);
+    layout->addWidget(ui->btnTakeVideo, 0, Qt::AlignHCenter);
+    layout->addWidget(ui->btnPlayPause, 0, Qt::AlignHCenter);
+    layout->addWidget(ui->btnSetting, 0, Qt::AlignHCenter);
+//    layout->addWidget(ui->btnSetting, 0, Qt::AlignHCenter | Qt::AlignBottom);
+    layout->addStretch(1);
+    setLayout(layout);
+
+    connect(ui->btnSetting->pushButton(), &QPushButton::clicked, this, &ToolBar::onSettingButtonClicked);
 }
 
 ToolBar::~ToolBar()
@@ -56,3 +75,39 @@ const QPushButton *ToolBar::playPauseButton() {
 const QPushButton *ToolBar::settingButton() {
     return ui->btnComment->pushButton();
 }
+
+void ToolBar::resizeEvent(QResizeEvent *event) {
+
+    int ax = event->size().width() - ui->cameraController->width() - 5;
+    int ay = (event->size().height() - ui->cameraController->height()) / 2;
+
+    ui->cameraController->move(ax, ay);
+}
+
+
+void ToolBar::onSettingButtonClicked() {
+    printf("onSettingButtonClicked");
+    SettingDialog *dlg=new SettingDialog(this);
+
+    int ret = dlg->exec();
+    if(ret==QDialog::Accepted) {
+        printf("!ret:%d", ret);
+    } else {
+        printf("ret:%d", ret);
+    }
+    delete dlg;
+
+//        Qt::WindowFlags flags=dlgTableSize->windowFlags();
+//        dlgTableSize->setWindowFlags(flags | Qt::MSWindowsFixedSizeDialogHint);
+//        dlgTableSize->setRowColumn(theModel->rowCount(),theModel->columnCount ());
+//        int ret=dlgTableSize->exec () ;// 以模态方式显示对话框
+//        if (ret==QDialog::Accepted)
+//        { //OK按钮被按下，获取对话框上的输入，设置行数和列数
+//            int cols=dlgTableSize->columnCount();
+//            theModel->setColumnCount(cols);
+//            int rows=dlgTableSize->rowCount();
+//            theModel->setRowCount(rows);
+//        }
+//        delete dlgTableSize;
+}
+

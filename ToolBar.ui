@@ -6,33 +6,83 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>743</width>
-    <height>154</height>
+    <width>774</width>
+    <height>216</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
-    <widget class="TitleButton" name="btnInsert" native="true"/>
-   </item>
-   <item>
-    <widget class="TitleButton" name="btnComment" native="true"/>
-   </item>
-   <item>
-    <widget class="TitleButton" name="btnTakePicture" native="true"/>
-   </item>
-   <item>
-    <widget class="TitleButton" name="btnTakeVideo" native="true"/>
-   </item>
-   <item>
-    <widget class="TitleButton" name="btnPlayPause" native="true"/>
-   </item>
-   <item>
-    <widget class="TitleButton" name="btnSetting" native="true"/>
-   </item>
-  </layout>
+  <widget class="TitleButton" name="btnInsert" native="true">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>91</width>
+     <height>131</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="TitleButton" name="btnComment" native="true">
+   <property name="geometry">
+    <rect>
+     <x>136</x>
+     <y>9</y>
+     <width>81</width>
+     <height>101</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="TitleButton" name="btnTakePicture" native="true">
+   <property name="geometry">
+    <rect>
+     <x>263</x>
+     <y>9</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="TitleButton" name="btnTakeVideo" native="true">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>9</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="TitleButton" name="btnPlayPause" native="true">
+   <property name="geometry">
+    <rect>
+     <x>517</x>
+     <y>9</y>
+     <width>101</width>
+     <height>111</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="TitleButton" name="btnSetting" native="true">
+   <property name="geometry">
+    <rect>
+     <x>644</x>
+     <y>9</y>
+     <width>81</width>
+     <height>111</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="CameraController" name="cameraController" native="true">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>160</y>
+     <width>120</width>
+     <height>80</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
@@ -43,6 +93,12 @@
    <slots>
     <slot>click()</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>CameraController</class>
+   <extends>QWidget</extends>
+   <header>CameraController.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
