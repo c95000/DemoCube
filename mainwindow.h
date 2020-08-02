@@ -25,8 +25,6 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 private slots:
-    void on_btnPlay_clicked();
-
     void on_btnNotaion_clicked();
 
     void on_takePicture();
@@ -60,7 +58,9 @@ private slots:
     void onPlayerStarted();
     void onPlayerStopped();
     void onPlayerPaused();
-    void onPlayerError(QString err);
+    void onPlayerError(QString& err);
+
+    void onSelectedRtsp(QString& rtspUrl);
 
 private:
 

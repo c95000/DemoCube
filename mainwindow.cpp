@@ -8,6 +8,7 @@
 #include <iostream>
 #include <QScreen>
 #include <QDesktopWidget>
+#include <QMessageBox>
 #include "common.h"
 #include "Resolution.h"
 
@@ -65,6 +66,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->toolBar->commentButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
     connect(ui->toolBar->takePictureButton(), &QPushButton::clicked, this, &MainWindow::on_takePicture);
     connect(ui->toolBar->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
+
+    connect(ui->cameraManager, &CameraManager::selectedRtsp, this, &MainWindow::onSelectedRtsp);
 
 //    connect(ui->toolBar->capturePictureButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
 
@@ -138,20 +141,6 @@ void MainWindow::showWhiteBoard(bool state) {
     } else {
         ui->stackedWidget->setCurrentIndex(1);
     }
-}
-
-void MainWindow::on_btnPlay_clicked()
-{
-    QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
-    if(filename.isEmpty()) {
-        return;
-    }
-
-    //ui->renderWidget->playVideo();
-
-    filename.replace("/", "\\");
-    std::string s = filename.toStdString();
-    vlcWrapper->start(s, ui->myRender);
 }
 
 void MainWindow::on_btnPlayRtsp_clicked()
@@ -249,8 +238,7 @@ void MainWindow::on_btnPlayLocal_clicked()
     }
 
     filename.replace("/", "\\");
-    std::string s = filename.toStdString();
-    vlcWrapper->start(s, ui->myRender);
+    vlcWrapper->start(filename, ui->myRender);
     ui->stackedWidget->setCurrentIndex(0);
     ui->toolBar->playPause()->setText(QString("暂停"));
     ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
@@ -259,7 +247,20 @@ void MainWindow::on_btnPlayLocal_clicked()
 void MainWindow::on_btnPlayPause_clicked()
 {
     printf("on_btnPlayPause_clicked");
-    vlcWrapper->toggle();
+    if(ui->stackedWidget->currentWidget() == myPaint) {
+        QMessageBox msgBox;
+        msgBox.setText(tr("请先关闭批注!"));
+        msgBox.setWindowTitle(tr("提示"));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setButtonText(QMessageBox::Ok, QString("确 定"));
+        int ret = msgBox.exec();
+    }
+    else
+    {
+        vlcWrapper->toggle();
+    }
+
 //    if(vlcWrapper->isWorking()) {
 //        if(vlcWrapper->isPlaying()) {
 //            vlcWrapper->pause();
@@ -342,7 +343,43 @@ void MainWindow::onPlayerPaused() {
     ui->toolBar->playPause()->setText(QString("播放"));
     ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/play.png"));
 }
-void MainWindow::onPlayerError(QString err) {
+
+void MainWindow::onPlayerError(QString& err) {
     printf("onPlayerError");
+}
+
+void MainWindow::onSelectedRtsp(QString& rtspUrl) {
+    if(!rtspUrl.isEmpty()) {
+//        QString url = "rtsp://" + rtspUrl + "/";
+        QString url("rtsp://192.168.1.225/");
+        printf("onSelectedRtsp: %s", rtspUrl.toStdString().c_str());
+        vlcWrapper->start(url, ui->myRender);
+    }
+    else
+    {
+//        QMessageBox::information(this, tr("提示"), tr("请设置输入源!"));
+//        QMessageBox::warning(this, "warning", "请设置输入源", QMessageBox::Yes);
+
+        QMessageBox msgBox;
+        msgBox.setText(tr("请设置输入源!"));
+        msgBox.setWindowTitle(tr("提示"));
+//        msgBox.setInformativeText(tr("请设置输入源!"));
+//        msgBox.setDetailedText(tr("Differences here..."));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setButtonText(QMessageBox::Ok, QString("确 定"));
+        int ret = msgBox.exec();
+//        switch (ret) {
+//        case QMessageBox::Save:
+//            qDebug() << "Save document!";
+//            break;
+//        case QMessageBox::Discard:
+//            qDebug() << "Discard changes!";
+//            break;
+//        case QMessageBox::Cancel:
+//            qDebug() << "Close document!";
+//            break;
+//        }
+    }
 }
 

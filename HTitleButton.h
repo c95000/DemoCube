@@ -16,6 +16,14 @@ public:
     explicit HTitleButton(QWidget *parent = nullptr);
     ~HTitleButton();
 
+signals:
+    void doubleClicked();
+
+protected:
+    // Event handlers
+    virtual bool event(QEvent* event);
+    virtual void enterEvent(QEvent *event);
+    virtual void leaveEvent(QEvent *event);
 public:
     void setText(const QString &text);
 

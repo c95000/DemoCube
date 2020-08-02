@@ -22,10 +22,10 @@ signals:
     void started();
     void paused();
     void stopped();
-    void error(QString err);
+    void error(QString& err);
 
 public:
-    void start(std::string source, VlcRenderCb* renderCb);
+    void start(const QString& source, VlcRenderCb* renderCb);
     void stop();
     void resume();
     void pause();
@@ -34,7 +34,7 @@ public:
     bool isPlaying();
 
 private:
-    void start(std::string source);
+    void start(const QString& source);
     static void* preDecode_cb(void *opaque, void **planes);
     static void handleStream_cb(void *opaque, void *picture, void *const *planes);
     static void render_cb(void *opaque, void *picture);
@@ -47,6 +47,9 @@ private:
     char * m_videobuf;
     int m_frameWidth;
     int m_frameHeight;
+
+    bool isRtsp;
+    QString rtspUrl;
 
     VlcRenderCb* vlcRenderCb;
 };

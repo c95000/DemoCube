@@ -123,7 +123,7 @@ void MyPaint::paintEvent(QPaintEvent *e)
         _pixmap = QPixmap(size());//新建pixmap
         _pixmap.fill(Qt::white);//背景色填充为白色
     }
-    QPixmap pix = _pixmap;//以_pixmap作为画布
+    QPixmap pix = _pixmap.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);//以_pixmap作为画布
     QPainter p(&pix);//将_pixmap作为画布
     unsigned int i1=0,i2=0,i3=0,i4=0,i5=0;//各种图形的索引
 

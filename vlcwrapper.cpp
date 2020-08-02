@@ -5,7 +5,9 @@
 
 using namespace std;
 
-VlcWrapper::VlcWrapper() : m_videobuf(NULL), vlcRenderCb(NULL)
+VlcWrapper::VlcWrapper() :
+    m_videobuf(NULL), vlcRenderCb(NULL),
+    isRtsp(false), rtspUrl(QString())
 {
     char const* vlc_args[] =
     {
@@ -26,7 +28,7 @@ VlcWrapper::~VlcWrapper() {
     SAFE_DELETE_ARRAY(m_videobuf);
 }
 
-void VlcWrapper::start(std::string source) {
+void VlcWrapper::start(const QString& source) {
     libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
     if (state != libvlc_Stopped && state != libvlc_NothingSpecial)
     {
@@ -40,12 +42,15 @@ void VlcWrapper::start(std::string source) {
     }
     SAFE_DELETE_ARRAY(m_videobuf);
 
-    if(source.substr(0, 4) == "rtsp") {
-        const char * rtsp = source.c_str();
+    if(source.left(4) == QString::fromLocal8Bit("rtsp")) {
+        isRtsp = true;
+        rtspUrl = source;
+        const char * rtsp = source.toStdString().c_str();
         m_pvlcMedia = libvlc_media_new_location(m_vlcInstance, rtsp);
 
     } else {
-        const char * local = source.c_str();
+        isRtsp = false;
+        const char * local = source.toStdString().c_str();
         m_pvlcMedia = libvlc_media_new_path(m_vlcInstance, local);
     }
 
@@ -109,7 +114,7 @@ void VlcWrapper::start(std::string source) {
     emit started();
 }
 
-void VlcWrapper::start(std::string source, VlcRenderCb* renderCb) {
+void VlcWrapper::start(const QString& source, VlcRenderCb* renderCb) {
     this->vlcRenderCb = renderCb;
     start(source);
 }
@@ -130,15 +135,31 @@ void VlcWrapper::pause() {
 
 void VlcWrapper::toggle() {
     libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
-    if (state == libvlc_Playing)
+    if(!isRtsp)
     {
-        libvlc_media_player_pause(m_vlcMediaPlayer);
-        emit paused();
+        if (state == libvlc_Playing)
+        {
+            libvlc_media_player_pause(m_vlcMediaPlayer);
+            emit paused();
+        }
+        else if(state == libvlc_Paused)
+        {
+            libvlc_media_player_play(m_vlcMediaPlayer);
+            emit started();
+        }
     }
-    else if(state == libvlc_Paused)
+    else
     {
-        libvlc_media_player_play(m_vlcMediaPlayer);
-        emit started();
+        if (state == libvlc_Playing)
+        {
+            libvlc_media_player_pause(m_vlcMediaPlayer);
+            emit paused();
+        }
+        else if(state == libvlc_Paused)
+        {
+            start(rtspUrl);
+            emit started();
+        }
     }
 }
 

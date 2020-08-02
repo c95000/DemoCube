@@ -12,6 +12,11 @@ CameraManager::CameraManager(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    urlList = new QList<QString>();
+    urlList->append(QString());
+    urlList->append(QString());
+    urlList->append(QString());
+
 //    int initWidth = parent->size().width();
 //    int initHeight = parent->size().height();
 //    printf("CameraManager: %d x %d", initWidth, initHeight);
@@ -34,9 +39,13 @@ CameraManager::CameraManager(QWidget *parent) :
     layout->addStretch(1);
     setLayout(layout);
 
-    connect(ui->camera1->button(), &QPushButton::clicked, this, &CameraManager::onVideoSetting1_Clicked);
-    connect(ui->camera2->button(), &QPushButton::clicked, this, &CameraManager::onVideoSetting2_Clicked);
-    connect(ui->camera3->button(), &QPushButton::clicked, this, &CameraManager::onVideoSetting3_Clicked);
+    connect(ui->camera1->button(), &QPushButton::clicked, this, &CameraManager::onSettingClicked);
+    connect(ui->camera2->button(), &QPushButton::clicked, this, &CameraManager::onSettingClicked);
+    connect(ui->camera3->button(), &QPushButton::clicked, this, &CameraManager::onSettingClicked);
+
+    connect(ui->camera1, &HTitleButton::doubleClicked, this, &CameraManager::onDoubleClicked);
+    connect(ui->camera2, &HTitleButton::doubleClicked, this, &CameraManager::onDoubleClicked);
+    connect(ui->camera3, &HTitleButton::doubleClicked, this, &CameraManager::onDoubleClicked);
 
 //    int default_width = getDesktopWidth() / 12;
 //    int default_height = getDesktopHeight() / 12;
@@ -50,6 +59,7 @@ CameraManager::CameraManager(QWidget *parent) :
 CameraManager::~CameraManager()
 {
     delete ui;
+    delete urlList;
 }
 
 void CameraManager::resizeEvent(QResizeEvent *event) {
@@ -59,14 +69,36 @@ void CameraManager::resizeEvent(QResizeEvent *event) {
 //    printf("new size: %d x %d", event->size().width(), event->size().height());
 }
 
-void CameraManager::onVideoSetting1_Clicked() {
-    setCameraUrl(0);
+void CameraManager::onSettingClicked() {
+    QPushButton *obj = qobject_cast<QPushButton*>(sender());
+    int index = -1;
+    if(obj == ui->camera1->button()) {
+        index = 0;
+    } else if(obj == ui->camera2->button()) {
+        index = 1;
+    } else if(obj == ui->camera3->button()) {
+        index = 2;
+    }
+
+    setCameraUrl(index);
 }
-void CameraManager::onVideoSetting2_Clicked() {
-    setCameraUrl(1);
-}
-void CameraManager::onVideoSetting3_Clicked() {
-    setCameraUrl(2);
+
+void CameraManager::onDoubleClicked() {
+    HTitleButton *obj = qobject_cast<HTitleButton*>(sender());
+    printf("onDoubleClicked: %p", obj);
+    printf("videoes: %p %p %p", ui->camera1, ui->camera2, ui->camera3);
+    int index = -1;
+    if(obj == ui->camera1) {
+        index = 0;
+    } else if(obj == ui->camera2) {
+        index = 1;
+    } else if(obj == ui->camera3) {
+        index = 2;
+    }
+    if(index >= 0 && index < urlList->size()) {
+         QString url = urlList->at(index);
+         emit selectedRtsp(url);
+    }
 }
 
 void CameraManager::setCameraUrl(int index) {
@@ -77,6 +109,12 @@ void CameraManager::setCameraUrl(int index) {
         tr("请设置IP地址:"), QLineEdit::Normal,
         "192.168.1.225", &bOk);
     // rtsp://192.168.1.225/
-    sRtsp = "rtsp://" + sRtsp + "/";
-    printf("rtsp:%s", sRtsp.toStdString().c_str());
+    if(!sRtsp.isEmpty()) {
+//        sRtsp = "rtsp://" + sRtsp + "/";
+        printf("[%d] rtsp:%s", index, sRtsp.toStdString().c_str());
+        urlList->replace(index, sRtsp);
+    }
+    for(int i = 0; i < urlList->size(); i++) {
+        printf("%d : %s", i, urlList->at(i).toStdString().c_str());
+    }
 }

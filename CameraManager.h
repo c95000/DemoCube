@@ -15,19 +15,22 @@ public:
     explicit CameraManager(QWidget *parent = nullptr);
     ~CameraManager();
 
+signals:
+    void selectedRtsp(QString& rtspUrl);
+
 protected:
     void resizeEvent(QResizeEvent *event);
 
 private slots:
-    void onVideoSetting1_Clicked();
-    void onVideoSetting2_Clicked();
-    void onVideoSetting3_Clicked();
+    void onSettingClicked();
+    void onDoubleClicked();
 
 private:
     void setCameraUrl(int index);
 
 private:
     Ui::CameraManager *ui;
+    QList<QString> *urlList;
 };
 
 #endif // CAMCERAMANAGER_H
