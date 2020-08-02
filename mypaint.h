@@ -61,7 +61,9 @@ public:
     QVector<QColor>  _penColor;//图形类型集合，用于撤回功能
     QVector<int>  _penSize;//图形类型集合，用于撤回功能
     QPoint _begin;//鼠标按下坐标、用于最后一个图形移动
+
 signals:
+    void quit();
 
 public slots:
     void Lines();//铅笔画线

@@ -4,6 +4,7 @@
 #include "QBoxLayout"
 #include <QDateTime>
 #include <QMessageBox>
+#include <QStandardPaths>
 
 MyPaint::MyPaint(QWidget *parent) :
     QWidget(parent)
@@ -271,17 +272,19 @@ void MyPaint::rubber(){
 }
 
 void MyPaint::close() {
-    int ret = QMessageBox::information( this, tr("提示"),
-      tr("是否保存批注?"),
-      tr("是"), tr("否"));
+//    int ret = QMessageBox::information( this, tr("提示"),
+//      tr("是否保存批注?"),
+//      tr("是"), tr("否"));
 
-    if(QMessageBox::Rejected == ret) {
-        SavePic();
-    }
+//    if(QMessageBox::Rejected == ret) {
+
+//    }
     //int ret = QMessageBox::question(this, "question", "是否保存批注?", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-    commonToolBar->hide();
-    _drawType = 0;
-    update();
+    SavePic();
+    emit quit();
+//    commonToolBar->hide();
+//    _drawType = 0;
+//    update();
 }
 
 void MyPaint::whiteboard() {
@@ -456,14 +459,12 @@ void MyPaint::SavePic()
     //弹出文件保存对话框
 //    QString fileName = QFileDialog::getSaveFileName(this, tr("保存"), "new.jpg", "Image (*.jpg *.png *.bmp)");
 
-    QString fileName = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
-    fileName += ".png";
-
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
     if (fileName.length() > 0)
     {
         QByteArray qb;
         printf("fileName:%s ", qb.append(fileName).data());
-        printf("%d x %d", size().width(), size().height());
         commonToolBar->hide();
         _tEdit->hide();//防止文本输入框显示时，将文本框保存到图片
         QPixmap pixmap(size());//新建窗体大小的pixmap
@@ -472,6 +473,7 @@ void MyPaint::SavePic()
         this->render(&painter);//将窗体渲染到painter，再由painter画到画布
         commonToolBar->show();
         pixmap.copy().save(fileName);//不包含工具栏
+
 
 //        QRect rect = geometry();
 //        printf("x:%d y:%d  %d x %d", rect.x(), rect.y(), rect.width(), rect.height());

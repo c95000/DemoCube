@@ -11,6 +11,7 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDir>
+#include <QStandardPaths>
 
 using namespace std;
 
@@ -28,8 +29,16 @@ SettingDialog::SettingDialog(QWidget *parent) :
     connect(ui->buttonVideoPath, SIGNAL(clicked()), this, SLOT(onChangeVideoPath()));
 
     setWindowTitle(tr("设置"));
-    ui->picPath->setText(QDir::currentPath());
-    ui->videoPath->setText(QDir::currentPath());
+
+//QDir::currentPath()
+//QDir::homePath();
+//    QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+//    QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+    ui->picPath->setText(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+    ui->videoPath->setText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+
+    ui->buttonPicPath->hide();
+    ui->buttonVideoPath->hide();
 }
 
 SettingDialog::~SettingDialog()

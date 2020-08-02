@@ -55,6 +55,8 @@ private slots:
 
     void on_btnComment_clicked();
 
+    void on_btnComment_quit();
+
     void on_btnDevice_clicked();
 
 private:

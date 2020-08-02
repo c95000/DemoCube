@@ -70,8 +70,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
 //    connect(ui->mediaController->stopButton(), &QPushButton::clicked, this, &MainWindow::on_btnStop_clicked);
 
-//    ui->videoButton1->setText("视频1");
-//    ui->videoButton2->setText("视频2");
+    connect(ui->myPaint, &MyPaint::quit, this, &MainWindow::on_btnComment_quit);
 
 //    QHBoxLayout* layout = new QHBoxLayout(this);
 //    layout->addStretch(1);
@@ -298,6 +297,14 @@ void MainWindow::on_btnComment_clicked()
             ui->myPaint->loadPixmap(pixmap);
         }
     }
+}
+
+void MainWindow::on_btnComment_quit() {
+    printf("on_btnComment_quit");
+    printf("*count:%d", ui->stackedWidget->count());
+    ui->stackedWidget->removeWidget(ui->myPaint);
+    printf("count:%d", ui->stackedWidget->count());
+//    update();
 }
 
 void MainWindow::on_btnDevice_clicked()

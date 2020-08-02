@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
 
 
     MainWindow w;
-    w.showMaximized();
-//    w.show();
+//    w.showMaximized();
+    w.show();
 
 //    ToolBar w;
 //    w.show();
