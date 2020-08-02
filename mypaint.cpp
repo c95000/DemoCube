@@ -22,16 +22,8 @@ MyPaint::MyPaint(QWidget *parent) :
          printf("[%p]_openflag:%d", this,  _openflag);
          _tEdit = new QTextEdit(this);//初始化文本输入框
          _tEdit->hide();//隐藏
-         this->setGeometry(350,200,600,400);//设置窗体大小、位置
+//         this->setGeometry(350,200,600,400);//设置窗体大小、位置
          setMouseTracking(true);//开启鼠标实时追踪，监听鼠标移动事件，默认只有按下时才监听
-         //设置背景黑色
-         //方法一
-         QPalette palt(palette());
-         palt.setColor(QPalette::Background, QColor(180, 180, 180));
-         this->setAutoFillBackground(true);
-         this->setPalette(palt);
-         //方法二
-         //this->setStyleSheet("background-color:yellow;");
 
         commonToolBar = new CommentToolBar(this);
 
@@ -124,11 +116,8 @@ MyPaint::~MyPaint()
 }
 
 
-void MyPaint::paintEvent(QPaintEvent *)
+void MyPaint::paintEvent(QPaintEvent *e)
 {
-    if(_drawType == 0) {
-        return;
-    }
     if(_openflag == 0)//不是打开图片的，每一次新建一个空白的画布
     {
         _pixmap = QPixmap(size());//新建pixmap
@@ -171,7 +160,7 @@ void MyPaint::paintEvent(QPaintEvent *)
     }
     p.end();
     p.begin(this);//将当前窗体作为画布
-    p.drawPixmap(0,0, pix);//将pixmap画到窗体
+    p.drawPixmap(0, 0, width(), height(), pix);//将pixmap画到窗体
 }
 
 void MyPaint::mousePressEvent(QMouseEvent *e)
@@ -562,15 +551,12 @@ void MyPaint::clear() //按键事件
     update();
 }
 
-void MyPaint::loadPixmap(QPixmap& p) //按键事件
+void MyPaint::setImage(QImage& img)
 {
-    int with = this->width();
-    int height = this->height();
     //QPixmap fitpixmap = p.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
     //QPixmap fitpixmap = pixmap.scaled(with, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);  // 按比例缩放
     //this->setPixmap(fitpixmap);
-    _pixmap = p.scaled(with, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    _pixmap = QPixmap::fromImage(img);
     _openflag = 1;//设置文件打开标志
-    printf("[%p] loadPixmap _openflag:%d", this, _openflag);
     update();
 }

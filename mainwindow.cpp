@@ -61,16 +61,15 @@ MainWindow::MainWindow(QWidget *parent)
     this->setPalette(PAllbackground);
 
 
-//    connect(ui->toolBar->whiteBoardButton(), &QPushButton::clicked, this, &MainWindow::on_btnWhiteBoard_clicked);
     connect(ui->toolBar->insertButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayLocal_clicked);
     connect(ui->toolBar->commentButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
+    connect(ui->toolBar->takePictureButton(), &QPushButton::clicked, this, &MainWindow::on_takePicture);
     connect(ui->toolBar->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
+
 //    connect(ui->toolBar->capturePictureButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
 
 //    connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
 //    connect(ui->mediaController->stopButton(), &QPushButton::clicked, this, &MainWindow::on_btnStop_clicked);
-
-    connect(ui->myPaint, &MyPaint::quit, this, &MainWindow::on_btnComment_quit);
 
 //    QHBoxLayout* layout = new QHBoxLayout(this);
 //    layout->addStretch(1);
@@ -90,6 +89,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timerClock,  SIGNAL(timeout()), this, SLOT(on_timeout()));
     timerClock->setInterval(1000);
     vlcWrapper = new VlcWrapper();
+
+    connect(vlcWrapper, &VlcWrapper::started, this, &MainWindow::onPlayerStarted);
+    connect(vlcWrapper, &VlcWrapper::stopped, this, &MainWindow::onPlayerStopped);
+    connect(vlcWrapper, &VlcWrapper::paused, this, &MainWindow::onPlayerPaused);
+    connect(vlcWrapper, &VlcWrapper::error, this, &MainWindow::onPlayerError);
 }
 
 MainWindow::~MainWindow()
@@ -97,8 +101,9 @@ MainWindow::~MainWindow()
     if(NULL!= vlcWrapper) {
         delete vlcWrapper;
     }
-//    delete myPaint;
-//    delete myNotation;
+    if(NULL != myPaint) {
+        delete myPaint;
+    }
     delete timerClock;
     delete ui;
 }
@@ -169,11 +174,23 @@ void MainWindow::on_btnSaveNotaion_clicked()
     vlcWrapper->resume();
 }
 
-void MainWindow::on_btnCaptureScreen_clicked()
+void MainWindow::on_takePicture()
 {
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QPixmap p = screen->grabWindow(0);
-    showNotation(p);
+//    QScreen *screen = QGuiApplication::primaryScreen();
+//    QPixmap p = screen->grabWindow(0);
+//    showNotation(p);
+    QWidget* w = ui->stackedWidget->currentWidget();
+    if(w == ui->myRender && vlcWrapper->isWorking()) {
+        QImage image;
+        ui->myRender->copyCurrentImage(image);
+        QPixmap p =QPixmap::fromImage(image);
+        savePixmap(p);
+    }
+    else
+    {
+        QPixmap p = w->grab();
+        savePixmap(p);
+    }
 }
 
 void MainWindow::on_btnCaptureVideo_clicked()
@@ -224,27 +241,6 @@ void MainWindow::on_btnPause_clicked()
     vlcWrapper->pause();
 }
 
-void MainWindow::on_btnWhiteBoard_clicked()
-{
-    printf("on_btnWhiteBoard_clicked");
-    vlcWrapper->pause();
-
-    ui->myPaint->clear();
-
-//    int nCount = ui->stackedWidget->count();
-//    int nIndex = ui->stackedWidget->currentIndex();
-
-//    // 获取下一个需要显示的页面索引
-//    ++nIndex;
-
-//    // 当需要显示的页面索引大于等于总页面时，切换至首页
-//    if (nIndex >= nCount)
-//        nIndex = 0;
-
-    ui->stackedWidget->setCurrentIndex(0);
-
-}
-
 void MainWindow::on_btnPlayLocal_clicked()
 {
     QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
@@ -255,7 +251,7 @@ void MainWindow::on_btnPlayLocal_clicked()
     filename.replace("/", "\\");
     std::string s = filename.toStdString();
     vlcWrapper->start(s, ui->myRender);
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(0);
     ui->toolBar->playPause()->setText(QString("暂停"));
     ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
 }
@@ -263,51 +259,90 @@ void MainWindow::on_btnPlayLocal_clicked()
 void MainWindow::on_btnPlayPause_clicked()
 {
     printf("on_btnPlayPause_clicked");
-    if(vlcWrapper->isWorking()) {
-        if(vlcWrapper->isPlaying()) {
-            vlcWrapper->pause();
-            ui->toolBar->playPause()->setText(QString("播放"));
-            ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/play.png"));
+    vlcWrapper->toggle();
+//    if(vlcWrapper->isWorking()) {
+//        if(vlcWrapper->isPlaying()) {
+//            vlcWrapper->pause();
+//            ui->toolBar->playPause()->setText(QString("播放"));
+//            ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/play.png"));
 
-        } else {
-            vlcWrapper->resume();
-            ui->toolBar->playPause()->setText(QString("暂停"));
-            ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
-        }
-    }
+//        } else {
+//            vlcWrapper->resume();
+//            ui->toolBar->playPause()->setText(QString("暂停"));
+//            ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
+//        }
+//    }
 }
 
 void MainWindow::on_btnComment_clicked()
 {
     printf("on_btnComment_clicked");
-    if(ui->stackedWidget->currentIndex() == 0) {
-        if(!ui->myPaint->isCommenting()) {
-            ui->myPaint->clear();
-            ui->myPaint->Lines();
-        }
-    } else {
-        showWhiteBoard(true);
+    if(NULL == myPaint) {
+        myPaint = new MyPaint(this);
+        connect(myPaint, &MyPaint::quit, this, &MainWindow::on_btnComment_quit);
+    }
+
+    if (vlcWrapper->isWorking()) {
         vlcWrapper->pause();
         QImage image;
         ui->myRender->copyCurrentImage(image);
-        QPixmap pixmap = QPixmap::fromImage(image);
-        ui->myPaint->clear();
-        ui->myPaint->Lines();
-        if(!pixmap.isNull()) {
-            ui->myPaint->loadPixmap(pixmap);
-        }
+        myPaint->setImage(image);
     }
+
+    ui->stackedWidget->addWidget(myPaint);
+    ui->stackedWidget->setCurrentWidget(myPaint);
+    myPaint->Lines();
+    printf("ui->stackedWidget count:%d currentIndex:%d",ui->stackedWidget->count() , ui->stackedWidget->currentIndex());
+
+//    if(ui->stackedWidget->currentIndex() == 0) {
+//        if(!ui->myPaint->isCommenting()) {
+//            ui->myPaint->clear();
+//            ui->myPaint->Lines();
+//        }
+//    } else {
+//        showWhiteBoard(true);
+//        vlcWrapper->pause();
+//        QImage image;
+//        ui->myRender->copyCurrentImage(image);
+//        QPixmap pixmap = QPixmap::fromImage(image);
+//        ui->myPaint->clear();
+//        ui->myPaint->Lines();
+//        if(!pixmap.isNull()) {
+//            ui->myPaint->loadPixmap(pixmap);
+//        }
+//    }
 }
 
 void MainWindow::on_btnComment_quit() {
     printf("on_btnComment_quit");
-    printf("*count:%d", ui->stackedWidget->count());
-    ui->stackedWidget->removeWidget(ui->myPaint);
-    printf("count:%d", ui->stackedWidget->count());
-//    update();
+    ui->stackedWidget->removeWidget(myPaint);
+    delete myPaint;
+    myPaint = NULL;
 }
 
 void MainWindow::on_btnDevice_clicked()
 {
     printf("on_btnDevice_clicked");
 }
+
+void MainWindow::onPlayerStarted() {
+    printf("onPlayerStarted");
+    ui->toolBar->playPause()->setText(QString("暂停"));
+    ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
+}
+
+void MainWindow::onPlayerStopped() {
+    printf("onPlayerStopped");
+    ui->toolBar->playPause()->setText(QString("播放"));
+    ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/play.png"));
+}
+
+void MainWindow::onPlayerPaused() {
+    printf("onPlayerPaused");
+    ui->toolBar->playPause()->setText(QString("播放"));
+    ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/play.png"));
+}
+void MainWindow::onPlayerError(QString err) {
+    printf("onPlayerError");
+}
+

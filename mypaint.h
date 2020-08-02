@@ -90,7 +90,7 @@ public slots:
 public:
     bool isCommenting();
     void clear();
-    void loadPixmap(QPixmap& p);
+    void setImage(QImage& img);
 };
 
 #endif // MYPAINT_H

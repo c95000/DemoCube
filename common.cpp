@@ -1,6 +1,7 @@
 #include "common.h"
-#include <QApplication>
-#include <QDesktopWidget>
+#include <QStandardPaths>
+#include <QDateTime>
+#include <QDir>
 
 //int getDesktopWidth() {
 //    int w = QApplication::desktop()->width();
@@ -23,3 +24,12 @@
 //float getDensityX() {
 //    return getDesktopWidth() / 1920.0f;
 //}
+
+void savePixmap(QPixmap &pixmap) {
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+    if (fileName.length() > 0)
+    {
+        pixmap.copy().save(fileName);
+    }
+}

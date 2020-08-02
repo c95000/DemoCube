@@ -16,9 +16,10 @@
 #include <QFileDialog>
 #include <QTextEdit>
 #include <QLabel>
+#include <QOpenGLFunctions>
 #include "vlcwrapper.h"
 
-class MyRender : public QOpenGLWidget, public VlcRenderCb
+class MyRender : public QOpenGLWidget, public VlcRenderCb, protected QOpenGLFunctions
 {
     Q_OBJECT
 
@@ -30,8 +31,11 @@ public:
 
     void copyCurrentImage(QImage& image);
 protected:
-    void paintEvent(QPaintEvent *);//重写窗体重绘事件
-    virtual QSize sizeHint () const;
+    void paintEvent(QPaintEvent *e) override;
+
+    void initializeGL() override;
+    void resizeGL(int w, int h) override;
+    void paintGL() override;
 
 private:
     QImage m_currentFrame;

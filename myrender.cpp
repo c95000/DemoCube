@@ -1,6 +1,7 @@
 #include "myrender.h"
-#include <QDebug>
-#define printf qDebug
+#include "common.h"
+#include "GL/glu.h"
+
 MyRender::MyRender(QWidget *parent) :
     QOpenGLWidget(parent)
 {
@@ -9,8 +10,15 @@ MyRender::MyRender(QWidget *parent) :
 //    m_currentFrame = pixmap.toImage();
 //    sizePolicy().setHeightForWidth(true);
 //    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    //设置背景黑色
+    //方法一
+//    QPalette palt(palette());
+//    palt.setColor(QPalette::Background, QColor(180, 180, 180));
+//    this->setAutoFillBackground(true);
+//    this->setPalette(palt);
 
-    printf("MyRender width:%d height:%d", size().width(), size().height());
+    //方法二
+//    this->setStyleSheet("background-color:yellow;");
 }
 
 MyRender::~MyRender()
@@ -33,7 +41,6 @@ void MyRender::copyCurrentImage(QImage& image) {
 
 void MyRender::paintEvent(QPaintEvent *ev)
 {
-//    printf("paintEvent width:%d height:%d", size().width(), size().height());
     QOpenGLWidget::paintEvent(ev);
 
     QPainter painter(this);
@@ -46,24 +53,22 @@ void MyRender::paintEvent(QPaintEvent *ev)
     painter.drawImage(targetRect, m_currentFrame, srcRect);
 }
 
-QSize MyRender::sizeHint() const
-{
-    int width = size().width();
-    int height = size().height();
-    printf("old width:%d height:%d", width, height);
-
-//    if(width > height * 4 / 3)
-//    {
-//        width = height * 4 / 3;
-//    }
-//    else
-//    {
-//        height = width * 3 / 4;
-//    }
-
-//    printf("new width:%d height:%d", width, height);
-//    return QSize(width, height);
-    return size();
+void MyRender::initializeGL() {
+    //调用内容初始化函数
+    initializeOpenGLFunctions();
 }
+
+void MyRender::resizeGL(int w, int h) {
+    //当窗口大小改变时，调整界面坐标显示高度和宽度
+    glViewport(0, 0, w, h);
+}
+
+void MyRender::paintGL() {
+    //QOpenGLWidget::paintGL();
+    //清除之前图形并将背景设置为黑色（设置为黑色纯粹个人爱好！）
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.6f, 0.6f, 0.6f, 0.0f);
+}
+
 
 

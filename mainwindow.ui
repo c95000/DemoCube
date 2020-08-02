@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>方舟实训1.0  千度实训1.0</string>
+   <string>实训优学 v1.0</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -39,7 +39,6 @@
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <widget class="MyPaint" name="myPaint"/>
           <widget class="MyRender" name="myRender"/>
          </widget>
         </item>
@@ -82,11 +81,6 @@
    <class>MyRender</class>
    <extends>QOpenGLWidget</extends>
    <header>myrender.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MyPaint</class>
-   <extends>QWidget</extends>
-   <header>mypaint.h</header>
   </customwidget>
   <customwidget>
    <class>ToolBar</class>

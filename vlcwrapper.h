@@ -3,6 +3,7 @@
 
 #include <string>
 #include "vlc/vlc.h"
+#include <QObject>
 #include <QImage>
 
 class VlcRenderCb {
@@ -10,16 +11,25 @@ public:
     virtual void onRender(const QImage &pixmap) = 0;
 };
 
-class VlcWrapper
+class VlcWrapper : public QObject
 {
+    Q_OBJECT
 public:
     VlcWrapper();
     ~VlcWrapper();
 
+signals:
+    void started();
+    void paused();
+    void stopped();
+    void error(QString err);
+
+public:
     void start(std::string source, VlcRenderCb* renderCb);
     void stop();
     void resume();
     void pause();
+    void toggle();
     bool isWorking();
     bool isPlaying();
 

@@ -71,4 +71,7 @@ namespace CVHelper
     }
 }
 #endif
+
+    void savePixmap(QPixmap &pixmap);
+
 #endif // Util_h__

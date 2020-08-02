@@ -105,6 +105,8 @@ void VlcWrapper::start(std::string source) {
 
     m_videobuf = new char[(m_frameWidth * m_frameHeight) << 2];
     libvlc_media_player_play(m_vlcMediaPlayer);
+
+    emit started();
 }
 
 void VlcWrapper::start(std::string source, VlcRenderCb* renderCb) {
@@ -114,6 +116,7 @@ void VlcWrapper::start(std::string source, VlcRenderCb* renderCb) {
 
 void VlcWrapper::stop() {
     libvlc_media_player_stop(m_vlcMediaPlayer);
+    emit stopped();
 }
 
 void VlcWrapper::pause() {
@@ -121,7 +124,21 @@ void VlcWrapper::pause() {
     if (state == libvlc_Playing)
     {
         libvlc_media_player_pause(m_vlcMediaPlayer);
-        return;
+        emit paused();
+    }
+}
+
+void VlcWrapper::toggle() {
+    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+    if (state == libvlc_Playing)
+    {
+        libvlc_media_player_pause(m_vlcMediaPlayer);
+        emit paused();
+    }
+    else if(state == libvlc_Paused)
+    {
+        libvlc_media_player_play(m_vlcMediaPlayer);
+        emit started();
     }
 }
 
@@ -156,7 +173,7 @@ void VlcWrapper::resume() {
     if (state == libvlc_Paused)
     {
         libvlc_media_player_play(m_vlcMediaPlayer);
-        return;
+        emit started();
     }
 }
 

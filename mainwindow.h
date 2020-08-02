@@ -29,7 +29,7 @@ private slots:
 
     void on_btnNotaion_clicked();
 
-    void on_btnCaptureScreen_clicked();
+    void on_takePicture();
 
     void on_btnCaptureVideo_clicked();
 
@@ -47,8 +47,6 @@ private slots:
 
     void on_btnPause_clicked();
 
-    void on_btnWhiteBoard_clicked();
-
     void on_btnPlayLocal_clicked();
 
     void on_btnPlayPause_clicked();
@@ -58,6 +56,11 @@ private slots:
     void on_btnComment_quit();
 
     void on_btnDevice_clicked();
+
+    void onPlayerStarted();
+    void onPlayerStopped();
+    void onPlayerPaused();
+    void onPlayerError(QString err);
 
 private:
 
@@ -74,11 +77,10 @@ private:
 private:
     Ui::MainWindow *ui;
 
-//    MyPaint* myPaint;
-//    MyPaint* myNotation;
+    MyPaint* myPaint = NULL;
 
-    QTimer* timerClock;
+    QTimer* timerClock = NULL;
 
-    VlcWrapper* vlcWrapper;
+    VlcWrapper* vlcWrapper = NULL;
 };
 #endif // MAINWINDOW_H
