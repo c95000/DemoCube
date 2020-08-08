@@ -21,6 +21,7 @@ SOURCES += \
     CameraController.cpp \
     CameraManager.cpp \
     CommentToolBar.cpp \
+    Configure.cpp \
     HTitleButton.cpp \
     ImageButton.cpp \
     MediaController.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     CameraController.h \
     CameraManager.h \
     CommentToolBar.h \
+    Configure.h \
     HTitleButton.h \
     ImageButton.h \
     MediaController.h \

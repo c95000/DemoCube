@@ -32,11 +32,16 @@
   <widget class="QLabel" name="company">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>230</y>
-     <width>111</width>
+     <x>130</x>
+     <y>240</y>
+     <width>271</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>JYHDEYE
@@ -90,7 +95,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>...</string>
+         <string>打开</string>
         </property>
        </widget>
       </item>
@@ -118,7 +123,7 @@
       <item>
        <widget class="QPushButton" name="buttonVideoPath">
         <property name="text">
-         <string>...</string>
+         <string>打开</string>
         </property>
        </widget>
       </item>

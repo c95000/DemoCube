@@ -27,6 +27,9 @@ protected slots:    //使用slots关键字
 
 private:
     Ui::SettingDialog *ui;
+
+    QString picPath;
+    QString videoPath;
 };
 
 #endif // SETTINGDIALOG_H

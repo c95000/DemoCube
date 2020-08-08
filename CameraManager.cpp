@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QInputDialog>
 #include <QResizeEvent>
+#include "Configure.h"
 #include "common.h"
 
 CameraManager::CameraManager(QWidget *parent) :
@@ -13,9 +14,10 @@ CameraManager::CameraManager(QWidget *parent) :
     ui->setupUi(this);
 
     urlList = new QList<QString>();
-    urlList->append(QString());
-    urlList->append(QString());
-    urlList->append(QString());
+    for(int i = 0; i < 3; i++) {
+        urlList->append(Configure::getInstance()->getCameraIp(i));
+    }
+
 
 //    int initWidth = parent->size().width();
 //    int initHeight = parent->size().height();
@@ -78,6 +80,8 @@ void CameraManager::onSettingClicked() {
         index = 1;
     } else if(obj == ui->camera3->button()) {
         index = 2;
+    } else {
+        return;
     }
 
     setCameraUrl(index);
@@ -107,12 +111,13 @@ void CameraManager::setCameraUrl(int index) {
 //    QString("摄像头(%1)").arg(index);
     QString sRtsp = QInputDialog::getText(this, QString("视频%1").arg(index + 1),
         tr("请设置IP地址:"), QLineEdit::Normal,
-        "192.168.1.225", &bOk);
+        urlList->at(index), &bOk);
     // rtsp://192.168.1.225/
     if(!sRtsp.isEmpty()) {
 //        sRtsp = "rtsp://" + sRtsp + "/";
         printf("[%d] rtsp:%s", index, sRtsp.toStdString().c_str());
         urlList->replace(index, sRtsp);
+        Configure::getInstance()->setCameraIp(index, sRtsp);
     }
     for(int i = 0; i < urlList->size(); i++) {
         printf("%d : %s", i, urlList->at(i).toStdString().c_str());
