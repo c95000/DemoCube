@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    ArnetWrapper.cpp \
     AddSubButton.cpp \
     CameraController.cpp \
     CameraManager.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
     vlcwrapper.cpp
 
 HEADERS += \
+    ArnetWrapper.h \
     AddSubButton.h \
     CameraController.h \
     CameraManager.h \
@@ -78,13 +80,21 @@ FORMS += \
 
 QT += opengl network widgets
 
-win32{
-VLC_PATH = $$PWD/win32/vlc-2.2.2/sdk
+THRIDPARTIES_PATH = $$PWD/thirdparties
+
+contains(QMAKE_HOST.arch,x86_64) {
+    VLC_PATH = $$PWD/x86_64/vlc-2.2.2/sdk
+    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
+    LIBS += -L$${ARNET_LIB_PATH} -lAR -lARCL -lARNET_SDK -lXPlay
+} else {
+    VLC_PATH = $$PWD/win32/vlc-2.2.2/sdk
+    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/win32
+    LIBS += -L$${ARNET_LIB_PATH} -lAR -lARCL -lARNET_SDK -lXPlay
 }
-win64{
-VLC_PATH = $$PWD/win64/vlc-2.2.2/sdk
-}
+
+INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
 INCLUDEPATH += $${VLC_PATH}/include
+
 LIBS += -L$${VLC_PATH}/lib -lvlc
 
 

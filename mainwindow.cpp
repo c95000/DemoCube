@@ -101,8 +101,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    if(NULL!= vlcWrapper) {
+    if(NULL != vlcWrapper) {
         delete vlcWrapper;
+    }
+    if(NULL != arnetWrapper) {
+        delete arnetWrapper;
     }
     if(NULL != myPaint) {
         delete myPaint;
@@ -351,9 +354,17 @@ void MainWindow::onPlayerError(QString& err) {
 void MainWindow::onSelectedRtsp(QString& rtspUrl) {
     if(!rtspUrl.isEmpty()) {
 //        QString url = "rtsp://" + rtspUrl + "/";
-        QString url("rtsp://192.168.1.225/");
+//        QString url("rtsp://192.168.1.225/");
         printf("onSelectedRtsp: %s", rtspUrl.toStdString().c_str());
-        vlcWrapper->start(url, ui->myRender);
+//        vlcWrapper->start(rtspUrl, ui->myRender);
+        if(NULL != arnetWrapper) {
+            delete arnetWrapper;
+        }
+
+        arnetWrapper = new ArnetWrapper(rtspUrl);
+        arnetWrapper->init();
+        arnetWrapper->login();
+        arnetWrapper->play();
     }
     else
     {

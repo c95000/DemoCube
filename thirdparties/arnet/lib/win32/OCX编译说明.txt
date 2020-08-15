@@ -1,0 +1,25 @@
+1、目录说明：
+	XPlay： 为编解码显示库源码
+	ARNET_SDK：为PC与设备通信的SDK源码
+	GxxWebClient：WEB OCX控件源码
+	Common：公共库
+	debug: 生成的调试库
+	release: 生成的发布库
+	IPCActiveX:打包支持软件
+	Output:安装包生成目录
+
+2、编译：
+	
+	*可以直接打开GxxWebClient.sln重新生成解决方案
+	*也可以按以下方式分别进行编译
+         XPlay-->ARNET_SDK-->GxxWebClient
+	编译之后，在目录“AR增强现实SDK4.0\sdk”下找到Version.h，打开该文件，“#define REV_VERSION ****”该行所显示的数字即为该控件的版本号
+
+3、打包
+	在解决方案资源管理器中找到“GxxWebOcx”工程，左键单击，在属性框中，更改“Version”字段的值，最后四个数字改为当前版本号，按回车键后会弹出确认对话框，问是否更改ProductCode，点击“是”；
+	在解决方案资源管理器中找到“GxxWebOcx”工程，右键-》属性，输出文件名中的最后4个数字改为当前版本号，点击“确认”生效；
+	右键“GxxWebOcx”工程-》生成，即在GxxWebClient\GxxWebOcx\Release路径下生成msi安装部署文件；
+	在GxxWebClient\GxxWebOcx路径下，找到“Version.xml”，在GxxWebClient\GxxWebOcx\Release路径下，找到“GxxWebOcx_4.0.0.****.msi”，打开“Version.xml”，修改文件中的版本号，需要与安装文件的版本号保持一致；
+	最后将“GxxWebOcx_4.0.0.****.msi”和“Version.xml”一起发布到venus打包目录下
+
+

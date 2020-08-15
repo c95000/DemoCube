@@ -1,0 +1,7 @@
+2020-08-15 16-41-47-653  LFATAL   (NET:F=CObjServer::Init L=659) ------------xplaylog-----------
+2020-08-15 16-41-47-654  LFATAL   (NET:F=CObjServer::Init L=660) xplay version:Aug 11 2020 00:21:04
+2020-08-15 16-41-47-654  LFATAL   (NET:F=CObjServer::Init L=675) Dump:1
+2020-08-15 16-41-47-654  LFATAL   (NET:F=CObjServer::LoadDllDecoder L=951) default:0; default:0
+2020-08-15 16-41-48-121  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=07BBA8E8, decode wait render (t=145) !
+2020-08-15 16-41-50-960  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=0561F0A8,pkt->data=0CF14040, pkt->size=9045
+2020-08-15 16-41-51-404  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=07BE9318, decode wait render (t=186) !

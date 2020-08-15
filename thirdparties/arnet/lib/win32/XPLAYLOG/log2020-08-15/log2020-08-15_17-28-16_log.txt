@@ -1,0 +1,78 @@
+2020-08-15 17-28-16-647  LFATAL   (NET:F=CObjServer::Init L=659) ------------xplaylog-----------
+2020-08-15 17-28-16-647  LFATAL   (NET:F=CObjServer::Init L=660) xplay version:Aug 11 2020 00:21:04
+2020-08-15 17-28-16-648  LFATAL   (NET:F=CObjServer::Init L=675) Dump:1
+2020-08-15 17-28-16-648  LFATAL   (NET:F=CObjServer::LoadDllDecoder L=951) default:0; default:0
+2020-08-15 17-28-17-108  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=12C26850, decode wait render (t=133) !
+2020-08-15 17-28-19-650  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=1D155040, pkt->size=8392
+2020-08-15 17-28-20-083  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=12C5C138, decode wait render (t=160) !
+2020-08-15 17-28-21-826  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=22872040, pkt->size=9225
+2020-08-15 17-28-21-826  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=22872040, pkt->size=9225
+2020-08-15 17-28-22-254  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=1D824E00, decode wait render (t=137) !
+2020-08-15 17-28-22-394  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=672
+2020-08-15 17-28-22-397  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=682
+2020-08-15 17-28-23-778  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=27653040, pkt->size=10305
+2020-08-15 17-28-23-778  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=27653040, pkt->size=10305
+2020-08-15 17-28-23-779  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=27653040, pkt->size=10305
+2020-08-15 17-28-24-225  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=1DA21180, decode wait render (t=144) !
+2020-08-15 17-28-25-893  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=2BDD3040, pkt->size=10132
+2020-08-15 17-28-25-894  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=2BDD3040, pkt->size=10132
+2020-08-15 17-28-25-894  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=2BDD3040, pkt->size=10132
+2020-08-15 17-28-25-894  LERROR   (NET:F=CStreamPlay::VideoInputData L=696) pkt=13B3F0A8,pkt->data=2BDD3040, pkt->size=10132
+2020-08-15 17-28-26-347  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=1DAF1CF8, decode wait render (t=142) !
+2020-08-15 17-28-26-410  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=8012
+2020-08-15 17-28-26-564  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-565  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1110
+2020-08-15 17-28-26-568  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-569  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1110
+2020-08-15 17-28-26-571  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-571  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1294
+2020-08-15 17-28-26-612  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-613  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 937
+2020-08-15 17-28-26-616  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-616  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 937
+2020-08-15 17-28-26-618  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-618  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 937
+2020-08-15 17-28-26-621  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=1294
+2020-08-15 17-28-26-624  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=937
+2020-08-15 17-28-26-627  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=937
+2020-08-15 17-28-26-705  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-705  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1438
+2020-08-15 17-28-26-711  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-711  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1438
+2020-08-15 17-28-26-715  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-716  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1438
+2020-08-15 17-28-26-722  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=1106
+2020-08-15 17-28-26-726  LERROR   (NET:F=ffmpeg_h264_decode L=419) avcodec_decode_video2 ret error=1438
+2020-08-15 17-28-26-731  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-731  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1239
+2020-08-15 17-28-26-734  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-734  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1239
+2020-08-15 17-28-26-736  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-736  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1239
+2020-08-15 17-28-26-834  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-834  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1329
+2020-08-15 17-28-26-856  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-856  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1398
+2020-08-15 17-28-26-859  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-859  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1398
+2020-08-15 17-28-26-862  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-862  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1398
+2020-08-15 17-28-26-865  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-865  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1398
+2020-08-15 17-28-26-868  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-868  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 1398
+2020-08-15 17-28-26-871  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-871  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 2138
+2020-08-15 17-28-26-953  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-953  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 811
+2020-08-15 17-28-26-956  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-956  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 864
+2020-08-15 17-28-26-959  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-960  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 864
+2020-08-15 17-28-26-965  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-965  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 864
+2020-08-15 17-28-26-969  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-969  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 864
+2020-08-15 17-28-26-972  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=493) this=50750480, decode buf Warning,throw one yuv frame !
+2020-08-15 17-28-26-972  LERROR   (NET:F=ffmpeg_h264_decode L=373) GetFrameBuf==NULL, res = 864
+2020-08-15 17-28-27-054  LERROR   (NET:F=CFFDecoder::GetFrameBuf L=509) this=1DAF1CF8, decode wait render (t=56) !

@@ -8,6 +8,7 @@
 #include "mypaint.h"
 #include <QTimer>
 #include "vlcwrapper.h"
+#include "ArnetWrapper.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -82,5 +83,6 @@ private:
     QTimer* timerClock = NULL;
 
     VlcWrapper* vlcWrapper = NULL;
+    ArnetWrapper* arnetWrapper = NULL;
 };
 #endif // MAINWINDOW_H
