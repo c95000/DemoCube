@@ -1,6 +1,9 @@
 #include "vlcwrapper.h"
 #include "Util.h"
-#include<iostream>
+#include <iostream>
+#include <QDateTime>
+#include <QMutex>
+#include <QDir>
 #include "common.h"
 
 using namespace std;
@@ -56,7 +59,7 @@ void VlcWrapper::start(const QString& source) {
 
     libvlc_media_player_set_media(m_vlcMediaPlayer, m_pvlcMedia);
     libvlc_video_set_callbacks(m_vlcMediaPlayer, preDecode_cb, handleStream_cb, render_cb, this);
-
+//    libvlc_video_set_format_callbacks(m_vlcMediaPlayer, video_format_cb, video_cleanup_cb);
     state = libvlc_media_player_get_state(m_vlcMediaPlayer);
     if (state == libvlc_Playing)
     {
@@ -114,7 +117,7 @@ void VlcWrapper::start(const QString& source) {
     emit started();
 }
 
-void VlcWrapper::start(const QString& source, VlcRenderCb* renderCb) {
+void VlcWrapper::start(const QString& source, VideoRenderCallback* renderCb) {
     this->vlcRenderCb = renderCb;
     start(source);
 }
@@ -198,23 +201,69 @@ void VlcWrapper::resume() {
     }
 }
 
+static QMutex g_mutex;
+static int g_count = 0;
+
 void * VlcWrapper::preDecode_cb(void *opaque, void **planes) {
+//    printf("chengjl %s opaque:%p", __FUNCTION__, opaque);
     VlcWrapper* obj = (VlcWrapper*)opaque;
     *planes = obj->m_videobuf;
     return obj->m_videobuf;
 }
 
+
+//QImage image((unsigned char*)out_buffer,640,480,QImage::Format_ARGB32);
+//    std::ostringstream oss;
+//    oss << "d:/img"
+//        << frameNum
+//        << ".jpg";
+//    frameNum++;
+//    image.save(oss.str().c_str());
+//    g_mutex.unlock();
+
 void VlcWrapper::handleStream_cb(void *opaque, void *picture, void *const *planes) {
     Q_UNUSED(opaque);
     Q_UNUSED(picture);
     Q_UNUSED(planes);
+//    printf("chengjl %s picture:%p planes:%p", __FUNCTION__, picture, planes);
+//    VlcWrapper* obj = (VlcWrapper*)opaque;
+//    QImage qimg((uchar*)planes, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);
+
+//    VlcWrapper* obj = (VlcWrapper*)opaque;
+//    if(NULL != obj->vlcRenderCb) {
+//        obj->vlcRenderCb->renderYUV((uchar*)picture, 1280, 738, 0);
+//    }
 }
 
 void VlcWrapper::render_cb(void *opaque, void *picture) {
+//    printf("chengjl %s opaque:%p picture:%p", __FUNCTION__, opaque, picture);
     VlcWrapper* obj = (VlcWrapper*)opaque;
-    QImage qimg((uchar*)picture, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);
-    //obj->ui->renderWidget->setPixmap(qimg);
-    if(NULL != obj->vlcRenderCb) {
-        obj->vlcRenderCb->onRender(qimg);
+    if(NULL != picture) {
+        QImage qimg((uchar*)picture, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);
+        if(NULL != obj->vlcRenderCb) {
+            obj->vlcRenderCb->onRender(qimg);
+//            saveImage(qimg);
+        }
     }
+}
+
+unsigned VlcWrapper::video_format_cb(void **opaque, char *chroma,
+                                   unsigned *width, unsigned *height,
+                                   unsigned *pitches,
+                                    unsigned *lines) {
+    printf("chengjl %s opaque:%p(%p) chroma:%s w:%d h:%d", __FUNCTION__, *opaque, opaque, chroma, *width, *height);
+    VlcWrapper* obj = (VlcWrapper*)*opaque;
+    SAFE_DELETE_ARRAY(obj->m_videobuf);
+    obj->m_videobuf = new char[(*width * *height) << 2];
+    printf("chengjl %s videobuf:%p", __FUNCTION__, obj->m_videobuf);
+
+//    libvlc_video_set_format(obj->m_vlcMediaPlayer, "RV32", *width, *height, (*width) << 2);
+
+    return 1;
+}
+
+void VlcWrapper::video_cleanup_cb(void *opaque) {
+    printf("chengjl %s opaque:%p", __FUNCTION__, opaque);
+    VlcWrapper* obj = (VlcWrapper*)opaque;
+    SAFE_DELETE_ARRAY(obj->m_videobuf);
 }

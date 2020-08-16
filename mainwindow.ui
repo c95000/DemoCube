@@ -39,7 +39,7 @@
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <widget class="MyRender" name="myRender"/>
+          <widget class="GLVideoWidget" name="myRender"/>
          </widget>
         </item>
        </layout>
@@ -78,11 +78,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyRender</class>
-   <extends>QOpenGLWidget</extends>
-   <header>myrender.h</header>
-  </customwidget>
-  <customwidget>
    <class>ToolBar</class>
    <extends>QWidget</extends>
    <header>ToolBar.h</header>
@@ -92,6 +87,12 @@
    <class>CameraManager</class>
    <extends>QWidget</extends>
    <header>CameraManager.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GLVideoWidget</class>
+   <extends>QFrame</extends>
+   <header location="global">glvideowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

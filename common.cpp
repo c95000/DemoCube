@@ -33,3 +33,11 @@ void savePixmap(QPixmap &pixmap) {
         pixmap.copy().save(fileName);
     }
 }
+
+void saveImage(QImage& image) {
+//    QString fileName = QDir::currentPath().append(QDateTime::currentDateTime().toString("/yyyy-MM-dd hh-mm-ss-zzz") + ".png");
+//    printf("fileName:%s", fileName.toStdString().c_str());
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+    image.save(fileName, "png");
+}

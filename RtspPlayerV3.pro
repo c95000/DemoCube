@@ -31,12 +31,12 @@ SOURCES += \
     TitleButton.cpp \
     ToolBar.cpp \
     common.cpp \
+    glvideowidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    RenderWidget.cpp \
     Util.cpp \
     mypaint.cpp \
-    myrender.cpp \
+#    myrender.cpp \
     playpausebutton.cpp \
     scaler.cpp \
     vlcwrapper.cpp
@@ -55,12 +55,13 @@ HEADERS += \
     SettingDialog.h \
     TitleButton.h \
     ToolBar.h \
+    VideoRenderCallback.h \
     common.h \
+    glvideowidget.h \
     mainwindow.h \
-    RenderWidget.h \
     Util.h \
     mypaint.h \
-    myrender.h \
+#    myrender.h \
     playpausebutton.h \
     scaler.h \
     vlcwrapper.h

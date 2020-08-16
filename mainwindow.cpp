@@ -92,11 +92,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timerClock,  SIGNAL(timeout()), this, SLOT(on_timeout()));
     timerClock->setInterval(1000);
     vlcWrapper = new VlcWrapper();
+    arnetWrapper = new ArnetWrapper();
 
     connect(vlcWrapper, &VlcWrapper::started, this, &MainWindow::onPlayerStarted);
     connect(vlcWrapper, &VlcWrapper::stopped, this, &MainWindow::onPlayerStopped);
     connect(vlcWrapper, &VlcWrapper::paused, this, &MainWindow::onPlayerPaused);
     connect(vlcWrapper, &VlcWrapper::error, this, &MainWindow::onPlayerError);
+
+    connect(arnetWrapper, &ArnetWrapper::started, this, &MainWindow::onPlayerStarted);
+    connect(arnetWrapper, &ArnetWrapper::stopped, this, &MainWindow::onPlayerStopped);
+    connect(arnetWrapper, &ArnetWrapper::paused, this, &MainWindow::onPlayerPaused);
+    connect(arnetWrapper, &ArnetWrapper::error, this, &MainWindow::onPlayerError);
+
+//    QImage img = QImage(":/images/res/images/takevideo.png").convertToFormat(QImage::Format_RGB888);
+//    ui->myRender->setQImageParameters(img.format(), img.width(), img.height(), img.bytesPerLine()); //call once
+//    ui->myRender->setImage(img);
 }
 
 MainWindow::~MainWindow()
@@ -240,6 +250,8 @@ void MainWindow::on_btnPlayLocal_clicked()
         return;
     }
 
+    arnetWrapper->stop();
+
     filename.replace("/", "\\");
     vlcWrapper->start(filename, ui->myRender);
     ui->stackedWidget->setCurrentIndex(0);
@@ -262,6 +274,7 @@ void MainWindow::on_btnPlayPause_clicked()
     else
     {
         vlcWrapper->toggle();
+        arnetWrapper->toggle();
     }
 
 //    if(vlcWrapper->isWorking()) {
@@ -290,6 +303,13 @@ void MainWindow::on_btnComment_clicked()
         vlcWrapper->pause();
         QImage image;
         ui->myRender->copyCurrentImage(image);
+        myPaint->setImage(image);
+    } else if(arnetWrapper->isWorking()) {
+        arnetWrapper->pause();
+        QImage image;
+        ui->myRender->copyCurrentImage(image);
+        QRect rect = ui->myRender->rect();
+        printf("ssy %d %d %d %d", rect.x(), rect.y(), rect.width(), rect.height());
         myPaint->setImage(image);
     }
 
@@ -355,16 +375,24 @@ void MainWindow::onSelectedRtsp(QString& rtspUrl) {
     if(!rtspUrl.isEmpty()) {
 //        QString url = "rtsp://" + rtspUrl + "/";
 //        QString url("rtsp://192.168.1.225/");
-        printf("onSelectedRtsp: %s", rtspUrl.toStdString().c_str());
+//        printf("onSelectedRtsp: %s", rtspUrl.toStdString().c_str());
 //        vlcWrapper->start(rtspUrl, ui->myRender);
-        if(NULL != arnetWrapper) {
-            delete arnetWrapper;
-        }
+//        SAFE_DELETE(arnetWrapper)
+//        arnetWrapper = new ArnetWrapper();
 
-        arnetWrapper = new ArnetWrapper(rtspUrl);
-        arnetWrapper->init();
-        arnetWrapper->login();
-        arnetWrapper->play();
+        vlcWrapper->stop();
+
+        arnetWrapper->stop();
+        int ret = arnetWrapper->start(rtspUrl, ui->myRender);
+        if(ret < 0) {
+            QMessageBox msgBox;
+            msgBox.setText(tr("请检查视频源是否开启!"));
+            msgBox.setWindowTitle(tr("提示"));
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox.setButtonText(QMessageBox::Ok, QString("确 定"));
+            int ret = msgBox.exec();
+        }
     }
     else
     {

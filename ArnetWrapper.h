@@ -9,26 +9,43 @@
 #include "AR_DEFINE.h"
 #include "XPlay.h"
 
+#include "VideoRenderCallback.h"
 #include "common.h"
 
 class ArnetWrapper:public QObject
 {
     Q_OBJECT
 public:
-    ArnetWrapper(const QString& ip);
+    ArnetWrapper();
     virtual ~ArnetWrapper();
 
-public:
-    int init();
-    int release();
+private:
+    BOOL init();
+    BOOL release();
+    BOOL login();
+    BOOL logout();
 
+    BOOL deepPlay();
+    BOOL deepStop();
+
+signals:
+    void started();
+    void paused();
+    void stopped();
+    void error(QString& err);
+
+public:
     QString version();
 
-    int login();
-    int logout();
-
+    int start(const QString& ip, VideoRenderCallback* renderCb);
+    int playFile(const QString& fileName, VideoRenderCallback* renderCb);
     int play();
     int stop();
+    void resume();
+    void pause();
+    void toggle();
+    bool isWorking();
+    bool isPlaying();
 
 public:
     QString ip;
@@ -42,6 +59,9 @@ public:
 
     int m_frameWidth;
     int m_frameHeight;
+
+    VideoRenderCallback* renderCallback;
+    bool isPlay;
 };
 
 #endif // ARNETWRAPPER_H
