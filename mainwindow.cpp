@@ -70,6 +70,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->cameraManager, &CameraManager::selectedRtsp, this, &MainWindow::onSelectedRtsp);
 
+    connect(ui->myRender, &GLVideoWidget::doubleClicked, this, &MainWindow::onScreenChanged);
+
+//    connect(ui->camera3, &HTitleButton::doubleClicked, this, &CameraManager::onDoubleClicked);
+
 //    connect(ui->toolBar->capturePictureButton(), &QPushButton::clicked, this, &MainWindow::on_btnDevice_clicked);
 
 //    connect(ui->mediaController->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
@@ -458,3 +462,10 @@ void MainWindow::onZoomWide() {
     arnetWrapper->zoomWide();
 }
 
+void MainWindow::onScreenChanged() {
+    if(isMaximized()) {
+        this->showNormal();
+    } else {
+        showMaximized();
+    }
+}

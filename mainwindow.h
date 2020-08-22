@@ -71,6 +71,8 @@ private slots:
     void onZoomTele();
     void onZoomWide();
 
+    void onScreenChanged();
+
 private:
 
 

@@ -357,6 +357,14 @@ void GLVideoWidget::resizeGL(int w, int h)
     //m_mat.ortho(QRectF(0, 0, w, h));
 }
 
+bool GLVideoWidget::event(QEvent* event) {
+    if(event->type() == QEvent::MouseButtonDblClick) {
+        emit doubleClicked();
+        return true;
+    }
+    return QOpenGLWidget::event(event);
+}
+
 void GLVideoWidget::initializeShader()
 {
     if (m_program) {

@@ -50,9 +50,13 @@ protected:
     virtual void initializeGL() override;
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
+    virtual bool event(QEvent* event);
 
 //private:
 //    void renderText();
+signals:
+    void doubleClicked();
+
 private:
     bool update_res;
     bool upload_tex;

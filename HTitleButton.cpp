@@ -10,6 +10,7 @@ HTitleButton::HTitleButton(QWidget *parent) :
 {
     ui->setupUi(this);
     setStyleSheet("color:white;");
+    ui->label->setContentsMargins(5, 0, 20, 0);
 }
 
 HTitleButton::~HTitleButton()
