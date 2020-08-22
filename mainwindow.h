@@ -9,6 +9,7 @@
 #include <QTimer>
 #include "vlcwrapper.h"
 #include "ArnetWrapper.h"
+#include "CameraController.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,6 +30,10 @@ private slots:
     void on_btnNotaion_clicked();
 
     void on_takePicture();
+
+    void on_start_RecordVideo();
+
+    void on_stop_RecordVideo();
 
     void on_btnCaptureVideo_clicked();
 
@@ -63,6 +68,9 @@ private slots:
 
     void onSelectedRtsp(QString& rtspUrl);
 
+    void onZoomTele();
+    void onZoomWide();
+
 private:
 
 
@@ -86,5 +94,7 @@ private:
 
     VlcWrapper* vlcWrapper = NULL;
     ArnetWrapper* arnetWrapper = NULL;
+
+    CameraController* cameraController;
 };
 #endif // MAINWINDOW_H

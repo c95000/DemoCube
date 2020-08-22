@@ -126,4 +126,3 @@ void ImageButton::setImages(const QString imgsrc, int width, int height) {
     QPixmap pixmap(imgsrc);
     setImages(pixmap, width, height);
 }
-

@@ -50,6 +50,9 @@ protected:
     virtual void initializeGL() override;
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
+
+//private:
+//    void renderText();
 private:
     bool update_res;
     bool upload_tex;
@@ -80,6 +83,7 @@ private:
     QMatrix4x4 m_mat;
 
     bool isRenderring = true;
+    int textPos = 0;
 };
 
 #endif // WIDGET_H

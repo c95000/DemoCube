@@ -33,6 +33,7 @@ public:
     void setImages(const QString imgsrc);
     void setImages(const QString imgsrc, int width, int height);
 
+    QPushButton *button();
 private:
     QList<QPixmap> pixmapList;
     int m_index;

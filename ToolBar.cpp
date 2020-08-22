@@ -4,6 +4,7 @@
 #include <QSpacerItem>
 #include <QResizeEvent>
 #include "SettingDialog.h"
+#include "Configure.h"
 #include "common.h"
 
 ToolBar::ToolBar(QWidget *parent) :
@@ -14,7 +15,7 @@ ToolBar::ToolBar(QWidget *parent) :
 
     int iconSize = Resolution::getInstance()->scaleX() * 50;
 
-    ui->btnInsert->setText(QString("插入"));
+    ui->btnInsert->setText(QString("回放"));
     ui->btnInsert->imageButton()->setImages(":/images/res/images/insert.png", iconSize, iconSize);
 
     ui->btnComment->setText(QString("批注"));
@@ -34,6 +35,9 @@ ToolBar::ToolBar(QWidget *parent) :
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addStretch(3);
+    if(!Configure::getInstance()->isAllowCommenting()) {
+        ui->btnComment->hide();
+    }
     layout->addWidget(ui->btnInsert, 1, Qt::AlignHCenter);
     layout->addWidget(ui->btnComment, 1, Qt::AlignHCenter);
     layout->addWidget(ui->btnTakePicture, 1, Qt::AlignHCenter);
@@ -52,6 +56,7 @@ ToolBar::ToolBar(QWidget *parent) :
     setFixedHeight(Resolution::getInstance()->scaleY() * 120);
 
     connect(ui->btnSetting->pushButton(), &QPushButton::clicked, this, &ToolBar::onSettingButtonClicked);
+    ui->cameraController->hide();
 }
 
 ToolBar::~ToolBar()

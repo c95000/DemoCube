@@ -28,6 +28,8 @@ private:
     BOOL deepPlay();
     BOOL deepStop();
 
+    void zoomStop();
+
 signals:
     void started();
     void paused();
@@ -47,6 +49,12 @@ public:
     bool isWorking();
     bool isPlaying();
 
+    void zoomWide();
+    void zoomTele();
+
+    void startRecord();
+    void stopRecord();
+
 public:
     QString ip;
     ARNET_INIT_PARAM param;
@@ -56,6 +64,8 @@ public:
     LONG m_lLoginHandle = -1;
     LONG m_lRealHandle = -1;
     XHANDLE m_lPlayHandle = -1;
+
+    LONG m_lRecordHandle = -1;
 
     int m_frameWidth;
     int m_frameHeight;

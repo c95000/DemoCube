@@ -1,5 +1,7 @@
 #include "ArnetWrapper.h"
 #include "XPlay.h"
+#include "Record_SDK.h"
+#include <QtConcurrent/QtConcurrent>
 
 ArnetWrapper::ArnetWrapper():isPlay(false)
 {
@@ -138,7 +140,7 @@ int ArnetWrapper::play() {
     }
 
     //窗口句柄设为null时才会回调yuv数据
-    X_PlayEx(m_lPlayHandle, nullptr);
+    X_PlayEx(m_lPlayHandle, nullptr); 
 
     //设置yuv数据回调
     BOOL bRet = X_SetVisibleDecCallBack(m_lPlayHandle, DecodeCBFun, (void*)this);
@@ -197,5 +199,58 @@ bool ArnetWrapper::isWorking(){
 }
 bool ArnetWrapper::isPlaying(){
     return isPlay;
+}
+
+void ArnetWrapper::zoomWide() {
+    if(isPlaying()) {
+        BOOL ret = ARNET_PtzCtrl(m_lLoginHandle, SP_ZOOM_WIDE, 0, 0);
+        if (!ret){
+            printf("zoomWide failed. errCode: %d\n", ARNET_GetLastError());
+            return;
+        }
+        QtConcurrent::run(this, &ArnetWrapper::zoomStop);
+    }
+}
+
+void ArnetWrapper::zoomTele() {
+    if(isPlaying()) {
+        BOOL ret = ARNET_PtzCtrl(m_lLoginHandle, SP_ZOOM_TELE, 0, 0);
+        if (!ret){
+            printf("zoomTele failed. errCode: %d\n", ARNET_GetLastError());
+            return;
+        }
+        QtConcurrent::run(this, &ArnetWrapper::zoomStop);
+    }
+}
+
+void ArnetWrapper::zoomStop() {
+    QThread::msleep(250);
+    BOOL ret = ARNET_PtzCtrl(m_lLoginHandle, SP_PTZ_STOP, 0, 0);
+    if (!ret){
+        printf("zoomTele failed. errCode: %d\n", ARNET_GetLastError());
+        return;
+    }
+}
+
+// Description: 录像视频流回调函数
+// Parameters:
+//	[in] lRealHandle: ARNET_StartGetRecord的返回值
+//	[in] pBuffer: 视频数据,以XPLAY.H中的GXXMedia结构打头
+//	[in] dwBufSize:视频数据大小
+//	[in] pFrameInfo: 视频帧信息
+//	[in] pUser: 调用ARNET_StartGetRecord时，传进SDK的用户数据参数
+// Return: 无
+// Remark:v
+void  CALLBACK ARRecordDataCallBack(LONG lPlayHandle, char *pBuffer, DWORD dwBufSize, ARNET_FRAME_INFO *pFrameInfo, void *pUser) {
+    printf("chengjl lPlayHandle:%d", lPlayHandle);
+}
+
+
+void ArnetWrapper::startRecord() {
+
+}
+
+void ArnetWrapper::stopRecord() {
+
 }
 

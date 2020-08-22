@@ -52,3 +52,9 @@ void Configure::setCameraIp(int index, QString& ip) {
     QString key = tr("camera/ip%1").arg(index);
     configFile->setValue(key, ip);
 }
+
+bool Configure::isAllowCommenting() {
+    QString key = tr("block/ac");
+    bool value = configFile->value(key, false).toBool();
+    return value;
+}

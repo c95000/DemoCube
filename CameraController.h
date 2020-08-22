@@ -15,6 +15,14 @@ public:
     explicit CameraController(QWidget *parent = nullptr);
     ~CameraController();
 
+signals:
+    void zoomTele();
+    void zoomWide();
+
+private slots:
+    void onZoomTeleClicked();
+    void onZoomWideClicked();
+
 private:
     Ui::CameraController *ui;
 };

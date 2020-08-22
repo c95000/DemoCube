@@ -30,6 +30,7 @@ public:
     QString getVideopath();
     QString getCameraIp(int index);
     void setCameraIp(int index, QString& ip);
+    bool isAllowCommenting();
 private:
 //    QString configPath;
     QSettings* configFile;

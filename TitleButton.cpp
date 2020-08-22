@@ -1,6 +1,6 @@
 #include "TitleButton.h"
 #include "ui_TitleButton.h"
-
+#include "Configure.h"
 #include "common.h"
 
 TitleButton::TitleButton(QWidget *parent) :

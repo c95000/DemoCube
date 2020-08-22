@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->toolBar->insertButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayLocal_clicked);
     connect(ui->toolBar->commentButton(), &QPushButton::clicked, this, &MainWindow::on_btnComment_clicked);
     connect(ui->toolBar->takePictureButton(), &QPushButton::clicked, this, &MainWindow::on_takePicture);
+    connect(ui->toolBar->takeVideoButton(), &QPushButton::clicked, this, &MainWindow::on_start_RecordVideo);
     connect(ui->toolBar->playPauseButton(), &QPushButton::clicked, this, &MainWindow::on_btnPlayPause_clicked);
 
     connect(ui->cameraManager, &CameraManager::selectedRtsp, this, &MainWindow::onSelectedRtsp);
@@ -104,6 +105,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(arnetWrapper, &ArnetWrapper::paused, this, &MainWindow::onPlayerPaused);
     connect(arnetWrapper, &ArnetWrapper::error, this, &MainWindow::onPlayerError);
 
+    cameraController = new CameraController(this);
+
+    connect(cameraController, &CameraController::zoomTele, this, &MainWindow::onZoomTele);
+    connect(cameraController, &CameraController::zoomWide, this, &MainWindow::onZoomWide);
+
 //    QImage img = QImage(":/images/res/images/takevideo.png").convertToFormat(QImage::Format_RGB888);
 //    ui->myRender->setQImageParameters(img.format(), img.width(), img.height(), img.bytesPerLine()); //call once
 //    ui->myRender->setImage(img);
@@ -121,12 +127,15 @@ MainWindow::~MainWindow()
         delete myPaint;
     }
     delete timerClock;
+    delete cameraController;
     delete ui;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
-//    printf("resizeEvent oldSize: %d x %d", event->oldSize().width(), event->oldSize().height());
-//    printf("resizeEvent newSize: %d x %d", event->size().width(), event->size().height());
+    int ax = event->size().width() - cameraController->width() - 160 * Resolution::getInstance()->scaleX();
+    int ay = (event->size().height() - cameraController->height()) - 50 * Resolution::getInstance()->scaleY();
+
+    cameraController->move(ax, ay);
 }
 
 void MainWindow::showNotation(QPixmap& pixmap) {
@@ -208,6 +217,14 @@ void MainWindow::on_takePicture()
         QPixmap p = w->grab();
         savePixmap(p);
     }
+}
+
+void MainWindow::on_start_RecordVideo() {
+    arnetWrapper->startRecord();
+}
+
+void MainWindow::on_stop_RecordVideo() {
+    arnetWrapper->stopRecord();
 }
 
 void MainWindow::on_btnCaptureVideo_clicked()
@@ -431,5 +448,13 @@ void MainWindow::onSelectedRtsp(QString& rtspUrl) {
 //            break;
 //        }
     }
+}
+
+void MainWindow::onZoomTele() {
+    arnetWrapper->zoomTele();
+}
+
+void MainWindow::onZoomWide() {
+    arnetWrapper->zoomWide();
 }
 

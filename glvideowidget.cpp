@@ -316,6 +316,32 @@ void GLVideoWidget::paintGL()
     for (int i = 0; attr[i][0]; ++i) {
         m_program->disableAttributeArray(i); //TODO: in setActiveShader
     }
+
+
+    // Retrieve last OpenGL color to use as a font color
+//        GLdouble glColor[4];
+//        glGetDoublev(GL_CURRENT_COLOR, glColor);
+//        QColor fontColor = QColor(glColor[0], glColor[1], glColor[2], glColor[3]);
+
+
+    // Render text
+    QPainter painter(this);
+
+    QFont font;
+    font.setPixelSize(40);
+    painter.setFont(font);
+
+    QPen pen;
+    pen.setColor(Qt::red);
+    painter.setPen(pen);
+
+    QTextOption option(Qt::AlignLeft | Qt::AlignTop);
+    option.setWrapMode(QTextOption::WordWrap);
+    QRectF rect(100, 100, this->width, this->height);
+    QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
+    painter.drawText(rect, date, option);
+    painter.end();
+
     //update();
 }
 
