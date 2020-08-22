@@ -156,6 +156,21 @@ void MainWindow::showWhiteBoard(bool state) {
     }
 }
 
+bool MainWindow::isCommenting() {
+    if(ui->stackedWidget->currentWidget() == myPaint) {
+        QMessageBox msgBox;
+        msgBox.setText(tr("请先关闭批注!"));
+        msgBox.setWindowTitle(tr("提示"));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setButtonText(QMessageBox::Ok, QString("确 定"));
+        int ret = msgBox.exec();
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void MainWindow::on_btnPlayRtsp_clicked()
 {
     printf("on_btnPlayRtsp_clicked");
@@ -245,36 +260,32 @@ void MainWindow::on_btnPause_clicked()
 
 void MainWindow::on_btnPlayLocal_clicked()
 {
-    QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
-    if(filename.isEmpty()) {
-        return;
+    if(!isCommenting()) {
+        QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
+        if(filename.isEmpty()) {
+            return;
+        }
+
+        arnetWrapper->stop();
+
+        filename.replace("/", "\\");
+        vlcWrapper->start(filename, ui->myRender);
     }
 
-    arnetWrapper->stop();
-
-    filename.replace("/", "\\");
-    vlcWrapper->start(filename, ui->myRender);
-    ui->stackedWidget->setCurrentIndex(0);
-    ui->toolBar->playPause()->setText(QString("暂停"));
-    ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
+//    ui->stackedWidget->setCurrentIndex(0);
+//    ui->toolBar->playPause()->setText(QString("暂停"));
+//    ui->toolBar->playPause()->setImages(QPixmap(":/images/res/images/pause.png"));
 }
 
 void MainWindow::on_btnPlayPause_clicked()
 {
     printf("on_btnPlayPause_clicked");
-    if(ui->stackedWidget->currentWidget() == myPaint) {
-        QMessageBox msgBox;
-        msgBox.setText(tr("请先关闭批注!"));
-        msgBox.setWindowTitle(tr("提示"));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.setButtonText(QMessageBox::Ok, QString("确 定"));
-        int ret = msgBox.exec();
-    }
-    else
-    {
-        vlcWrapper->toggle();
-        arnetWrapper->toggle();
+    if(!isCommenting()) {
+        if(vlcWrapper->isWorking()) {
+            vlcWrapper->toggle();
+        } else {
+            arnetWrapper->toggle();
+        }
     }
 
 //    if(vlcWrapper->isWorking()) {

@@ -75,6 +75,8 @@ private:
 
     void showWhiteBoard(bool state);
 
+    bool isCommenting();
+
 private:
     Ui::MainWindow *ui;
 

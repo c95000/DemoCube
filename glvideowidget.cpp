@@ -163,99 +163,10 @@ void GLVideoWidget::stopRenderring() {
     //isRenderring = false;
 }
 
-#include "XPlay.h"
-
-//Description:YUV转BMP数据
-// Parameters:
-// [in] pYUVBuf:YUV数据
-// [in] nWidth:YUV图像的宽
-// [in] nHeight:YUV图像的高
-// [out] pRGBBuf:转换成的RGB数据
-// [in/out] nRGBBufLen:传入pRGBBuf的数据长度，传出RGBbuf的实际长度，
-//					   若长度不够返回FALSE并传出实际需要的长度
-// Return：成功返回TRUE; 失败返回FALSE
-//XPLAY_API BOOL X_YUV2BMP(BYTE *pYUVBuf, int nWidth, int nHeight, BYTE *pRGBBuf, int *nRGBBufLen);
-
-
-
-//void GLVideoWidget::copyCurrentImage(QImage& image) {
-//    QMutexLocker lock(&m_mutex);
-//    Q_UNUSED(lock);
-
-//    if(plane.size() == 1) {
-//        image = m_image.copy();
-//    } else if(plane.size() == 3) {
-//        int bufferSize = width * height * 4 + 1024;
-//        uchar* pPixelData = (uchar*)malloc(bufferSize);
-//        if(!X_YUV2BMP((BYTE*)m_yuvdata, width, height, pPixelData, &bufferSize)) {
-//            printf("error occurs");
-//        }
-
-//        printf("chengjl %d x %d bufferSize:%d", width, height, bufferSize);
-//        QImage img(pPixelData, width, height, QImage::Format_ARGB32);
-//        image = img.copy();
-//        free(pPixelData);
-//    }
-//}
-
-//void GLVideoWidget::copyCurrentImage(QImage& image) {
-//    stopRenderring();
-//    QMutexLocker lock(&m_mutex);
-//    Q_UNUSED(lock);
-
-//    GLubyte* pPixelData;
-//    GLint i, j;
-//    GLint PixelDataLength;
-//    // 因为是窗口渲染，此处设置读取的数据来源于“前端窗口”（也可以是后端，详细见http://blog.csdn.net/hust_sheng/article/details/75268410）
-//    //glReadBuffer(GL_BACK);
-////    glReadBuffer(GL_FRONT);
-////    glReadBuffer(GL_FRONT);
-
-//    // 计算像素数据的实际长度
-//    // 默认是3通道
-//    i = width * 3;      // 得到每一行的像素数据长度
-//    while (i % 4 != 0)  // 补充数据，直到 i 是的倍数
-//        ++i;
-
-//    PixelDataLength = i * height;
-
-//    // 但这里仅追求直观，对速度没有太高要求PixelDataLength = i * WindowHeight;
-//    // 分配内存和打开文件
-//    pPixelData = (GLubyte*)malloc(PixelDataLength);
-//    if (pPixelData == 0)
-//        exit(0);
-
-//    // 读取像素
-//    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-//    glReadPixels(0, 0, width, height, GL_BGR_EXT, GL_UNSIGNED_BYTE, pPixelData);
-
-//    QImage qimg((uchar*)pPixelData, width, height, QImage::Format_BGR888);
-//    image = qimg.copy();
-//    saveImage(qimg);
-//    free(pPixelData);
-//}
-
 void GLVideoWidget::copyCurrentImage(QImage& image) {
-    stopRenderring();
-    QMutexLocker lock(&m_mutex);
-    Q_UNUSED(lock);
-
-    GLint ViewPort[4];
-    glGetIntegerv(GL_VIEWPORT,ViewPort);
-    GLsizei ColorChannel = 3;
-    GLsizei bufferSize = ViewPort[2]*ViewPort[3]*sizeof(GLubyte)*ColorChannel;
-    GLubyte * ImgData = (GLubyte*)malloc(bufferSize);
-
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-    glReadPixels(ViewPort[0], ViewPort[1], ViewPort[2], ViewPort[3], GL_BGR_EXT ,GL_UNSIGNED_BYTE, ImgData);
-//    printf("chengjl* %d %d %d %d \n\n", ViewPort[0], ViewPort[1], ViewPort[2], ViewPort[3]);
-//    printf("chengjl** %d %d %d %d \n\n", geometry().x(), geometry().y(), geometry().width(), geometry().height());
-
-    QImage qimg((uchar*)ImgData, ViewPort[2], ViewPort[3], QImage::Format_BGR888);
-    qimg = qimg.mirrored();
+    QImage qimg = grabFramebuffer();
     image = qimg.copy();
-//    saveImage(qimg);
-    free(ImgData);
+    saveImage(image);
 }
 
 void GLVideoWidget::bind()
