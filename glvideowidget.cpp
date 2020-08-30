@@ -240,7 +240,7 @@ void GLVideoWidget::setYUV420pParameters(int w, int h, int *strides)
         p.internal_fmt = p.fmt = GL_LUMINANCE;
         p.type = GL_UNSIGNED_BYTE;
         p.bpp = 1;
-        qDebug() << p.tex_size;
+//        qDebug() << p.tex_size;
     }
 }
 
@@ -406,8 +406,8 @@ void GLVideoWidget::initializeShader()
     for (int i = 0; i < plane.size(); ++i) {
         QString tex_var = QString("u_Texture%1").arg(i);
         u_Texture[i] = m_program->uniformLocation(tex_var);
-        qDebug("glGetUniformLocation(\"%s\") = %d", tex_var.toUtf8().constData(), u_Texture[i]);
+//        qDebug("glGetUniformLocation(\"%s\") = %d", tex_var.toUtf8().constData(), u_Texture[i]);
     }
-    qDebug("glGetUniformLocation(\"u_MVP_matrix\") = %d", u_MVP_matrix);
-    qDebug("glGetUniformLocation(\"u_colorMatrix\") = %d", u_colorMatrix);
+//    qDebug("glGetUniformLocation(\"u_MVP_matrix\") = %d", u_MVP_matrix);
+//    qDebug("glGetUniformLocation(\"u_colorMatrix\") = %d", u_colorMatrix);
 }

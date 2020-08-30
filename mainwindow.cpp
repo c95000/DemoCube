@@ -117,6 +117,10 @@ MainWindow::MainWindow(QWidget *parent)
 //    QImage img = QImage(":/images/res/images/takevideo.png").convertToFormat(QImage::Format_RGB888);
 //    ui->myRender->setQImageParameters(img.format(), img.width(), img.height(), img.bytesPerLine()); //call once
 //    ui->myRender->setImage(img);
+
+    recordLabel = new RecordLabel(this);
+    recordLabel->hide();
+    connect(recordLabel, &RecordLabel::stopRecord, this, &MainWindow::on_stop_RecordVideo);
 }
 
 MainWindow::~MainWindow()
@@ -133,14 +137,23 @@ MainWindow::~MainWindow()
     delete timerClock;
     delete cameraController;
     delete ui;
+    delete recordLabel;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
     int ax = event->size().width() - cameraController->width() - 160 * Resolution::getInstance()->scaleX();
     int ay = (event->size().height() - cameraController->height()) - 50 * Resolution::getInstance()->scaleY();
-
     cameraController->move(ax, ay);
+
+    QRect rect = ui->stackedWidget->geometry();
+
+    if(!recordLabel->isHidden()) {
+        ax = (rect.width() - recordLabel->width()) / 2 + rect.x();
+        ay = rect.height() - recordLabel->height() + rect.y();
+        recordLabel->move(ax, ay);
+    }
 }
+
 
 void MainWindow::showNotation(QPixmap& pixmap) {
 //    int with = ui->displayPic->width();
@@ -223,12 +236,29 @@ void MainWindow::on_takePicture()
     }
 }
 
+bool isRecording = false;
+
 void MainWindow::on_start_RecordVideo() {
-    arnetWrapper->startRecord();
+    if(arnetWrapper->isPlaying() && !isRecording) {
+        arnetWrapper->startRecord();
+        recordLabel->show();
+        recordLabel->startRecord();
+        isRecording = true;
+    }
+
+    QRect rect = ui->stackedWidget->geometry();
+
+    if(!recordLabel->isHidden()) {
+        int ax = (rect.width() - recordLabel->width()) / 2 + rect.x();
+        int ay = rect.height() - recordLabel->height() + rect.y();
+        recordLabel->move(ax, ay);
+    }
 }
 
 void MainWindow::on_stop_RecordVideo() {
     arnetWrapper->stopRecord();
+    recordLabel->hide();
+    isRecording = false;
 }
 
 void MainWindow::on_btnCaptureVideo_clicked()
@@ -279,10 +309,13 @@ void MainWindow::on_btnPause_clicked()
     vlcWrapper->pause();
 }
 
+#include "Configure.h"
+
 void MainWindow::on_btnPlayLocal_clicked()
 {
     if(!isCommenting()) {
-        QString filename=QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
+        QString videoPath = Configure::getInstance()->getVideopath();
+        QString filename=QFileDialog::getOpenFileName(this,tr("action"),videoPath,"",0);
         if(filename.isEmpty()) {
             return;
         }

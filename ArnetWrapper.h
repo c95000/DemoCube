@@ -11,6 +11,7 @@
 
 #include "VideoRenderCallback.h"
 #include "common.h"
+#include "mp4encoder.h"
 
 class ArnetWrapper:public QObject
 {
@@ -72,6 +73,11 @@ public:
 
     VideoRenderCallback* renderCallback;
     bool isPlay;
+    bool isRecording;
+
+    Mp4Encoder* mp4Encoder;
+    QString recordedFileName;
+    FILE* h264File = NULL;
 };
 
 #endif // ARNETWRAPPER_H

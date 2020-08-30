@@ -2,8 +2,11 @@
 #include "XPlay.h"
 #include "Record_SDK.h"
 #include <QtConcurrent/QtConcurrent>
+#include <Configure.h>
 
 ArnetWrapper::ArnetWrapper():isPlay(false)
+  , isRecording(FALSE)
+  , mp4Encoder(NULL)
 {
     m_lLoginHandle = -1;
     m_lRealHandle = -1;
@@ -13,6 +16,10 @@ ArnetWrapper::ArnetWrapper():isPlay(false)
 
 ArnetWrapper::~ArnetWrapper()
 {
+    if(NULL != mp4Encoder) {
+        delete mp4Encoder;
+        mp4Encoder = NULL;
+    }
 }
 
 void WINAPI RealDataCallBack(LONG lRealHandle, char *pBuffer, DWORD dwBufSize, ARNET_FRAME_INFO *pFrameInfo, void* pUser) {
@@ -25,6 +32,15 @@ void WINAPI RealDataCallBack(LONG lRealHandle, char *pBuffer, DWORD dwBufSize, A
 
     if (arnetWrapper->m_lPlayHandle >= 0){
         X_VideoInputData2(arnetWrapper->m_lPlayHandle, (BYTE*)pBuffer, dwBufSize, u64Time);
+        if(arnetWrapper->isRecording) {
+
+            if(NULL == arnetWrapper->h264File && pFrameInfo->nFrameType == 0) {
+                arnetWrapper->h264File = fopen(arnetWrapper->recordedFileName.toStdString().c_str(), "wba");
+            }
+            if(NULL != arnetWrapper->h264File) {
+                fwrite(pBuffer, dwBufSize, 1, arnetWrapper->h264File);
+            }
+        }
     }
     else
     {
@@ -39,13 +55,15 @@ void CALLBACK DecodeCBFun(int handle,
                 void*  pUser,
                 LONG  nReserved1)
 {
-    printf("%s handle:%d pBuf:%p nSize:%ld pUser：%p", __FUNCTION__, handle, pBuf, nSize, pUser);
+//    printf("%s handle:%d pBuf:%p nSize:%ld pUser：%p", __FUNCTION__, handle, pBuf, nSize, pUser);
 //    printf("%s pFrameInfo: %ld %ld %ld %ld %ld", __FUNCTION__,
 //           pFrameInfo->nType, pFrameInfo->nStamp,
 //           pFrameInfo->nWidth, pFrameInfo->nHeight, pFrameInfo->nFrameRate);
 
     ArnetWrapper *arnetWrapper=(ArnetWrapper*)pUser;
     if(NULL != arnetWrapper->renderCallback) {
+        arnetWrapper->m_frameWidth = pFrameInfo->nWidth;
+        arnetWrapper->m_frameHeight = pFrameInfo->nHeight;
         arnetWrapper->renderCallback->renderYUV((uchar*)pBuf, nSize, pFrameInfo->nWidth, pFrameInfo->nHeight, 0);
     }
 }
@@ -232,25 +250,28 @@ void ArnetWrapper::zoomStop() {
     }
 }
 
-// Description: 录像视频流回调函数
-// Parameters:
-//	[in] lRealHandle: ARNET_StartGetRecord的返回值
-//	[in] pBuffer: 视频数据,以XPLAY.H中的GXXMedia结构打头
-//	[in] dwBufSize:视频数据大小
-//	[in] pFrameInfo: 视频帧信息
-//	[in] pUser: 调用ARNET_StartGetRecord时，传进SDK的用户数据参数
-// Return: 无
-// Remark:v
-void  CALLBACK ARRecordDataCallBack(LONG lPlayHandle, char *pBuffer, DWORD dwBufSize, ARNET_FRAME_INFO *pFrameInfo, void *pUser) {
-    printf("chengjl lPlayHandle:%d", lPlayHandle);
-}
-
-
 void ArnetWrapper::startRecord() {
+    printf("startRecord");
+//    if(NULL == mp4Encoder) {
+//        mp4Encoder = new Mp4Encoder();
+//    }
+//    mp4Encoder->yuv2h264_start(m_frameWidth, m_frameHeight);
 
+    recordedFileName = Configure::getInstance()->getVideopath() + QDir::separator() +
+            QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".mp4";
+    isRecording = TRUE;
 }
 
 void ArnetWrapper::stopRecord() {
+    printf("stopRecord");
+    isRecording = FALSE;
+//    mp4Encoder->yuv2h264_stop();
+    printf("Line:%d %s()", __LINE__, __FUNCTION__);
+//    mp4Encoder->h2642mp4();
 
+    fflush(h264File);
+    fclose(h264File);
+    h264File = NULL;
+//    Mp4Encoder::h2642mp4((recordedFileName + ".h264").toStdString().c_str(), (recordedFileName + ".mp4").toStdString().c_str());
 }
 

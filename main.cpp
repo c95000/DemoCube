@@ -6,6 +6,7 @@
 #include <mypaint.h>
 #include <CameraController.h>
 #include <CameraManager.h>
+#include "recordlabel.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,6 +32,9 @@ int main(int argc, char *argv[])
 
 //    CameraManager cm;
 //    cm.show();
+
+//    RecordLabel r;
+//    r.show();
 
     return a.exec();
 }

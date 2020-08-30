@@ -10,6 +10,8 @@
 #include "vlcwrapper.h"
 #include "ArnetWrapper.h"
 #include "CameraController.h"
+#include "mp4encoder.h"
+#include "recordlabel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,7 +27,6 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event);
-
 private slots:
     void on_btnNotaion_clicked();
 
@@ -72,7 +73,6 @@ private slots:
     void onZoomWide();
 
     void onScreenChanged();
-
 private:
 
 
@@ -98,5 +98,7 @@ private:
     ArnetWrapper* arnetWrapper = NULL;
 
     CameraController* cameraController;
+
+    RecordLabel* recordLabel;
 };
 #endif // MAINWINDOW_H

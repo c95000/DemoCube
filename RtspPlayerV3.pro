@@ -15,6 +15,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+#DESTDIR=$$PWD/bin/
+contains(QT_ARCH, i386) {
+    message("32-bit")
+    DESTDIR = $${PWD}/bin32
+} else {
+    message("64-bit")
+    DESTDIR = $${PWD}/bin64
+}
+
 
 SOURCES += \
     ArnetWrapper.cpp \
@@ -35,9 +44,10 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     Util.cpp \
+    mp4encoder.cpp \
     mypaint.cpp \
-#    myrender.cpp \
     playpausebutton.cpp \
+    recordlabel.cpp \
     scaler.cpp \
     vlcwrapper.cpp
 
@@ -60,9 +70,10 @@ HEADERS += \
     glvideowidget.h \
     mainwindow.h \
     Util.h \
+    mp4encoder.h \
     mypaint.h \
-#    myrender.h \
     playpausebutton.h \
+    recordlabel.h \
     scaler.h \
     vlcwrapper.h
 
@@ -76,24 +87,28 @@ FORMS += \
     SettingDialog.ui \
     TitleButton.ui \
     ToolBar.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    recordlabel.ui
 
 
 QT += opengl network widgets
 
 THRIDPARTIES_PATH = $$PWD/thirdparties
 
-contains(QMAKE_HOST.arch,x86_64) {
-    VLC_PATH = $$PWD/x86_64/vlc-2.2.2/sdk
-    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
-    LIBS += -L$${ARNET_LIB_PATH} -lAR -lARCL -lARNET_SDK -lXPlay
-} else {
+contains(QT_ARCH, i386) {
     VLC_PATH = $$PWD/win32/vlc-2.2.2/sdk
     ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/win32
     LIBS += -L$${ARNET_LIB_PATH} -lAR -lARCL -lARNET_SDK -lXPlay
+    LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win32 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
+} else {
+    VLC_PATH = $$PWD/x86_64/vlc-2.2.2/sdk
+    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
+    LIBS += -L$${ARNET_LIB_PATH} -lAR -lARCL -lARNET_SDK -lXPlay
+    LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win64 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 }
 
 INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
+INCLUDEPATH += $${THRIDPARTIES_PATH}/ffmpeg/include
 INCLUDEPATH += $${VLC_PATH}/include
 
 LIBS += -L$${VLC_PATH}/lib -lvlc
