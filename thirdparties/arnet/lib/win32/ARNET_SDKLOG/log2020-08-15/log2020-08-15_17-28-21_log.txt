@@ -1,3 +1,0 @@
-2020-08-15 17-28-21-296  LFATAL   (NET:F=ARNET_Init L=34) ------------arsdklog-----------
-2020-08-15 17-28-21-297  LFATAL   (NET:F=ARNET_Init L=35) sdk version:Aug 11 2020 00:20:39
-2020-08-15 17-28-21-297  LFATAL   (NET:F=ARNET_Init L=38) PID:6268

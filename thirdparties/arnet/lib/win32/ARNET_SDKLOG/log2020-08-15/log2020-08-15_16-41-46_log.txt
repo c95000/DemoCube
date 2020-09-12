@@ -1,5 +1,0 @@
-2020-08-15 16-41-46-346  LFATAL   (NET:F=ARNET_Init L=34) ------------arsdklog-----------
-2020-08-15 16-41-46-346  LFATAL   (NET:F=ARNET_Init L=35) sdk version:Aug 11 2020 00:20:39
-2020-08-15 16-41-46-346  LFATAL   (NET:F=ARNET_Init L=38) PID:6988
-2020-08-15 16-41-49-965  LERROR   (NET:F=ARNET_StopRealPlay L=438)  ErrorNo=-10 (lLoginID=1)
-2020-08-15 16-41-52-573  LERROR   (NET:F=ARNET_StopRealPlay L=438)  ErrorNo=-10 (lLoginID=1)

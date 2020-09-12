@@ -9,7 +9,7 @@
 
 JyPlayer::JyPlayer(const QString& inputsource, QObject *parent) : QThread(parent)
   ,source(inputsource)
-  ,state(0)
+  ,state(IDLE)
   ,glVideoWidget(nullptr)
 {
 
@@ -36,12 +36,16 @@ void JyPlayer::run() {
     int ret = 0;
     av_register_all();
     ret = avformat_network_init();
+    AVDictionary *options = NULL;
+
+    av_dict_set(&options, "rtsp_transport" , "tcp", 0);
 
     AVFormatContext *pFormatCtx = avformat_alloc_context();
     printf("%s() pFormatCtx:%p", __FUNCTION__, pFormatCtx);
 //    ret = avformat_open_input(&pFormatCtx, "D:/vs/yuvrender/test.yuv", NULL, NULL);
 //    ret = avformat_open_input(&pFormatCtx, "D:\\vs\\output.mp4", NULL, NULL);
-    ret = avformat_open_input(&pFormatCtx, "rtsp://192.168.1.225", NULL, NULL);
+//    ret = avformat_open_input(&pFormatCtx, "rtsp://192.168.1.225", NULL, &options);
+    ret = avformat_open_input(&pFormatCtx, source.toStdString().c_str(), NULL, &options);
     printf("%s() ret:%d", __FUNCTION__, ret);
     if(ret < 0) {
         printError(ret);
@@ -113,9 +117,9 @@ void JyPlayer::run() {
             break;
         }
 
-        printf("pAVpackage pts:%ld dts:%ld duration:%ld codec_type:%d",
-               pAVpackage->pts, pAVpackage->dts, pAVpackage->duration,
-               pFormatCtx->streams[pAVpackage->stream_index]->codec->codec_type);
+//        printf("pAVpackage pts:%ld dts:%ld duration:%ld codec_type:%d",
+//               pAVpackage->pts, pAVpackage->dts, pAVpackage->duration,
+//               pFormatCtx->streams[pAVpackage->stream_index]->codec->codec_type);
 
         if(NULL != h264File) {
             fwrite(pAVpackage->buf->data, pAVpackage->buf->size, 1, h264File);
@@ -136,8 +140,11 @@ void JyPlayer::run() {
                 break;
             }
 
-            printf("got_picture_ptr:%d format:%d  %d x %d picType:%d", got_picture_ptr, pFrame->format, pFrame->width, pFrame->height, pFrame->pict_type);
+//            printf("got_picture_ptr:%d format:%d  %d x %d picType:%d", got_picture_ptr, pFrame->format, pFrame->width, pFrame->height, pFrame->pict_type);
             if(got_picture_ptr) {
+                if(state == PREPARING) {
+                    setState(PLAYING);
+                }
                 if( pFrame->format == AVPixelFormat::AV_PIX_FMT_YUVJ420P) {
                     char* buf = new char[pCodecCtx->height * pCodecCtx->width * 3 / 2];
                     memset(buf, 0, pCodecCtx->height * pCodecCtx->width * 3 / 2);
@@ -163,7 +170,7 @@ void JyPlayer::run() {
 
                     if(nullptr != glVideoWidget) {
                         QByteArray ba = QByteArray(buf, pCodecCtx->height * pCodecCtx->width * 3 / 2);
-                        printf("buf:%p ba:%p", buf, ba.data());
+//                        printf("buf:%p ba:%p", buf, ba.data());
                         glVideoWidget->setFrameData(ba);
                     }
 //                    if(count ++ % 100 == 0) {
@@ -176,7 +183,7 @@ void JyPlayer::run() {
                 }
             }
         }
-    } while(state > 0);
+    } while(state == PREPARING || state == PLAYING);
     av_packet_free(&pAVpackage);
 
 
@@ -192,7 +199,8 @@ void JyPlayer::run() {
     printf("run -- exit");
 }
 
-int JyPlayer::startPlay(GLVideoWidget* glVideoWidget) {
+int JyPlayer::startPlay(const QString& inputsource, GLVideoWidget* glVideoWidget) {
+    this->source = inputsource;
     this->glVideoWidget = glVideoWidget;
 
     QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
@@ -202,13 +210,13 @@ int JyPlayer::startPlay(GLVideoWidget* glVideoWidget) {
 }
 
 int JyPlayer::startPlay() {
-    state = 1;
+    setState(enJYPLAYER_STATE::PREPARING);
     start();
     return 0;
 }
 
 int JyPlayer::stopPlay() {
-    state = 0;
+    setState(enJYPLAYER_STATE::STOPPED);
     printf("stopPlay -- ");
     quit();
     printf("stopPlay -- quit");
@@ -216,5 +224,20 @@ int JyPlayer::stopPlay() {
     printf("stopPlay -- wait");
 
     return 0;
+}
+
+void JyPlayer::setState(enJYPLAYER_STATE state){
+    if(this->state == state) {
+        return;
+    }
+
+    this->state = state;
+    if(state == PLAYING) {
+        emit started();
+    } else if(state == STOPPED) {
+        emit stopped();
+    } else if(state == PAUSED) {
+        emit paused();
+    }
 }
 

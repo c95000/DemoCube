@@ -1,7 +1,0 @@
-2020-08-15 17-24-02-985  LFATAL   (NET:F=ARNET_Init L=34) ------------arsdklog-----------
-2020-08-15 17-24-02-986  LFATAL   (NET:F=ARNET_Init L=35) sdk version:Aug 11 2020 00:20:39
-2020-08-15 17-24-02-986  LFATAL   (NET:F=ARNET_Init L=38) PID:6244
-2020-08-15 17-24-13-020  LERROR   (NET:F=ARNET_Login L=216)  ErrorNo=-302 (lLoginID=-1)
-2020-08-15 17-24-13-052  LERROR   (NET:F=ARNET_StartRealPlay L=388)  ErrorNo=-304 (lLoginID=-1)
-2020-08-15 17-24-24-035  LERROR   (NET:F=CSocketManager::ServerWire_ConnIn L=354) (ip=192.168.1.225, port=36666) connect failed,error=-4039 
-2020-08-15 17-24-24-035  LERROR   (NET:F=CSocketManager::ServerWire_ConnIn L=362) 设备句柄找不到对应的设备对象

@@ -97,7 +97,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timerClock,  SIGNAL(timeout()), this, SLOT(on_timeout()));
     timerClock->setInterval(1000);
     vlcWrapper = new VlcWrapper();
-    arnetWrapper = new ArnetWrapper();
     m_player = new JyPlayer("");
 
     connect(vlcWrapper, &VlcWrapper::started, this, &MainWindow::onPlayerStarted);
@@ -105,10 +104,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(vlcWrapper, &VlcWrapper::paused, this, &MainWindow::onPlayerPaused);
     connect(vlcWrapper, &VlcWrapper::error, this, &MainWindow::onPlayerError);
 
-    connect(arnetWrapper, &ArnetWrapper::started, this, &MainWindow::onPlayerStarted);
-    connect(arnetWrapper, &ArnetWrapper::stopped, this, &MainWindow::onPlayerStopped);
-    connect(arnetWrapper, &ArnetWrapper::paused, this, &MainWindow::onPlayerPaused);
-    connect(arnetWrapper, &ArnetWrapper::error, this, &MainWindow::onPlayerError);
+    connect(m_player, &JyPlayer::started, this, &MainWindow::onPlayerStarted);
+    connect(m_player, &JyPlayer::stopped, this, &MainWindow::onPlayerStopped);
+    connect(m_player, &JyPlayer::paused, this, &MainWindow::onPlayerPaused);
+    connect(m_player, &JyPlayer::error, this, &MainWindow::onPlayerError);
 
     cameraController = new CameraController(this);
 
@@ -128,9 +127,6 @@ MainWindow::~MainWindow()
 {
     if(NULL != vlcWrapper) {
         delete vlcWrapper;
-    }
-    if(NULL != arnetWrapper) {
-        delete arnetWrapper;
     }
     delete m_player;
     if(NULL != myPaint) {
@@ -267,7 +263,6 @@ void MainWindow::on_start_RecordVideo() {
 }
 
 void MainWindow::on_stop_RecordVideo() {
-    arnetWrapper->stopRecord();
     recordLabel->hide();
     isRecording = false;
 }
@@ -331,8 +326,6 @@ void MainWindow::on_btnPlayLocal_clicked()
             return;
         }
 
-        arnetWrapper->stop();
-
         filename.replace("/", "\\");
         vlcWrapper->start(filename, ui->myRender);
     }
@@ -349,7 +342,6 @@ void MainWindow::on_btnPlayPause_clicked()
         if(vlcWrapper->isWorking()) {
             vlcWrapper->toggle();
         } else {
-            arnetWrapper->toggle();
         }
     }
 
@@ -379,13 +371,6 @@ void MainWindow::on_btnComment_clicked()
         vlcWrapper->pause();
         QImage image;
         ui->myRender->copyCurrentImage(image);
-        myPaint->setImage(image);
-    } else if(arnetWrapper->isWorking()) {
-        arnetWrapper->pause();
-        QImage image;
-        ui->myRender->copyCurrentImage(image);
-        QRect rect = ui->myRender->rect();
-        printf("ssy %d %d %d %d", rect.x(), rect.y(), rect.width(), rect.height());
         myPaint->setImage(image);
     }
 
@@ -447,9 +432,9 @@ void MainWindow::onPlayerError(QString& err) {
     printf("onPlayerError");
 }
 
-void MainWindow::onSelectedRtsp(QString& rtspUrl) {
-    if(!rtspUrl.isEmpty()) {
-//        QString url = "rtsp://" + rtspUrl + "/";
+void MainWindow::onSelectedRtsp(QString& ip) {
+    if(!ip.isEmpty()) {
+        QString rtspUrl = "rtsp://" + ip + "/";
 //        QString url("rtsp://192.168.1.225/");
 //        printf("onSelectedRtsp: %s", rtspUrl.toStdString().c_str());
 //        vlcWrapper->start(rtspUrl, ui->myRender);
@@ -457,10 +442,7 @@ void MainWindow::onSelectedRtsp(QString& rtspUrl) {
 //        arnetWrapper = new ArnetWrapper();
 
         vlcWrapper->stop();
-
-        arnetWrapper->stop();
-//        int ret = arnetWrapper->start(rtspUrl, ui->myRender);
-        int ret = m_player->startPlay(ui->myRender);
+        int ret = m_player->startPlay(rtspUrl, ui->myRender);
         if(ret < 0) {
             QMessageBox msgBox;
             msgBox.setText(tr("请检查视频源是否开启!"));
@@ -500,11 +482,11 @@ void MainWindow::onSelectedRtsp(QString& rtspUrl) {
 }
 
 void MainWindow::onZoomTele() {
-    arnetWrapper->zoomTele();
+//    arnetWrapper->zoomTele();
 }
 
 void MainWindow::onZoomWide() {
-    arnetWrapper->zoomWide();
+//    arnetWrapper->zoomWide();
 }
 
 void MainWindow::onScreenChanged() {

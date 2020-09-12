@@ -8,7 +8,6 @@
 #include "mypaint.h"
 #include <QTimer>
 #include "vlcwrapper.h"
-#include "ArnetWrapper.h"
 #include "CameraController.h"
 #include "mp4encoder.h"
 #include "recordlabel.h"
@@ -96,7 +95,6 @@ private:
     QTimer* timerClock = NULL;
 
     VlcWrapper* vlcWrapper = NULL;
-    ArnetWrapper* arnetWrapper = NULL;
     JyPlayer *m_player = NULL;
 
     CameraController* cameraController;
