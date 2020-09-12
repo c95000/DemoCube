@@ -12,6 +12,7 @@
 #include "CameraController.h"
 #include "mp4encoder.h"
 #include "recordlabel.h"
+#include "jyplayer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -96,6 +97,7 @@ private:
 
     VlcWrapper* vlcWrapper = NULL;
     ArnetWrapper* arnetWrapper = NULL;
+    JyPlayer *m_player = NULL;
 
     CameraController* cameraController;
 

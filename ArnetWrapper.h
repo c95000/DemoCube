@@ -12,6 +12,7 @@
 #include "VideoRenderCallback.h"
 #include "common.h"
 #include "mp4encoder.h"
+#include "glvideowidget.h"
 
 class ArnetWrapper:public QObject
 {
@@ -40,8 +41,9 @@ signals:
 public:
     QString version();
 
-    int start(const QString& ip, VideoRenderCallback* renderCb);
-    int playFile(const QString& fileName, VideoRenderCallback* renderCb);
+    int start(const QString& ip, GLVideoWidget* videoWidget);
+//    int start(const QString& ip, VideoRenderCallback* renderCb);
+//    int playFile(const QString& fileName, VideoRenderCallback* renderCb);
     int play();
     int stop();
     void resume();
@@ -71,6 +73,7 @@ public:
     int m_frameWidth;
     int m_frameHeight;
 
+    GLVideoWidget* videoWidget;
     VideoRenderCallback* renderCallback;
     bool isPlay;
     bool isRecording;

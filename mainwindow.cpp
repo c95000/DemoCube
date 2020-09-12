@@ -98,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent)
     timerClock->setInterval(1000);
     vlcWrapper = new VlcWrapper();
     arnetWrapper = new ArnetWrapper();
+    m_player = new JyPlayer("");
 
     connect(vlcWrapper, &VlcWrapper::started, this, &MainWindow::onPlayerStarted);
     connect(vlcWrapper, &VlcWrapper::stopped, this, &MainWindow::onPlayerStopped);
@@ -131,6 +132,7 @@ MainWindow::~MainWindow()
     if(NULL != arnetWrapper) {
         delete arnetWrapper;
     }
+    delete m_player;
     if(NULL != myPaint) {
         delete myPaint;
     }
@@ -239,20 +241,29 @@ void MainWindow::on_takePicture()
 bool isRecording = false;
 
 void MainWindow::on_start_RecordVideo() {
-    if(arnetWrapper->isPlaying() && !isRecording) {
-        arnetWrapper->startRecord();
-        recordLabel->show();
-        recordLabel->startRecord();
-        isRecording = true;
+    QString filename = QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
+    if(filename.isEmpty()) {
+        return;
     }
 
-    QRect rect = ui->stackedWidget->geometry();
+    QString outputName = filename.split(".").first() + ".mp4";
 
-    if(!recordLabel->isHidden()) {
-        int ax = (rect.width() - recordLabel->width()) / 2 + rect.x();
-        int ay = rect.height() - recordLabel->height() + rect.y();
-        recordLabel->move(ax, ay);
-    }
+    Mp4Encoder::h2642mp4(filename.toStdString().c_str(), outputName.toStdString().c_str());
+
+//    if(arnetWrapper->isPlaying() && !isRecording) {
+//        arnetWrapper->startRecord();
+//        recordLabel->show();
+//        recordLabel->startRecord();
+//        isRecording = true;
+//    }
+
+//    QRect rect = ui->stackedWidget->geometry();
+
+//    if(!recordLabel->isHidden()) {
+//        int ax = (rect.width() - recordLabel->width()) / 2 + rect.x();
+//        int ay = rect.height() - recordLabel->height() + rect.y();
+//        recordLabel->move(ax, ay);
+//    }
 }
 
 void MainWindow::on_stop_RecordVideo() {
@@ -448,7 +459,8 @@ void MainWindow::onSelectedRtsp(QString& rtspUrl) {
         vlcWrapper->stop();
 
         arnetWrapper->stop();
-        int ret = arnetWrapper->start(rtspUrl, ui->myRender);
+//        int ret = arnetWrapper->start(rtspUrl, ui->myRender);
+        int ret = m_player->startPlay(ui->myRender);
         if(ret < 0) {
             QMessageBox msgBox;
             msgBox.setText(tr("请检查视频源是否开启!"));

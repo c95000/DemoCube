@@ -29,8 +29,7 @@ public:
     int yuv2h264_stop();
     int yuv2h264_encode(uint8_t* data, const int size, int64_t msec);
 
-//    int h2642mp4();
-    static int h2642mp4(const char *in_filename_v, const char *out_filename);
+    static int h2642mp4(const char *in_filename_v_, const char *out_filename_);
 private:
 
     AVFormatContext* pFormatCtx;

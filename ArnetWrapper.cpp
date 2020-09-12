@@ -3,6 +3,11 @@
 #include "Record_SDK.h"
 #include <QtConcurrent/QtConcurrent>
 #include <Configure.h>
+#include <QFileDialog>
+
+AVCodec *codec;
+AVCodecContext *context;
+
 
 ArnetWrapper::ArnetWrapper():isPlay(false)
   , isRecording(FALSE)
@@ -12,6 +17,19 @@ ArnetWrapper::ArnetWrapper():isPlay(false)
     m_lRealHandle = -1;
     m_lPlayHandle = -1;
     init();
+
+    av_register_all();
+    avformat_network_init();
+
+    codec = avcodec_find_decoder(AV_CODEC_ID_H264);
+    if (!codec) {
+        return;
+    }
+
+    context = avcodec_alloc_context3(codec);
+    if (avcodec_open2(context, codec, NULL) < 0) {
+        return;
+    }
 }
 
 ArnetWrapper::~ArnetWrapper()
@@ -20,51 +38,119 @@ ArnetWrapper::~ArnetWrapper()
         delete mp4Encoder;
         mp4Encoder = NULL;
     }
+
+    avcodec_free_context(&context);
+}
+
+static void printError(int ret) {
+    char msg[512];
+    av_make_error_string(msg, 512, ret);
+    printf("Error(%d)(%s).\n", ret, msg);
+}
+
+int count = 0;
+FILE* h264File = NULL;
+
+static void writeFile(const QString& filename, const char* data, int size) {
+    QFile f(filename);
+    f.open(QIODevice::WriteOnly | QIODevice::Append);
+    f.write(data, size);
+    f.close();
 }
 
 void WINAPI RealDataCallBack(LONG lRealHandle, char *pBuffer, DWORD dwBufSize, ARNET_FRAME_INFO *pFrameInfo, void* pUser) {
 //    printf("%s lRealHandle:%ld pBuffer:%p bufSize:%ld data:%p", __FUNCTION__,
 //           lRealHandle, pBuffer, dwBufSize, pUser);
+
+    printf("nFrameType:%d", pFrameInfo->nFrameType);
     ArnetWrapper *arnetWrapper=(ArnetWrapper*)pUser;
 
     UINT64 u64Time = 0;
     u64Time = (UINT64)pFrameInfo->secCapTime * 1000 + pFrameInfo->usecCapTime / 1000;
 
-    if (arnetWrapper->m_lPlayHandle >= 0){
-        X_VideoInputData2(arnetWrapper->m_lPlayHandle, (BYTE*)pBuffer, dwBufSize, u64Time);
-        if(arnetWrapper->isRecording) {
+    if(arnetWrapper->isRecording) {
 
-            if(NULL == arnetWrapper->h264File && pFrameInfo->nFrameType == 0) {
-                arnetWrapper->h264File = fopen(arnetWrapper->recordedFileName.toStdString().c_str(), "wba");
-            }
-            if(NULL != arnetWrapper->h264File) {
-                fwrite(pBuffer, dwBufSize, 1, arnetWrapper->h264File);
-            }
+        if(NULL == arnetWrapper->h264File && pFrameInfo->nFrameType == 0) {
+            arnetWrapper->h264File = fopen(arnetWrapper->recordedFileName.toStdString().c_str(), "wba");
+        }
+        if(NULL != arnetWrapper->h264File) {
+            fwrite(pBuffer, dwBufSize, 1, arnetWrapper->h264File);
         }
     }
-    else
-    {
-        printf("eeeeeeeeeeeeee123\n");
+
+
+
+    AVPacket avpackage;
+    av_init_packet(&avpackage);
+
+    int ret = av_packet_from_data(&avpackage, ( uint8_t *)pBuffer, dwBufSize);
+    if(0 != ret) {
+        printf("error! \n");
     }
-}
 
-void CALLBACK DecodeCBFun(int handle,
-                char  *pBuf,
-                LONG  nSize,
-                X_FRAME_INFO  *pFrameInfo,
-                void*  pUser,
-                LONG  nReserved1)
-{
-//    printf("%s handle:%d pBuf:%p nSize:%ld pUser：%p", __FUNCTION__, handle, pBuf, nSize, pUser);
-//    printf("%s pFrameInfo: %ld %ld %ld %ld %ld", __FUNCTION__,
-//           pFrameInfo->nType, pFrameInfo->nStamp,
-//           pFrameInfo->nWidth, pFrameInfo->nHeight, pFrameInfo->nFrameRate);
+//    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+//    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".h264";
+//    if(NULL == h264File) {
+//        h264File = fopen(fileName.toStdString().c_str(), "wba");
+//    }
+//    AVPacket *pAVpackage = &avpackage;
+//    if(NULL != h264File) {
+//        fwrite(pAVpackage->buf->data, pAVpackage->buf->size, 1, h264File);
+//    }
 
-    ArnetWrapper *arnetWrapper=(ArnetWrapper*)pUser;
-    if(NULL != arnetWrapper->renderCallback) {
-        arnetWrapper->m_frameWidth = pFrameInfo->nWidth;
-        arnetWrapper->m_frameHeight = pFrameInfo->nHeight;
-        arnetWrapper->renderCallback->renderYUV((uchar*)pBuf, nSize, pFrameInfo->nWidth, pFrameInfo->nHeight, 0);
+    AVFrame *pFrame = av_frame_alloc();
+    int got_picture_ptr = 0;
+    ret = avcodec_decode_video2(context, pFrame, &got_picture_ptr, &avpackage);
+    if(ret < 0) {
+        printError(ret);
+        return;
+    }
+
+    printf("got_picture_ptr:%d format:%d  %d x %d picType:%d", got_picture_ptr, pFrame->format, pFrame->width, pFrame->height, pFrame->pict_type);
+    if( pFrame->format == AVPixelFormat::AV_PIX_FMT_YUVJ420P) {
+        char* buf = new char[pFrame->height * pFrame->width * 3 / 2];
+        memset(buf, 0, pFrame->height * pFrame->width * 3 / 2);
+        int height = pFrame->height;
+        int width = pFrame->width;
+
+
+        int a = 0, i;
+        for (i = 0; i<height; i++)
+        {
+           memcpy(buf + a, pFrame->data[0] + i * pFrame->linesize[0], width);
+           a += width;
+        }
+        for (i = 0; i<height / 2; i++)
+        {
+           memcpy(buf + a, pFrame->data[1] + i * pFrame->linesize[1], width / 2);
+           a += width / 2;
+        }
+        for (i = 0; i<height / 2; i++)
+        {
+           memcpy(buf + a, pFrame->data[2] + i * pFrame->linesize[2], width / 2);
+           a += width / 2;
+        }
+
+        if(nullptr != arnetWrapper->videoWidget) {
+            arnetWrapper->videoWidget->setYUV420pParameters(width, height);
+            QByteArray ba = QByteArray(buf, height * width * 3 / 2);
+            printf("buf:%p ba:%p", buf, ba.data());
+            arnetWrapper->videoWidget->setFrameData(ba);
+        }
+
+//        if(nullptr != glVideoWidget) {
+//            QByteArray ba = QByteArray(buf, pCodecCtx->height * pCodecCtx->width * 3 / 2);
+//            printf("buf:%p ba:%p", buf, ba.data());
+//            glVideoWidget->setFrameData(ba);
+//        }
+        QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".yuv";
+
+        if(pFrameInfo->nFrameType == 0) {
+            writeFile(fileName, buf, pFrame->height * pFrame->width * 3 / 2);
+        }
+
+        delete [] buf;
     }
 }
 
@@ -127,8 +213,8 @@ BOOL ArnetWrapper::deepStop() {
 
 }
 
-int ArnetWrapper::start(const QString& ip, VideoRenderCallback* renderCb) {
-    this->renderCallback = renderCb;
+int ArnetWrapper::start(const QString& ip, GLVideoWidget* videoWidget) {
+    this->videoWidget = videoWidget;
     this->ip = ip;
 
     if(ip.isNull() || ip.isEmpty()) {
@@ -143,12 +229,28 @@ int ArnetWrapper::start(const QString& ip, VideoRenderCallback* renderCb) {
     return ret;
 }
 
-int ArnetWrapper::playFile(const QString& fileName, VideoRenderCallback* renderCb) {
+//int ArnetWrapper::start(const QString& ip, VideoRenderCallback* renderCb) {
+//    this->renderCallback = renderCb;
+//    this->ip = ip;
 
-}
+//    if(ip.isNull() || ip.isEmpty()) {
+//        return -1;
+//    }
+
+//    if(!login()) {
+//        return -1;
+//    }
+
+//    int ret = play();
+//    return ret;
+//}
+
+//int ArnetWrapper::playFile(const QString& fileName, VideoRenderCallback* renderCb) {
+
+//}
 
 int ArnetWrapper::play() {
-    m_lPlayHandle = X_OpenStream2(X_STREAM_REALTIME, X_Draw_Balanced, X_DECTYPE_DEFAULT);
+//    m_lPlayHandle = X_OpenStream2(X_STREAM_REALTIME, X_Draw_Balanced, X_DECTYPE_IntelGpu);
 
     m_lRealHandle = ARNET_StartRealPlay(m_lLoginHandle, 0, MBT_VIDEOPS, RealDataCallBack, this);
     if (m_lRealHandle < 0)
@@ -157,15 +259,6 @@ int ArnetWrapper::play() {
         return -1;
     }
 
-    //窗口句柄设为null时才会回调yuv数据
-    X_PlayEx(m_lPlayHandle, nullptr); 
-
-    //设置yuv数据回调
-    BOOL bRet = X_SetVisibleDecCallBack(m_lPlayHandle, DecodeCBFun, (void*)this);
-    if (bRet == FALSE) {
-        printf("error\n");
-        return -1;
-    }
     isPlay = true;
     emit started();
     return 1;
@@ -258,7 +351,7 @@ void ArnetWrapper::startRecord() {
 //    mp4Encoder->yuv2h264_start(m_frameWidth, m_frameHeight);
 
     recordedFileName = Configure::getInstance()->getVideopath() + QDir::separator() +
-            QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".mp4";
+            QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".h264";
     isRecording = TRUE;
 }
 
@@ -272,6 +365,5 @@ void ArnetWrapper::stopRecord() {
     fflush(h264File);
     fclose(h264File);
     h264File = NULL;
-//    Mp4Encoder::h2642mp4((recordedFileName + ".h264").toStdString().c_str(), (recordedFileName + ".mp4").toStdString().c_str());
 }
 

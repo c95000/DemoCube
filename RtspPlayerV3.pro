@@ -26,7 +26,6 @@ contains(QT_ARCH, i386) {
 
 
 SOURCES += \
-    ArnetWrapper.cpp \
     AddSubButton.cpp \
     CameraController.cpp \
     CameraManager.cpp \
@@ -41,6 +40,7 @@ SOURCES += \
     ToolBar.cpp \
     common.cpp \
     glvideowidget.cpp \
+    jyplayer.cpp \
     main.cpp \
     mainwindow.cpp \
     Util.cpp \
@@ -52,7 +52,6 @@ SOURCES += \
     vlcwrapper.cpp
 
 HEADERS += \
-    ArnetWrapper.h \
     AddSubButton.h \
     CameraController.h \
     CameraManager.h \
@@ -68,6 +67,7 @@ HEADERS += \
     VideoRenderCallback.h \
     common.h \
     glvideowidget.h \
+    jyplayer.h \
     mainwindow.h \
     Util.h \
     mp4encoder.h \
@@ -97,17 +97,17 @@ THRIDPARTIES_PATH = $$PWD/thirdparties
 
 contains(QT_ARCH, i386) {
     VLC_PATH = $$PWD/win32/vlc-2.2.2/sdk
-    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/win32
-    LIBS += -L$${ARNET_LIB_PATH} -lAR -lARCL -lARNET_SDK -lXPlay
+#    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/win32
+#    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
     LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win32 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 } else {
     VLC_PATH = $$PWD/x86_64/vlc-2.2.2/sdk
-    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
-    LIBS += -L$${ARNET_LIB_PATH} -lAR -lARCL -lARNET_SDK -lXPlay
+#    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
+#    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
     LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win64 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 }
 
-INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
+#INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
 INCLUDEPATH += $${THRIDPARTIES_PATH}/ffmpeg/include
 INCLUDEPATH += $${VLC_PATH}/include
 
