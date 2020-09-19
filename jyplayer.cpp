@@ -4,6 +4,8 @@
 #include <QDateTime>
 #include <QStandardPaths>
 #include <QDir>
+#include "Configure.h"
+#include "mp4encoder.h"
 #include <QDebug>
 #define printf qDebug
 
@@ -103,12 +105,10 @@ void JyPlayer::run() {
         glVideoWidget->setYUV420pParameters(pCodecCtx->width,pCodecCtx->height);
     }
 
-    FILE* h264File = fopen(h264FileName.toStdString().c_str(), "wba");
+//    FILE* h264File = fopen(h264FileName.toStdString().c_str(), "wba");
 
 
     AVFrame *pFrame    = av_frame_alloc();
-    AVFrame *pFrameYUV = av_frame_alloc();
-
     AVPacket *pAVpackage = av_packet_alloc();
     do {
         ret = av_read_frame(pFormatCtx, pAVpackage);
@@ -121,15 +121,25 @@ void JyPlayer::run() {
 //               pAVpackage->pts, pAVpackage->dts, pAVpackage->duration,
 //               pFormatCtx->streams[pAVpackage->stream_index]->codec->codec_type);
 
-        if(NULL != h264File) {
-            fwrite(pAVpackage->buf->data, pAVpackage->buf->size, 1, h264File);
-        }
+//        if(NULL != h264File) {
+//            fwrite(pAVpackage->buf->data, pAVpackage->buf->size, 1, h264File);
+//        }
 //        printf("buffer:%p size:%d data:%p (%d %p)",
 //               pAVpackage->buf->buffer,
 //               pAVpackage->buf->size,
 //               pAVpackage->buf->data,
 //               pAVpackage->size,
 //               pAVpackage->data);
+
+//        if(isRecording && NULL != h264File) {
+//            printf("buffer:%p size:%d data:%p (%d %p)",
+//                   pAVpackage->buf->buffer,
+//                   pAVpackage->buf->size,
+//                   pAVpackage->buf->data,
+//                   pAVpackage->size,
+//                   pAVpackage->data);
+//            fwrite(pAVpackage->buf->data, pAVpackage->buf->size, 1, h264File);
+//        }
 
         int got_picture_ptr = 0;
 
@@ -138,6 +148,26 @@ void JyPlayer::run() {
             if(ret < 0) {
                 printError(ret);
                 break;
+            }
+
+
+            if(isRecording) {
+                if(!isGotIFrame && pFrame->pict_type == AVPictureType::AV_PICTURE_TYPE_I) {
+                    isGotIFrame = true;
+                    emit recordStarted();
+                }
+                if(isGotIFrame) {
+                    if(pAVpackage->buf->size == 0 || pAVpackage->buf->data == NULL) {
+                        printf("buffer:%p size:%d data:%p (%d %p)",
+                               pAVpackage->buf->buffer,
+                               pAVpackage->buf->size,
+                               pAVpackage->buf->data,
+                               pAVpackage->size,
+                               pAVpackage->data);
+                    }
+//                    fwrite(pAVpackage->buf->data, pAVpackage->buf->size, 1, h264File);
+                    qh264File.write((const char *)(pAVpackage->buf->data), pAVpackage->buf->size);
+                }
             }
 
 //            printf("got_picture_ptr:%d format:%d  %d x %d picType:%d", got_picture_ptr, pFrame->format, pFrame->width, pFrame->height, pFrame->pict_type);
@@ -184,17 +214,16 @@ void JyPlayer::run() {
             }
         }
     } while(state == PREPARING || state == PLAYING);
+
     av_packet_free(&pAVpackage);
+    av_frame_free(&pFrame);
 
 
-    while(state > 0) {
-        //        printf("readSize:%d", readSize);
-//        QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
-        QString time = QDateTime::currentDateTime().toString();
-        printf("current Time: %s", time.toStdString().c_str());
-        thread()->sleep(1);
-    }
-
+//    while(state > 0) {
+//        QString time = QDateTime::currentDateTime().toString();
+//        printf("current Time: %s", time.toStdString().c_str());
+//        thread()->sleep(1);
+//    }
 
     printf("run -- exit");
 }
@@ -223,6 +252,61 @@ int JyPlayer::stopPlay() {
     wait();
     printf("stopPlay -- wait");
 
+    return 0;
+}
+
+int JyPlayer::pausePlay() {
+    setState(enJYPLAYER_STATE::PAUSED);
+}
+
+int JyPlayer::resumePlay() {
+
+}
+
+int JyPlayer::togglePlay() {
+    if(state == PREPARING || state == PLAYING)
+    {
+        stopPlay();
+    }
+    else
+    {
+        startPlay();
+    }
+}
+
+bool JyPlayer::isWorking() {
+    if(state != IDLE) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+int JyPlayer::startRecord() {
+    if(state == PLAYING && !isRecording) {
+        recordedFileName = Configure::getInstance()->getVideopath() + QDir::separator() +
+                    QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+//        if(NULL == h264File) {
+//            h264File = fopen(recordedFileName.toStdString().c_str(), "wba");
+//        }
+        qh264File.setFileName(recordedFileName + ".h264");
+        qh264File.open(QIODevice::ReadWrite);
+        isGotIFrame = false;
+        isRecording = true;
+    }
+    return 0;
+}
+
+int JyPlayer::stopRecord() {
+    if(state == PLAYING && isRecording) {
+        isRecording = false;
+        qh264File.flush();
+        qh264File.close();
+
+        Mp4Encoder::h2642mp4((recordedFileName + ".h264").toStdString().c_str(),
+                             ((recordedFileName + ".mp4")).toStdString().c_str());
+        QFile::remove(recordedFileName + ".h264");
+    }
     return 0;
 }
 

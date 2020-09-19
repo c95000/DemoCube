@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QThread>
+#include <QFile>
 #include "glvideowidget.h"
 
 extern "C"
@@ -35,6 +36,8 @@ signals:
     void stopped();
     void error(QString& err);
 
+    void recordStarted();
+
 protected:
     void run() override;
 
@@ -42,6 +45,14 @@ public:
     int startPlay(const QString& inputsource, GLVideoWidget* glVideoWidget);
     int startPlay();
     int stopPlay();
+    int pausePlay();
+    int resumePlay();
+    int togglePlay();
+
+    bool isWorking();
+
+    int startRecord();
+    int stopRecord();
 
 private:
     void setState(enJYPLAYER_STATE state);
@@ -52,6 +63,12 @@ private:
 
     GLVideoWidget* glVideoWidget;
     QString h264FileName;
+
+    bool isRecording = false;
+    bool isGotIFrame = false;
+    QString recordedFileName;
+    FILE *h264File;
+    QFile qh264File;
 };
 
 #endif // JYPLAYER_H

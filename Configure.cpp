@@ -58,3 +58,9 @@ bool Configure::isAllowCommenting() {
     bool value = configFile->value(key, false).toBool();
     return value;
 }
+
+bool Configure::isOfficial() {
+    QString key = tr("block/offi");
+    bool value = configFile->value(key, false).toBool();
+    return value;
+}

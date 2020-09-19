@@ -36,6 +36,8 @@ private slots:
 
     void on_stop_RecordVideo();
 
+    void onRecordStarted();
+
     void on_btnCaptureVideo_clicked();
 
     void on_btnCapturePanel_clicked();

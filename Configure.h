@@ -31,6 +31,7 @@ public:
     QString getCameraIp(int index);
     void setCameraIp(int index, QString& ip);
     bool isAllowCommenting();
+    bool isOfficial();
 private:
 //    QString configPath;
     QSettings* configFile;

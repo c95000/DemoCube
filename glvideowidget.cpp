@@ -2,6 +2,7 @@
 
 #include "glvideowidget.h"
 #include "Util.h"
+#include "Configure.h"
 
 static const QMatrix4x4 yuv2rgb_bt601 =
            QMatrix4x4(
@@ -323,24 +324,25 @@ void GLVideoWidget::paintGL()
 //        glGetDoublev(GL_CURRENT_COLOR, glColor);
 //        QColor fontColor = QColor(glColor[0], glColor[1], glColor[2], glColor[3]);
 
+    if(!Configure::getInstance()->isOfficial()) {
+        // Render text
+        QPainter painter(this);
 
-    // Render text
-    QPainter painter(this);
+        QFont font;
+        font.setPixelSize(40);
+        painter.setFont(font);
 
-    QFont font;
-    font.setPixelSize(40);
-    painter.setFont(font);
+        QPen pen;
+        pen.setColor(Qt::red);
+        painter.setPen(pen);
 
-    QPen pen;
-    pen.setColor(Qt::red);
-    painter.setPen(pen);
-
-    QTextOption option(Qt::AlignLeft | Qt::AlignTop);
-    option.setWrapMode(QTextOption::WordWrap);
-    QRectF rect(100, 100, this->width, this->height);
-    QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
-    painter.drawText(rect, date, option);
-    painter.end();
+        QTextOption option(Qt::AlignLeft | Qt::AlignTop);
+        option.setWrapMode(QTextOption::WordWrap);
+        QRectF rect(100, 100, this->width, this->height);
+        QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
+        painter.drawText(rect, date, option);
+        painter.end();
+    }
 
     //update();
 }

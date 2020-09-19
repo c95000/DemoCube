@@ -66,9 +66,18 @@ void RecordLabel::onTimeUpdate(){
     }
 }
 
+void RecordLabel::onShow() {
+    printf("onShow");
+}
+
 void RecordLabel::startRecord(){
     QTime time = QTime::fromMSecsSinceStartOfDay(0);
     ui->recordTime->setText(time.toString("hh:mm:ss"));
     startTime = QDateTime::currentDateTime();
     timer->start(500);
+}
+
+void RecordLabel::showEvent(QShowEvent *event) {
+    QTime time = QTime::fromMSecsSinceStartOfDay(0);
+    ui->recordTime->setText(time.toString("hh:mm:ss"));
 }

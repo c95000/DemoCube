@@ -24,9 +24,13 @@ signals:
 protected slots:
     void onStopRecord();
     void onTimeUpdate();
+    void onShow();
 
 public:
     void startRecord();
+    void reset();
+
+    void showEvent(QShowEvent *event) override;
 
 private:
     Ui::RecordLabel *ui;

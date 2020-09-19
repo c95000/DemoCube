@@ -108,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_player, &JyPlayer::stopped, this, &MainWindow::onPlayerStopped);
     connect(m_player, &JyPlayer::paused, this, &MainWindow::onPlayerPaused);
     connect(m_player, &JyPlayer::error, this, &MainWindow::onPlayerError);
+    connect(m_player, &JyPlayer::recordStarted, this, &MainWindow::onRecordStarted);
 
     cameraController = new CameraController(this);
 
@@ -237,34 +238,33 @@ void MainWindow::on_takePicture()
 bool isRecording = false;
 
 void MainWindow::on_start_RecordVideo() {
-    QString filename = QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
-    if(filename.isEmpty()) {
-        return;
+//    QString filename = QFileDialog::getOpenFileName(this,tr("action"),"/","",0);
+//    if(filename.isEmpty()) {
+//        return;
+//    }
+
+//    QString outputName = filename.split(".").first() + ".mp4";
+
+//    Mp4Encoder::h2642mp4(filename.toStdString().c_str(), outputName.toStdString().c_str());
+    m_player->startRecord();
+    recordLabel->show();
+    QRect rect = ui->stackedWidget->geometry();
+
+    if(!recordLabel->isHidden()) {
+        int ax = (rect.width() - recordLabel->width()) / 2 + rect.x();
+        int ay = rect.height() - recordLabel->height() + rect.y();
+        recordLabel->move(ax, ay);
     }
-
-    QString outputName = filename.split(".").first() + ".mp4";
-
-    Mp4Encoder::h2642mp4(filename.toStdString().c_str(), outputName.toStdString().c_str());
-
-//    if(arnetWrapper->isPlaying() && !isRecording) {
-//        arnetWrapper->startRecord();
-//        recordLabel->show();
-//        recordLabel->startRecord();
-//        isRecording = true;
-//    }
-
-//    QRect rect = ui->stackedWidget->geometry();
-
-//    if(!recordLabel->isHidden()) {
-//        int ax = (rect.width() - recordLabel->width()) / 2 + rect.x();
-//        int ay = rect.height() - recordLabel->height() + rect.y();
-//        recordLabel->move(ax, ay);
-//    }
 }
 
 void MainWindow::on_stop_RecordVideo() {
     recordLabel->hide();
-    isRecording = false;
+    m_player->stopRecord();
+}
+
+void MainWindow::onRecordStarted() {
+    printf("onRecordStarted");
+    recordLabel->startRecord();
 }
 
 void MainWindow::on_btnCaptureVideo_clicked()
@@ -327,6 +327,11 @@ void MainWindow::on_btnPlayLocal_clicked()
         }
 
         filename.replace("/", "\\");
+
+        if(m_player->isWorking()) {
+            m_player->stopPlay();
+        }
+
         vlcWrapper->start(filename, ui->myRender);
     }
 
@@ -341,7 +346,8 @@ void MainWindow::on_btnPlayPause_clicked()
     if(!isCommenting()) {
         if(vlcWrapper->isWorking()) {
             vlcWrapper->toggle();
-        } else {
+        } else if(m_player->isWorking()) {
+            m_player->togglePlay();
         }
     }
 
@@ -369,6 +375,13 @@ void MainWindow::on_btnComment_clicked()
 
     if (vlcWrapper->isWorking()) {
         vlcWrapper->pause();
+        QImage image;
+        ui->myRender->copyCurrentImage(image);
+        myPaint->setImage(image);
+    }
+    else if(m_player->isWorking())
+    {
+        m_player->pausePlay();
         QImage image;
         ui->myRender->copyCurrentImage(image);
         myPaint->setImage(image);
@@ -442,6 +455,11 @@ void MainWindow::onSelectedRtsp(QString& ip) {
 //        arnetWrapper = new ArnetWrapper();
 
         vlcWrapper->stop();
+
+        if(m_player->isWorking()) {
+            m_player->stopPlay();
+        }
+
         int ret = m_player->startPlay(rtspUrl, ui->myRender);
         if(ret < 0) {
             QMessageBox msgBox;
