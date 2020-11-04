@@ -28,5 +28,7 @@
         <file>res/images/whiteboard.png</file>
         <file>res/images/whitepen.png</file>
         <file>res/images/background.png</file>
+        <file>res/images/main.ico</file>
+        <file>res/images/main.png</file>
     </qresource>
 </RCC>

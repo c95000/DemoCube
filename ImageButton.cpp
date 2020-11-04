@@ -1,6 +1,6 @@
 #include "ImageButton.h"
 
-#include<iostream>
+#include <iostream>
 #include <QPainter>
 #include <QPainter>
 #include <QPaintEvent>

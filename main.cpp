@@ -7,13 +7,14 @@
 #include <CameraController.h>
 #include <CameraManager.h>
 #include "recordlabel.h"
+#include "primewindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    MainWindow w;
-    w.show();
+//    MainWindow w;
+    PrimeWindow w;
 
 //    ToolBar w;
 //    w.show();
@@ -36,5 +37,6 @@ int main(int argc, char *argv[])
 //    RecordLabel r;
 //    r.show();
 
+    w.show();
     return a.exec();
 }

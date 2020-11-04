@@ -47,6 +47,7 @@ SOURCES += \
     mp4encoder.cpp \
     mypaint.cpp \
     playpausebutton.cpp \
+    primewindow.cpp \
     recordlabel.cpp \
     scaler.cpp \
     vlcwrapper.cpp
@@ -73,6 +74,7 @@ HEADERS += \
     mp4encoder.h \
     mypaint.h \
     playpausebutton.h \
+    primewindow.h \
     recordlabel.h \
     scaler.h \
     vlcwrapper.h
@@ -88,6 +90,7 @@ FORMS += \
     TitleButton.ui \
     ToolBar.ui \
     mainwindow.ui \
+    primewindow.ui \
     recordlabel.ui
 
 
@@ -121,3 +124,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     res.qrc
+
+RC_FILE = resources.rc
