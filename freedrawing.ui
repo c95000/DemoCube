@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PrimeWindow</class>
- <widget class="QMainWindow" name="PrimeWindow">
+ <class>FreeDrawing</class>
+ <widget class="QWidget" name="FreeDrawing">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>204</width>
-    <height>137</height>
+    <width>184</width>
+    <height>124</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Form</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
  </widget>
  <resources/>
  <connections/>

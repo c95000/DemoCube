@@ -33,12 +33,14 @@ SOURCES += \
     Configure.cpp \
     HTitleButton.cpp \
     ImageButton.cpp \
+    Loading/Loading.cpp \
     MediaController.cpp \
     Resolution.cpp \
     SettingDialog.cpp \
     TitleButton.cpp \
     ToolBar.cpp \
     common.cpp \
+    freedrawing.cpp \
     glvideowidget.cpp \
     jyplayer.cpp \
     main.cpp \
@@ -60,6 +62,7 @@ HEADERS += \
     Configure.h \
     HTitleButton.h \
     ImageButton.h \
+    Loading/Loading.h \
     MediaController.h \
     Resolution.h \
     SettingDialog.h \
@@ -67,6 +70,7 @@ HEADERS += \
     ToolBar.h \
     VideoRenderCallback.h \
     common.h \
+    freedrawing.h \
     glvideowidget.h \
     jyplayer.h \
     mainwindow.h \
@@ -89,6 +93,7 @@ FORMS += \
     SettingDialog.ui \
     TitleButton.ui \
     ToolBar.ui \
+    freedrawing.ui \
     mainwindow.ui \
     primewindow.ui \
     recordlabel.ui

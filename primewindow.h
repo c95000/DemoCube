@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 #include "jyplayer.h"
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QStackedLayout>
+#include "mypaint.h"
+#include "freedrawing.h"
 
 namespace Ui {
 class PrimeWindow;
@@ -21,10 +26,15 @@ private slots:
     void on_btnRtsp_clicked();
     void on_btnWhiteboard_clicked();
 
+    void on_btnTest1_clicked();
+    void on_btnTest2_clicked();
+
 private:
     Ui::PrimeWindow *ui;
 
     JyPlayer *m_player = NULL;
+    //MyPaint *m_paint = NULL;
+
 };
 
 #endif // PRIMEWINDOW_H
