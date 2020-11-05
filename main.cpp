@@ -8,13 +8,19 @@
 #include <CameraManager.h>
 #include "recordlabel.h"
 #include "primewindow.h"
+#include "freedrawingmenu.h"
+#include "linestate.h"
+#include "freedrawing.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
 //    MainWindow w;
-    PrimeWindow w;
+//    PrimeWindow w;
+//    FreeDrawingMenu w;
+//    LineState w;
+    FreeDrawing w;
 
 //    ToolBar w;
 //    w.show();

@@ -41,8 +41,10 @@ SOURCES += \
     ToolBar.cpp \
     common.cpp \
     freedrawing.cpp \
+    freedrawingmenu.cpp \
     glvideowidget.cpp \
     jyplayer.cpp \
+    linestate.cpp \
     main.cpp \
     mainwindow.cpp \
     Util.cpp \
@@ -71,8 +73,10 @@ HEADERS += \
     VideoRenderCallback.h \
     common.h \
     freedrawing.h \
+    freedrawingmenu.h \
     glvideowidget.h \
     jyplayer.h \
+    linestate.h \
     mainwindow.h \
     Util.h \
     mp4encoder.h \
@@ -94,6 +98,8 @@ FORMS += \
     TitleButton.ui \
     ToolBar.ui \
     freedrawing.ui \
+    freedrawingmenu.ui \
+    linestate.ui \
     mainwindow.ui \
     primewindow.ui \
     recordlabel.ui

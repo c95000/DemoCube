@@ -2,6 +2,8 @@
 #define FREEDRAWING_H
 
 #include <QWidget>
+#include "freedrawingmenu.h"
+#include <QPainter>
 
 class Line : public QObject{
     Q_OBJECT
@@ -31,6 +33,9 @@ public:
     explicit FreeDrawing(const QString& imageSource, QWidget *parent = nullptr);
     ~FreeDrawing();
 
+private slots:
+    void on_penChanged();
+
 protected:
     void paintEvent(QPaintEvent *);//重写窗体重绘事件
     void mousePressEvent(QMouseEvent *);//重写鼠标按下事件
@@ -41,9 +46,15 @@ protected:
 private:
     Ui::FreeDrawing *ui;
 
+    QColor penColor = Qt::red;
+    int penWidth = 3;
+
     QPixmap _originPixmap;
     QPixmap _pixmap;
     QVector<QVector<QPoint> > _lines;//线条集合(一条线条可包含多个线段)
+
+    FreeDrawingMenu *freeDrawingMenu;
+    bool mousePressed = false;
 };
 
 #endif // FREEDRAWING_H

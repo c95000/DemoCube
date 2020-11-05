@@ -3,6 +3,7 @@
 #include <QPainter>
 #include "common.h"
 #include <QMouseEvent>
+#include <QHBoxLayout>
 
 FreeDrawing::FreeDrawing(QWidget *parent) :
     QWidget(parent),
@@ -10,6 +11,15 @@ FreeDrawing::FreeDrawing(QWidget *parent) :
 {
     ui->setupUi(this);
     printf("size: %d x %d", size().width(), size().height());
+
+    freeDrawingMenu = new FreeDrawingMenu();
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    hLayout->addStretch();
+    hLayout->addWidget(freeDrawingMenu, 0, Qt::AlignBottom);
+    setLayout(hLayout);
+
+//    connect(ui->cameraManager, &CameraManager::selectedRtsp, this, &MainWindow::onSelectedRtsp);
+    connect(freeDrawingMenu, &FreeDrawingMenu::penChanged, this, &FreeDrawing::on_penChanged);
 }
 
 FreeDrawing::FreeDrawing(const QString& imageSource, QWidget *parent) :
@@ -30,6 +40,14 @@ FreeDrawing::~FreeDrawing()
     delete ui;
 }
 
+void FreeDrawing::on_penChanged() {
+    printf("colorIndex: width:%d", freeDrawingMenu->getPenWidth());
+//    m_pen->setColor(freeDrawingMenu->penColor());
+//    m_pen->setWidth(freeDrawingMenu->penWidth());
+    penColor = freeDrawingMenu->getPenColor();
+    penWidth = freeDrawingMenu->getPenWidth();
+}
+
 void FreeDrawing::paintEvent(QPaintEvent *) {
     QPixmap pixmap(size());
     pixmap.fill(Qt::white);
@@ -42,9 +60,11 @@ void FreeDrawing::paintEvent(QPaintEvent *) {
 ////    painter.end();
 ////    painter.drawPixmap(0, 0, width(), height(), pixmap);//将pixmap画到窗体
 
-////    QPen pen;                                    //新建一个QPen对象
+//    QPen pen;                                    //新建一个QPen对象
 ////    pen.setStyle (Qt::PenStyle::SolidLine);
-////    pen.setColor (Qt::black);                        //设置画笔的颜色
+//    pen.setColor(freeDrawingMenu->penColor());                        //设置画笔的颜色
+//    pen.setWidth(freeDrawingMenu->penWidth());
+
 ////    printf("lines: %d", _lines.size());
 //    for(int i = 0; i < _lines.size(); i++) {
 //        const QVector<QPoint>& line = _lines.at(i);
@@ -60,6 +80,9 @@ void FreeDrawing::paintEvent(QPaintEvent *) {
 
     QPainter painter;//将_pixmap作为画布
     painter.begin(this);
+//    painter.setPen(penColor);
+//    painter.setPen(penWidth);
+    painter.setPen(QPen(penColor, penWidth));
     painter.drawPixmap(0, 0, pixmap);//将pixmap画到窗体
     if(_originPixmap.width() > 0 && _originPixmap.height() > 0) {
         double ratio = 1.0 * _originPixmap.width() / _originPixmap.height();
@@ -90,8 +113,11 @@ void FreeDrawing::paintEvent(QPaintEvent *) {
         painter.drawPixmap(rect , _originPixmap);//将pixmap画到窗体
     }
 
+//    printf("_lines:%d", _lines.size());
+
     for(int i = 0; i < _lines.size(); i++) {
         const QVector<QPoint>& line = _lines.at(i);
+//        printf("line[%d]:%d", i, line.size());
         for(int j = 0; j < line.size() - 1; j++) {
             painter.drawLine(line.at(j), line.at(j+1));
         }
@@ -103,6 +129,7 @@ void FreeDrawing::mousePressEvent(QMouseEvent *e) {
 //    printf("mousePressEvent e->pos(%d, %d) \n", e->pos().rx(), e->pos().ry());
     if(e->button() == Qt::LeftButton)//当鼠标左键按下
     {
+        mousePressed = true;
         QVector<QPoint> line;
         line.append(e->pos());
         _lines.append(line);
@@ -113,6 +140,7 @@ void FreeDrawing::mouseReleaseEvent(QMouseEvent *e) {
 //    printf("mouseReleaseEvent e->pos(%d, %d) \n", e->pos().rx(), e->pos().ry());
     if(e->button() == Qt::LeftButton)//当鼠标左键按下
     {
+        mousePressed = false;
         if(_lines.size() <= 0) {
             return;
         }
@@ -124,6 +152,7 @@ void FreeDrawing::mouseReleaseEvent(QMouseEvent *e) {
 void FreeDrawing::mouseMoveEvent(QMouseEvent *e) {
 //    printf("mouseMoveEvent e->pos(%d, %d) e->button():%d\n", e->pos().rx(), e->pos().ry(), e->button());
 //    if(e->button() == Qt::LeftButton)//当鼠标左键按下
+    if(mousePressed)
     {
         if(_lines.size() <= 0) {
             return;
