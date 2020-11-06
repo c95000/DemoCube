@@ -31,6 +31,7 @@ class FreeDrawing : public QWidget
 public:
     explicit FreeDrawing(QWidget *parent = nullptr);
     explicit FreeDrawing(const QString& imageSource, QWidget *parent = nullptr);
+    explicit FreeDrawing(const QPixmap& pixmapSource, QWidget *parent = nullptr);
     ~FreeDrawing();
 
 signals:

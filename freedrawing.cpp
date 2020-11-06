@@ -34,6 +34,14 @@ FreeDrawing::FreeDrawing(const QString& imageSource, QWidget *parent) :
     ui->setupUi(this);
 }
 
+FreeDrawing::FreeDrawing(const QPixmap& pixmapSource, QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::FreeDrawing)
+{
+    _originPixmap = pixmapSource.copy();
+    ui->setupUi(this);
+}
+
 FreeDrawing::~FreeDrawing()
 {
     printf("FreeDrawing is deleted.");
@@ -146,11 +154,15 @@ void FreeDrawing::paintEvent(QPaintEvent *) {
     for(int i = 0; i < _lines.size(); i++) {
         const QVector<QPoint>& line = _lines.at(i);
 //        printf("line[%d]:%d", i, line.size());
-        painter.setPen(QPen(_lineColors.at(i), _lineWidth.at(i)));
+        QPen pen(_lineColors.at(i), _lineWidth.at(i));
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+        painter.setPen(pen);
         for(int j = 0; j < line.size() - 1; j++) {
             painter.drawLine(line.at(j), line.at(j+1));
         }
     }
+
     painter.end();
 }
 
