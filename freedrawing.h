@@ -33,8 +33,13 @@ public:
     explicit FreeDrawing(const QString& imageSource, QWidget *parent = nullptr);
     ~FreeDrawing();
 
+signals:
+    void signalClose();
+
 private slots:
     void on_penChanged();
+    void on_undo();
+    void on_close();
 
 protected:
     void paintEvent(QPaintEvent *);//重写窗体重绘事件
@@ -52,6 +57,8 @@ private:
     QPixmap _originPixmap;
     QPixmap _pixmap;
     QVector<QVector<QPoint> > _lines;//线条集合(一条线条可包含多个线段)
+    QVector<QColor> _lineColors;
+    QVector<int> _lineWidth;
 
     FreeDrawingMenu *freeDrawingMenu;
     bool mousePressed = false;

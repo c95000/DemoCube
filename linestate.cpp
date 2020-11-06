@@ -8,8 +8,8 @@
 LineState::LineState(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LineState),
-    color(Qt::black),
-    width(5)
+    lineColor(Qt::black),
+    lineWidth(5)
 {
     ui->setupUi(this);
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -18,6 +18,7 @@ LineState::LineState(QWidget *parent) :
 //    pal.setColor(QPalette::Background, QColor(255,255,0)); //设置背景黑色
 //    setAutoFillBackground(true);
 //    setPalette(pal);
+    setStyleSheet("#frame{border:2px solid #014F84}#background-color:#00d8ff");
 }
 
 LineState::~LineState()
@@ -26,12 +27,12 @@ LineState::~LineState()
 }
 
 
-void LineState::setColor(QColor &color) {
-    this->color = color;
+void LineState::setLineColor(QColor &color) {
+    this->lineColor = color;
     update();
 }
-void LineState::setWidth(int width) {
-    this->width = width;
+void LineState::setLineWidth(int width) {
+    this->lineWidth = width;
     update();
 }
 
@@ -42,19 +43,28 @@ void LineState::setSize(QResizeEvent *event) {
 
 
 void LineState::paintEvent(QPaintEvent *event) {
-    QPixmap pixmap(size());
-    pixmap.fill(Qt::white);
+    QPainter painter(this);
+
+    painter.setPen(QColor(200, 200, 200));
+    // 上面画线
+    painter.drawLine(0, 0, this->width() - 1, 0);
+    // 左面画线
+    painter.drawLine(0, 0, 0, this->height() - 1);
+    // 右侧画线
+    painter.drawLine(width() - 1, 0, width() - 1, this->height() - 1);
+    // 下面画线
+    painter.drawLine(0, this->height() - 1, this->width() - 1, this->height() - 1);
 
     QPen pen;                                    //新建一个QPen对象
     pen.setStyle(Qt::PenStyle::SolidLine);
-    pen.setColor(color);                        //设置画笔的颜色
-    pen.setWidth(width);
+    pen.setColor(lineColor);                        //设置画笔的颜色
+    pen.setWidth(lineWidth);
 
-    QPainter painter(this);//将_pixmap作为画布
+
     painter.setPen(pen);
 
 //    printf("LineState: %d x %d", size().width(), size().height());
-    int x = 0;
+    int x = 8;
     int y = (size().height()) / 2;
-    painter.drawLine(0, y, size().width(), y);
+    painter.drawLine(x, y, size().width() - x, y);
 }

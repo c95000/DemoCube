@@ -15,8 +15,8 @@ public:
     explicit LineState(QWidget *parent = nullptr);
     ~LineState();
 
-    void setColor(QColor &color);
-    void setWidth(int width);
+    void setLineColor(QColor &color);
+    void setLineWidth(int width);
 
 public slots:
     void setSize(QResizeEvent *event);
@@ -27,8 +27,8 @@ protected:
 private:
     Ui::LineState *ui;
 
-    QColor color;
-    int width;
+    QColor lineColor;
+    int lineWidth;
 };
 
 #endif // LINESTATE_H

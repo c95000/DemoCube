@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QComboBox>
 #include "linestate.h"
+#include <QPushButton>
 
 namespace Ui {
 class FreeDrawingMenu;
@@ -22,14 +23,22 @@ public:
 
 signals:
     void penChanged();
+    void undo();
+    void close();
 
 protected:
     void resizeEvent(QResizeEvent *event);
+
+signals:
+    void signalUndo();
+    void signalClose();
 
 
 private slots:
     void on_color_changed(int index);
     void on_width_changed(int index);
+    void on_btnUndo();
+    void on_btnClose();
 
 private:
     Ui::FreeDrawingMenu *ui;
@@ -37,6 +46,8 @@ private:
     QComboBox *colorCombo;
     QComboBox *widthCombo;
     LineState *lineState;
+    QPushButton *btnUndo;
+    QPushButton *btnClose;
 
     QColor penColor;
     int penWidth;

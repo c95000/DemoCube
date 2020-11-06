@@ -4,7 +4,7 @@
 #include <QtWidgets/QComboBox>
 #include "common.h"
 #include "linestate.h"
-
+#include <QPushButton>
 
 FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     QWidget(parent),
@@ -25,11 +25,18 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
 
     lineState = new LineState();
 
+    btnUndo = new QPushButton("撤销");
+    connect(btnUndo, SIGNAL(clicked(bool)), this, SIGNAL(signalUndo()));
+    btnClose = new QPushButton("关闭");
+    connect(btnClose, SIGNAL(clicked(bool)), this, SIGNAL(signalClose()));
+
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
     hLayout->addWidget(colorCombo);
     hLayout->addWidget(widthCombo);
     hLayout->addWidget(lineState);
+    hLayout->addWidget(btnUndo);
+    hLayout->addWidget(btnClose);
     hLayout->addStretch();
 
     setLayout(hLayout);
@@ -52,6 +59,9 @@ void FreeDrawingMenu::resizeEvent(QResizeEvent *event) {
     printf("widthCombo: %d x %d", widthCombo->width(), widthCombo->height());
 //    printf("lineState: %d x %d", lineState->width(), lineState->height());
     lineState->setFixedSize(widthCombo->width(), widthCombo->height());
+    btnUndo->setFixedSize(widthCombo->width(), widthCombo->height());
+    btnClose->setFixedSize(widthCombo->width(), widthCombo->height());
+
     update();
 }
 
@@ -83,30 +93,40 @@ void FreeDrawingMenu::on_color_changed(int index) {
         break;
     }
 
-    lineState->setColor(color);
+    lineState->setLineColor(color);
     penColor = color;
     emit penChanged();
 }
 
 void FreeDrawingMenu::on_width_changed(int index) {
 
-    int width = 3;
+    int width = 2;
     switch (index) {
     case 0:
-        width = 3;
+        width = 2;
         break;
     case 1:
-        width = 5;
+        width = 4;
         break;
     case 2:
-        width = 7;
+        width = 6;
         break;
     case 3:
-        width = 9;
+        width = 8;
         break;
     }
 
-    lineState->setWidth(width);
+    lineState->setLineWidth(width);
     penWidth = width;
     emit penChanged();
+}
+
+void FreeDrawingMenu::on_btnUndo() {
+    printf("FreeDrawingMenu:: on_btnUndo");
+    emit signalUndo();
+}
+
+void FreeDrawingMenu::on_btnClose() {
+    printf("FreeDrawingMenu:: on_btnClose");
+    emit signalClose();
 }
