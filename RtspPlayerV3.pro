@@ -54,6 +54,9 @@ SOURCES += \
     primewindow.cpp \
     recordlabel.cpp \
     scaler.cpp \
+    vlcplayer.cpp \
+    vlcplayercontroller.cpp \
+    vlcworker.cpp \
     vlcwrapper.cpp
 
 HEADERS += \
@@ -85,6 +88,9 @@ HEADERS += \
     primewindow.h \
     recordlabel.h \
     scaler.h \
+    vlcplayer.h \
+    vlcplayercontroller.h \
+    vlcworker.h \
     vlcwrapper.h
 
 FORMS += \
@@ -102,7 +108,9 @@ FORMS += \
     linestate.ui \
     mainwindow.ui \
     primewindow.ui \
-    recordlabel.ui
+    recordlabel.ui \
+    vlcplayer.ui \
+    vlcplayercontroller.ui
 
 
 QT += opengl network widgets

@@ -11,6 +11,9 @@
 #include "freedrawingmenu.h"
 #include "linestate.h"
 #include "freedrawing.h"
+#include "vlcplayer.h"
+#include "vlcplayercontroller.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +23,9 @@ int main(int argc, char *argv[])
 //    PrimeWindow w;
 //    FreeDrawingMenu w;
 //    LineState w;
-    FreeDrawing w;
+//    FreeDrawing w;
+    VlcPlayer w("C:\nginx-1.16.0\html\mfc\eb3aa50943c201336de9fa1c23b5a6c5-480p.mp4");
+//      VlcPlayerController w;
 
 //    ToolBar w;
 //    w.show();
