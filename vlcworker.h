@@ -34,7 +34,7 @@ private:
     void deinitVlc();
 
 public:
-    char * m_videobuf;
+//    char * m_videobuf;
 
 private:
     QString inputSource;
@@ -44,6 +44,9 @@ private:
     libvlc_media_t* m_pvlcMedia;
 
     QThread *worker;
+
+    int m_frameWidth;
+    int m_frameHeight;
 
 
 };

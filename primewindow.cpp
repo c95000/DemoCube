@@ -43,7 +43,8 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 //    GLVideoWidget *viewWidget = new GLVideoWidget();
 //    QLabel *label = new QLabel("test");
 //    MyPaint *paint = new MyPaint();
-    FreeDrawing *freeDrawing = new FreeDrawing(tr("D:/test.png"));
+    freeDrawing = new FreeDrawing();
+    vlcPlayer = new VlcPlayer();
     vLayout->addStretch(0);
 //    vLayout->addWidget(freeDrawing, 1);
     vLayout->addLayout(hLayout);
@@ -55,6 +56,23 @@ PrimeWindow::~PrimeWindow()
     delete ui;
 }
 
+void PrimeWindow::replaseWidget(QWidget* widget) {
+    QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());
+    for(int i = 0; i < layout->count(); i++) {
+//        printf("layout->itemAt(%d): %p", i, layout->itemAt(i));
+//        printf("layout->itemAt(%d)->widget(): %p - %p", i, layout->itemAt(i)->widget(), layout->itemAt(i)->layout());
+        QLayoutItem* child = layout->itemAt(i);
+        if(NULL != child && NULL != child->widget()) {
+            printf("widget: %p  child->widget():%p", widget, child->widget());
+            layout->takeAt(i);
+            layout->removeWidget(child->widget());
+            child->widget()->setParent(0);
+//            delete child->widget();
+            break;
+        }
+    }
+    layout->insertWidget(1, widget, 1);
+}
 
 void PrimeWindow::on_btnLocal_clicked() {
     printf("on_btnLocal_clicked");
@@ -66,6 +84,8 @@ void PrimeWindow::on_btnLocal_clicked() {
 
     printf("filename: %s", filename.toStdString().c_str());
     filename.replace("/", "\\");
+    replaseWidget(vlcPlayer);
+    vlcPlayer->play(filename);
 }
 
 void PrimeWindow::on_btnRtsp_clicked() {
@@ -93,7 +113,26 @@ void PrimeWindow::on_btnRtsp_clicked() {
 }
 
 void PrimeWindow::on_btnWhiteboard_clicked() {
-    printf("on_btnWhiteboard_clicked");
+//    printf("on_btnWhiteboard_clicked----------------------------------------");
+//    QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());
+//    for(int i = 0; i < layout->count(); i++) {
+////        printf("layout->itemAt(%d): %p", i, layout->itemAt(i));
+////        printf("layout->itemAt(%d)->widget(): %p - %p", i, layout->itemAt(i)->widget(), layout->itemAt(i)->layout());
+//        QLayoutItem* child = layout->itemAt(i);
+//        if(NULL != child && NULL != child->widget()) {
+//            layout->takeAt(i);
+//            layout->removeWidget(child->widget());
+//            child->widget()->setParent(0);
+//            delete child->widget();
+//            break;
+//        }
+
+//    }
+////    FreeDrawing *freeDrawing = new FreeDrawing(tr("D:/test.png"));
+//    FreeDrawing *freeDrawing = new FreeDrawing();
+//    layout->insertWidget(1, freeDrawing, 1);
+
+    replaseWidget(freeDrawing);
 }
 
 void PrimeWindow::on_btnTest1_clicked() {

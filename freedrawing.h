@@ -34,6 +34,9 @@ public:
     explicit FreeDrawing(const QPixmap& pixmapSource, QWidget *parent = nullptr);
     ~FreeDrawing();
 
+public:
+    void clear();
+
 signals:
     void signalClose();
 

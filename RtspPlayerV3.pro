@@ -43,6 +43,7 @@ SOURCES += \
     freedrawing.cpp \
     freedrawingmenu.cpp \
     glvideowidget.cpp \
+    imagedisplay.cpp \
     jyplayer.cpp \
     linestate.cpp \
     main.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
     freedrawing.h \
     freedrawingmenu.h \
     glvideowidget.h \
+    imagedisplay.h \
     jyplayer.h \
     linestate.h \
     mainwindow.h \
@@ -105,6 +107,7 @@ FORMS += \
     ToolBar.ui \
     freedrawing.ui \
     freedrawingmenu.ui \
+    imagedisplay.ui \
     linestate.ui \
     mainwindow.ui \
     primewindow.ui \

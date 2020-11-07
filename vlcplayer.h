@@ -17,22 +17,31 @@ class VlcPlayer : public QWidget
     Q_OBJECT
 
 public:
+    explicit VlcPlayer(QWidget *parent = nullptr);
     explicit VlcPlayer(const QString& inputSrc, QWidget *parent = nullptr);
     ~VlcPlayer();
 
+private:
+    void init();
+
 public:
-    void start();
-    void stop();
-    void pause();
-    void resume();
+//    void start();
+//    void stop();
+//    void pause();
+//    void resume();
+    void play(const QString& inputSrc);
 
 public slots:
-    void onPlay();
-    void onStop();
+    void play();
+    void stop();
+    void pause();
+    void close();
+    void takePicture();
+    void comment();
 
 signals:
     void prepared();
-    void started();
+    void played();
     void paused();
     void stopped();
 
@@ -42,11 +51,14 @@ public:
 private:
     Ui::VlcPlayer *ui;
 
-    GLVideoWidget* m_videoView;
-    QString inputSource;
-    VlcWorker *worker;
+    QWidget* videoView;
+    QString inputSource; // media filename
+
+    libvlc_instance_t* m_vlcInstance;
+    libvlc_media_player_t* m_vlcMediaPlayer;
+    libvlc_media_t* m_vlcMedia;
+
     VlcPlayerController *controller;
-    QThread *childThread;
     Loading *loading;
 };
 

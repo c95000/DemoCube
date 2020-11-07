@@ -3,7 +3,15 @@
 #include "Util.h"
 #include "common.h"
 #include "vlc/vlc.h"
+#include "vlcwrapper.h"
+#include <QScreen>
 
+VlcPlayer::VlcPlayer(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::VlcPlayer)
+{
+    init();
+}
 
 VlcPlayer::VlcPlayer(const QString& inputSrc, QWidget *parent) :
     QWidget(parent),
@@ -12,142 +20,187 @@ VlcPlayer::VlcPlayer(const QString& inputSrc, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    worker = new VlcWorker(inputSrc);
+    init();
 
-    m_videoView = new GLVideoWidget();
-    controller = new VlcPlayerController();
-//    connect(controller, SIGNAL(play()), this, SLOT(onPlay()));
-    connect(controller, SIGNAL(play()), worker, SLOT(onPlay()));
-    connect(controller, SIGNAL(pause()), worker, SLOT(onPause()));
-//    connect(controller, SIGNAL(stop()), worker, SLOT(onStop()));
-    connect(controller, SIGNAL(exit()), worker, SLOT(onExit()));
+//    childThread = new QThread();
 
-    connect(controller, SIGNAL(stop()), this, SLOT(onStop()));
-
-    controller->setMaximumHeight(80);
-
-    QVBoxLayout *layout = new QVBoxLayout();
-
-    layout->addWidget(m_videoView, 5);
-    layout->addWidget(controller, 1);
-
-    setLayout(layout);
-
-    childThread = new QThread();
-
-    loading = new Loading(this);
-    loading->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-    loading->setWindowModality(Qt::ApplicationModal);
-    loading->resize(256, 256);
-    loading->start();
+//    loading = new Loading(this);
+//    loading->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+//    loading->setWindowModality(Qt::ApplicationModal);
+//    loading->resize(256, 256);
+//    loading->start();
 //    loading->show();
 
-    connect(controller, SIGNAL(stop()), loading, SLOT(show()));
+//    connect(controller, SIGNAL(stop()), loading, SLOT(show()));
 
-    worker->moveToThread(childThread);
-    connect(childThread, SIGNAL(started()), worker, SLOT(onStop()));
-    connect(worker, &VlcWorker::stopped, [=](){
-        printf("VlcWorker stopped: %p", QThread::currentThreadId());
-        childThread->quit();
-    });
-    connect(childThread, &QThread::finished, [=](){
-        printf("childThread finished %p", QThread::currentThreadId());
-    });
-    connect(childThread, SIGNAL(finished()), loading, SLOT(close()));
+//    worker->moveToThread(childThread);
+//    connect(childThread, SIGNAL(started()), worker, SLOT(onStop()));
+//    connect(worker, &VlcWorker::stopped, [=](){
+//        printf("VlcWorker stopped: %p", QThread::currentThreadId());
+//        childThread->quit();
+//    });
+//    connect(childThread, &QThread::finished, [=](){
+//        printf("childThread finished %p", QThread::currentThreadId());
+//    });
+//    connect(childThread, SIGNAL(finished()), loading, SLOT(close()));
 }
 
 VlcPlayer::~VlcPlayer()
 {
-    childThread->exit();
-    childThread->wait();
-    delete childThread;
+    stop();
+    libvlc_media_release(m_vlcMedia);
+    libvlc_media_player_stop(m_vlcMediaPlayer);
+    libvlc_media_player_release(m_vlcMediaPlayer);
+    libvlc_release(m_vlcInstance);
 
-    delete worker;
-    delete m_videoView;
     delete ui;
 }
 
+void VlcPlayer::init() {
+    videoView = new QLabel();
+    QPalette pal(videoView->palette());
+    pal.setColor(QPalette::Background, QColor(20,20,20)); //设置背景黑色
+    videoView->setAutoFillBackground(true);
+    videoView->setPalette(pal);
 
-void VlcPlayer::onPlay() {
-    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
-//    loading->show();
-//    Loading *loading = new Loading(this);
-//    loading->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-//    loading->setWindowModality(Qt::ApplicationModal);
-//    loading->resize(256, 256);
-//    loading->start();
-//    loading->show();
+    controller = new VlcPlayerController();
+//    connect(controller, SIGNAL(play()), worker, SLOT(onPlay()));
+//    connect(controller, SIGNAL(pause()), worker, SLOT(onPause()));
+//    connect(controller, SIGNAL(stop()), worker, SLOT(onStop()));
+//    connect(controller, SIGNAL(exit()), worker, SLOT(onExit()));
 
-//    connect(worker, &VlcWorker::stopped, [=](){
-//        printf("stopped signal....");
-//        loading->close();
-//        delete loading;
-//    });
+    connect(controller, SIGNAL(play()), this, SLOT(play()));
+    connect(controller, SIGNAL(stop()), this, SLOT(stop()));
+    connect(controller, SIGNAL(pause()), this, SLOT(pause()));
+    connect(controller, SIGNAL(exit()), this, SLOT(close()));
+    connect(controller, SIGNAL(takePicture()), this, SLOT(takePicture()));
+    connect(controller, SIGNAL(comment()), this, SLOT(comment()));
+
+//    connect(controller, SIGNAL(pause()), this, SLOT(onPause()));
+
+    QVBoxLayout *layout = new QVBoxLayout();
+
+    layout->addWidget(videoView, 5);
+    layout->addWidget(controller, 1);
+
+    setLayout(layout);
+
+
+    //创建vlc实例
+    m_vlcInstance = libvlc_new(0, NULL);
+    m_vlcMediaPlayer = NULL;
+
+    //判断vlc实例化是否ok
+    if (m_vlcInstance == NULL)
+    {
+        QMessageBox::critical(this, "错误", "error(1-101)");
+        exit(-1);
+    }
+
+    if(!inputSource.isNull() && !inputSource.isEmpty()) {
+        play();
+    }
 }
 
-void VlcPlayer::onStop() {
+void VlcPlayer::play(const QString& inputSrc) {
+    inputSource = inputSrc;
+    play();
+}
+
+void VlcPlayer::play() {
     printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
-//    Loading *loading = new Loading(this);
-//    loading->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-//    loading->setWindowModality(Qt::ApplicationModal);
-//    loading->resize(256, 256);
-//    loading->start();
-//    loading->show();
 
-//    connect(worker, &VlcWorker::stopped, [=](){
-//        printf("stopped signal....%p", QThread::currentThreadId());
-//        loading->close();
-//    });
-//    printf("x VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
+    QString fileName = inputSource.replace("/", "\\");
 
-//    worker->moveToThread(childThread);
-//    childThread->start();
-//    connect(childThread, SIGNAL(started()), worker, SLOT(onStop()));
+    setWindowTitle(fileName);
 
-//    Loading *loading = new Loading(this);
-//    loading->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-//    loading->setWindowModality(Qt::ApplicationModal);
-//    loading->resize(256, 256);
-//    loading->start();
-//    loading->show();
+    //It is paused.
+    if (m_vlcMediaPlayer)
+    {
+        libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+        if(libvlc_Paused == state) {
+            libvlc_media_player_play(m_vlcMediaPlayer);
+            emit played();
+        }
+        return;
+    }
 
-//    QTimer *myTimer = new QTimer(this);
-//    myTimer->start(1000*5);
-//    connect(myTimer,&QTimer::timeout,[=](){
+    //如果视频正在播放，先停止播放
+    if (m_vlcMediaPlayer && libvlc_media_player_is_playing(m_vlcMediaPlayer))
+    {
+        printf("stop mediaplayer");
+        stop();
+    }
 
-//            myTimer->stop();
-//            loading->close();
-//            delete loading;
-//            delete myTimer;
-//        });
+    libvlc_media_t *vlcMedia = libvlc_media_new_path(m_vlcInstance, fileName.toStdString().c_str());
+    if (!vlcMedia)
+    {
+        printf("play failed.");
+        return;
+    }
 
+    m_vlcMediaPlayer = libvlc_media_player_new_from_media(vlcMedia);
+    libvlc_media_release(vlcMedia);
 
-//    printf("test");
+    //vlcplayer和Qt控件关联
+    libvlc_media_player_set_hwnd(m_vlcMediaPlayer, (void*)(videoView->winId()));
+    libvlc_media_player_play(m_vlcMediaPlayer);
 
-
-
-    childThread->start();
+    controller->onPlay();
+    printf("play ok.");
 }
 
 
-void VlcPlayer::start() {
+void VlcPlayer::pause() {
+    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
+    if (m_vlcMediaPlayer)
+    {
+        libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+        if(libvlc_Playing == state) {
+            libvlc_media_player_pause(m_vlcMediaPlayer);
+            controller->onPause();
+        }
+    }
 
-
-
-    emit started();
 }
 
 void VlcPlayer::stop() {
 
+    if (m_vlcMediaPlayer)
+    {
+        libvlc_media_player_stop(m_vlcMediaPlayer);
+        libvlc_media_player_release(m_vlcMediaPlayer);
+        m_vlcMediaPlayer = NULL;
+    }
+
     emit stopped();
 }
 
-void VlcPlayer::pause() {
-
-    emit paused();
+void VlcPlayer::close() {
+    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
 }
 
-void VlcPlayer::resume() {
-
-    emit started();
+void VlcPlayer::takePicture() {
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+    printf("filename: %s", fileName.toStdString().c_str());
+    if (fileName.length() > 0)
+    {
+        QScreen *screen = QGuiApplication::primaryScreen();
+        QPixmap pixmap = screen->grabWindow(videoView->winId());
+        pixmap.save(fileName);
+    }
 }
+
+void VlcPlayer::comment() {
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+    printf("filename: %s", fileName.toStdString().c_str());
+    if (fileName.length() > 0)
+    {
+        QScreen *screen = QGuiApplication::primaryScreen();
+        QPixmap pixmap = screen->grabWindow(videoView->winId());
+        pixmap.save(fileName);
+    }
+}
+

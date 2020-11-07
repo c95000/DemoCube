@@ -13,6 +13,7 @@
 #include "freedrawing.h"
 #include "vlcplayer.h"
 #include "vlcplayercontroller.h"
+#include "imagedisplay.h"
 
 
 int main(int argc, char *argv[])
@@ -20,12 +21,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
 //    MainWindow w;
-//    PrimeWindow w;
+    PrimeWindow w;
 //    FreeDrawingMenu w;
 //    LineState w;
 //    FreeDrawing w;
-    VlcPlayer w("C:\nginx-1.16.0\html\mfc\eb3aa50943c201336de9fa1c23b5a6c5-480p.mp4");
+//    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 //      VlcPlayerController w;
+//    ImageDisplay w;
 
 //    ToolBar w;
 //    w.show();

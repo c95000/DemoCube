@@ -54,6 +54,7 @@ void VlcWrapper::start(const QString& source) {
     } else {
         isRtsp = false;
         const char * local = source.toStdString().c_str();
+        printf("wrapper local: %s", local);
         m_pvlcMedia = libvlc_media_new_path(m_vlcInstance, local);
     }
 
@@ -205,7 +206,7 @@ static QMutex g_mutex;
 static int g_count = 0;
 
 void * VlcWrapper::preDecode_cb(void *opaque, void **planes) {
-//    printf("chengjl %s opaque:%p", __FUNCTION__, opaque);
+    printf("chengjl %s opaque:%p", __FUNCTION__, opaque);
     VlcWrapper* obj = (VlcWrapper*)opaque;
     *planes = obj->m_videobuf;
     return obj->m_videobuf;

@@ -20,7 +20,13 @@ signals:
     void play();
     void pause();
     void stop();
-    void exit();
+    void close();
+    void takePicture();
+    void comment();
+
+public slots:
+    void onPlay();
+    void onPause();
 
 private:
     Ui::VlcPlayerController *ui;
@@ -28,6 +34,8 @@ private:
     QPushButton *btnPlay;
     QPushButton *btnPause;
     QPushButton *btnStop;
+    QPushButton *btnTakePicture;
+    QPushButton *btnComment;
     QPushButton *btnExit;
 };
 

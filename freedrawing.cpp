@@ -52,6 +52,10 @@ FreeDrawing::~FreeDrawing()
     delete ui;
 }
 
+void FreeDrawing::clear() {
+    printf("FreeDrawing: %s()", __FUNCTION__);
+}
+
 void FreeDrawing::on_penChanged() {
     printf("colorIndex: width:%d", freeDrawingMenu->getPenWidth());
 //    m_pen->setColor(freeDrawingMenu->penColor());

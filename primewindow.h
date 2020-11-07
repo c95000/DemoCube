@@ -8,6 +8,7 @@
 #include <QStackedLayout>
 #include "mypaint.h"
 #include "freedrawing.h"
+#include "vlcplayer.h"
 
 namespace Ui {
 class PrimeWindow;
@@ -21,6 +22,9 @@ public:
     explicit PrimeWindow(QWidget *parent = nullptr);
     ~PrimeWindow();
 
+private:
+    void replaseWidget(QWidget* widget);
+
 private slots:
     void on_btnLocal_clicked();
     void on_btnRtsp_clicked();
@@ -32,9 +36,11 @@ private slots:
 private:
     Ui::PrimeWindow *ui;
 
-    JyPlayer *m_player = NULL;
+//    JyPlayer *m_player = NULL;
     //MyPaint *m_paint = NULL;
 
+    FreeDrawing *freeDrawing;
+    VlcPlayer *vlcPlayer;
 };
 
 #endif // PRIMEWINDOW_H
