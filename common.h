@@ -6,6 +6,9 @@
 #include <QDateTime>
 #include <QPushButton>
 #include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPainter>
 
 #include <QDebug>
 #define printf qDebug

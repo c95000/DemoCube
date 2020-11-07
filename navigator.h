@@ -1,0 +1,36 @@
+#ifndef NAVIGATOR_H
+#define NAVIGATOR_H
+
+#include <QWidget>
+
+namespace Ui {
+class Navigator;
+}
+
+class Navigator : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit Navigator(QWidget *parent = nullptr);
+    ~Navigator();
+
+protected:
+    virtual void paintEvent(QPaintEvent *event);
+
+signals:
+    void buttonPressed(int index);
+    void buttonReleased(int index);
+    void buttonToggled(int index, bool);
+
+private slots:
+    void onButtonPressed(int index);
+    void onButtonReleased(int index);
+    void onButtonToggled(int index, bool);
+
+private:
+    Ui::Navigator *ui;
+    QList<QString> items;
+};
+
+#endif // NAVIGATOR_H

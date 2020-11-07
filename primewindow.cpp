@@ -18,37 +18,96 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 
 //    setFixedSize(320, 240);
 
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    hLayout->setAlignment(Qt::AlignTop);
-    QPushButton *btnLocal = new QPushButton("本地文件");
-    QPushButton *btnCamera = new QPushButton("摄像头");
-    QPushButton *btnWhiteboard = new QPushButton("白板");
-    QPushButton *btnTest1 = new QPushButton("test1");
-    QPushButton *btnTest2 = new QPushButton("test2");
-    connect(btnLocal, &QPushButton::clicked, this, &PrimeWindow::on_btnLocal_clicked);
-    connect(btnCamera, &QPushButton::clicked, this, &PrimeWindow::on_btnRtsp_clicked);
-    connect(btnWhiteboard, &QPushButton::clicked, this, &PrimeWindow::on_btnWhiteboard_clicked);
-    connect(btnTest1, &QPushButton::clicked, this, &PrimeWindow::on_btnTest1_clicked);
-    connect(btnTest2, &QPushButton::clicked, this, &PrimeWindow::on_btnTest2_clicked);
+//    QHBoxLayout *hLayout = new QHBoxLayout();
+//    hLayout->setAlignment(Qt::AlignTop);
+//    QPushButton *btnLocal = new QPushButton("本地文件");
+//    QPushButton *btnCamera = new QPushButton("摄像头");
+//    QPushButton *btnWhiteboard = new QPushButton("白板");
+//    QPushButton *btnTest1 = new QPushButton("test1");
+//    QPushButton *btnTest2 = new QPushButton("test2");
+//    connect(btnLocal, &QPushButton::clicked, this, &PrimeWindow::on_btnLocal_clicked);
+//    connect(btnCamera, &QPushButton::clicked, this, &PrimeWindow::on_btnRtsp_clicked);
+//    connect(btnWhiteboard, &QPushButton::clicked, this, &PrimeWindow::on_btnWhiteboard_clicked);
+//    connect(btnTest1, &QPushButton::clicked, this, &PrimeWindow::on_btnTest1_clicked);
+//    connect(btnTest2, &QPushButton::clicked, this, &PrimeWindow::on_btnTest2_clicked);
 
-    hLayout->addWidget(btnLocal);
-    hLayout->addWidget(btnCamera);
-    hLayout->addWidget(btnWhiteboard);
-    hLayout->addWidget(btnTest1);
-    hLayout->addWidget(btnTest2);
-    hLayout->addStretch();
+//    hLayout->addWidget(btnLocal);
+//    hLayout->addWidget(btnCamera);
+//    hLayout->addWidget(btnWhiteboard);
+//    hLayout->addWidget(btnTest1);
+//    hLayout->addWidget(btnTest2);
+//    hLayout->addStretch();
 
+//    QPalette pal(palette());
+//    pal.setColor(QPalette::Background, QColor(100,0,0)); //设置背景黑色
+//    setAutoFillBackground(true);
+//    setPalette(pal);
+
+    int bottomMinimumHeight = 120;
+
+    videoView = new VlcPlayer();//new QLabel("videoView");
+    cameraView = new QLabel("cameraView");
+    whiteboardView = new FreeDrawing();//new QLabel("whiteboardView");
+
+
+    viewStack = new QStackedWidget();
+    viewStack->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    viewStack->setStyleSheet("QStackedWidget{border-radius:10px;border:1px solid #aaaaaa;}");
+    viewStack->addWidget(videoView);
+    viewStack->addWidget(cameraView);
+    viewStack->addWidget(whiteboardView);
+    QWidget* defaultWidget = new QWidget();
+    viewStack->addWidget(defaultWidget);
+    viewStack->setCurrentIndex(viewStack->count() - 1);
+
+
+    videoController = new VlcPlayerController();//new QLabel("videoController");
+    cameraController = new QLabel("cameraController");
+    whiteboardController = new FreeDrawingMenu();
+
+
+    controllerStack = new QStackedWidget();
+    controllerStack->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    controllerStack->setMinimumHeight(bottomMinimumHeight);
+    controllerStack->setStyleSheet("QStackedWidget{border-radius:10px;border:1px solid #aaaaaa;}");
+
+    controllerStack->addWidget(videoController);
+    controllerStack->addWidget(cameraController);
+    controllerStack->addWidget(whiteboardController);
+    controllerStack->addWidget(new QWidget());
+    controllerStack->setCurrentIndex(controllerStack->count() - 1);
+
+    Navigator *navigator = new Navigator();
+    QStackedWidget* navigatorStack = new QStackedWidget();
+    navigatorStack->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    navigatorStack->setMinimumHeight(bottomMinimumHeight);
+    navigatorStack->setStyleSheet("QStackedWidget{border-radius:10px;border:1px solid #aaaaaa;}");
+    navigatorStack->addWidget(navigator);
+
+    // bottom
+    QHBoxLayout *bottomLayout = new QHBoxLayout();
+    bottomLayout->addWidget(navigatorStack);
+//    bottomLayout->addStretch();
+    bottomLayout->addWidget(controllerStack, 1);
+//    bottomLayout->addStretch();
+
+
+    // whole
     QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addWidget(viewStack, 1);
+    vLayout->addLayout(bottomLayout);
 
-//    GLVideoWidget *viewWidget = new GLVideoWidget();
-//    QLabel *label = new QLabel("test");
-//    MyPaint *paint = new MyPaint();
-    freeDrawing = new FreeDrawing();
-    vlcPlayer = new VlcPlayer();
-    vLayout->addStretch(0);
-//    vLayout->addWidget(freeDrawing, 1);
-    vLayout->addLayout(hLayout);
     ui->centralwidget->setLayout(vLayout);
+
+
+
+    connect(navigator, SIGNAL(buttonToggled(int, bool)), this, SLOT(onButtonToggled(int, bool)));
+
+//    freeDrawing = new FreeDrawing();
+//    vlcPlayer = new VlcPlayer();
+//    vLayout->addStretch(0);
+//    vLayout->addLayout(hLayout);
+//    ui->centralwidget->setLayout(vLayout);
 }
 
 PrimeWindow::~PrimeWindow()
@@ -177,5 +236,15 @@ void PrimeWindow::on_btnTest2_clicked() {
 
 //    QLayoutItem* layoutItem = layout->takeAt(0);
 //    delete layoutItem->widget();
+}
+
+void PrimeWindow::onButtonToggled(int index, bool checked) {
+    printf("%s(%d, %d)", __FUNCTION__, index, checked);
+    printf("%s viewStack count:%d cuurentIndex:%d)", __FUNCTION__, viewStack->count(), viewStack->currentIndex());
+    printf("%s controllerStack count:%d cuurentIndex:%d)", __FUNCTION__, controllerStack->count(), controllerStack->currentIndex());
+    if(checked) {
+        viewStack->setCurrentIndex(index);
+        controllerStack->setCurrentIndex(index);
+    }
 }
 

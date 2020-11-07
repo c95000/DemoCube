@@ -9,6 +9,7 @@
 #include "mypaint.h"
 #include "freedrawing.h"
 #include "vlcplayer.h"
+#include "navigator.h"
 
 namespace Ui {
 class PrimeWindow;
@@ -33,6 +34,8 @@ private slots:
     void on_btnTest1_clicked();
     void on_btnTest2_clicked();
 
+    void onButtonToggled(int index, bool);
+
 private:
     Ui::PrimeWindow *ui;
 
@@ -41,6 +44,17 @@ private:
 
     FreeDrawing *freeDrawing;
     VlcPlayer *vlcPlayer;
+
+    QStackedWidget *viewStack;
+    QStackedWidget *controllerStack;
+
+    QWidget *videoView;
+    QWidget *cameraView;
+    QWidget *whiteboardView;
+
+    QWidget *videoController;
+    QWidget *cameraController;
+    QWidget *whiteboardController;
 };
 
 #endif // PRIMEWINDOW_H

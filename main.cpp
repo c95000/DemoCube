@@ -14,7 +14,7 @@
 #include "vlcplayer.h"
 #include "vlcplayercontroller.h"
 #include "imagedisplay.h"
-
+#include "navigator.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
 //    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 //      VlcPlayerController w;
 //    ImageDisplay w;
+
+//    Navigator w;
 
 //    ToolBar w;
 //    w.show();

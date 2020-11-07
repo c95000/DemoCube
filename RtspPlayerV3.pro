@@ -51,6 +51,7 @@ SOURCES += \
     Util.cpp \
     mp4encoder.cpp \
     mypaint.cpp \
+    navigator.cpp \
     playpausebutton.cpp \
     primewindow.cpp \
     recordlabel.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
     Util.h \
     mp4encoder.h \
     mypaint.h \
+    navigator.h \
     playpausebutton.h \
     primewindow.h \
     recordlabel.h \
@@ -110,6 +112,7 @@ FORMS += \
     imagedisplay.ui \
     linestate.ui \
     mainwindow.ui \
+    navigator.ui \
     primewindow.ui \
     recordlabel.ui \
     vlcplayer.ui \
