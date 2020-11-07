@@ -148,13 +148,11 @@ void VlcWorker::onPlay() {
 }
 void VlcWorker::onStop() {
     printf("%s() : %p", __FUNCTION__, QThread::currentThreadId());
-    QThread::sleep(5);
-    printf("%s() : %p", __FUNCTION__, QThread::currentThreadId());
+    QThread::sleep(10);
+    printf("out %s() : %p", __FUNCTION__, QThread::currentThreadId());
+    emit stopped();
 }
 void VlcWorker::onPause() {
-    printf("%s() : %p", __FUNCTION__, QThread::currentThreadId());
-    QThread *th = new QThread();
-    moveToThread(th);
     printf("%s() : %p", __FUNCTION__, QThread::currentThreadId());
 }
 void VlcWorker::onResume() {

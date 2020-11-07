@@ -6,6 +6,7 @@
 #include "vlc/vlc.h"
 #include "vlcworker.h"
 #include "vlcplayercontroller.h"
+#include "Loading/Loading.h"
 
 namespace Ui {
 class VlcPlayer;
@@ -27,6 +28,7 @@ public:
 
 public slots:
     void onPlay();
+    void onStop();
 
 signals:
     void prepared();
@@ -45,6 +47,7 @@ private:
     VlcWorker *worker;
     VlcPlayerController *controller;
     QThread *childThread;
+    Loading *loading;
 };
 
 #endif // VLCPLAYER_H
