@@ -41,3 +41,10 @@ void saveImage(QImage& image) {
     QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
     image.save(fileName, "png");
 }
+
+QSize matrix(const QSize& src, const QSize& dest) {
+    QSize size;
+    size = src.scaled(dest, Qt::KeepAspectRatio);
+    return size;
+}
+

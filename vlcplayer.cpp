@@ -57,9 +57,13 @@ VlcPlayer::~VlcPlayer()
 }
 
 void VlcPlayer::init() {
-    videoView = new QWidget();
+    videoView = new QLabel("test");
+    QLabel* temp = dynamic_cast<QLabel*>(videoView);
+//    temp->resize(100, 100);
+//    temp->setAlignment(Qt::AlignCenter);
+//    videoView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     QPalette pal(videoView->palette());
-    pal.setColor(QPalette::Background, QColor(20,20,20)); //设置背景黑色
+    pal.setColor(QPalette::Background, QColor(255,255,255)); //设置背景黑色
     videoView->setAutoFillBackground(true);
     videoView->setPalette(pal);
 
@@ -75,8 +79,9 @@ void VlcPlayer::init() {
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(videoView);
-//    layout->addWidget(controller, 1);
+//    layout->addStretch(1);
+    layout->addWidget(videoView, 0, Qt::AlignCenter);
+//    layout->addStretch(1);
 
     setLayout(layout);
 
@@ -95,6 +100,37 @@ void VlcPlayer::init() {
     if(!inputSource.isNull() && !inputSource.isEmpty()) {
         play();
     }
+}
+
+void VlcPlayer::resizeEvent(QResizeEvent *event) {
+//videoView->setFixedSize(100, 100);
+//    printf("old size: %d x %d", event->oldSize().width(), event->oldSize().height());
+    printf("size: %d x %d", event->size().width(), event->size().height());
+
+    QSize videoSize = QSize(100, 100);//videoView->size();
+    QSize size = event->size().scaled(videoSize, Qt::KeepAspectRatio);
+    printf("new size: %d x %d", size.width(), size.height());
+
+//    QSize size = event->size().scaled(QSize(100, 200), Qt::KeepAspectRatio);
+    videoView->resize(size);
+//    QSize size = matrix(event->size(), QSize(100, 200));
+
+//    QSize size = viewStack->size();
+//    printf("viewStack: %d x %d", size.width(), size.height());
+
+//    double ratio = 1.0 * size.width() / size.height();
+
+//    int wx = size.height() * 16 / 9;
+
+//    if(wx > size.width()) {
+//        int wh = size.width() * 9 / 16;
+//        viewStack->resize(size.width(), wh);
+//        printf("viewStack: %d x %d", size.width(), wh);
+//    }
+//    else {
+//        viewStack->setFixedSize(wx, size.height());
+//        printf("viewStack: %d x %d", wx, size.height());
+//    }
 }
 
 void VlcPlayer::play(const QString& inputSrc) {

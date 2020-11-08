@@ -77,4 +77,6 @@ namespace CVHelper
 
     void saveImage(QImage& image);
 
+    QSize matrix(const QSize& src, const QSize& dest);
+
 #endif // Util_h__

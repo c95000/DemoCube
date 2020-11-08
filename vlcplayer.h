@@ -24,6 +24,9 @@ public:
 private:
     void init();
 
+protected:
+    void resizeEvent(QResizeEvent *event);
+
 public:
 //    void start();
 //    void stop();

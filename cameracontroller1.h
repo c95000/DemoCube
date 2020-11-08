@@ -38,6 +38,7 @@ private:
     QPushButton *btnDisconnect;
     QPushButton *btnTakePicture;
     QPushButton *btnComment;
+    QPushButton *btnRecord;
     QPushButton *btnExit;
 
     QString sourceUrl;

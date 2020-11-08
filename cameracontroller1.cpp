@@ -25,6 +25,7 @@ void CameraController1::init() {
     btnPause = new QPushButton("暂停");
     btnDisconnect = new QPushButton("断开");
     btnTakePicture = new QPushButton("拍照");
+    btnRecord = new QPushButton("录制");
     btnComment = new QPushButton("批注");
     btnExit = new QPushButton("退出");
     btnExit->hide();

@@ -147,6 +147,28 @@ void PrimeWindow::paintEvent(QPaintEvent *event) {
 //    }
 }
 
+void PrimeWindow::resizeEvent(QResizeEvent *event) {
+//    printf("old size: %d x %d", event->oldSize().width(), event->oldSize().height());
+//    printf("size: %d x %d", event->size().width(), event->size().height());
+//    QSize size = viewStack->size();
+//    printf("viewStack: %d x %d", size.width(), size.height());
+
+//    double ratio = 1.0 * size.width() / size.height();
+
+//    int wx = size.height() * 16 / 9;
+
+//    if(wx > size.width()) {
+//        int wh = size.width() * 9 / 16;
+//        viewStack->resize(size.width(), wh);
+//        printf("viewStack: %d x %d", size.width(), wh);
+//    }
+//    else {
+//        viewStack->setFixedSize(wx, size.height());
+//        printf("viewStack: %d x %d", wx, size.height());
+//    }
+
+}
+
 void PrimeWindow::connectViewSignals() {
     connect(videoController, SIGNAL(play(const QString&)), videoView, SLOT(play(const QString&)));
 
@@ -173,7 +195,6 @@ void PrimeWindow::connectCameraSignals() {
     connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(onDisconnect()));
     connect(cameraController, SIGNAL(play()), cameraView, SLOT(play()));
     connect(cameraController, SIGNAL(pause()), cameraView, SLOT(pause()));
-    connect(cameraController, SIGNAL(stop()), cameraView, SLOT(stop()));
     connect(cameraController, SIGNAL(takePicture()), cameraView, SLOT(takePicture()));
     connect(cameraController, SIGNAL(comment()), this, SLOT(on_btnComment()));
 

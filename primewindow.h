@@ -26,6 +26,7 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 private:
     void connectViewSignals();
