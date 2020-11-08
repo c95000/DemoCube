@@ -35,15 +35,22 @@ public:
     ~FreeDrawing();
 
 public:
-    void clear();
+//    void clear();
+    void clear(const QPixmap& background = QPixmap());
 
 signals:
     void signalClose();
 
+//private slots:
+//    void on_penChanged();
+//    void on_undo();
+//    void on_close();
 private slots:
-    void on_penChanged();
-    void on_undo();
-    void on_close();
+    void on_colorChanged(int index);
+    void on_widthChanged(int index);
+    void on_btnUndo();
+    void on_btnClear();
+    void on_btnClose();
 
 protected:
     void paintEvent(QPaintEvent *);//重写窗体重绘事件
@@ -64,7 +71,7 @@ private:
     QVector<QColor> _lineColors;
     QVector<int> _lineWidth;
 
-    FreeDrawingMenu *freeDrawingMenu;
+//    FreeDrawingMenu *freeDrawingMenu;
     bool mousePressed = false;
 };
 

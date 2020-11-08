@@ -15,15 +15,15 @@ FreeDrawing::FreeDrawing(QWidget *parent) :
     ui->setupUi(this);
     printf("size: %d x %d", size().width(), size().height());
 
-    freeDrawingMenu = new FreeDrawingMenu();
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    hLayout->addStretch();
-    hLayout->addWidget(freeDrawingMenu, 0, Qt::AlignBottom);
-    setLayout(hLayout);
+//    freeDrawingMenu = new FreeDrawingMenu();
+//    QHBoxLayout *hLayout = new QHBoxLayout();
+//    hLayout->addStretch();
+//    hLayout->addWidget(freeDrawingMenu, 0, Qt::AlignBottom);
+//    setLayout(hLayout);
 
-    connect(freeDrawingMenu, &FreeDrawingMenu::penChanged, this, &FreeDrawing::on_penChanged);
-    connect(freeDrawingMenu, &FreeDrawingMenu::signalUndo, this, &FreeDrawing::on_undo);
-    connect(freeDrawingMenu, &FreeDrawingMenu::signalClose, this, &FreeDrawing::on_close);
+//    connect(freeDrawingMenu, &FreeDrawingMenu::penChanged, this, &FreeDrawing::on_penChanged);
+//    connect(freeDrawingMenu, &FreeDrawingMenu::signalUndo, this, &FreeDrawing::on_undo);
+//    connect(freeDrawingMenu, &FreeDrawingMenu::signalClose, this, &FreeDrawing::on_close);
 }
 
 FreeDrawing::FreeDrawing(const QString& imageSource, QWidget *parent) :
@@ -52,19 +52,28 @@ FreeDrawing::~FreeDrawing()
     delete ui;
 }
 
-void FreeDrawing::clear() {
-    printf("FreeDrawing: %s()", __FUNCTION__);
+void FreeDrawing::clear(const QPixmap& background) {
+    printf("FreeDrawing: %s() background.isNull:%d", __FUNCTION__, background.isNull());
+    _originPixmap = background.copy();
+    for(int i = 0; i < _lines.size(); i++) {
+        _lines[i].clear();
+    }
+
+    _lines.clear();
+    _lineWidth.clear();
+    _lineColors.clear();
+    update();
 }
 
-void FreeDrawing::on_penChanged() {
-    printf("colorIndex: width:%d", freeDrawingMenu->getPenWidth());
-//    m_pen->setColor(freeDrawingMenu->penColor());
-//    m_pen->setWidth(freeDrawingMenu->penWidth());
-    penColor = freeDrawingMenu->getPenColor();
-    penWidth = freeDrawingMenu->getPenWidth();
+void FreeDrawing::on_colorChanged(int index) {
+    penColor = Configure::getInstance()->colorByIndex(index);
 }
 
-void FreeDrawing::on_undo() {
+void FreeDrawing::on_widthChanged(int index) {
+    penWidth = Configure::getInstance()->widthByIndex(index);
+}
+
+void FreeDrawing::on_btnUndo() {
     if(_lines.size() > 0) {
         _lines.takeLast().clear();
         _lineWidth.removeLast();
@@ -72,18 +81,22 @@ void FreeDrawing::on_undo() {
         update();
     }
 }
-void FreeDrawing::on_close() {
+
+void FreeDrawing::on_btnClear() {
+    clear();
+}
+
+void FreeDrawing::on_btnClose() {
     QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
     printf("filename: %s", fileName.toStdString().c_str());
     if (fileName.length() > 0)
     {
-        freeDrawingMenu->hide();//不包含工具栏
+//        freeDrawingMenu->hide();//不包含工具栏
         QPixmap pixmap = grab();
-        freeDrawingMenu->show();
+//        freeDrawingMenu->show();
         pixmap.save(fileName);
     }
-    emit signalClose();
 }
 
 void FreeDrawing::paintEvent(QPaintEvent *) {

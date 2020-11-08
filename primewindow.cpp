@@ -10,6 +10,7 @@
 #include <QLabel>
 #include <QDateTime>
 
+
 PrimeWindow::PrimeWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PrimeWindow)
@@ -46,13 +47,13 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     int bottomMinimumHeight = 120;
 
     videoView = new VlcPlayer();//new QLabel("videoView");
-    cameraView = new QLabel("cameraView");
+    cameraView = new CameraView();//new QLabel("cameraView");
     whiteboardView = new FreeDrawing();//new QLabel("whiteboardView");
 
 
     viewStack = new QStackedWidget();
     viewStack->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    viewStack->setStyleSheet("QStackedWidget{border-radius:10px;border:1px solid #aaaaaa;}");
+    viewStack->setStyleSheet("QStackedWidget{border:1px solid #aaaaaa;}");
     viewStack->addWidget(videoView);
     viewStack->addWidget(cameraView);
     viewStack->addWidget(whiteboardView);
@@ -62,7 +63,7 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 
 
     videoController = new VlcPlayerController();//new QLabel("videoController");
-    cameraController = new QLabel("cameraController");
+    cameraController = new CameraController1();//new QLabel("cameraController");
     whiteboardController = new FreeDrawingMenu();
 
 
@@ -77,7 +78,7 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     controllerStack->addWidget(new QWidget());
     controllerStack->setCurrentIndex(controllerStack->count() - 1);
 
-    Navigator *navigator = new Navigator();
+    navigator = new Navigator();
     QStackedWidget* navigatorStack = new QStackedWidget();
     navigatorStack->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     navigatorStack->setMinimumHeight(bottomMinimumHeight);
@@ -108,12 +109,51 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 //    vLayout->addStretch(0);
 //    vLayout->addLayout(hLayout);
 //    ui->centralwidget->setLayout(vLayout);
+
+    connectViewSignals();
+    connectCameraSignals();
+    connectWhiteboardSignals();
 }
 
 PrimeWindow::~PrimeWindow()
 {
     delete ui;
 }
+void PrimeWindow::connectViewSignals() {
+    connect(videoController, SIGNAL(play(const QString&)), videoView, SLOT(play(const QString&)));
+
+    connect(videoController, SIGNAL(play()), videoView, SLOT(play()));
+    connect(videoController, SIGNAL(pause()), videoView, SLOT(pause()));
+    connect(videoController, SIGNAL(stop()), videoView, SLOT(stop()));
+    connect(videoController, SIGNAL(takePicture()), videoView, SLOT(takePicture()));
+    connect(videoController, SIGNAL(comment()), this, SLOT(on_btnComment()));
+
+    connect(videoView, SIGNAL(played()), videoController, SLOT(played()));
+    connect(videoView, SIGNAL(paused()), videoController, SLOT(paused()));
+    connect(videoView, SIGNAL(stopped()), videoController, SLOT(stopped()));
+}
+void PrimeWindow::connectCameraSignals() {
+
+//    void signalConnect(const QString& sourceUrl);
+//    void signalDisconnect();
+//    void play();
+//    void pause();
+//    void takePicture();
+//    void comment();
+
+    connect(cameraController, SIGNAL(signalConnect(const QString&)), cameraView, SLOT(onConnect(const QString&)));
+    connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(onDisconnect()));
+}
+void PrimeWindow::connectWhiteboardSignals() {
+
+    connect(whiteboardController, SIGNAL(signalColorChanged(int)), whiteboardView, SLOT(on_colorChanged(int)));
+    connect(whiteboardController, SIGNAL(signalWidthChanged(int)), whiteboardView, SLOT(on_widthChanged(int)));
+    connect(whiteboardController, SIGNAL(signalUndo()), whiteboardView, SLOT(on_btnUndo()));
+    connect(whiteboardController, SIGNAL(signalClear()), whiteboardView, SLOT(on_btnClear()));
+    connect(whiteboardController, SIGNAL(signalClose()), whiteboardView, SLOT(on_btnClose()));
+}
+
+
 
 void PrimeWindow::replaseWidget(QWidget* widget) {
     QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());
@@ -194,6 +234,22 @@ void PrimeWindow::on_btnWhiteboard_clicked() {
     replaseWidget(freeDrawing);
 }
 
+void PrimeWindow::on_btnComment() {
+    printf("PrimeWindow %s() widget:%p", __FUNCTION__, viewStack->currentWidget());
+    VlcPlayer *vlcPlayer = dynamic_cast<VlcPlayer*>(viewStack->currentWidget());
+    printf("vlcPlayer: %p", vlcPlayer);
+    if(nullptr != vlcPlayer) {
+        QPixmap pixmap = vlcPlayer->snapShot();
+        FreeDrawing *freeDrawing = dynamic_cast<FreeDrawing*>(whiteboardView);
+        freeDrawing->clear(pixmap);
+        navigator->setChecked(2);
+    }
+//    VlcPlayerController *vlcPlayerController = dynamic_cast<VlcPlayerController*>(viewStack->currentWidget());
+//    printf("vlcPlayerController: %p", vlcPlayerController);
+
+
+}
+
 void PrimeWindow::on_btnTest1_clicked() {
     printf("on_btnTest1_clicked");
     QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());
@@ -213,29 +269,24 @@ void PrimeWindow::on_btnTest1_clicked() {
 
 
 void PrimeWindow::on_btnTest2_clicked() {
-//    printf("on_btnTest2_clicked");
+//    QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());
+//    printf("layout: %p", layout);
+//    printf("layout count:%d", layout->count());
+//    for(int i = 0; i < layout->count(); i++) {
+//        printf("layout->itemAt(%d): %p", i, layout->itemAt(i));
+//        printf("layout->itemAt(%d)->widget(): %p - %p", i, layout->itemAt(i)->widget(), layout->itemAt(i)->layout());
+//        QLayoutItem* child = layout->itemAt(i);
+//        if(NULL != child && NULL != child->widget()) {
+//            layout->takeAt(i);
+//            layout->removeWidget(child->widget());
+//            child->widget()->setParent(0);
+//            delete child->widget();
+//            break;
+//        }
+//    }
 
-    QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());
-    printf("layout: %p", layout);
-    printf("layout count:%d", layout->count());
-    for(int i = 0; i < layout->count(); i++) {
-        printf("layout->itemAt(%d): %p", i, layout->itemAt(i));
-        printf("layout->itemAt(%d)->widget(): %p - %p", i, layout->itemAt(i)->widget(), layout->itemAt(i)->layout());
-        QLayoutItem* child = layout->itemAt(i);
-        if(NULL != child && NULL != child->widget()) {
-            layout->takeAt(i);
-            layout->removeWidget(child->widget());
-            child->widget()->setParent(0);
-            delete child->widget();
-            break;
-        }
-    }
-
-    FreeDrawing *freeDrawing = new FreeDrawing(tr("D:/test.png"));
-    layout->insertWidget(1, freeDrawing, 1);
-
-//    QLayoutItem* layoutItem = layout->takeAt(0);
-//    delete layoutItem->widget();
+//    FreeDrawing *freeDrawing = new FreeDrawing(tr("D:/test.png"));
+//    layout->insertWidget(1, freeDrawing, 1);
 }
 
 void PrimeWindow::onButtonToggled(int index, bool checked) {
@@ -246,5 +297,9 @@ void PrimeWindow::onButtonToggled(int index, bool checked) {
         viewStack->setCurrentIndex(index);
         controllerStack->setCurrentIndex(index);
     }
+}
+
+void PrimeWindow::on_btnConnect() {
+    printf("%s", __FUNCTION__);
 }
 

@@ -39,6 +39,8 @@ SOURCES += \
     SettingDialog.cpp \
     TitleButton.cpp \
     ToolBar.cpp \
+    cameracontroller1.cpp \
+    cameraview.cpp \
     common.cpp \
     freedrawing.cpp \
     freedrawingmenu.cpp \
@@ -76,6 +78,8 @@ HEADERS += \
     TitleButton.h \
     ToolBar.h \
     VideoRenderCallback.h \
+    cameracontroller1.h \
+    cameraview.h \
     common.h \
     freedrawing.h \
     freedrawingmenu.h \

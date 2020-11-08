@@ -17,6 +17,7 @@ public:
     ~VlcPlayerController();
 
 signals:
+    void play(const QString& fileName);
     void play();
     void pause();
     void stop();
@@ -25,12 +26,17 @@ signals:
     void comment();
 
 public slots:
+    void onOpen();
     void onPlay();
     void onPause();
 
+    void played();
+    void paused();
+    void stopped();
 private:
     Ui::VlcPlayerController *ui;
 
+    QPushButton *btnOpen;
     QPushButton *btnPlay;
     QPushButton *btnPause;
     QPushButton *btnStop;

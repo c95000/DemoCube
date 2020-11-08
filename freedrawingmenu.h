@@ -30,14 +30,17 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 signals:
+    void signalColorChanged(int index);
+    void signalWidthChanged(int index);
     void signalUndo();
+    void signalClear();
     void signalClose();
 
-
 private slots:
-    void on_color_changed(int index);
-    void on_width_changed(int index);
+    void on_colorChanged(int index);
+    void on_widthChanged(int index);
     void on_btnUndo();
+    void on_btnClear();
     void on_btnClose();
 
 private:
@@ -47,6 +50,7 @@ private:
     QComboBox *widthCombo;
     LineState *lineState;
     QPushButton *btnUndo;
+    QPushButton *btnClear;
     QPushButton *btnClose;
 
     QColor penColor;

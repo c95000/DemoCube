@@ -44,7 +44,7 @@ void LineState::setSize(QResizeEvent *event) {
 void LineState::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
 
-    painter.setPen(QColor(200, 200, 200));
+    painter.setPen(QColor(160, 160, 160));
     // 上面画线
     painter.drawLine(0, 0, this->width() - 1, 0);
     // 左面画线

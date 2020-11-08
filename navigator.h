@@ -2,6 +2,7 @@
 #define NAVIGATOR_H
 
 #include <QWidget>
+#include <QButtonGroup>
 
 namespace Ui {
 class Navigator;
@@ -14,6 +15,9 @@ class Navigator : public QWidget
 public:
     explicit Navigator(QWidget *parent = nullptr);
     ~Navigator();
+
+public:
+    void setChecked(int index);
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
@@ -30,6 +34,7 @@ private slots:
 
 private:
     Ui::Navigator *ui;
+    QButtonGroup *buttonGround;
     QList<QString> items;
 };
 

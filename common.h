@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPainter>
+#include "Configure.h"
 
 #include <QDebug>
 #define printf qDebug

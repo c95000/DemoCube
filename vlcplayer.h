@@ -29,9 +29,9 @@ public:
 //    void stop();
 //    void pause();
 //    void resume();
-    void play(const QString& inputSrc);
 
 public slots:
+    void play(const QString& inputSrc);
     void play();
     void stop();
     void pause();
@@ -46,7 +46,7 @@ signals:
     void stopped();
 
 public:
-    char * m_videobuf;
+    const QPixmap snapShot();
 
 private:
     Ui::VlcPlayer *ui;
@@ -58,7 +58,6 @@ private:
     libvlc_media_player_t* m_vlcMediaPlayer;
     libvlc_media_t* m_vlcMedia;
 
-    VlcPlayerController *controller;
     Loading *loading;
 };
 

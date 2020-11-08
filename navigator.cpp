@@ -11,10 +11,10 @@ Navigator::Navigator(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    items<<"文件"<<"摄像头"<<"白板";
+    items<<"回放"<<"摄像头"<<"白板";
 
     /*单选菜单效果*/
-    QButtonGroup *buttonGround = new QButtonGroup();
+    buttonGround = new QButtonGroup();
     buttonGround->setExclusive(true);
     connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SLOT(onButtonToggled(int, bool)));
     connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SIGNAL(buttonToggled(int, bool)));
@@ -35,6 +35,11 @@ Navigator::Navigator(QWidget *parent) :
 Navigator::~Navigator()
 {
     delete ui;
+}
+
+
+void Navigator::setChecked(int index) {
+    buttonGround->button(index)->setChecked(true);
 }
 
 void Navigator::paintEvent(QPaintEvent *event) {

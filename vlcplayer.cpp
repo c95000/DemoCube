@@ -63,25 +63,20 @@ void VlcPlayer::init() {
     videoView->setAutoFillBackground(true);
     videoView->setPalette(pal);
 
-    controller = new VlcPlayerController();
-//    connect(controller, SIGNAL(play()), worker, SLOT(onPlay()));
-//    connect(controller, SIGNAL(pause()), worker, SLOT(onPause()));
-//    connect(controller, SIGNAL(stop()), worker, SLOT(onStop()));
-//    connect(controller, SIGNAL(exit()), worker, SLOT(onExit()));
+//    videoView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    connect(controller, SIGNAL(play()), this, SLOT(play()));
-    connect(controller, SIGNAL(stop()), this, SLOT(stop()));
-    connect(controller, SIGNAL(pause()), this, SLOT(pause()));
-    connect(controller, SIGNAL(exit()), this, SLOT(close()));
-    connect(controller, SIGNAL(takePicture()), this, SLOT(takePicture()));
-    connect(controller, SIGNAL(comment()), this, SLOT(comment()));
-
-//    connect(controller, SIGNAL(pause()), this, SLOT(onPause()));
+//    controller = new VlcPlayerController();
+//    connect(controller, SIGNAL(play()), this, SLOT(play()));
+//    connect(controller, SIGNAL(stop()), this, SLOT(stop()));
+//    connect(controller, SIGNAL(pause()), this, SLOT(pause()));
+//    connect(controller, SIGNAL(exit()), this, SLOT(close()));
+//    connect(controller, SIGNAL(takePicture()), this, SLOT(takePicture()));
+//    connect(controller, SIGNAL(comment()), this, SLOT(comment()));
 
     QVBoxLayout *layout = new QVBoxLayout();
-
-    layout->addWidget(videoView, 5);
-    layout->addWidget(controller, 1);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(videoView);
+//    layout->addWidget(controller, 1);
 
     setLayout(layout);
 
@@ -103,7 +98,16 @@ void VlcPlayer::init() {
 }
 
 void VlcPlayer::play(const QString& inputSrc) {
+    printf("VlcPlayer::%s(inputSrc: %s) %p", __FUNCTION__, inputSrc.toStdString().c_str(), QThread::currentThreadId());
     inputSource = inputSrc;
+    //如果视频正在播放，先停止播放
+//    if (m_vlcMediaPlayer && libvlc_media_player_is_playing(m_vlcMediaPlayer))
+    if (m_vlcMediaPlayer)
+    {
+        printf("stop mediaplayer");
+        stop();
+    }
+
     play();
 }
 
@@ -125,12 +129,7 @@ void VlcPlayer::play() {
         return;
     }
 
-    //如果视频正在播放，先停止播放
-    if (m_vlcMediaPlayer && libvlc_media_player_is_playing(m_vlcMediaPlayer))
-    {
-        printf("stop mediaplayer");
-        stop();
-    }
+
 
     libvlc_media_t *vlcMedia = libvlc_media_new_path(m_vlcInstance, fileName.toStdString().c_str());
     if (!vlcMedia)
@@ -146,8 +145,8 @@ void VlcPlayer::play() {
     libvlc_media_player_set_hwnd(m_vlcMediaPlayer, (void*)(videoView->winId()));
     libvlc_media_player_play(m_vlcMediaPlayer);
 
-    controller->onPlay();
     printf("play ok.");
+    emit played();
 }
 
 
@@ -158,7 +157,7 @@ void VlcPlayer::pause() {
         libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
         if(libvlc_Playing == state) {
             libvlc_media_player_pause(m_vlcMediaPlayer);
-            controller->onPause();
+            emit paused();
         }
     }
 
@@ -181,26 +180,32 @@ void VlcPlayer::close() {
 }
 
 void VlcPlayer::takePicture() {
+    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
     QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
     printf("filename: %s", fileName.toStdString().c_str());
     if (fileName.length() > 0)
     {
-        QScreen *screen = QGuiApplication::primaryScreen();
-        QPixmap pixmap = screen->grabWindow(videoView->winId());
-        pixmap.save(fileName);
+        snapShot().save(fileName);
     }
 }
 
 void VlcPlayer::comment() {
-    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
-    printf("filename: %s", fileName.toStdString().c_str());
-    if (fileName.length() > 0)
-    {
-        QScreen *screen = QGuiApplication::primaryScreen();
-        QPixmap pixmap = screen->grabWindow(videoView->winId());
-        pixmap.save(fileName);
-    }
+//    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
+//    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+//    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+//    printf("filename: %s", fileName.toStdString().c_str());
+//    if (fileName.length() > 0)
+//    {
+//        QScreen *screen = QGuiApplication::primaryScreen();
+//        QPixmap pixmap = screen->grabWindow(videoView->winId());
+//        pixmap.save(fileName);
+//    }
+}
+
+const QPixmap VlcPlayer::snapShot() {
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QPixmap pixmap = screen->grabWindow(videoView->winId());
+    return pixmap;
 }
 

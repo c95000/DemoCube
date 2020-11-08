@@ -10,7 +10,8 @@
 #include "freedrawing.h"
 #include "vlcplayer.h"
 #include "navigator.h"
-
+#include "cameraview.h"
+#include "cameracontroller1.h"
 namespace Ui {
 class PrimeWindow;
 }
@@ -24,6 +25,11 @@ public:
     ~PrimeWindow();
 
 private:
+    void connectViewSignals();
+    void connectCameraSignals();
+    void connectWhiteboardSignals();
+
+private:
     void replaseWidget(QWidget* widget);
 
 private slots:
@@ -31,9 +37,11 @@ private slots:
     void on_btnRtsp_clicked();
     void on_btnWhiteboard_clicked();
 
+    void on_btnComment();
+
     void on_btnTest1_clicked();
     void on_btnTest2_clicked();
-
+    void on_btnConnect();
     void onButtonToggled(int index, bool);
 
 private:
@@ -45,6 +53,7 @@ private:
     FreeDrawing *freeDrawing;
     VlcPlayer *vlcPlayer;
 
+    Navigator *navigator;
     QStackedWidget *viewStack;
     QStackedWidget *controllerStack;
 

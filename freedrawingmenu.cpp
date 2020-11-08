@@ -13,22 +13,18 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     ui->setupUi(this);
     colorCombo = new QComboBox();
     QStringList colorList;
-    colorList<<"红色"<<"绿色"<<"蓝色"<<"黄色";
+    colorList<<" 红色"<<" 绿色"<<" 蓝色"<<" 黄色";
     colorCombo->addItems(colorList);
-    connect(colorCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(on_color_changed(int)));
 
     widthCombo = new QComboBox();
     QStringList weightList;
-    weightList<<"一号"<<"二号"<<"三号"<<"四号";
+    weightList<<" 一号"<<" 二号"<<" 三号"<<" 四号";
     widthCombo->addItems(weightList);
-    connect(widthCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(on_width_changed(int)));
 
     lineState = new LineState();
-
     btnUndo = new QPushButton("撤销");
-    connect(btnUndo, SIGNAL(clicked(bool)), this, SIGNAL(signalUndo()));
-    btnClose = new QPushButton("关闭");
-    connect(btnClose, SIGNAL(clicked(bool)), this, SIGNAL(signalClose()));
+    btnClear = new QPushButton("清除");
+    btnClose = new QPushButton("保存");
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
@@ -36,6 +32,7 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     hLayout->addWidget(widthCombo);
     hLayout->addWidget(lineState);
     hLayout->addWidget(btnUndo);
+    hLayout->addWidget(btnClear);
     hLayout->addWidget(btnClose);
     hLayout->addStretch();
 
@@ -44,9 +41,22 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     setMinimumWidth(0);
     setMinimumHeight(0);
 
-    on_color_changed(colorCombo->currentIndex());
-    on_width_changed(widthCombo->currentIndex());
+    connect(colorCombo, SIGNAL(activated(int)), this, SLOT(on_colorChanged(int)));
+    connect(widthCombo, SIGNAL(activated(int)), this, SLOT(on_widthChanged(int)));
 
+
+    connect(colorCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(signalColorChanged(int)));
+    connect(widthCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(signalWidthChanged(int)));
+    connect(btnUndo, SIGNAL(clicked(bool)), this, SIGNAL(signalUndo()));
+    connect(btnClear, SIGNAL(clicked(bool)), this, SIGNAL(signalClear()));
+    connect(btnClose, SIGNAL(clicked(bool)), this, SIGNAL(signalClose()));
+
+
+//    on_colorChanged(colorCombo->currentIndex());
+//    on_widthChanged(widthCombo->currentIndex());
+
+    colorCombo->activated(0);
+    widthCombo->activated(0);
 }
 
 FreeDrawingMenu::~FreeDrawingMenu()
@@ -55,14 +65,23 @@ FreeDrawingMenu::~FreeDrawingMenu()
 }
 
 void FreeDrawingMenu::resizeEvent(QResizeEvent *event) {
-    printf("colorCombo: %d x %d", colorCombo->width(), colorCombo->height());
-    printf("widthCombo: %d x %d", widthCombo->width(), widthCombo->height());
+//    printf("colorCombo: %d x %d", colorCombo->width(), colorCombo->height());
+//    printf("widthCombo: %d x %d", widthCombo->width(), widthCombo->height());
 //    printf("lineState: %d x %d", lineState->width(), lineState->height());
-    lineState->setFixedSize(widthCombo->width(), widthCombo->height());
-    btnUndo->setFixedSize(widthCombo->width(), widthCombo->height());
-    btnClose->setFixedSize(widthCombo->width(), widthCombo->height());
 
-    update();
+//    lineState->setFixedSize(widthCombo->width(), widthCombo->height());
+//    btnUndo->setFixedSize(widthCombo->width(), widthCombo->height());
+//    btnClose->setFixedSize(widthCombo->width(), widthCombo->height());
+
+
+    QSize size = Configure::getInstance()->buttonSize();
+
+    colorCombo->setFixedSize(size);
+    widthCombo->setFixedSize(size);
+    lineState->setFixedSize(size);
+    btnUndo->setFixedSize(size);
+    btnClear->setFixedSize(size);
+    btnClose->setFixedSize(size);
 }
 
 QColor& FreeDrawingMenu::getPenColor() {
@@ -73,7 +92,7 @@ int FreeDrawingMenu::getPenWidth() {
     return penWidth;
 }
 
-void FreeDrawingMenu::on_color_changed(int index) {
+void FreeDrawingMenu::on_colorChanged(int index) {
     printf("index: %d", index);
 //    <<"红色"<<"绿色"<<"蓝色"<<"黄色";
 
@@ -95,10 +114,10 @@ void FreeDrawingMenu::on_color_changed(int index) {
 
     lineState->setLineColor(color);
     penColor = color;
-    emit penChanged();
+//    emit signalColorChanged(index);
 }
 
-void FreeDrawingMenu::on_width_changed(int index) {
+void FreeDrawingMenu::on_widthChanged(int index) {
 
     int width = 2;
     switch (index) {
@@ -118,12 +137,17 @@ void FreeDrawingMenu::on_width_changed(int index) {
 
     lineState->setLineWidth(width);
     penWidth = width;
-    emit penChanged();
+//    emit signalWidthChanged(index);
 }
 
 void FreeDrawingMenu::on_btnUndo() {
     printf("FreeDrawingMenu:: on_btnUndo");
     emit signalUndo();
+}
+
+void FreeDrawingMenu::on_btnClear() {
+    printf("FreeDrawingMenu:: on_btnUndo");
+    emit signalClear();
 }
 
 void FreeDrawingMenu::on_btnClose() {
