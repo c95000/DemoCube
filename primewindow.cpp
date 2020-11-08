@@ -16,6 +16,7 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     ui(new Ui::PrimeWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("实训优学 v1.0");
 
 //    setFixedSize(320, 240);
 
@@ -45,6 +46,9 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 //    setPalette(pal);
 
     int bottomMinimumHeight = 120;
+    int default_width = 1280 * Resolution::getInstance()->scaleX();
+    int default_height = 720 * Resolution::getInstance()->scaleY();
+    resize(QSize(default_width, default_height));
 
     videoView = new VlcPlayer();//new QLabel("videoView");
     cameraView = new CameraView();//new QLabel("cameraView");
@@ -119,6 +123,30 @@ PrimeWindow::~PrimeWindow()
 {
     delete ui;
 }
+
+void PrimeWindow::paintEvent(QPaintEvent *event) {
+//    if(!Configure::getInstance()->isOfficial()) {
+//        QTextOption option(Qt::AlignLeft | Qt::AlignTop);
+//        option.setWrapMode(QTextOption::WordWrap);
+//        QRectF rect(100, 100, this->width(), this->height());
+//        QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
+
+//        // Render text
+//        QPainter painter(this);
+
+//        QFont font;
+//        font.setPixelSize(40);
+//        painter.setFont(font);
+
+//        QPen pen;
+//        pen.setColor(Qt::red);
+//        painter.setPen(pen);
+
+//        painter.drawText(rect, date, option);
+//        painter.end();
+//    }
+}
+
 void PrimeWindow::connectViewSignals() {
     connect(videoController, SIGNAL(play(const QString&)), videoView, SLOT(play(const QString&)));
 
@@ -143,6 +171,16 @@ void PrimeWindow::connectCameraSignals() {
 
     connect(cameraController, SIGNAL(signalConnect(const QString&)), cameraView, SLOT(onConnect(const QString&)));
     connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(onDisconnect()));
+    connect(cameraController, SIGNAL(play()), cameraView, SLOT(play()));
+    connect(cameraController, SIGNAL(pause()), cameraView, SLOT(pause()));
+    connect(cameraController, SIGNAL(stop()), cameraView, SLOT(stop()));
+    connect(cameraController, SIGNAL(takePicture()), cameraView, SLOT(takePicture()));
+    connect(cameraController, SIGNAL(comment()), this, SLOT(on_btnComment()));
+
+
+    connect(cameraView, SIGNAL(played()), cameraController, SLOT(played()));
+    connect(cameraView, SIGNAL(paused()), cameraController, SLOT(paused()));
+    connect(cameraView, SIGNAL(stopped()), cameraController, SLOT(stopped()));
 }
 void PrimeWindow::connectWhiteboardSignals() {
 
@@ -239,10 +277,20 @@ void PrimeWindow::on_btnComment() {
     VlcPlayer *vlcPlayer = dynamic_cast<VlcPlayer*>(viewStack->currentWidget());
     printf("vlcPlayer: %p", vlcPlayer);
     if(nullptr != vlcPlayer) {
-        QPixmap pixmap = vlcPlayer->snapShot();
+        QPixmap pixmap = vlcPlayer->snapshot();
         FreeDrawing *freeDrawing = dynamic_cast<FreeDrawing*>(whiteboardView);
         freeDrawing->clear(pixmap);
         navigator->setChecked(2);
+        return;
+    }
+
+    CameraView *cameraView = dynamic_cast<CameraView*>(viewStack->currentWidget());
+    if(nullptr != cameraView) {
+        QPixmap pixmap = cameraView->snapshot();
+        FreeDrawing *freeDrawing = dynamic_cast<FreeDrawing*>(whiteboardView);
+        freeDrawing->clear(pixmap);
+        navigator->setChecked(2);
+        return;
     }
 //    VlcPlayerController *vlcPlayerController = dynamic_cast<VlcPlayerController*>(viewStack->currentWidget());
 //    printf("vlcPlayerController: %p", vlcPlayerController);

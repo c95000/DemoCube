@@ -24,6 +24,9 @@ public:
     explicit PrimeWindow(QWidget *parent = nullptr);
     ~PrimeWindow();
 
+protected:
+    virtual void paintEvent(QPaintEvent *event);
+
 private:
     void connectViewSignals();
     void connectCameraSignals();

@@ -25,8 +25,11 @@ signals:
     void comment();
 
 public slots:
-    void onConnect(const QString& sourceUrl);
-    void onDisconnect();
+    void connected();
+    void disconnected();
+    void played();
+    void paused();
+    void stopped();
 
 private:
     QPushButton *btnConnect;

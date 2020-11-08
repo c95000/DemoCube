@@ -37,9 +37,9 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     hLayout->addStretch();
 
     setLayout(hLayout);
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    setMinimumWidth(0);
-    setMinimumHeight(0);
+//    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+//    setMinimumWidth(0);
+//    setMinimumHeight(0);
 
     connect(colorCombo, SIGNAL(activated(int)), this, SLOT(on_colorChanged(int)));
     connect(widthCombo, SIGNAL(activated(int)), this, SLOT(on_widthChanged(int)));

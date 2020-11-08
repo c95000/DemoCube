@@ -57,7 +57,7 @@ VlcPlayer::~VlcPlayer()
 }
 
 void VlcPlayer::init() {
-    videoView = new QLabel();
+    videoView = new QWidget();
     QPalette pal(videoView->palette());
     pal.setColor(QPalette::Background, QColor(20,20,20)); //设置背景黑色
     videoView->setAutoFillBackground(true);
@@ -186,7 +186,7 @@ void VlcPlayer::takePicture() {
     printf("filename: %s", fileName.toStdString().c_str());
     if (fileName.length() > 0)
     {
-        snapShot().save(fileName);
+        snapshot().save(fileName);
     }
 }
 
@@ -203,7 +203,7 @@ void VlcPlayer::comment() {
 //    }
 }
 
-const QPixmap VlcPlayer::snapShot() {
+const QPixmap VlcPlayer::snapshot() {
     QScreen *screen = QGuiApplication::primaryScreen();
     QPixmap pixmap = screen->grabWindow(videoView->winId());
     return pixmap;

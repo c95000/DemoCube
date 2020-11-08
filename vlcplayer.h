@@ -46,7 +46,7 @@ signals:
     void stopped();
 
 public:
-    const QPixmap snapShot();
+    const QPixmap snapshot();
 
 private:
     Ui::VlcPlayer *ui;
