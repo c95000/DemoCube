@@ -59,6 +59,9 @@ private:
     libvlc_media_t* m_vlcMedia;
 
     Loading *loading;
+
+    int64_t duration;
+    QSize videoSize;
 };
 
 #endif // VLCPLAYER_H

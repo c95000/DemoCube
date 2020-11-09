@@ -5,6 +5,7 @@
 #include "vlc/vlc.h"
 #include "vlcwrapper.h"
 #include <QScreen>
+#include "videorender.h"
 
 VlcPlayer::VlcPlayer(QWidget *parent) :
     QWidget(parent),
@@ -21,28 +22,6 @@ VlcPlayer::VlcPlayer(const QString& inputSrc, QWidget *parent) :
     ui->setupUi(this);
 
     init();
-
-//    childThread = new QThread();
-
-//    loading = new Loading(this);
-//    loading->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-//    loading->setWindowModality(Qt::ApplicationModal);
-//    loading->resize(256, 256);
-//    loading->start();
-//    loading->show();
-
-//    connect(controller, SIGNAL(stop()), loading, SLOT(show()));
-
-//    worker->moveToThread(childThread);
-//    connect(childThread, SIGNAL(started()), worker, SLOT(onStop()));
-//    connect(worker, &VlcWorker::stopped, [=](){
-//        printf("VlcWorker stopped: %p", QThread::currentThreadId());
-//        childThread->quit();
-//    });
-//    connect(childThread, &QThread::finished, [=](){
-//        printf("childThread finished %p", QThread::currentThreadId());
-//    });
-//    connect(childThread, SIGNAL(finished()), loading, SLOT(close()));
 }
 
 VlcPlayer::~VlcPlayer()
@@ -57,26 +36,15 @@ VlcPlayer::~VlcPlayer()
 }
 
 void VlcPlayer::init() {
-    videoView = new QWidget();
+    videoView = new VideoRender();
     QPalette pal(videoView->palette());
-    pal.setColor(QPalette::Background, QColor(20,20,20)); //设置背景黑色
+    pal.setColor(QPalette::Background, QColor(200,200,200)); //设置背景黑色
     videoView->setAutoFillBackground(true);
     videoView->setPalette(pal);
-
-//    videoView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
-//    controller = new VlcPlayerController();
-//    connect(controller, SIGNAL(play()), this, SLOT(play()));
-//    connect(controller, SIGNAL(stop()), this, SLOT(stop()));
-//    connect(controller, SIGNAL(pause()), this, SLOT(pause()));
-//    connect(controller, SIGNAL(exit()), this, SLOT(close()));
-//    connect(controller, SIGNAL(takePicture()), this, SLOT(takePicture()));
-//    connect(controller, SIGNAL(comment()), this, SLOT(comment()));
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(videoView);
-//    layout->addWidget(controller, 1);
 
     setLayout(layout);
 
