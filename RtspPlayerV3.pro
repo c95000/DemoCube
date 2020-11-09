@@ -42,6 +42,7 @@ SOURCES += \
     cameracontroller1.cpp \
     cameraview.cpp \
     common.cpp \
+    ffplayer.cpp \
     freedrawing.cpp \
     freedrawingmenu.cpp \
     glvideowidget.cpp \
@@ -58,6 +59,7 @@ SOURCES += \
     primewindow.cpp \
     recordlabel.cpp \
     scaler.cpp \
+    videorender.cpp \
     vlcplayer.cpp \
     vlcplayercontroller.cpp \
     vlcworker.cpp \
@@ -81,6 +83,7 @@ HEADERS += \
     cameracontroller1.h \
     cameraview.h \
     common.h \
+    ffplayer.h \
     freedrawing.h \
     freedrawingmenu.h \
     glvideowidget.h \
@@ -96,6 +99,7 @@ HEADERS += \
     primewindow.h \
     recordlabel.h \
     scaler.h \
+    videorender.h \
     vlcplayer.h \
     vlcplayercontroller.h \
     vlcworker.h \

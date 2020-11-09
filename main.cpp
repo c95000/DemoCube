@@ -15,6 +15,7 @@
 #include "vlcplayercontroller.h"
 #include "imagedisplay.h"
 #include "navigator.h"
+#include "ffplayer.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,11 +26,12 @@ int main(int argc, char *argv[])
 //    FreeDrawingMenu w;
 //    LineState w;
 //    FreeDrawing w;
-    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
+//    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 //    VlcPlayerController w;
 //    ImageDisplay w;
 
 //    Navigator w;
+    FFPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 
 //    ToolBar w;
 //    w.show();
