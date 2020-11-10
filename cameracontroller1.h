@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "common.h"
 #include <QObject>
+#include "recordindicator.h"
+
 class CameraController1 : public QWidget
 {
     Q_OBJECT
@@ -14,6 +16,9 @@ public:
 
 //private:
     void init();
+
+protected:
+    void resizeEvent(QResizeEvent *event);
 
 signals:
     void signalConnect();
@@ -31,6 +36,10 @@ public slots:
     void paused();
     void stopped();
 
+private slots:
+    void startRecord();
+    void stopRecord();
+
 private:
     QPushButton *btnConnect;
     QPushButton *btnPlay;
@@ -39,6 +48,10 @@ private:
     QPushButton *btnTakePicture;
     QPushButton *btnComment;
     QPushButton *btnExit;
+
+    QPushButton *btnStartRecord;
+    QPushButton *btnStopRecord;
+    RecordIndicator *recordIndicator;
 
     QString sourceUrl;
 };
