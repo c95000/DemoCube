@@ -51,7 +51,7 @@ protected:
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
     virtual bool event(QEvent* event) override;
-    virtual void resizeEvent(QResizeEvent *event) override;
+//    virtual void resizeEvent(QResizeEvent *event) override;
 //private:
 //    void renderText();
 signals:

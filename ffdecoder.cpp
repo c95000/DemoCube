@@ -227,8 +227,8 @@ void FFDecoder::run() {
                      );
 
             //printf("output yuv: pts: %lld %p format: %d size: %d", p_frm_yuv->pts, p_frm_yuv->data, p_frm_yuv->format, p_frm_yuv->pkt_size);
-            printf("output yuv: %p %p %p (%d %d %d)", p_frm_yuv->data[0], p_frm_yuv->data[1], p_frm_yuv->data[2],
-                    p_frm_yuv->linesize[0], p_frm_yuv->linesize[1], p_frm_yuv->linesize[2]);
+//            printf("output yuv: %p %p %p (%d %d %d)", p_frm_yuv->data[0], p_frm_yuv->data[1], p_frm_yuv->data[2],
+//                    p_frm_yuv->linesize[0], p_frm_yuv->linesize[1], p_frm_yuv->linesize[2]);
 
 //            if(count++ == 300) {
 //                printf("output yuv: (%d %d)", p_frm_yuv->data[1] - p_frm_yuv->data[0], p_frm_yuv->data[2] - p_frm_yuv->data[1]);

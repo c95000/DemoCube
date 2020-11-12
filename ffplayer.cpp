@@ -27,7 +27,7 @@ void _ffdecoder_video_format_cb(void *opaque, int* width, int *height, int* line
 
 void _ffdecoder_data_available_cb(void *opaque, const QByteArray& ba) {
     FFPlayer* ffPlayer = (FFPlayer*)opaque;
-    printf("ba size: %d opaque:%p", ba.size(), ffPlayer);
+//    printf("ba size: %d opaque:%p", ba.size(), ffPlayer);
 
 //    if(fileName.isNull() || fileName.isEmpty()) {
 //        picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
