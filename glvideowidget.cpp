@@ -288,7 +288,7 @@ void GLVideoWidget::paintGL()
     if (plane.isEmpty() || !plane[0].data) {
         //清除之前图形并将背景设置为黑色（设置为黑色纯粹个人爱好！）
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.6f, 0.6f, 0.6f, 0.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
         return;
     }
 
@@ -365,6 +365,16 @@ bool GLVideoWidget::event(QEvent* event) {
         return true;
     }
     return QOpenGLWidget::event(event);
+}
+
+void GLVideoWidget::resizeEvent(QResizeEvent *event) {
+    QSizeF parentSize = parentWidget()->size();
+    QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
+    resize(QSize(round(destSz.width()), round(destSz.height())));
+
+    QSize psz = parentWidget()->size();
+    QPoint center((psz.width() - size().width())/2, (psz.height() - size().height())/2);
+    move(center);
 }
 
 void GLVideoWidget::initializeShader()

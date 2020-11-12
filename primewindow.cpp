@@ -9,7 +9,7 @@
 #include <QTimer>
 #include <QLabel>
 #include <QDateTime>
-
+#include "ffplayer.h"
 
 PrimeWindow::PrimeWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -51,7 +51,7 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     resize(QSize(default_width, default_height));
 
     videoView = new VlcPlayer();//new QLabel("videoView");
-    cameraView = new CameraView();//new QLabel("cameraView");
+    cameraView = new FFPlayer();//new QLabel("cameraView");
     whiteboardView = new FreeDrawing();//new QLabel("whiteboardView");
 
 
@@ -169,8 +169,8 @@ void PrimeWindow::connectCameraSignals() {
 //    void takePicture();
 //    void comment();
 
-    connect(cameraController, SIGNAL(signalConnect(const QString&)), cameraView, SLOT(onConnect(const QString&)));
-    connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(onDisconnect()));
+    connect(cameraController, SIGNAL(signalConnect(const QString&)), cameraView, SLOT(play(const QString&)));
+    connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(stop()));
     connect(cameraController, SIGNAL(play()), cameraView, SLOT(play()));
     connect(cameraController, SIGNAL(pause()), cameraView, SLOT(pause()));
     connect(cameraController, SIGNAL(stop()), cameraView, SLOT(stop()));

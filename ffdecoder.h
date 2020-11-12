@@ -1,12 +1,8 @@
-#ifndef FFPLAYER_H
-#define FFPLAYER_H
+#ifndef FFDECODER_H
+#define FFDECODER_H
 
-#include <QObject>
-#include <QWidget>
 #include <QThread>
-#include <QFile>
-#include "ffdecoder.h"
-#include "glvideowidget.h"
+#include "common.h"
 
 extern "C"
 {
@@ -18,38 +14,45 @@ extern "C"
     #include "libavutil/imgutils.h"
 }
 
-class FFPlayer : public QWidget
+enum FFDECODER_STATE {
+    FFDECODER_IDLE = 0,
+    FFDECODER_PREPARING,
+    FFDECODER_PLAYING,
+    FFDECODER_PAUSED,
+    FFDECODER_STOPPED,
+    FFDECODER_ERROR,
+};
+
+typedef void (*ffdecoder_video_format_cb)(void *opaque, int* width, int *height, int* lineSize);
+typedef void (*ffdecoder_data_available_cb)(void *opaque, const QByteArray& ba);
+
+class FFDecoder : public QThread
 {
     Q_OBJECT
 public:
-    explicit FFPlayer(QWidget *parent = nullptr);
-    explicit FFPlayer(const QString& inputSrc, QWidget *parent = nullptr);
-    ~FFPlayer();
-private:
-    void init();
+    explicit FFDecoder(QObject *parent = nullptr);
+    virtual ~FFDecoder();
 
 signals:
     void prepared();
     void played();
-    void paused();
     void stopped();
+    void paused();
 
-public slots:
-    void play(const QString& inputSrc);
+public:
+    void setSource(const QString& inputSrc, ffdecoder_video_format_cb video_format_cb = nullptr, ffdecoder_data_available_cb data_available_cb = nullptr, void* opaque = nullptr);
     void play();
     void stop();
     void pause();
-    void close();
-    void takePicture();
-    void comment();
+    void resume();
 
-public:
-    const QPixmap snapshot();
 
-public:
-    GLVideoWidget* videoView;
+protected:
+    void run() override;
 
 private:
+    FFDECODER_STATE m_state;
+
     QString inputSource; // media source
 
     AVFormatContext*    p_fmt_ctx = NULL;
@@ -67,7 +70,9 @@ private:
     int                 ret;
     int                 align = 16;
 
-    FFDecoder*          ffDecoder;
+    ffdecoder_video_format_cb video_format_cb;
+    ffdecoder_data_available_cb data_available_cb;
+    void* opaque;
 };
 
-#endif // FFPLAYER_H
+#endif // FFDECODER_H

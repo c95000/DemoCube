@@ -1,5 +1,5 @@
 #include "cameracontroller1.h"
-
+#include <QFileDialog>
 CameraController1::CameraController1(QWidget *parent) : QWidget(parent)
 {
     init();
@@ -45,10 +45,10 @@ void CameraController1::init() {
     hLayout->addWidget(btnComment);
     hLayout->addStretch();
 
-
-
     btnStartRecord = new QPushButton("开始录制");
     btnStopRecord = new QPushButton("结束录制");
+    btnStartRecord->setEnabled(false);
+    btnStopRecord->setEnabled(false);
     btnStopRecord->hide();
     recordIndicator = new RecordIndicator();
     QHBoxLayout *recordLayout = new QHBoxLayout();
@@ -66,6 +66,18 @@ void CameraController1::init() {
 
     connect(btnConnect, &QPushButton::clicked, this, [=]() {
         btnConnect->setEnabled(false);
+        sourceUrl = "C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4";
+
+        printf("on_btnLocal_clicked");
+        QString videoPath = Configure::getInstance()->getVideopath();
+        QString filename = QFileDialog::getOpenFileName(this,tr("action"),videoPath,"",0);
+        if(filename.isEmpty()) {
+            return;
+        }
+
+        printf("filename: %s", filename.toStdString().c_str());
+        filename = filename.replace("/", "\\");
+        sourceUrl = filename;
         emit signalConnect(sourceUrl);
     });
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
@@ -103,6 +115,8 @@ void CameraController1::played() {
     btnDisconnect->setEnabled(true);
     btnTakePicture->setEnabled(true);
     btnComment->setEnabled(true);
+    btnStartRecord->setEnabled(true);
+    btnStopRecord->setEnabled(true);
 }
 
 void CameraController1::paused() {
@@ -120,6 +134,8 @@ void CameraController1::stopped() {
     btnDisconnect->setEnabled(false);
     btnTakePicture->setEnabled(false);
     btnComment->setEnabled(false);
+    btnStartRecord->setEnabled(false);
+    btnStopRecord->setEnabled(false);
 }
 
 
