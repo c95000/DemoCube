@@ -42,6 +42,7 @@ SOURCES += \
     cameracontroller1.cpp \
     cameraview.cpp \
     common.cpp \
+    ffdecoder.cpp \
     ffplayer.cpp \
     freedrawing.cpp \
     freedrawingmenu.cpp \
@@ -57,6 +58,7 @@ SOURCES += \
     navigator.cpp \
     playpausebutton.cpp \
     primewindow.cpp \
+    recordindicator.cpp \
     recordlabel.cpp \
     scaler.cpp \
     videorender.cpp \
@@ -83,6 +85,7 @@ HEADERS += \
     cameracontroller1.h \
     cameraview.h \
     common.h \
+    ffdecoder.h \
     ffplayer.h \
     freedrawing.h \
     freedrawingmenu.h \
@@ -97,6 +100,7 @@ HEADERS += \
     navigator.h \
     playpausebutton.h \
     primewindow.h \
+    recordindicator.h \
     recordlabel.h \
     scaler.h \
     videorender.h \

@@ -173,7 +173,6 @@ void PrimeWindow::connectCameraSignals() {
     connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(stop()));
     connect(cameraController, SIGNAL(play()), cameraView, SLOT(play()));
     connect(cameraController, SIGNAL(pause()), cameraView, SLOT(pause()));
-    connect(cameraController, SIGNAL(stop()), cameraView, SLOT(stop()));
     connect(cameraController, SIGNAL(takePicture()), cameraView, SLOT(takePicture()));
     connect(cameraController, SIGNAL(comment()), this, SLOT(on_btnComment()));
 
