@@ -250,6 +250,17 @@ void FFDecoder::run() {
                 data_available_cb(opaque, ba);
             }
 
+            while(FFDECODER_PAUSED == m_state) {
+                continue;
+                msleep(100);
+            }
+
+            if(FFDECODER_STOPPED == m_state) {
+                break;
+            }
+
+            msleep(40);
+
 
             // B5. 使用新的YUV像素数据更新SDL_Rect
 //            SDL_UpdateYUVTexture(sdl_texture,                   // sdl texture
@@ -327,7 +338,3 @@ void FFDecoder::pause() {
     emit paused();
 }
 
-void FFDecoder::resume() {
-    m_state = FFDECODER_PLAYING;
-    emit played();
-}

@@ -92,10 +92,25 @@ void FFPlayer::close() {
 
 }
 void FFPlayer::takePicture() {
-
+    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
+    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+    printf("filename: %s", fileName.toStdString().c_str());
+    if (fileName.length() > 0)
+    {
+        snapshot().save(fileName);
+    }
 }
 void FFPlayer::comment() {
 
+}
+
+const QPixmap FFPlayer::snapshot() {
+//    QScreen *screen = QGuiApplication::primaryScreen();
+//    QPixmap pixmap = screen->grabWindow(videoView->winId());
+//    return pixmap;
+    QImage img = videoView->grabFramebuffer();
+    return QPixmap::fromImage(img);
 }
 
 void FFPlayer::setVideoSize(int width, int height) {
