@@ -283,9 +283,9 @@ void PrimeWindow::on_btnComment() {
         return;
     }
 
-    CameraView *cameraView = dynamic_cast<CameraView*>(viewStack->currentWidget());
-    if(nullptr != cameraView) {
-        QPixmap pixmap = cameraView->snapshot();
+    FFPlayer *ffPlayer = dynamic_cast<FFPlayer*>(viewStack->currentWidget());
+    if(nullptr != ffPlayer) {
+        QPixmap pixmap = ffPlayer->snapshot();
         FreeDrawing *freeDrawing = dynamic_cast<FreeDrawing*>(whiteboardView);
         freeDrawing->clear(pixmap);
         navigator->setChecked(2);
