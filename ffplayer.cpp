@@ -22,6 +22,7 @@ static QString fileName;
 void _ffdecoder_video_format_cb(void *opaque, int* width, int *height, int* lineSize) {
     FFPlayer* ffPlayer = (FFPlayer*)opaque;
     printf("*video size: %d x %d lineSize: %d / %d / %d", *width, *height, lineSize[0], lineSize[1], lineSize[2]);
+    ffPlayer->setVideoSize(*width, *height);
     ffPlayer->videoView->setYUV420pParameters(*width, *height, lineSize);
 }
 
@@ -95,4 +96,18 @@ void FFPlayer::takePicture() {
 }
 void FFPlayer::comment() {
 
+}
+
+void FFPlayer::setVideoSize(int width, int height) {
+    this->videoWidth = width;
+    this->videoHeight = height;
+}
+
+void FFPlayer::resizeEvent(QResizeEvent *event) {
+    QSizeF parentSize = parentWidget()->size();
+    QSizeF destSz = QSizeF(videoWidth, videoHeight).scaled(parentSize, Qt::KeepAspectRatio);
+    resize(QSize(round(destSz.width()), round(destSz.height())));
+    QSize psz = parentWidget()->size();
+    QPoint center((psz.width() - size().width())/2, (psz.height() - size().height())/2);
+    move(center);
 }

@@ -8,16 +8,6 @@
 #include "ffdecoder.h"
 #include "glvideowidget.h"
 
-extern "C"
-{
-    #include "libavcodec/avcodec.h"
-    #include "libavformat/avformat.h"
-    #include "libswscale/swscale.h"
-    #include "libavdevice/avdevice.h"
-    #include "libavutil/opt.h"
-    #include "libavutil/imgutils.h"
-}
-
 class FFPlayer : public QWidget
 {
     Q_OBJECT
@@ -45,6 +35,10 @@ public slots:
 
 public:
     const QPixmap snapshot();
+    void setVideoSize(int width, int height);
+
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
 
 public:
     GLVideoWidget* videoView;
@@ -52,22 +46,9 @@ public:
 private:
     QString inputSource; // media source
 
-    AVFormatContext*    p_fmt_ctx = NULL;
-    AVCodecContext*     p_codec_ctx = NULL;
-    AVCodecParameters*  p_codec_par = NULL;
-    AVCodec*            p_codec = NULL;
-    AVFrame*            p_frm_raw = NULL;        // 帧，由包解码得到原始帧
-    AVFrame*            p_frm_yuv = NULL;        // 帧，由原始帧色彩转换得到
-    AVPacket*           p_packet = NULL;         // 包，从流中读出的一段数据
-    struct SwsContext*  sws_ctx = NULL;
-    int                 buf_size;
-    uint8_t*            buffer = NULL;
-    int                 i;
-    int                 v_idx;
-    int                 ret;
-    int                 align = 16;
-
-    FFDecoder*          ffDecoder;
+    FFDecoder* ffDecoder;
+    int videoWidth = 16;
+    int videoHeight = 9;
 };
 
 #endif // FFPLAYER_H

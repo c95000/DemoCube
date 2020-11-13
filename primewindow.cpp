@@ -337,9 +337,9 @@ void PrimeWindow::on_btnTest2_clicked() {
 }
 
 void PrimeWindow::onButtonToggled(int index, bool checked) {
-    printf("%s(%d, %d)", __FUNCTION__, index, checked);
-    printf("%s viewStack count:%d cuurentIndex:%d)", __FUNCTION__, viewStack->count(), viewStack->currentIndex());
-    printf("%s controllerStack count:%d cuurentIndex:%d)", __FUNCTION__, controllerStack->count(), controllerStack->currentIndex());
+//    printf("%s(%d, %d)", __FUNCTION__, index, checked);
+//    printf("%s viewStack count:%d cuurentIndex:%d)", __FUNCTION__, viewStack->count(), viewStack->currentIndex());
+//    printf("%s controllerStack count:%d cuurentIndex:%d)", __FUNCTION__, controllerStack->count(), controllerStack->currentIndex());
     if(checked) {
         viewStack->setCurrentIndex(index);
         controllerStack->setCurrentIndex(index);

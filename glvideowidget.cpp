@@ -214,6 +214,7 @@ void GLVideoWidget::initTextures()
 
 void GLVideoWidget::setYUV420pParameters(int w, int h, int *strides)
 {
+    printf("setYUV420pParameters %d x %d (%d %d %d)", w, h, strides[0], strides[1], strides[2]);
     QMutexLocker lock(&m_mutex);
     Q_UNUSED(lock);
     update_res = true;
@@ -355,21 +356,9 @@ void GLVideoWidget::initializeGL()
 
 void GLVideoWidget::resizeGL(int w, int h)
 {
-    printf("resizeGL: %d x %d", w, h);
-
-    QSizeF parentSize = parentWidget()->size();
-    QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
-    resize(QSize(round(destSz.width()), round(destSz.height())));
-
-//    glViewport(0, 0, round(destSz.width()), round(destSz.height()));
-
-    QSize psz = parentWidget()->size();
-    QPoint center((psz.width() - size().width())/2, (psz.height() - size().height())/2);
-    move(center);
-
-    glViewport(0, 0, round(destSz.width()), round(destSz.height()));
+    glViewport(0, 0, w, h);
     m_mat.setToIdentity();
-    //m_mat.ortho(QRectF(0, 0, w, h));
+//    m_mat.ortho(QRectF(0, 0, w, h));
 }
 
 bool GLVideoWidget::event(QEvent* event) {
@@ -379,16 +368,6 @@ bool GLVideoWidget::event(QEvent* event) {
     }
     return QOpenGLWidget::event(event);
 }
-
-//void GLVideoWidget::resizeEvent(QResizeEvent *event) {
-//    QSizeF parentSize = parentWidget()->size();
-//    QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
-//    resize(QSize(round(destSz.width()), round(destSz.height())));
-
-//    QSize psz = parentWidget()->size();
-//    QPoint center((psz.width() - size().width())/2, (psz.height() - size().height())/2);
-//    move(center);
-//}
 
 void GLVideoWidget::initializeShader()
 {

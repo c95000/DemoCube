@@ -25,10 +25,11 @@ FFDecoder::~FFDecoder() {
 }
 
 void FFDecoder::run() {
-    printf("FFDecoder %s() enter. tid:%d", __FUNCTION__, QThread::currentThreadId());
+    printf("FFDecoder %s() enter. tid:%p", __FUNCTION__, QThread::currentThreadId());
     m_state = FFDECODER_PLAYING;
+    emit played();
 
-    int count = 0;
+//    int count = 0;
     std::string urlStr = inputSource.toStdString();
     const char* url = urlStr.c_str();
     printf("running... %s", url);
@@ -134,6 +135,9 @@ void FFDecoder::run() {
     if(video_format_cb != nullptr) {
         video_format_cb(opaque, &p_codec_ctx->width, &p_codec_ctx->height, p_frm_yuv->linesize);
     }
+
+    printf("output yuv: %p %p %p (%d %d %d)", p_frm_yuv->data[0], p_frm_yuv->data[1], p_frm_yuv->data[2],
+            p_frm_yuv->linesize[0], p_frm_yuv->linesize[1], p_frm_yuv->linesize[2]);
 
 //    GLVideoWidget *glVideoWidget = nullptr;
 //    if(nullptr != videoView) {
