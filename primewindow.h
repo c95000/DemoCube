@@ -47,6 +47,9 @@ private slots:
     void on_btnConnect();
     void onButtonToggled(int index, bool);
 
+    void onDirSetting();
+    void onActAbout();
+
 private:
     Ui::PrimeWindow *ui;
 

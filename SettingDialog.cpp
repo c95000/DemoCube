@@ -58,9 +58,9 @@ void SettingDialog::resizeEvent(QResizeEvent *event) {
     int ay = (event->size().height() - ui->buttonBox->height()) - 20;
     ui->buttonBox->move(ax, ay);
 
-    ax = (event->size().width() - ui->company->width())/2;
+//    ax = (event->size().width() - ui->company->width())/2;
     ay = ay - ui->buttonBox->height() - 20;
-    ui->company->move(ax, ay);
+//    ui->company->move(ax, ay);
 }
 
 void SettingDialog::accept()
