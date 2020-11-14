@@ -39,6 +39,8 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
+    virtual void showEvent(QShowEvent *event);
+    virtual void hideEvent(QHideEvent *event);
 
 public:
     GLVideoWidget* videoView;

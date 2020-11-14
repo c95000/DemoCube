@@ -20,31 +20,6 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 
 //    setFixedSize(320, 240);
 
-//    QHBoxLayout *hLayout = new QHBoxLayout();
-//    hLayout->setAlignment(Qt::AlignTop);
-//    QPushButton *btnLocal = new QPushButton("本地文件");
-//    QPushButton *btnCamera = new QPushButton("摄像头");
-//    QPushButton *btnWhiteboard = new QPushButton("白板");
-//    QPushButton *btnTest1 = new QPushButton("test1");
-//    QPushButton *btnTest2 = new QPushButton("test2");
-//    connect(btnLocal, &QPushButton::clicked, this, &PrimeWindow::on_btnLocal_clicked);
-//    connect(btnCamera, &QPushButton::clicked, this, &PrimeWindow::on_btnRtsp_clicked);
-//    connect(btnWhiteboard, &QPushButton::clicked, this, &PrimeWindow::on_btnWhiteboard_clicked);
-//    connect(btnTest1, &QPushButton::clicked, this, &PrimeWindow::on_btnTest1_clicked);
-//    connect(btnTest2, &QPushButton::clicked, this, &PrimeWindow::on_btnTest2_clicked);
-
-//    hLayout->addWidget(btnLocal);
-//    hLayout->addWidget(btnCamera);
-//    hLayout->addWidget(btnWhiteboard);
-//    hLayout->addWidget(btnTest1);
-//    hLayout->addWidget(btnTest2);
-//    hLayout->addStretch();
-
-//    QPalette pal(palette());
-//    pal.setColor(QPalette::Background, QColor(100,0,0)); //设置背景黑色
-//    setAutoFillBackground(true);
-//    setPalette(pal);
-
     int bottomMinimumHeight = 120;
     int default_width = 1280 * Resolution::getInstance()->scaleX();
     int default_height = 720 * Resolution::getInstance()->scaleY();
@@ -124,28 +99,6 @@ PrimeWindow::~PrimeWindow()
     delete ui;
 }
 
-void PrimeWindow::paintEvent(QPaintEvent *event) {
-//    if(!Configure::getInstance()->isOfficial()) {
-//        QTextOption option(Qt::AlignLeft | Qt::AlignTop);
-//        option.setWrapMode(QTextOption::WordWrap);
-//        QRectF rect(100, 100, this->width(), this->height());
-//        QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
-
-//        // Render text
-//        QPainter painter(this);
-
-//        QFont font;
-//        font.setPixelSize(40);
-//        painter.setFont(font);
-
-//        QPen pen;
-//        pen.setColor(Qt::red);
-//        painter.setPen(pen);
-
-//        painter.drawText(rect, date, option);
-//        painter.end();
-//    }
-}
 
 void PrimeWindow::connectViewSignals() {
     connect(videoController, SIGNAL(play(const QString&)), videoView, SLOT(play(const QString&)));
@@ -192,7 +145,7 @@ void PrimeWindow::connectWhiteboardSignals() {
 
 
 
-void PrimeWindow::replaseWidget(QWidget* widget) {
+void PrimeWindow::replaceWidget(QWidget* widget) {
     QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());
     for(int i = 0; i < layout->count(); i++) {
 //        printf("layout->itemAt(%d): %p", i, layout->itemAt(i));
@@ -220,7 +173,7 @@ void PrimeWindow::on_btnLocal_clicked() {
 
     printf("filename: %s", filename.toStdString().c_str());
     filename.replace("/", "\\");
-    replaseWidget(vlcPlayer);
+    replaceWidget(vlcPlayer);
     vlcPlayer->play(filename);
 }
 
@@ -268,7 +221,7 @@ void PrimeWindow::on_btnWhiteboard_clicked() {
 //    FreeDrawing *freeDrawing = new FreeDrawing();
 //    layout->insertWidget(1, freeDrawing, 1);
 
-    replaseWidget(freeDrawing);
+    replaceWidget(freeDrawing);
 }
 
 void PrimeWindow::on_btnComment() {
@@ -350,3 +303,9 @@ void PrimeWindow::on_btnConnect() {
     printf("%s", __FUNCTION__);
 }
 
+void PrimeWindow::resizeEvent(QResizeEvent *event) {
+//    QSize viewStackSize = viewStack->size();
+//    printf("viewStackSize %d x %d", viewStackSize.width(), viewStackSize.height());
+//    QSizeF destSz = QSizeF(16, 9).scaled(viewStackSize, Qt::KeepAspectRatio);
+//    viewStack->resize(QSize(round(destSz.width()), round(destSz.height())));
+}

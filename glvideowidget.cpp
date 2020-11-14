@@ -356,6 +356,7 @@ void GLVideoWidget::initializeGL()
 
 void GLVideoWidget::resizeGL(int w, int h)
 {
+    printf("resizeGL : %d x %d", w, h);
     glViewport(0, 0, w, h);
     m_mat.setToIdentity();
 //    m_mat.ortho(QRectF(0, 0, w, h));

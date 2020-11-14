@@ -19,12 +19,12 @@ VideoRender::VideoRender(const QSizeF& videoSize, QWidget *parent): QWidget(pare
     aspectRatio = 1.0 * videoSize.width() / videoSize.height();
 }
 
-void VideoRender::resizeEvent(QResizeEvent *event) {
-    QSizeF parentSize = parentWidget()->size();
-    QSizeF destSz = videoSize.scaled(parentSize, Qt::KeepAspectRatio);
-    resize(QSize(round(destSz.width()), round(destSz.height())));
+//void VideoRender::resizeEvent(QResizeEvent *event) {
+//    QSizeF parentSize = parentWidget()->size();
+//    QSizeF destSz = videoSize.scaled(parentSize, Qt::KeepAspectRatio);
+//    resize(QSize(round(destSz.width()), round(destSz.height())));
 
-    QSize psz = parentWidget()->size();
-    QPoint center((psz.width() - size().width())/2, (psz.height() - size().height())/2);
-    move(center);
-}
+//    QSize psz = parentWidget()->size();
+//    QPoint center((psz.width() - size().width())/2, (psz.height() - size().height())/2);
+//    move(center);
+//}

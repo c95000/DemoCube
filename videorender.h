@@ -12,8 +12,8 @@ public:
     explicit VideoRender(const double aspectRatio, QWidget *parent = nullptr);
     explicit VideoRender(const QSizeF& videoSize, QWidget *parent = nullptr);
 
-protected:
-    virtual void resizeEvent(QResizeEvent *event);
+//protected:
+//    virtual void resizeEvent(QResizeEvent *event);
 
 signals:
 

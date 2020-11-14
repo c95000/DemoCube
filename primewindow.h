@@ -25,7 +25,7 @@ public:
     ~PrimeWindow();
 
 protected:
-    virtual void paintEvent(QPaintEvent *event);
+    virtual void resizeEvent(QResizeEvent *event);
 
 private:
     void connectViewSignals();
@@ -33,7 +33,7 @@ private:
     void connectWhiteboardSignals();
 
 private:
-    void replaseWidget(QWidget* widget);
+    void replaceWidget(QWidget* widget);
 
 private slots:
     void on_btnLocal_clicked();

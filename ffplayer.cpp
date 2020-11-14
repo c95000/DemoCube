@@ -52,14 +52,12 @@ FFPlayer::~FFPlayer() {
 }
 
 void FFPlayer::init() {
-    resize(100, 100);
+    videoView = new GLVideoWidget(this);
+//    QVBoxLayout *layout = new QVBoxLayout();
+//    layout->setContentsMargins(0, 0, 0, 0);
+//    layout->addWidget(videoView);
 
-    videoView = new GLVideoWidget();
-    QVBoxLayout *layout = new QVBoxLayout();
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(videoView);
-
-    setLayout(layout);
+//    setLayout(layout);
 
     ffDecoder = new FFDecoder();
     connect(ffDecoder, SIGNAL(prepared()), this, SIGNAL(prepared()));
@@ -119,10 +117,28 @@ void FFPlayer::setVideoSize(int width, int height) {
 }
 
 void FFPlayer::resizeEvent(QResizeEvent *event) {
+    printf("FFPlayer resizeEvent: %d x %d", event->size().width(), event->size().height());
     QSizeF parentSize = parentWidget()->size();
-    QSizeF destSz = QSizeF(videoWidth, videoHeight).scaled(parentSize, Qt::KeepAspectRatio);
-    resize(QSize(round(destSz.width()), round(destSz.height())));
-    QSize psz = parentWidget()->size();
-    QPoint center((psz.width() - size().width())/2, (psz.height() - size().height())/2);
-    move(center);
+    QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
+    videoView->resize(QSize(round(destSz.width()), round(destSz.height())));
+
+    QSize psz = size();
+    QPoint center((psz.width() - destSz.width())/2, (psz.height() - destSz.height())/2);
+    videoView->move(center);
+}
+
+void FFPlayer::showEvent(QShowEvent *event) {
+    printf("FFPlayer showEvent");
+    printf("FFPlayer showEvent: %d x %d", size().width(), size().height());
+    QSizeF parentSize = parentWidget()->size();
+    QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
+    videoView->resize(QSize(round(destSz.width()), round(destSz.height())));
+
+    QSize psz = size();
+    QPoint center((psz.width() - destSz.width())/2, (psz.height() - destSz.height())/2);
+    videoView->move(center);
+}
+
+void FFPlayer::hideEvent(QHideEvent *event) {
+    printf("FFPlayer hideEvent");
 }

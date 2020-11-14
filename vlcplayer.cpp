@@ -36,18 +36,21 @@ VlcPlayer::~VlcPlayer()
 }
 
 void VlcPlayer::init() {
-    videoView = new VideoRender();
+//    videoView = new QLabel("test", this);
+    videoView = new VideoRender(this);
     QPalette pal(videoView->palette());
     pal.setColor(QPalette::Background, QColor(200,200,200)); //设置背景黑色
     videoView->setAutoFillBackground(true);
     videoView->setPalette(pal);
 
-    QVBoxLayout *layout = new QVBoxLayout();
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(videoView);
+//    QHBoxLayout *layout = new QHBoxLayout();
+//    layout->setAlignment(Qt::AlignCenter);
+//    layout->setContentsMargins(0, 0, 0, 0);
+//    layout->addStretch();
+//    layout->addWidget(videoView);
+//    layout->addStretch();
 
-    setLayout(layout);
-
+//    setLayout(layout);
 
     //创建vlc实例
     m_vlcInstance = libvlc_new(0, NULL);
@@ -177,3 +180,30 @@ const QPixmap VlcPlayer::snapshot() {
     return pixmap;
 }
 
+void VlcPlayer::resizeEvent(QResizeEvent *event) {
+    printf("VlcPlayer resizeEvent: %d x %d", event->size().width(), event->size().height());
+    QSizeF parentSize = parentWidget()->size();
+    QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
+    videoView->resize(QSize(round(destSz.width()), round(destSz.height())));
+
+    QSize psz = size();
+    QPoint center((psz.width() - destSz.width())/2, (psz.height() - destSz.height())/2);
+    videoView->move(center);
+}
+
+void VlcPlayer::showEvent(QShowEvent *event) {
+    printf("VlcPlayer showEvent");
+    printf("VlcPlayer showEvent: %d x %d", size().width(), size().height());
+    QSizeF parentSize = parentWidget()->size();
+    QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
+    videoView->resize(QSize(round(destSz.width()), round(destSz.height())));
+
+    QSize psz = size();
+    QPoint center((psz.width() - destSz.width())/2, (psz.height() - destSz.height())/2);
+    videoView->move(center);
+
+}
+
+void VlcPlayer::hideEvent(QHideEvent *event) {
+    printf("VlcPlayer hideEvent");
+}
