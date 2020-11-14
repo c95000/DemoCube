@@ -34,8 +34,13 @@ void FFDecoder::run() {
     std::string urlStr = inputSource.toStdString();
     const char* url = urlStr.c_str();
     printf("running... %s", url);
+
+    AVDictionary *options = NULL;
+
+    av_dict_set(&options, "rtsp_transport" , "tcp", 0);
+
     // A1. 打开视频文件：读取文件头，将文件格式信息存储在"fmt context"中
-    ret = avformat_open_input(&p_fmt_ctx, url, NULL, NULL);
+    ret = avformat_open_input(&p_fmt_ctx, url, NULL, &options);
     if (ret != 0)
     {
         printf("avformat_open_input() failed: %d\n", ret);
@@ -240,17 +245,15 @@ void FFDecoder::run() {
                 }
             }
 
-//            printf("p_frm_raw: pts: %lld data: %p  %d", p_frm_raw->pts, p_frm_raw->data, p_frm_raw->pkt_size);
-
             if(isState(FFDECODER_RECORDING)) {
                 if(p_frm_raw->pict_type == AV_PICTURE_TYPE_I) {
                     isGotIFrame = true;
                 }
 
                 if(isGotIFrame) {
-                    writeFile(tr("%1%2").arg(recordFileName).arg(".h264"), (char *)p_frm_raw->data, p_frm_raw->pkt_size);
+                    //must get h264 from p_packet;
+                    writeFile(tr("%1%2").arg(recordFileName).arg(".h264"), (char *)p_packet->buf->data, p_packet->buf->size);
                 }
-
             }
 
 //            writeFile(tr("%1%2").arg(fileName).arg("1.h264"), (char *)p_frm_raw->data, p_frm_raw->pkt_size);
@@ -292,7 +295,6 @@ void FFDecoder::run() {
                 ba.append((char *)p_frm_yuv->data[0], p_frm_yuv->linesize[0] * p_codec_ctx->height);
                 ba.append((char *)p_frm_yuv->data[1], p_frm_yuv->linesize[1] * p_codec_ctx->height / 2);
                 ba.append((char *)p_frm_yuv->data[2], p_frm_yuv->linesize[2] * p_codec_ctx->height / 2);
-//                glVideoWidget->setFrameData(ba);
                 data_available_cb(opaque, ba);
             }
 
@@ -305,7 +307,6 @@ void FFDecoder::run() {
                 break;
             }
 
-            msleep(40);
 
 
             // B5. 使用新的YUV像素数据更新SDL_Rect

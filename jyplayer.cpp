@@ -36,8 +36,8 @@ void JyPlayer::run() {
     int count = 0;
 
     int ret = 0;
-    av_register_all();
-    ret = avformat_network_init();
+//    av_register_all();
+//    ret = avformat_network_init();
     AVDictionary *options = NULL;
 
     av_dict_set(&options, "rtsp_transport" , "tcp", 0);

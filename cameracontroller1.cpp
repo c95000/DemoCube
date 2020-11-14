@@ -23,6 +23,7 @@ void CameraController1::init() {
     btnPlay = new QPushButton("播放");
     btnPlay->hide();
     btnPause = new QPushButton("暂停");
+    btnPause->hide();
     btnDisconnect = new QPushButton("断开");
     btnTakePicture = new QPushButton("拍照");
     btnComment = new QPushButton("批注");
@@ -71,18 +72,19 @@ void CameraController1::init() {
 
     connect(btnConnect, &QPushButton::clicked, this, [=]() {
         btnConnect->setEnabled(false);
-        sourceUrl = "C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4";
+//        sourceUrl = "C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4";
 
-        printf("on_btnLocal_clicked");
-        QString videoPath = Configure::getInstance()->getVideopath();
-        QString filename = QFileDialog::getOpenFileName(this,tr("action"),videoPath,"",0);
-        if(filename.isEmpty()) {
-            return;
-        }
+//        printf("on_btnLocal_clicked");
+//        QString videoPath = Configure::getInstance()->getVideopath();
+//        QString filename = QFileDialog::getOpenFileName(this,tr("action"),videoPath,"",0);
+//        if(filename.isEmpty()) {
+//            return;
+//        }
 
-        printf("filename: %s", filename.toStdString().c_str());
-        filename = filename.replace("/", "\\");
-        sourceUrl = filename;
+//        printf("filename: %s", filename.toStdString().c_str());
+//        filename = filename.replace("/", "\\");
+//        sourceUrl = filename;
+        sourceUrl = "rtsp://192.168.1.225/";
         emit signalConnect(sourceUrl);
     });
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
@@ -115,8 +117,8 @@ void CameraController1::disconnected() {
 
 void CameraController1::played() {
     printf("%s() is called.", __FUNCTION__);
-    btnPlay->hide();
-    btnPause->show();
+//    btnPlay->hide();
+//    btnPause->show();
 
     btnPlay->setEnabled(true);
     btnPause->setEnabled(true);

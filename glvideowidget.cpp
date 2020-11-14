@@ -214,7 +214,7 @@ void GLVideoWidget::initTextures()
 
 void GLVideoWidget::setYUV420pParameters(int w, int h, int *strides)
 {
-    printf("setYUV420pParameters %d x %d (%d %d %d)", w, h, strides[0], strides[1], strides[2]);
+//    printf("setYUV420pParameters %d x %d (%d %d %d)", w, h, strides[0], strides[1], strides[2]);
     QMutexLocker lock(&m_mutex);
     Q_UNUSED(lock);
     update_res = true;
@@ -327,20 +327,34 @@ void GLVideoWidget::paintGL()
 //        QColor fontColor = QColor(glColor[0], glColor[1], glColor[2], glColor[3]);
 
     if(!Configure::getInstance()->isOfficial()) {
+
+        QTime time;
+        time= QTime::currentTime();
+        qsrand(time.msec()+time.second()*1000);
+//        int randR = qrand() % 255;    //产生5以内的随机数
+//        int randG = qrand() % 255;    //产生5以内的随机数
+//        int randB = qrand() % 255;    //产生5以内的随机数
+//        int offsetY = qrand() % 10;    //产生5以内的随机数
+//        int offsetY = qrand() % 20;    //产生5以内的随机数
+
+        qint64 secs = QDateTime::currentSecsSinceEpoch();
+        int seed = secs % 10;
+
         // Render text
         QPainter painter(this);
 
         QFont font;
-        font.setPixelSize(40);
+        font.setPixelSize(size().height()/10);
         painter.setFont(font);
 
         QPen pen;
         pen.setColor(Qt::red);
         painter.setPen(pen);
 
+
         QTextOption option(Qt::AlignLeft | Qt::AlignTop);
         option.setWrapMode(QTextOption::WordWrap);
-        QRectF rect(100, 100, this->width, this->height);
+        QRectF rect(0, size().height() / 2, size().width(), size().height() / 2);
         QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
         painter.drawText(rect, date, option);
         painter.end();
