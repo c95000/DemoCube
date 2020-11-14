@@ -1,5 +1,6 @@
 #include "ffdecoder.h"
 #include <QDateTime>
+#include "mp4encoder.h"
 
 static void printError(int ret) {
     char msg[512];
@@ -17,7 +18,7 @@ static void writeFile(const QString& filename, const char* data, int size) {
 
 FFDecoder::FFDecoder(QObject *parent) : QThread(parent)
 {
-
+    m_state = FFDECODER_IDLE;
 }
 
 FFDecoder::~FFDecoder() {
@@ -190,6 +191,9 @@ void FFDecoder::run() {
                 printf("avcodec_send_packet() failed %d\n", ret);
                 return;
             }
+
+//            printf("p_packet pts: %lld : data: %p  %d", p_packet->pts, p_packet->buf->data, p_packet->buf->size);
+//            writeFile(tr("%1%2").arg(fileName).arg("2.h264"), (char *)p_packet->buf->data, p_packet->buf->size);
             // A9.2 接收解码器输出的数据，此处只处理视频帧，每次接收一个packet，将之解码得到一个frame
 
 //            *      AVERROR(EAGAIN):   output is not available in this state - user must try
@@ -202,13 +206,55 @@ void FFDecoder::run() {
 //            *                               when flag AV_CODEC_FLAG_DROPCHANGED is set.
 //            *      other negative values: legitimate decoding errors
             ret = avcodec_receive_frame(p_codec_ctx, p_frm_raw);
-            if (ret != 0)
-            {
-                printf("avcodec_receive_frame() failed %d\n", ret);
+
+//            enum AVPictureType {
+//                AV_PICTURE_TYPE_NONE = 0, ///< Undefined
+//                AV_PICTURE_TYPE_I,     ///< Intra
+//                AV_PICTURE_TYPE_P,     ///< Predicted
+//                AV_PICTURE_TYPE_B,     ///< Bi-dir predicted
+//                AV_PICTURE_TYPE_S,     ///< S(GMC)-VOP MPEG-4
+//                AV_PICTURE_TYPE_SI,    ///< Switching Intra
+//                AV_PICTURE_TYPE_SP,    ///< Switching Predicted
+//                AV_PICTURE_TYPE_BI,    ///< BI type
+//            };
+
+//            printf("ret(%d) frametype: %d", ret, p_frm_raw->pict_type);
+
+            if(ret == AVERROR(EAGAIN)) {
                 continue;
-//                printErr(ret);
-//                return;
+            } else {
+                if(ret == AVERROR_EOF) {
+                    printf("ret : AVERROR_EOF");
+                } else if(ret == AVERROR(EINVAL)) {
+                    printf("ret(%d): AVERROR(EINVAL)", ret);
+                    emit error(ret);
+                    break;
+                } else if(ret == AVERROR_INPUT_CHANGED) {
+                    printf("ret(%d): AVERROR_INPUT_CHANGED", ret);
+                    emit error(ret);
+                    break;
+                } else if(ret < 0) {
+                    printf("ret(%d): unknown error", ret);
+                    emit error(ret);
+                    break;
+                }
             }
+
+//            printf("p_frm_raw: pts: %lld data: %p  %d", p_frm_raw->pts, p_frm_raw->data, p_frm_raw->pkt_size);
+
+            if(isState(FFDECODER_RECORDING)) {
+                if(p_frm_raw->pict_type == AV_PICTURE_TYPE_I) {
+                    isGotIFrame = true;
+                }
+
+                if(isGotIFrame) {
+                    writeFile(tr("%1%2").arg(recordFileName).arg(".h264"), (char *)p_frm_raw->data, p_frm_raw->pkt_size);
+                }
+
+            }
+
+//            writeFile(tr("%1%2").arg(fileName).arg("1.h264"), (char *)p_frm_raw->data, p_frm_raw->pkt_size);
+
 
 //            printf("got_picture_ptr:%d format:%d  %d x %d picType:%d", got_picture_ptr, pFrame->format, pFrame->width, pFrame->height, pFrame->pict_type);
 //            printf("data pts: %lld %p format: %d size: %d", p_frm_raw->pts, p_frm_raw->buf, p_frm_raw->format, p_frm_raw->pkt_size);
@@ -230,7 +276,7 @@ void FFDecoder::run() {
                       p_frm_yuv->linesize                       // dst strides
                      );
 
-            //printf("output yuv: pts: %lld %p format: %d size: %d", p_frm_yuv->pts, p_frm_yuv->data, p_frm_yuv->format, p_frm_yuv->pkt_size);
+//            printf("output yuv: pts: %lld %p format: %d size: %d", p_frm_yuv->pts, p_frm_yuv->data, p_frm_yuv->format, p_frm_yuv->pkt_size);
 //            printf("output yuv: %p %p %p (%d %d %d)", p_frm_yuv->data[0], p_frm_yuv->data[1], p_frm_yuv->data[2],
 //                    p_frm_yuv->linesize[0], p_frm_yuv->linesize[1], p_frm_yuv->linesize[2]);
 
@@ -250,12 +296,12 @@ void FFDecoder::run() {
                 data_available_cb(opaque, ba);
             }
 
-            while(FFDECODER_PAUSED == m_state) {
+            while(isState(FFDECODER_PAUSED)) {
                 continue;
                 msleep(100);
             }
 
-            if(FFDECODER_STOPPED == m_state) {
+            if(isState(FFDECODER_STOPPED)) {
                 break;
             }
 
@@ -314,8 +360,8 @@ void FFDecoder::setSource(const QString &inputSrc, ffdecoder_video_format_cb vid
 }
 
 void FFDecoder::play() {
-    if(m_state == FFDECODER_PAUSED) {
-        m_state = FFDECODER_PLAYING;
+    if(isState(FFDECODER_PAUSED) && isState(FFDECODER_PLAYING)) {
+        setState(FFDECODER_PAUSED, false);
         emit played();
     } else {
         start();
@@ -324,7 +370,7 @@ void FFDecoder::play() {
 
 void FFDecoder::stop() {
     printf("L:%d FFDecoder %s() ", __LINE__, __FUNCTION__);
-    m_state = FFDECODER_STOPPED;
+    setState(FFDECODER_STOPPED);
     quit();
     printf("L:%d FFDecoder %s() ", __LINE__, __FUNCTION__);
     wait();
@@ -334,7 +380,39 @@ void FFDecoder::stop() {
 }
 
 void FFDecoder::pause() {
-    m_state = FFDECODER_PAUSED;
+    setState(FFDECODER_PAUSED);
     emit paused();
 }
 
+void FFDecoder::startRecord() {
+    printf("FFDecoder: %s", __FUNCTION__);
+
+    if(isState(FFDECODER_PLAYING) && !isState(FFDECODER_RECORDING)) {
+        setState(FFDECODER_RECORDING);
+        isGotIFrame = false;
+
+        recordFileName = Configure::getInstance()->getVideopath() + QDir::separator() +
+                QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz");
+    }
+}
+
+void FFDecoder::stopRecord() {
+    printf("FFDecoder: %s", __FUNCTION__);
+    setState(FFDECODER_RECORDING, false);
+    Mp4Encoder::h2642mp4(tr("%1%2").arg(recordFileName).arg(".h264").toStdString().c_str(),
+                                 tr("%1%2").arg(recordFileName).arg(".mp4").toStdString().c_str());
+    QFile::remove(tr("%1%2").arg(recordFileName).arg(".h264"));
+}
+
+void FFDecoder::setState(FFDECODER_STATE state, bool enable) {
+    if(enable) {
+        m_state |= state;
+    } else {
+        m_state &= ~state;
+    }
+    printf("current State: 0x%s", QString::number(m_state, 2).rightJustified(8, '0').toStdString().c_str());
+}
+
+bool FFDecoder::isState(FFDECODER_STATE state) {
+    return (m_state & state) == state;
+}

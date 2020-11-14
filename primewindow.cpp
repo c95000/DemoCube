@@ -129,10 +129,15 @@ void PrimeWindow::connectCameraSignals() {
     connect(cameraController, SIGNAL(takePicture()), cameraView, SLOT(takePicture()));
     connect(cameraController, SIGNAL(comment()), this, SLOT(on_btnComment()));
 
-
     connect(cameraView, SIGNAL(played()), cameraController, SLOT(played()));
     connect(cameraView, SIGNAL(paused()), cameraController, SLOT(paused()));
     connect(cameraView, SIGNAL(stopped()), cameraController, SLOT(stopped()));
+
+
+    connect(cameraController, SIGNAL(startRecord()), cameraView, SLOT(startRecord()));
+    connect(cameraController, SIGNAL(stopRecord()), cameraView, SLOT(stopRecord()));
+    connect(cameraView, SIGNAL(startRecorded()), cameraController, SLOT(startRecorded()));
+    connect(cameraView, SIGNAL(stopRecorded()), cameraController, SLOT(stopRecorded()));
 }
 void PrimeWindow::connectWhiteboardSignals() {
 

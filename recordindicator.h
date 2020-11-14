@@ -24,8 +24,10 @@ signals:
 
 protected:
     // Event handlers
-    virtual void paintEvent(QPaintEvent *event);
-    virtual void resizeEvent(QResizeEvent *event);
+    void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+//    // Event handlers
+//    bool event(QEvent *event) override;
 
 private:
     QTimer* timer;

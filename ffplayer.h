@@ -23,6 +23,8 @@ signals:
     void played();
     void paused();
     void stopped();
+    void startRecorded();
+    void stopRecorded();
 
 public slots:
     void play(const QString& inputSrc);
@@ -32,6 +34,9 @@ public slots:
     void close();
     void takePicture();
     void comment();
+
+    void startRecord();
+    void stopRecord();
 
 public:
     const QPixmap snapshot();

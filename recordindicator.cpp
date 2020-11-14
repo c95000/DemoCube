@@ -1,10 +1,11 @@
 #include "recordindicator.h"
 #include "common.h"
 #include <QPainter>
+#include <QResizeEvent>
 
 RecordIndicator::RecordIndicator(QWidget *parent) : QWidget(parent)
 {
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimeUpdate()));
 //    start();
@@ -86,3 +87,9 @@ void RecordIndicator::onTimeUpdate() {
     printf("%s" ,tr("onTimeUpdate : %1").arg(QDateTime::currentDateTime().toString()).toStdString().c_str());
     update();
 }
+
+//// Event handlers
+//bool RecordIndicator::event(QEvent *event) {
+//    printf("RecordIndicator event: %d", event->type());
+//    return false;
+//}

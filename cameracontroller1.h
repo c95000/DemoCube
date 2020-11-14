@@ -29,6 +29,9 @@ signals:
     void takePicture();
     void comment();
 
+    void startRecord();
+    void stopRecord();
+
 public slots:
     void connected();
     void disconnected();
@@ -37,8 +40,9 @@ public slots:
     void stopped();
 
 private slots:
-    void startRecord();
-    void stopRecord();
+    void startRecorded();
+    void stopRecorded();
+
 
 private:
     QPushButton *btnConnect;

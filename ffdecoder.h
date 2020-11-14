@@ -16,10 +16,11 @@ extern "C"
 
 enum FFDECODER_STATE {
     FFDECODER_IDLE = 0,
-    FFDECODER_PREPARING,
-    FFDECODER_PLAYING,
-    FFDECODER_PAUSED,
-    FFDECODER_STOPPED,
+    FFDECODER_PREPARING = 0x01,
+    FFDECODER_PLAYING = 0x02,
+    FFDECODER_PAUSED = 0x04,
+    FFDECODER_STOPPED = 0x08,
+    FFDECODER_RECORDING = 0x10,
     FFDECODER_ERROR,
 };
 
@@ -38,6 +39,7 @@ signals:
     void played();
     void stopped();
     void paused();
+    void error(int err);
 
 public:
     void setSource(const QString& inputSrc, ffdecoder_video_format_cb video_format_cb = nullptr, ffdecoder_data_available_cb data_available_cb = nullptr, void* opaque = nullptr);
@@ -46,12 +48,19 @@ public:
     void pause();
     void resume();
 
+    void startRecord();
+    void stopRecord();
+
 
 protected:
     void run() override;
 
 private:
-    FFDECODER_STATE m_state;
+    void setState(FFDECODER_STATE state, bool enable = true);
+    bool isState(FFDECODER_STATE state);
+
+private:
+    int m_state;
 
     QString inputSource; // media source
 
@@ -73,6 +82,10 @@ private:
     ffdecoder_video_format_cb video_format_cb;
     ffdecoder_data_available_cb data_available_cb;
     void* opaque;
+
+
+    bool isGotIFrame;
+    QString recordFileName;
 };
 
 #endif // FFDECODER_H

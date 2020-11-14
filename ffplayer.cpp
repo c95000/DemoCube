@@ -103,6 +103,15 @@ void FFPlayer::comment() {
 
 }
 
+void FFPlayer::startRecord() {
+    ffDecoder->startRecord();
+    emit startRecorded();
+}
+void FFPlayer::stopRecord() {
+    ffDecoder->stopRecord();
+    emit stopRecorded();
+}
+
 const QPixmap FFPlayer::snapshot() {
 //    QScreen *screen = QGuiApplication::primaryScreen();
 //    QPixmap pixmap = screen->grabWindow(videoView->winId());

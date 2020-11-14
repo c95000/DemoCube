@@ -28,6 +28,11 @@ void CameraController1::init() {
     btnComment = new QPushButton("批注");
     btnExit = new QPushButton("退出");
     btnExit->hide();
+    btnStartRecord = new QPushButton("开始录制");
+    btnStopRecord = new QPushButton("结束录制");
+    btnStartRecord->setEnabled(false);
+    btnStopRecord->setEnabled(false);
+    btnStopRecord->hide();
 
     btnPlay->setEnabled(false);
     btnPause->setEnabled(false);
@@ -43,26 +48,26 @@ void CameraController1::init() {
     hLayout->addWidget(btnDisconnect);
     hLayout->addWidget(btnTakePicture);
     hLayout->addWidget(btnComment);
+    hLayout->addWidget(btnStartRecord);
+    hLayout->addWidget(btnStopRecord);
     hLayout->addStretch();
 
-    btnStartRecord = new QPushButton("开始录制");
-    btnStopRecord = new QPushButton("结束录制");
-    btnStartRecord->setEnabled(false);
-    btnStopRecord->setEnabled(false);
-    btnStopRecord->hide();
-    recordIndicator = new RecordIndicator();
-    QHBoxLayout *recordLayout = new QHBoxLayout();
-    QSpacerItem *leftSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
-    recordLayout->addSpacerItem(leftSpacer);
-    recordLayout->addWidget(btnStartRecord);
-    recordLayout->addWidget(btnStopRecord);
-    recordLayout->addWidget(recordIndicator);
 
-    QVBoxLayout *vLayout = new QVBoxLayout();
-    vLayout->addLayout(hLayout);
-    vLayout->addLayout(recordLayout);
+    recordIndicator = new RecordIndicator(this);
+    recordIndicator->resize(130, 30);
+//    QHBoxLayout *recordLayout = new QHBoxLayout();
+//    QSpacerItem *leftSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
+//    recordLayout->addSpacerItem(leftSpacer);
+//    recordLayout->addStretch();
+//    recordLayout->addWidget(recordIndicator);
+//    recordLayout->addStretch();
 
-    setLayout(vLayout);
+//    QVBoxLayout *vLayout = new QVBoxLayout();
+//    vLayout->addLayout(recordLayout);
+//    vLayout->addLayout(hLayout);
+
+
+    setLayout(hLayout);
 
     connect(btnConnect, &QPushButton::clicked, this, [=]() {
         btnConnect->setEnabled(false);
@@ -87,13 +92,16 @@ void CameraController1::init() {
     connect(btnTakePicture, SIGNAL(clicked(bool)), this, SIGNAL(takePicture()));
     connect(btnComment, SIGNAL(clicked(bool)), this, SIGNAL(comment()));
 
-    connect(btnStartRecord, SIGNAL(clicked(bool)), this, SLOT(startRecord()));
-    connect(btnStopRecord, SIGNAL(clicked(bool)), this, SLOT(stopRecord()));
+    connect(btnStartRecord, SIGNAL(clicked(bool)), this, SIGNAL(startRecord()));
+    connect(btnStopRecord, SIGNAL(clicked(bool)), this, SIGNAL(stopRecord()));
 }
 
 void CameraController1::resizeEvent(QResizeEvent *event) {
-    QSize size = btnConnect->size();
-    QPoint point = btnConnect->pos();
+//    QSize size = btnConnect->size();
+//    QPoint point = btnConnect->pos();
+
+
+    recordIndicator->move((width() - recordIndicator->width())/2, 20);
 }
 
 void CameraController1::connected() {
@@ -136,16 +144,18 @@ void CameraController1::stopped() {
     btnComment->setEnabled(false);
     btnStartRecord->setEnabled(false);
     btnStopRecord->setEnabled(false);
+
+    stopRecorded();
 }
 
 
-void CameraController1::startRecord() {
+void CameraController1::startRecorded() {
     recordIndicator->start();
     btnStartRecord->hide();
     btnStopRecord->show();
 }
 
-void CameraController1::stopRecord() {
+void CameraController1::stopRecorded() {
     recordIndicator->stop();
     btnStartRecord->show();
     btnStopRecord->hide();
