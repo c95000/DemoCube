@@ -7,20 +7,20 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 {
     printf("%s() is called", __FUNCTION__);
     setWindowTitle(tr("关于软件"));
-    resize(280, 240);
+    setFixedSize(310, 240);
 
 //    setStyleSheet("QLabel{text-align:center; color:#ff6600;}");
 //    setStyleSheet("QLabel{color:#ff6600;}");
 
     software = new QLabel("实训优学v1.0");
     QFont font1 = software->font();
-    font1.setPointSize(14);
+    font1.setPointSize(17);
     software->setFont(font1);
     software->setAlignment(Qt::AlignCenter);
 
     company = new QLabel("深圳市捷宜电子");
     QFont font = company->font();
-    font.setPointSize(16);
+    font.setPointSize(13);
     company->setFont(font);
     company->setAlignment(Qt::AlignCenter);
 
@@ -40,8 +40,6 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
     vLayout->addWidget(company);
     vLayout->addSpacing(40);
     vLayout->addWidget(buttonBox);
-    vLayout->addSpacing(25);
-
     setLayout(vLayout);
 }
 

@@ -7,6 +7,7 @@
 #include "vlcworker.h"
 #include "vlcplayercontroller.h"
 #include "Loading/Loading.h"
+#include "glvideowidget.h"
 
 namespace Ui {
 class VlcPlayer;
@@ -52,10 +53,13 @@ signals:
 public:
     const QPixmap snapshot();
 
+public:
+    GLVideoWidget* videoView;
+
 private:
     Ui::VlcPlayer *ui;
 
-    QWidget* videoView;
+//    QWidget* videoView;
     QString inputSource; // media filename
 
     libvlc_instance_t* m_vlcInstance;

@@ -18,10 +18,10 @@ static QString m_filename;
 static int m_videobuf_size = 0;
 static int m_width;
 static int m_height;
-char* m_videobuf = NULL;
+static char* m_videobuf = NULL;
 static int count = 0;
 
-void *video_lock_cb(void *opaque, void **planes) {
+static void *video_lock_cb(void *opaque, void **planes) {
     printf("%s opaque:%p\n", __FUNCTION__, opaque);
     VlcWorker* obj = (VlcWorker*)opaque;
 //    *planes = m_videobuf;
@@ -32,7 +32,7 @@ void *video_lock_cb(void *opaque, void **planes) {
     return m_videobuf;
 }
 
-void video_unlock_cb(void *opaque, void *picture, void *const *planes) {
+static void video_unlock_cb(void *opaque, void *picture, void *const *planes) {
     Q_UNUSED(opaque);
     Q_UNUSED(picture);
     Q_UNUSED(planes);
@@ -63,7 +63,7 @@ void video_unlock_cb(void *opaque, void *picture, void *const *planes) {
     }
 }
 
-void video_display_cb(void *opaque, void *picture) {
+static void video_display_cb(void *opaque, void *picture) {
     printf("render_cb %s opaque:%p picture:%p\n", __FUNCTION__, opaque, picture);
     VlcWorker* obj = (VlcWorker*)opaque;
     if(NULL != picture) {
@@ -80,7 +80,7 @@ void video_display_cb(void *opaque, void *picture) {
 //                                           unsigned *width, unsigned *height,
 //                                           unsigned *pitches,
 //                                           unsigned *lines);
-unsigned video_format_cb(void **opaque, char *chroma,
+static unsigned video_format_cb(void **opaque, char *chroma,
                          unsigned *width, unsigned *height,
                          unsigned *pitches,
                          unsigned *lines) {
@@ -124,7 +124,7 @@ unsigned video_format_cb(void **opaque, char *chroma,
  *               (and possibly modified by @ref libvlc_video_format_cb) [IN]
  */
 //typedef void (*libvlc_video_cleanup_cb)(void *opaque);
-void video_cleanup_cb(void *opaque) {
+static void video_cleanup_cb(void *opaque) {
     printf("video_cleanup_cb %s opaque:%p\n", __FUNCTION__, opaque);
     SAFE_DELETE_ARRAY(m_videobuf);
 }
