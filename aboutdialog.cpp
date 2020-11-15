@@ -5,7 +5,7 @@
 
 AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 {
-    printf("%s() is called", __FUNCTION__);
+    this->setWindowFlags(windowFlags()&~Qt::WindowContextHelpButtonHint);
     setWindowTitle(tr("关于软件"));
     setFixedSize(310, 240);
 
