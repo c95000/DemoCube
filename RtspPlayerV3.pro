@@ -59,6 +59,7 @@ SOURCES += \
     navigator.cpp \
     playpausebutton.cpp \
     primewindow.cpp \
+    progressbar.cpp \
     recordindicator.cpp \
     recordlabel.cpp \
     scaler.cpp \
@@ -102,6 +103,7 @@ HEADERS += \
     navigator.h \
     playpausebutton.h \
     primewindow.h \
+    progressbar.h \
     recordindicator.h \
     recordlabel.h \
     scaler.h \

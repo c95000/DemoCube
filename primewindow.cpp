@@ -128,6 +128,8 @@ void PrimeWindow::connectViewSignals() {
     connect(videoView, SIGNAL(played()), videoController, SLOT(played()));
     connect(videoView, SIGNAL(paused()), videoController, SLOT(paused()));
     connect(videoView, SIGNAL(stopped()), videoController, SLOT(stopped()));
+
+    connect(videoView, SIGNAL(updateProgress(int, int)), videoController, SLOT(updateProgress(int, int)));
 }
 void PrimeWindow::connectCameraSignals() {
 

@@ -101,9 +101,7 @@ void CameraController1::init() {
 void CameraController1::resizeEvent(QResizeEvent *event) {
 //    QSize size = btnConnect->size();
 //    QPoint point = btnConnect->pos();
-
-
-    recordIndicator->move((width() - recordIndicator->width())/2, 20);
+    recordIndicator->move((width() - recordIndicator->width())/2, btnConnect->y() - recordIndicator->height());
 }
 
 void CameraController1::connected() {

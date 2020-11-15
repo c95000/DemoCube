@@ -70,10 +70,10 @@ static void video_unlock_cb(void *opaque, void *picture, void *const *planes) {
 
 static void video_display_cb(void *opaque, void *picture) {
 //    printf("%s opaque:%p picture:%p", __FUNCTION__, opaque, picture);
-    count++;
 
     VlcPlayer* obj = static_cast<VlcPlayer*>(opaque);
     if(nullptr != obj->videoView) {
+        obj->updatePts(count++);
         QByteArray ba;
         ba.append((char *)picture, m_videobuf_size);
         obj->videoView->setFrameData(ba);
@@ -96,7 +96,7 @@ static unsigned video_format_cb(void **opaque, char *chroma,
                          unsigned *lines) {
     printf("%s opaque:%p(%p) chroma:%s (%d x %d)\n", __FUNCTION__, opaque, *opaque, chroma, *width, *height);
     printf("%s pitches:%p(%d) lines:%p(%d)\n", __FUNCTION__, pitches, *pitches, lines, *lines);
-
+    count = 0;
     VlcPlayer* obj = static_cast<VlcPlayer*>(*opaque);
     if(nullptr != obj) {
         printf("obj->videoView: %p", obj->videoView);
@@ -266,7 +266,13 @@ void VlcPlayer::play() {
     {
         libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
         printf("current state: %d", state);
+
         if(libvlc_Playing == state) {
+            duration = libvlc_media_get_duration(vlcMedia);
+            printf("current duration: %lld", duration);
+            fps = libvlc_media_player_get_fps(m_vlcMediaPlayer);
+            printf("current fps: %f", fps);
+            emit updateProgress(0, (int)duration);
             break;
         }
         MSleep(100);
@@ -338,8 +344,25 @@ const QPixmap VlcPlayer::snapshot() {
 //    return pixmap;
 }
 
+void VlcPlayer::updatePts(int frameIdx) {
+//    int currentPts = frameIdx * 1000/fps;
+    int currentTime = libvlc_media_player_get_time(m_vlcMediaPlayer);
+    emit updateProgress(currentTime, (int)duration);
+}
+
+bool VlcPlayer::isPlaying() {
+    int time = libvlc_media_player_get_time(m_vlcMediaPlayer);
+
+    libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+    printf("isPlaying state:%d time: %d", state, time);
+    if(libvlc_Playing == state) {
+        return true;
+    } else {
+        return true;
+    }
+}
+
 void VlcPlayer::resizeEvent(QResizeEvent *event) {
-    printf("VlcPlayer resizeEvent: %d x %d", event->size().width(), event->size().height());
     QSizeF parentSize = parentWidget()->size();
     QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
     videoView->resize(QSize(round(destSz.width()), round(destSz.height())));
@@ -350,8 +373,6 @@ void VlcPlayer::resizeEvent(QResizeEvent *event) {
 }
 
 void VlcPlayer::showEvent(QShowEvent *event) {
-    printf("VlcPlayer showEvent");
-    printf("VlcPlayer showEvent: %d x %d", size().width(), size().height());
     QSizeF parentSize = parentWidget()->size();
     QSizeF destSz = QSizeF(16, 9).scaled(parentSize, Qt::KeepAspectRatio);
     videoView->resize(QSize(round(destSz.width()), round(destSz.height())));
@@ -363,5 +384,4 @@ void VlcPlayer::showEvent(QShowEvent *event) {
 }
 
 void VlcPlayer::hideEvent(QHideEvent *event) {
-    printf("VlcPlayer hideEvent");
 }

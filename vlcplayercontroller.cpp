@@ -51,6 +51,9 @@ VlcPlayerController::VlcPlayerController(QWidget *parent) :
 //    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 //    setMinimumHeight(50);
 //    setMaximumHeight(50);
+
+
+    progressBar = new ProgressBar(this);
 }
 
 VlcPlayerController::~VlcPlayerController()
@@ -100,5 +103,17 @@ void VlcPlayerController::paused() {
     btnPlay->show();
 }
 void VlcPlayerController::stopped() {
+    printf("stopped");
+}
 
+void VlcPlayerController::updateProgress(int current, int total) {
+//    printf("VlcPlayerController %s current: %d total: %d", __FUNCTION__, current, total);
+    progressBar->setValue(current, total);
+}
+
+void VlcPlayerController::resizeEvent(QResizeEvent *event) {
+    progressBar->move(btnOpen->x(), btnOpen->y() - progressBar->height());
+
+    int w = btnComment->geometry().right() - btnOpen->x();
+    progressBar->setFixedWidth(w);
 }

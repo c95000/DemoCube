@@ -18,6 +18,7 @@
 #include "ffplayer.h"
 #include "cameracontroller1.h"
 #include "recordindicator.h"
+#include "progressbar.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
 //    ImageDisplay w;
 //    CameraController1 w;
 //    RecordIndicator w;
+//    VlcPlayerController w;
+//    ProgressBar w;
 
 //    Navigator w;
 //    FFPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));

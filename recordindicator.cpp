@@ -31,7 +31,7 @@ void RecordIndicator::paintEvent(QPaintEvent *event) {
 
 
     QFont font;
-    font.setPixelSize(12);
+    font.setPixelSize(14);
     painter.setFont(font);
 
 

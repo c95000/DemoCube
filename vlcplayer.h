@@ -34,6 +34,8 @@ public:
 //    void stop();
 //    void pause();
 //    void resume();
+    void updatePts(int frameIdx);
+    bool isPlaying();
 
 public slots:
     void play(const QString& inputSrc);
@@ -49,6 +51,7 @@ signals:
     void played();
     void paused();
     void stopped();
+    void updateProgress(int current, int total);
 
 public:
     const QPixmap snapshot();
@@ -67,9 +70,10 @@ private:
     libvlc_media_t* m_vlcMedia;
 
     Loading *loading;
+    QSize videoSize;
 
     int64_t duration;
-    QSize videoSize;
+    float fps;
 };
 
 #endif // VLCPLAYER_H

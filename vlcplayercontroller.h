@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include "progressbar.h"
 
 namespace Ui {
 class VlcPlayerController;
@@ -15,6 +16,9 @@ class VlcPlayerController : public QWidget
 public:
     explicit VlcPlayerController(QWidget *parent = nullptr);
     ~VlcPlayerController();
+
+protected:
+    void resizeEvent(QResizeEvent *event);
 
 signals:
     void play(const QString& fileName);
@@ -33,6 +37,8 @@ public slots:
     void played();
     void paused();
     void stopped();
+
+    void updateProgress(int current, int total);
 private:
     Ui::VlcPlayerController *ui;
 
@@ -43,6 +49,8 @@ private:
     QPushButton *btnTakePicture;
     QPushButton *btnComment;
     QPushButton *btnExit;
+
+    ProgressBar *progressBar;
 };
 
 #endif // VLCPLAYERCONTROLLER_H

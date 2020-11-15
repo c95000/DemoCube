@@ -10,8 +10,9 @@
 #include <QHBoxLayout>
 #include <QPainter>
 #include "Configure.h"
-
+#include <QResizeEvent>
 #include <QDebug>
+
 #define printf qDebug
 
 #include "Resolution.h"
