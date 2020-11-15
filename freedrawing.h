@@ -58,6 +58,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);//重写鼠标释放事件
     void mouseMoveEvent(QMouseEvent *);//重写鼠标移动事件
     void resizeEvent(QResizeEvent *event);
+    virtual void showEvent(QShowEvent *event);
+    virtual void hideEvent(QHideEvent *event);
 
 private:
     Ui::FreeDrawing *ui;
