@@ -27,6 +27,7 @@ contains(QT_ARCH, i386) {
 
 SOURCES += \
     AddSubButton.cpp \
+    ArnetWrapper.cpp \
     CameraController.cpp \
     CameraManager.cpp \
     CommentToolBar.cpp \
@@ -72,6 +73,7 @@ SOURCES += \
 
 HEADERS += \
     AddSubButton.h \
+    ArnetWrapper.h \
     CameraController.h \
     CameraManager.h \
     CommentToolBar.h \
