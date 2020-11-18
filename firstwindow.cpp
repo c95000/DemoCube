@@ -1,22 +1,27 @@
 #include "firstwindow.h"
 #include <QVBoxLayout>
+#include <QMessageBox>
 
 FirstWindow::FirstWindow(QWidget *parent) : QMainWindow(parent)
 {
 //    videoView = new GLVideoWidget();
     ffplayer = new FFPlayer();
     cameraController = new CameraController1();
+    arnetWrapper = new ArnetWrapper();
+    socketTest = new SocketTest();
 
     QVBoxLayout *vLayout = new QVBoxLayout(this);
 
     vLayout->addWidget(ffplayer, 4);
     vLayout->addWidget(cameraController, 1);
-//    vLayout->addWidget(new QLabel("test"));
 
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    hLayout->addLayout(vLayout);
+    hLayout->addWidget(socketTest);
 
     QWidget *centerWindow = new QWidget;
     setCentralWidget(centerWindow);
-    centerWindow->setLayout(vLayout);
+    centerWindow->setLayout(hLayout);
 
     resize(QSize(640, 580));
 
@@ -37,8 +42,11 @@ FirstWindow::FirstWindow(QWidget *parent) : QMainWindow(parent)
     connect(ffplayer, SIGNAL(startRecorded()), cameraController, SLOT(startRecorded()));
     connect(ffplayer, SIGNAL(stopRecorded()), cameraController, SLOT(stopRecorded()));
 
-    connect(cameraController, SIGNAL(zoomin()), this, SLOT(onZoomin()));
-    connect(cameraController, SIGNAL(zoomout()), this, SLOT(onZoomout()));
+    connect(cameraController, SIGNAL(signalConnect(const QString&)), arnetWrapper, SLOT(connect(const QString&)));
+    connect(cameraController, SIGNAL(zoomin()), arnetWrapper, SLOT(zoomWide()));
+    connect(cameraController, SIGNAL(zoomout()), arnetWrapper, SLOT(zoomTele()));
+
+    connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 }
 
 FirstWindow::~FirstWindow() {
@@ -51,6 +59,12 @@ FirstWindow::~FirstWindow() {
 void FirstWindow::onZoomin() {
     printf("onZoomin");
 }
+
 void FirstWindow::onZoomout() {
     printf("onZoomout");
+}
+
+void FirstWindow::onError(int errorCode) {
+    printf("errorcode : %d", errorCode);
+    QMessageBox::critical(this, "错误", tr("error(%1)").arg(errorCode));
 }

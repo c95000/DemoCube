@@ -93,16 +93,19 @@ void CameraController1::init() {
 //        sourceUrl = filename;
         sourceUrl = "rtsp://192.168.1.225/";
 
+        QString ip = Configure::getInstance()->getCameraIp(0);
 
         bool isOK;//QInputDialog 是否成功得到输入
         QString text = QInputDialog::getText(NULL,
                                              "设置",
-                                             "输入播放源:",
+                                             "输入摄像头IP，如: 192.168.1.100",
                                              QLineEdit::Normal,
-                                             "rtsp://192.168.1.100/",
+//                                             "rtsp://192.168.1.100/",
+                                             ip,
 //                                             "C:/Users/201708/Pictures/eb3aa50943c201336de9fa1c23b5a6c5-480p.mp4",
                                              &isOK);
         if(isOK) {
+            Configure::getInstance()->setCameraIp(0, text);
             printf("text: %s", text.toStdString().c_str());
             emit signalConnect(text);
         }

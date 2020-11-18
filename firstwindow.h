@@ -6,7 +6,8 @@
 #include "glvideowidget.h"
 #include "cameracontroller1.h"
 #include "ffplayer.h"
-
+#include "ArnetWrapper.h"
+#include "sockettest.h"
 
 class FirstWindow : public QMainWindow
 {
@@ -19,12 +20,14 @@ signals:
 private slots:
     void onZoomin();
     void onZoomout();
+    void onError(int);
 
 private:
     GLVideoWidget *videoView;
     CameraController1 *cameraController;
     FFPlayer *ffplayer;
-
+    ArnetWrapper *arnetWrapper;
+    SocketTest *socketTest;
 };
 
 #endif // FIRSTWINDOW_H

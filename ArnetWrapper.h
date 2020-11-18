@@ -8,11 +8,7 @@
 #include "net_protocol.h"
 #include "AR_DEFINE.h"
 #include "XPlay.h"
-
-#include "VideoRenderCallback.h"
 #include "common.h"
-#include "mp4encoder.h"
-#include "glvideowidget.h"
 
 class ArnetWrapper:public QObject
 {
@@ -26,37 +22,19 @@ private:
     BOOL release();
     BOOL login();
     BOOL logout();
-
-    BOOL deepPlay();
-    BOOL deepStop();
-
     void zoomStop();
-
-signals:
-    void started();
-    void paused();
-    void stopped();
-    void error(QString& err);
-
-public:
     QString version();
 
-    int start(const QString& ip, GLVideoWidget* videoWidget);
-//    int start(const QString& ip, VideoRenderCallback* renderCb);
-//    int playFile(const QString& fileName, VideoRenderCallback* renderCb);
-    int play();
-    int stop();
-    void resume();
-    void pause();
-    void toggle();
-    bool isWorking();
-    bool isPlaying();
+    void sendError(int errCode);
 
+signals:
+    void error(int);
+
+public slots:
+    void connect(const QString&);
+    void disconnect();
     void zoomWide();
     void zoomTele();
-
-    void startRecord();
-    void stopRecord();
 
 public:
     QString ip;
@@ -70,17 +48,6 @@ public:
 
     LONG m_lRecordHandle = -1;
 
-    int m_frameWidth;
-    int m_frameHeight;
-
-    GLVideoWidget* videoWidget;
-    VideoRenderCallback* renderCallback;
-    bool isPlay;
-    bool isRecording;
-
-    Mp4Encoder* mp4Encoder;
-    QString recordedFileName;
-    FILE* h264File = NULL;
 };
 
 #endif // ARNETWRAPPER_H

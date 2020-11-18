@@ -65,6 +65,7 @@ SOURCES += \
     recordindicator.cpp \
     recordlabel.cpp \
     scaler.cpp \
+    sockettest.cpp \
     videorender.cpp \
     vlcplayer.cpp \
     vlcplayercontroller.cpp \
@@ -111,6 +112,7 @@ HEADERS += \
     recordindicator.h \
     recordlabel.h \
     scaler.h \
+    sockettest.h \
     videorender.h \
     vlcplayer.h \
     vlcplayercontroller.h \

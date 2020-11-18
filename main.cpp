@@ -20,6 +20,7 @@
 #include "recordindicator.h"
 #include "progressbar.h"
 #include "firstwindow.h"
+#include "sockettest.h"
 
 int main(int argc, char *argv[])
 {
@@ -37,8 +38,8 @@ int main(int argc, char *argv[])
 //    RecordIndicator w;
 //    VlcPlayerController w;
 //    ProgressBar w;
-
     FirstWindow w;
+//    SocketTest w;
 
 //    Navigator w;
 //    FFPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
