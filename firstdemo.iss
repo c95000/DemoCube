@@ -28,7 +28,7 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 OutputDir=D:\
 OutputBaseFilename=firstdemo
-SetupIconFile=E:\download\iconfinder_icontexto-green-01_35391.ico
+SetupIconFile=D:\vs\RtspPlayerV3\res\images\iconfinder_icontexto-green-01_35391.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -40,8 +40,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\vs\DemoCube\bin32\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\vs\DemoCube\bin32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\vs\RtspPlayerV3\bin32\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\vs\RtspPlayerV3\bin32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
