@@ -28,7 +28,6 @@ FFDecoder::~FFDecoder() {
 void FFDecoder::run() {
     printf("FFDecoder %s() enter. tid:%p", __FUNCTION__, QThread::currentThreadId());
     m_state = FFDECODER_PLAYING;
-    emit played();
 
 //    int count = 0;
     std::string urlStr = inputSource.toStdString();
@@ -178,6 +177,8 @@ void FFDecoder::run() {
     QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".yuv";
 
+    emit played();
+
     // A8. 从视频文件中读取一个packet
     //     packet可能是视频帧、音频帧或其他数据，解码器只会解码视频帧或音频帧，非音视频数据并不会被
     //     扔掉、从而能向解码器提供尽可能多的信息
@@ -307,6 +308,7 @@ void FFDecoder::run() {
                 break;
             }
 
+//            msleep(30);
 
 
             // B5. 使用新的YUV像素数据更新SDL_Rect

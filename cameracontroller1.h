@@ -32,6 +32,9 @@ signals:
     void startRecord();
     void stopRecord();
 
+    void zoomin();
+    void zoomout();
+
 public slots:
     void connected();
     void disconnected();
@@ -55,6 +58,8 @@ private:
 
     QPushButton *btnStartRecord;
     QPushButton *btnStopRecord;
+    QPushButton *btnZoomout;
+    QPushButton *btnZoomin;
     RecordIndicator *recordIndicator;
 
     QString sourceUrl;

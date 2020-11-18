@@ -1,5 +1,7 @@
 #include "cameracontroller1.h"
 #include <QFileDialog>
+#include <QInputDialog>
+
 CameraController1::CameraController1(QWidget *parent) : QWidget(parent)
 {
     init();
@@ -27,6 +29,7 @@ void CameraController1::init() {
     btnDisconnect = new QPushButton("断开");
     btnTakePicture = new QPushButton("拍照");
     btnComment = new QPushButton("批注");
+    btnComment->hide();
     btnExit = new QPushButton("退出");
     btnExit->hide();
     btnStartRecord = new QPushButton("开始录制");
@@ -34,6 +37,8 @@ void CameraController1::init() {
     btnStartRecord->setEnabled(false);
     btnStopRecord->setEnabled(false);
     btnStopRecord->hide();
+    btnZoomin = new QPushButton("放大");
+    btnZoomout = new QPushButton("缩小");
 
     btnPlay->setEnabled(false);
     btnPause->setEnabled(false);
@@ -51,6 +56,8 @@ void CameraController1::init() {
     hLayout->addWidget(btnComment);
     hLayout->addWidget(btnStartRecord);
     hLayout->addWidget(btnStopRecord);
+    hLayout->addWidget(btnZoomin);
+    hLayout->addWidget(btnZoomout);
     hLayout->addStretch();
 
 
@@ -71,7 +78,7 @@ void CameraController1::init() {
     setLayout(hLayout);
 
     connect(btnConnect, &QPushButton::clicked, this, [=]() {
-        btnConnect->setEnabled(false);
+//        btnConnect->setEnabled(false);
 //        sourceUrl = "C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4";
 
 //        printf("on_btnLocal_clicked");
@@ -85,7 +92,22 @@ void CameraController1::init() {
 //        filename = filename.replace("/", "\\");
 //        sourceUrl = filename;
         sourceUrl = "rtsp://192.168.1.225/";
-        emit signalConnect(sourceUrl);
+
+
+        bool isOK;//QInputDialog 是否成功得到输入
+        QString text = QInputDialog::getText(NULL,
+                                             "设置",
+                                             "输入播放源:",
+                                             QLineEdit::Normal,
+                                             "rtsp://192.168.1.100/",
+//                                             "C:/Users/201708/Pictures/eb3aa50943c201336de9fa1c23b5a6c5-480p.mp4",
+                                             &isOK);
+        if(isOK) {
+            printf("text: %s", text.toStdString().c_str());
+            emit signalConnect(text);
+        }
+        //C:\Users\201708\Pictures\eb3aa50943c201336de9fa1c23b5a6c5-480p.mp4
+
     });
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
 
@@ -96,6 +118,9 @@ void CameraController1::init() {
 
     connect(btnStartRecord, SIGNAL(clicked(bool)), this, SIGNAL(startRecord()));
     connect(btnStopRecord, SIGNAL(clicked(bool)), this, SIGNAL(stopRecord()));
+
+    connect(btnZoomin, SIGNAL(clicked(bool)), this, SIGNAL(zoomin()));
+    connect(btnZoomout, SIGNAL(clicked(bool)), this, SIGNAL(zoomout()));
 }
 
 void CameraController1::resizeEvent(QResizeEvent *event) {

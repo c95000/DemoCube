@@ -45,6 +45,7 @@ SOURCES += \
     common.cpp \
     ffdecoder.cpp \
     ffplayer.cpp \
+    firstwindow.cpp \
     freedrawing.cpp \
     freedrawingmenu.cpp \
     glvideowidget.cpp \
@@ -90,6 +91,7 @@ HEADERS += \
     common.h \
     ffdecoder.h \
     ffplayer.h \
+    firstwindow.h \
     freedrawing.h \
     freedrawingmenu.h \
     glvideowidget.h \

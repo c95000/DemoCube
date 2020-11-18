@@ -19,13 +19,14 @@
 #include "cameracontroller1.h"
 #include "recordindicator.h"
 #include "progressbar.h"
+#include "firstwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
 //    MainWindow w;
-    PrimeWindow w;
+//    PrimeWindow w;
 //    FreeDrawingMenu w;
 //    LineState w;
 //    FreeDrawing w;
@@ -36,6 +37,8 @@ int main(int argc, char *argv[])
 //    RecordIndicator w;
 //    VlcPlayerController w;
 //    ProgressBar w;
+
+    FirstWindow w;
 
 //    Navigator w;
 //    FFPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
