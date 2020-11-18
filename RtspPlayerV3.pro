@@ -27,7 +27,7 @@ contains(QT_ARCH, i386) {
 
 SOURCES += \
     AddSubButton.cpp \
-    ArnetWrapper.cpp \
+#    ArnetWrapper.cpp \
     CameraController.cpp \
     CameraManager.cpp \
     CommentToolBar.cpp \
@@ -74,7 +74,7 @@ SOURCES += \
 
 HEADERS += \
     AddSubButton.h \
-    ArnetWrapper.h \
+#    ArnetWrapper.h \
     CameraController.h \
     CameraManager.h \
     CommentToolBar.h \
@@ -147,17 +147,17 @@ THRIDPARTIES_PATH = $$PWD/thirdparties
 
 contains(QT_ARCH, i386) {
     VLC_PATH = $$PWD/win32/vlc-2.2.2/sdk
-    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/win32
-    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
+#    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/win32
+#    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
     LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win32 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 } else {
     VLC_PATH = $$PWD/x86_64/vlc-2.2.2/sdk
-    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
-    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
+#    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
+#    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
     LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win64 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 }
 
-INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
+#INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
 INCLUDEPATH += $${THRIDPARTIES_PATH}/ffmpeg/include
 INCLUDEPATH += $${VLC_PATH}/include
 

@@ -6,7 +6,7 @@
 #include "glvideowidget.h"
 #include "cameracontroller1.h"
 #include "ffplayer.h"
-#include "ArnetWrapper.h"
+//#include "ArnetWrapper.h"
 #include "sockettest.h"
 
 class FirstWindow : public QMainWindow
@@ -26,7 +26,7 @@ private:
     GLVideoWidget *videoView;
     CameraController1 *cameraController;
     FFPlayer *ffplayer;
-    ArnetWrapper *arnetWrapper;
+//    ArnetWrapper *arnetWrapper;
     SocketTest *socketTest;
 };
 
