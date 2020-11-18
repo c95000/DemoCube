@@ -74,7 +74,7 @@ void FFPlayer::play(const QString& inputSrc) {
 //    inputSource = inputSrc;
     inputSource = tr("rtsp://%1/").arg(inputSrc);
     printf("inputSource is %s", inputSource.toStdString().c_str());
-    ffDecoder->setSource(inputSrc, _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
+    ffDecoder->setSource(inputSource, _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
     ffDecoder->play();
 }
 

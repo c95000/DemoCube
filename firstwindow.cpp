@@ -30,7 +30,6 @@ FirstWindow::FirstWindow(QWidget *parent) : QMainWindow(parent)
     connect(cameraController, SIGNAL(play()), ffplayer, SLOT(play()));
     connect(cameraController, SIGNAL(pause()), ffplayer, SLOT(pause()));
     connect(cameraController, SIGNAL(takePicture()), ffplayer, SLOT(takePicture()));
-    connect(cameraController, SIGNAL(comment()), this, SLOT(on_btnComment()));
 
     connect(ffplayer, SIGNAL(played()), cameraController, SLOT(played()));
     connect(ffplayer, SIGNAL(paused()), cameraController, SLOT(paused()));
