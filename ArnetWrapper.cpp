@@ -28,6 +28,7 @@ QByteArray Http::Post(QByteArray data,
     else
         eventLoop.exec();
     QByteArray response;
+    printf("failed. %d", reply->error());
     if (reply->error() == QNetworkReply::NoError) {
         response = reply->readAll();
         printf("success. %s", QString(response).toStdString().c_str());
@@ -61,14 +62,19 @@ void ArnetWrapper::sendError(int errCode) {
     emit error(errCode);
 }
 
-void ArnetWrapper::connect(const QString& ip) {
+void ArnetWrapper::sendEvent(ArnetEvent event) {
+    emit sigEvent(event);
+}
+
+bool ArnetWrapper::connect(const QString& ip) {
     this->ip = ip;
     Http::setAddr(tr("http://%1/").arg(ip));
     username = Configure::getInstance()->getUsername();
     password = Configure::getInstance()->getPassword();
 
     printf("username %s password: %s", username.toUtf8().data(), password.toUtf8().data());
-    login();
+
+    return login();
 }
 
 void ArnetWrapper::disconnect() {
@@ -124,7 +130,7 @@ void ArnetWrapper::zoomOps(const QString& cmdType) {
     }
 }
 
-void ArnetWrapper::login() {
+bool ArnetWrapper::login() {
     QJsonObject jsonContent;
     jsonContent.insert("UserName", username);
     jsonContent.insert("Userpwd", password);
@@ -145,8 +151,9 @@ void ArnetWrapper::login() {
     QByteArray response = Http::Post(byte_array, false);
     if(!response.isEmpty()) {
         printf("response: %s", QString(response).toStdString().c_str());
+        return true;
     } else {
-        sendError(500);
+        return false;
     }
 }
 

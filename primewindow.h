@@ -13,6 +13,7 @@
 #include "cameraview.h"
 #include "cameracontroller1.h"
 #include "ArnetWrapper.h"
+#include "Loading/Loading.h"
 
 namespace Ui {
 class PrimeWindow;
@@ -54,6 +55,7 @@ private slots:
     void onError(int errorCode);
 
     void checkPermission();
+    void onConnect(const QString ip);
 private:
     Ui::PrimeWindow *ui;
 
@@ -76,6 +78,8 @@ private:
     QWidget *whiteboardController;
 
     ArnetWrapper *arnetWrapper;
+
+    Loading *loading;
 };
 
 #endif // PRIMEWINDOW_H

@@ -55,6 +55,12 @@ struct PtzCtrl {
     } Content;
 };
 
+enum ArnetEvent {
+    LOGIN_SUCCESS = 0,
+    LOGIN_FAILED,
+};
+
+
 class ArnetWrapper:public QObject
 {
     Q_OBJECT
@@ -65,18 +71,20 @@ public:
 private:
     void zoomStop();
     void zoomOps(const QString& ops);
-    void login();
+    bool login();
     QString version();
     QString& url() const;
 
 
     void sendError(int errCode);
+    void sendEvent(ArnetEvent event);
 
 signals:
+    void sigEvent(int);
     void error(int);
 
 public slots:
-    void connect(const QString&);
+    bool connect(const QString&);
     void disconnect();
     void zoomWide(); //  缩小
     void zoomTele(); //  放大

@@ -111,6 +111,14 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     connectViewSignals();
     connectCameraSignals();
     connectWhiteboardSignals();
+
+    loading = new Loading(this);
+    loading->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+    loading->setWindowModality(Qt::ApplicationModal);
+    loading->resize(256, 256);
+    loading->setMaxDiameter(20);
+    loading->setMinDiameter(1);
+    loading->start();
 }
 
 PrimeWindow::~PrimeWindow()
@@ -143,7 +151,7 @@ void PrimeWindow::connectCameraSignals() {
 //    void takePicture();
 //    void comment();
 
-    connect(cameraController, SIGNAL(signalConnect(const QString&)), cameraView, SLOT(play(const QString&)));
+//    connect(cameraController, SIGNAL(signalConnect(const QString&)), cameraView, SLOT(play(const QString&)));
     connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(stop()));
     connect(cameraController, SIGNAL(play()), cameraView, SLOT(play()));
     connect(cameraController, SIGNAL(pause()), cameraView, SLOT(pause()));
@@ -160,11 +168,12 @@ void PrimeWindow::connectCameraSignals() {
     connect(cameraView, SIGNAL(startRecorded()), cameraController, SLOT(startRecorded()));
     connect(cameraView, SIGNAL(stopRecorded()), cameraController, SLOT(stopRecorded()));
 
-    connect(cameraController, SIGNAL(signalConnect(const QString&)), arnetWrapper, SLOT(connect(const QString&)));
+//    connect(cameraController, SIGNAL(signalConnect(const QString&)), arnetWrapper, SLOT(connect(const QString&)));
     connect(cameraController, SIGNAL(zoomTele()), arnetWrapper, SLOT(zoomTele()));
     connect(cameraController, SIGNAL(zoomWide()), arnetWrapper, SLOT(zoomWide()));
     connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 
+    connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(onConnect(const QString&)));
 //    connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(checkPermission()));
 }
 void PrimeWindow::connectWhiteboardSignals() {
@@ -191,6 +200,30 @@ void PrimeWindow::checkPermission(){
     bb = md.result();
     md5.append(bb.toHex());
     printf("md5 value: %s", md5.toStdString().c_str());
+}
+
+void PrimeWindow::onConnect(const QString ip) {
+
+    loading->show();
+//    QTimer *myTimer = new QTimer(this);
+//    myTimer->start(1000*10);
+//    connect(myTimer,&QTimer::timeout,[=](){
+
+//            myTimer->stop();
+//            static int i = 0;
+//            i++;
+//            //ui->lcdNumber->display(i);
+//            loading->close();
+//        });
+    bool ret = arnetWrapper->connect(ip);
+    if(ret) {
+        loading->close();
+        FFPlayer *ffplayer = static_cast<FFPlayer*>(cameraView);
+        ffplayer->play(ip);
+    } else {
+        loading->close();
+        onError(-101);
+    }
 }
 
 void PrimeWindow::replaceWidget(QWidget* widget) {
