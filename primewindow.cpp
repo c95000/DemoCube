@@ -12,6 +12,8 @@
 #include "ffplayer.h"
 #include "SettingDialog.h"
 #include "aboutdialog.h"
+#include "deviceinfo.h"
+#include "Configure.h"
 
 PrimeWindow::PrimeWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -162,6 +164,8 @@ void PrimeWindow::connectCameraSignals() {
     connect(cameraController, SIGNAL(zoomTele()), arnetWrapper, SLOT(zoomTele()));
     connect(cameraController, SIGNAL(zoomWide()), arnetWrapper, SLOT(zoomWide()));
     connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
+
+//    connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(checkPermission()));
 }
 void PrimeWindow::connectWhiteboardSignals() {
 
@@ -172,7 +176,22 @@ void PrimeWindow::connectWhiteboardSignals() {
     connect(whiteboardController, SIGNAL(signalClose()), whiteboardView, SLOT(on_btnClose()));
 }
 
+void PrimeWindow::checkPermission(){
+    QString biosSn = getBiosSerialnumber();
+    QString bbSn = getBaseboardSerialnumber();
+    QString bbUuid = getBaseboardUuid();
+    QString content = tr("%1-%2-%3").arg(biosSn).arg(bbSn).arg(bbUuid).toStdString().c_str();
+    printf(content.toStdString().c_str());
 
+    QString md5;
+    QByteArray ba,bb;
+    QCryptographicHash md(QCryptographicHash::Md5);
+    ba.append(content);
+    md.addData(content.toUtf8());
+    bb = md.result();
+    md5.append(bb.toHex());
+    printf("md5 value: %s", md5.toStdString().c_str());
+}
 
 void PrimeWindow::replaceWidget(QWidget* widget) {
     QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->centralwidget->layout());

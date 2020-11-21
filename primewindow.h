@@ -52,6 +52,8 @@ private slots:
     void onDirSetting();
     void onActAbout();
     void onError(int errorCode);
+
+    void checkPermission();
 private:
     Ui::PrimeWindow *ui;
 

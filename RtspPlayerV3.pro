@@ -44,6 +44,7 @@ SOURCES += \
     cameracontroller1.cpp \
     cameraview.cpp \
     common.cpp \
+    deviceinfo.cpp \
     ffdecoder.cpp \
     ffplayer.cpp \
     freedrawing.cpp \
@@ -90,6 +91,7 @@ HEADERS += \
     cameracontroller1.h \
     cameraview.h \
     common.h \
+    deviceinfo.h \
     ffdecoder.h \
     ffplayer.h \
     freedrawing.h \
