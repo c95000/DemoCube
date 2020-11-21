@@ -2,13 +2,58 @@
 #define ARNETWRAPPER_H
 
 #include <QObject>
-
-#include "ARNET_DATATYPE.h"
-#include "ARNET_SDK.h"
-#include "net_protocol.h"
-#include "AR_DEFINE.h"
-#include "XPlay.h"
 #include "common.h"
+#include <QMap>
+#include <QJsonObject>
+#include <QNetworkAccessManager>
+#include <QHttpMultiPart>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QEventLoop>
+#include <QMessageBox>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
+#include "qdebug.h"
+#include <QFileInfo>
+
+class Http
+{
+public:
+    enum ErrorType
+    {
+        NoError = 0,
+        ResponseError,
+        NetworkError
+    };
+
+    Http();
+
+    static void setAddr(QString addr)
+    { m_dest = addr; }
+    static QByteArray Post(QByteArray,
+                           bool isAsync = true);
+//    static QByteArray Get(QByteArray,
+//                          bool isAsync = true);
+
+private:
+    static QString m_addr;
+    static QString m_dest;
+};
+
+struct PtzZoomCtrl {
+    QString PtzCmd;  //ZoomWide  ZoomTele
+    int ParamH;
+    int ParamV;
+};
+
+struct PtzCtrl {
+    QString Cmd;
+    union {
+        PtzZoomCtrl zoomCtrl;
+    } Content;
+};
 
 class ArnetWrapper:public QObject
 {
@@ -18,12 +63,12 @@ public:
     virtual ~ArnetWrapper();
 
 private:
-    BOOL init();
-    BOOL release();
-    BOOL login();
-    BOOL logout();
     void zoomStop();
+    void zoomOps(const QString& ops);
+    void login();
     QString version();
+    QString& url() const;
+
 
     void sendError(int errCode);
 
@@ -33,20 +78,13 @@ signals:
 public slots:
     void connect(const QString&);
     void disconnect();
-    void zoomWide();
-    void zoomTele();
+    void zoomWide(); //  缩小
+    void zoomTele(); //  放大
 
 public:
     QString ip;
-    ARNET_INIT_PARAM param;
-    ARNET_LOGIN_INFO stLoginInfo;
-    ARNET_DEVICE_INFO stDevicenfo;
-
-    LONG m_lLoginHandle = -1;
-    LONG m_lRealHandle = -1;
-    XHANDLE m_lPlayHandle = -1;
-
-    LONG m_lRecordHandle = -1;
+    QString username;
+    QString password;
 
 };
 
