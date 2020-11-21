@@ -65,6 +65,18 @@ bool Configure::isOfficial() {
     return value;
 }
 
+QString Configure::getUsername() const {
+    QString key = tr("acc/un");
+    QString value = configFile->value(key, "admin").toString();
+    return QString(value.toUtf8().toBase64());
+}
+
+QString Configure::getPassword() const {
+    QString key = tr("acc/pw");
+    QString value = configFile->value(key, "admin").toString();
+    return QString(value.toUtf8().toBase64());
+}
+
 const QSize Configure::buttonSize() {
     return QSize(80, 30);
 }

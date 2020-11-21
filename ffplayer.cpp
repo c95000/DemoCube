@@ -70,9 +70,9 @@ void FFPlayer::init() {
     }
 }
 
-void FFPlayer::play(const QString& inputSrc) {
-    inputSource = inputSrc;
-    ffDecoder->setSource(inputSrc, _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
+void FFPlayer::play(const QString& ip) {
+    inputSource = tr("rtsp://%1/").arg(ip);
+    ffDecoder->setSource(inputSource, _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
     ffDecoder->play();
 }
 

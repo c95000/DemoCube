@@ -27,7 +27,7 @@ signals:
     void stopRecorded();
 
 public slots:
-    void play(const QString& inputSrc);
+    void play(const QString& ip);
     void play();
     void stop();
     void pause();

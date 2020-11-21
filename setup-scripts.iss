@@ -18,7 +18,7 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 OutputDir=D:\
 OutputBaseFilename=实训优学软件
-SetupIconFile=D:\vs\RtspPlayerV3\res\images\iconfinder_htc_setup_1419108.ico
+SetupIconFile=.\res\images\iconfinder_htc_setup_1419108.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -30,8 +30,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\vs\RtspPlayerV3\bin32\RtspPlayerV3.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\vs\RtspPlayerV3\bin32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\bin32\RtspPlayerV3.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\bin32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

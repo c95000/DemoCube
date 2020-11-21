@@ -36,6 +36,9 @@ public:
     const QSize buttonSize();
     const QColor colorByIndex(int index);
     int widthByIndex(int index);
+
+    QString getUsername() const;
+    QString getPassword() const;
 private:
 //    QString configPath;
     QSettings* configFile;

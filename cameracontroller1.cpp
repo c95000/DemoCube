@@ -1,5 +1,7 @@
 #include "cameracontroller1.h"
 #include <QFileDialog>
+#include <QInputDialog>
+
 CameraController1::CameraController1(QWidget *parent) : QWidget(parent)
 {
     init();
@@ -78,7 +80,6 @@ void CameraController1::init() {
     setLayout(hLayout);
 
     connect(btnConnect, &QPushButton::clicked, this, [=]() {
-        btnConnect->setEnabled(false);
 //        sourceUrl = "C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4";
 
 //        printf("on_btnLocal_clicked");
@@ -91,8 +92,21 @@ void CameraController1::init() {
 //        printf("filename: %s", filename.toStdString().c_str());
 //        filename = filename.replace("/", "\\");
 //        sourceUrl = filename;
-        sourceUrl = "rtsp://192.168.1.225/";
-        emit signalConnect(sourceUrl);
+
+        QString ip = Configure::getInstance()->getCameraIp(0);
+
+        bool isOK;//QInputDialog 是否成功得到输入
+        QString text = QInputDialog::getText(NULL,
+                                             "设置",
+                                             "输入摄像头IP，如: 192.168.1.100",
+                                             QLineEdit::Normal,
+                                             ip,
+                                             &isOK);
+        if(isOK) {
+            Configure::getInstance()->setCameraIp(0, text);
+            printf("text: %s", text.toStdString().c_str());
+            emit signalConnect(text);
+        }
     });
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
 
@@ -127,7 +141,7 @@ void CameraController1::played() {
     printf("%s() is called.", __FUNCTION__);
 //    btnPlay->hide();
 //    btnPause->show();
-
+    btnConnect->setEnabled(false);
     btnPlay->setEnabled(true);
     btnPause->setEnabled(true);
     btnDisconnect->setEnabled(true);

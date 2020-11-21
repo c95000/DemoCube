@@ -4,6 +4,8 @@
 #include "ArnetWrapper.h"
 #include "common.h"
 #include <QtConcurrent/QtConcurrent>
+#include "Configure.h"
+
 QString Http::m_dest;
 Http::Http()
 {
@@ -43,11 +45,11 @@ QByteArray Http::Post(QByteArray data,
 
 ArnetWrapper::ArnetWrapper()
 {
-    ip = "192.168.1.225";
-    username = "YWRtaW4=";
-    password = "YWRtaW4=";
-    //1.设置网络地址
-    Http::setAddr("http://192.168.1.225/");
+//    ip = "192.168.1.225";
+//    username = "YWRtaW4=";
+//    password = "YWRtaW4=";
+//    //1.设置网络地址
+//    Http::setAddr("http://192.168.1.225/");
 }
 
 ArnetWrapper::~ArnetWrapper()
@@ -61,6 +63,11 @@ void ArnetWrapper::sendError(int errCode) {
 
 void ArnetWrapper::connect(const QString& ip) {
     this->ip = ip;
+    Http::setAddr(tr("http://%1/").arg(ip));
+    username = Configure::getInstance()->getUsername();
+    password = Configure::getInstance()->getPassword();
+
+    printf("username %s password: %s", username.toUtf8().data(), password.toUtf8().data());
     login();
 }
 
