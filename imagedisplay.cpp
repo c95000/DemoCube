@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QMessageBox>
+#include "yuv2jpg.h"
 
 ImageDisplay::ImageDisplay(QWidget *parent) :
     QWidget(parent),
@@ -70,36 +71,17 @@ void ImageDisplay::onBtnOpen() {
     printf("filename: %s", filename.toStdString().c_str());
     m_fileName = filename;
 
-    quint16 n = 64;
-    QByteArray data;
-    QFile fileRead(m_fileName);
-    fileRead.open(QIODevice::ReadOnly);
+    QFile file(m_fileName);
+    file.open(QIODevice::ReadOnly);
 
-    printf("fileRead:%lld", fileRead.size());
+    printf("fileRead:%lld", file.size());
 
-    onBtnNext();
-//    data.resize(fileRead.size());
-//    data = fileRead.readAll();
-//    printf("datasize:%ld", data.size());
-////    QPixmap pixmap;
-////    pixmap.loadFromData(data, "PNG");
-//    QImage image((uchar*)data.data(), 864, 514, QImage::Format_ARGB32);
-
-//    QImage qimg((uchar*)planes, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);
+    QByteArray data = file.readAll();
 
 
-//    printf("data: %s", data.toHex().toStdString().c_str());
+    YUV2JPG yuv2jpg;
 
-//    QImage qimg((uchar*)planes, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);
-
-//    QDataStream  readDataStream(&fileRead);
-//    readDataStream >> n >> data;
-//    qDebug() << data.toHex();
-
-
-//    QPixmap pixmap;
-//    pixmap.load(filename);
-//    imageView->setPixmap(pixmap);
+    yuv2jpg.archive(data.data(), 1280, 738, 16);
 }
 
 void ImageDisplay::onBtnNext() {

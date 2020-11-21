@@ -69,7 +69,8 @@ SOURCES += \
     vlcplayer.cpp \
     vlcplayercontroller.cpp \
     vlcworker.cpp \
-    vlcwrapper.cpp
+    vlcwrapper.cpp \
+    yuv2jpg.cpp
 
 HEADERS += \
     AddSubButton.h \
@@ -115,7 +116,8 @@ HEADERS += \
     vlcplayer.h \
     vlcplayercontroller.h \
     vlcworker.h \
-    vlcwrapper.h
+    vlcwrapper.h \
+    yuv2jpg.h
 
 FORMS += \
     AddSubButton.ui \
