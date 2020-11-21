@@ -32,6 +32,9 @@ signals:
     void startRecord();
     void stopRecord();
 
+    void zoomWide();
+    void zoomTele();
+
 public slots:
     void connected();
     void disconnected();
@@ -52,6 +55,8 @@ private:
     QPushButton *btnTakePicture;
     QPushButton *btnComment;
     QPushButton *btnExit;
+    QPushButton *btnZoomWide; // 缩小
+    QPushButton *btnZoomTele; // 放大
 
     QPushButton *btnStartRecord;
     QPushButton *btnStopRecord;

@@ -34,6 +34,11 @@ void CameraController1::init() {
     btnStartRecord->setEnabled(false);
     btnStopRecord->setEnabled(false);
     btnStopRecord->hide();
+    btnZoomTele = new QPushButton("放大");
+    btnZoomWide = new QPushButton("缩小");
+    btnZoomTele->setEnabled(false);
+    btnZoomWide->setEnabled(false);
+
 
     btnPlay->setEnabled(false);
     btnPause->setEnabled(false);
@@ -51,6 +56,8 @@ void CameraController1::init() {
     hLayout->addWidget(btnComment);
     hLayout->addWidget(btnStartRecord);
     hLayout->addWidget(btnStopRecord);
+    hLayout->addWidget(btnZoomTele);
+    hLayout->addWidget(btnZoomWide);
     hLayout->addStretch();
 
 
@@ -96,6 +103,9 @@ void CameraController1::init() {
 
     connect(btnStartRecord, SIGNAL(clicked(bool)), this, SIGNAL(startRecord()));
     connect(btnStopRecord, SIGNAL(clicked(bool)), this, SIGNAL(stopRecord()));
+
+    connect(btnZoomWide, SIGNAL(clicked(bool)), this, SIGNAL(zoomWide()));
+    connect(btnZoomTele, SIGNAL(clicked(bool)), this, SIGNAL(zoomTele()));
 }
 
 void CameraController1::resizeEvent(QResizeEvent *event) {
@@ -125,6 +135,8 @@ void CameraController1::played() {
     btnComment->setEnabled(true);
     btnStartRecord->setEnabled(true);
     btnStopRecord->setEnabled(true);
+    btnZoomTele->setEnabled(true);
+    btnZoomWide->setEnabled(true);
 }
 
 void CameraController1::paused() {
@@ -144,6 +156,8 @@ void CameraController1::stopped() {
     btnComment->setEnabled(false);
     btnStartRecord->setEnabled(false);
     btnStopRecord->setEnabled(false);
+    btnZoomTele->setEnabled(false);
+    btnZoomWide->setEnabled(false);
 
     stopRecorded();
 }

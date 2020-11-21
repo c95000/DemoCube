@@ -96,6 +96,7 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     ui->centralwidget->setLayout(vLayout);
 
 
+    arnetWrapper = new ArnetWrapper();
 
     connect(navigator, SIGNAL(buttonToggled(int, bool)), this, SLOT(onButtonToggled(int, bool)));
 
@@ -156,6 +157,11 @@ void PrimeWindow::connectCameraSignals() {
     connect(cameraController, SIGNAL(stopRecord()), cameraView, SLOT(stopRecord()));
     connect(cameraView, SIGNAL(startRecorded()), cameraController, SLOT(startRecorded()));
     connect(cameraView, SIGNAL(stopRecorded()), cameraController, SLOT(stopRecorded()));
+
+    connect(cameraController, SIGNAL(signalConnect(const QString&)), arnetWrapper, SLOT(connect(const QString&)));
+    connect(cameraController, SIGNAL(zoomTele()), arnetWrapper, SLOT(zoomTele()));
+    connect(cameraController, SIGNAL(zoomWide()), arnetWrapper, SLOT(zoomWide()));
+    connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 }
 void PrimeWindow::connectWhiteboardSignals() {
 
@@ -361,6 +367,11 @@ void PrimeWindow::onActAbout() {
 
 void PrimeWindow::on_btnConnect() {
     printf("%s", __FUNCTION__);
+}
+
+void PrimeWindow::onError(int errorCode) {
+    printf("errorcode : %d", errorCode);
+    QMessageBox::critical(this, "错误", tr("error(%1)").arg(errorCode));
 }
 
 void PrimeWindow::resizeEvent(QResizeEvent *event) {

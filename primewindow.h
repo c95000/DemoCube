@@ -12,6 +12,8 @@
 #include "navigator.h"
 #include "cameraview.h"
 #include "cameracontroller1.h"
+#include "ArnetWrapper.h"
+
 namespace Ui {
 class PrimeWindow;
 }
@@ -49,7 +51,7 @@ private slots:
 
     void onDirSetting();
     void onActAbout();
-
+    void onError(int errorCode);
 private:
     Ui::PrimeWindow *ui;
 
@@ -70,6 +72,8 @@ private:
     QWidget *videoController;
     QWidget *cameraController;
     QWidget *whiteboardController;
+
+    ArnetWrapper *arnetWrapper;
 };
 
 #endif // PRIMEWINDOW_H
