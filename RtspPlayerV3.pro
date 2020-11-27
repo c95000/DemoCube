@@ -50,6 +50,7 @@ SOURCES += \
     freedrawing.cpp \
     freedrawingmenu.cpp \
     glvideowidget.cpp \
+    iconbuton.cpp \
     imagedisplay.cpp \
     jyplayer.cpp \
     linestate.cpp \
@@ -98,6 +99,7 @@ HEADERS += \
     freedrawing.h \
     freedrawingmenu.h \
     glvideowidget.h \
+    iconbuton.h \
     imagedisplay.h \
     jyplayer.h \
     linestate.h \
@@ -141,7 +143,7 @@ FORMS += \
     vlcplayercontroller.ui
 
 
-QT += opengl network widgets
+QT += opengl network widgets svg xml quickwidgets
 
 THRIDPARTIES_PATH = $$PWD/thirdparties
 

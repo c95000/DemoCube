@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/images">
+    <qresource prefix="/">
         <file>res/images/media_control.png</file>
         <file>res/images/blackPen.png</file>
         <file>res/images/close.png</file>
@@ -30,5 +30,8 @@
         <file>res/images/background.png</file>
         <file>res/images/main.ico</file>
         <file>res/images/main.png</file>
+        <file>res/icons/account_circle.svg</file>
+        <file>res/icons/account_circle_outline.svg</file>
+        <file>SvgAttr.qml</file>
     </qresource>
 </RCC>

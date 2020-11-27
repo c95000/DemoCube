@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "common.h"
 #include "vlc/vlc.h"
-
+#include "iconbuton.h"
 namespace Ui {
 class ImageDisplay;
 }

@@ -21,6 +21,9 @@ ImageDisplay::ImageDisplay(QWidget *parent) :
     QPushButton *btnPlay = new QPushButton("play");
     connect(btnPlay, SIGNAL(clicked(bool)), this, SLOT(onBtnPlay()));
 
+    IconButon *iconButton = new IconButon(QString(":/res/icons/account_circle_outline.svg"), QString(":/res/icons/account_circle.svg"));
+
+
     imageView = new QLabel();
 
     QPalette pal(imageView->palette());
@@ -33,6 +36,7 @@ ImageDisplay::ImageDisplay(QWidget *parent) :
     vLayout->addWidget(btnOpen, 0, Qt::AlignCenter);
     vLayout->addWidget(btnNext, 0, Qt::AlignCenter);
     vLayout->addWidget(btnPlay, 0, Qt::AlignCenter);
+    vLayout->addWidget(iconButton, 0, Qt::AlignCenter);
     setLayout(vLayout);
 
     m_vlcPlayer = NULL;
