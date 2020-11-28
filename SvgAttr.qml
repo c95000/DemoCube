@@ -37,7 +37,7 @@ Item {
 
     Image {
         id: bug
-        source: ":res/icons/account_circle_outline.svg"
+//        source: ":res/icons/account_circle_outline.svg"
         sourceSize: Qt.size(parent.width, parent.height)
         smooth: true
         visible: false

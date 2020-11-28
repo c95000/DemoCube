@@ -7,13 +7,13 @@
 #include <QPushButton>
 #include <QToolButton>
 
-class IconButon : public QToolButton
+class IconButton : public QToolButton
 {
     Q_OBJECT
 public:
-    explicit IconButon(QWidget *parent = nullptr);
-    explicit IconButon(const QString& title, QWidget *parent = nullptr);
-    explicit IconButon(const QString& icon, const QString& activeIcon, QWidget *parent = nullptr);
+    explicit IconButton(QWidget *parent = nullptr);
+    explicit IconButton(const QString& title, QWidget *parent = nullptr);
+    explicit IconButton(const QString& icon, const QString& activeIcon, QWidget *parent = nullptr);
 
 protected:
     void resizeEvent(QResizeEvent *event);

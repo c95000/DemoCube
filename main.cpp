@@ -19,7 +19,7 @@
 #include "cameracontroller1.h"
 #include "recordindicator.h"
 #include "progressbar.h"
-#include "iconbuton.h"
+#include "iconbutton.h"
 #include <QQuickWidget>
 
 int main(int argc, char *argv[])
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 //    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 //    VlcPlayerController w;
 //    ImageDisplay w;
-//    CameraController1 w;
+    CameraController1 w;
 //    RecordIndicator w;
 //    VlcPlayerController w;
 //    ProgressBar w;
@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
 
     //    QIcon icon2;
     //    icon2.addFile(":/res/icons/account_circle.svg");
-//    IconButon w(QString(":/res/icons/account_circle_outline.svg"), QString(":/res/icons/account_circle.svg"));
-    Navigator w;
+//    IconButton w(QString(":/res/icons/account_circle_outline.svg"), QString(":/res/icons/account_circle.svg"));
+//    Navigator w;
 //    FFPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 
 //    QQuickWidget *view = new QQuickWidget;

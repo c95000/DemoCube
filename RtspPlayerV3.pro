@@ -50,7 +50,7 @@ SOURCES += \
     freedrawing.cpp \
     freedrawingmenu.cpp \
     glvideowidget.cpp \
-    iconbuton.cpp \
+    iconbutton.cpp \
     imagedisplay.cpp \
     jyplayer.cpp \
     linestate.cpp \
@@ -99,7 +99,7 @@ HEADERS += \
     freedrawing.h \
     freedrawingmenu.h \
     glvideowidget.h \
-    iconbuton.h \
+    iconbutton.h \
     imagedisplay.h \
     jyplayer.h \
     linestate.h \

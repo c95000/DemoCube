@@ -5,6 +5,7 @@
 #include "common.h"
 #include <QObject>
 #include "recordindicator.h"
+#include "iconbutton.h"
 
 class CameraController1 : public QWidget
 {

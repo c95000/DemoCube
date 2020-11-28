@@ -1,11 +1,11 @@
-#include "iconbuton.h"
+#include "iconbutton.h"
 #include <QIcon>
 #include <QBitmap>
 #include <QtSvg/QSvgRenderer>
 #include <QDomDocument>
 
 
-IconButon::IconButon(const QString& defaultIconRes, const QString& activeIconRes, QWidget *parent) : QToolButton(parent)
+IconButton::IconButton(const QString& defaultIconRes, const QString& activeIconRes, QWidget *parent) : QToolButton(parent)
 {
 //    QIcon icon1;
 //    icon1.addFile(":/res/icons/account_circle_outline.svg");
@@ -95,7 +95,7 @@ IconButon::IconButon(const QString& defaultIconRes, const QString& activeIconRes
 }
 
 
-void IconButon::resizeEvent(QResizeEvent *event) {
+void IconButton::resizeEvent(QResizeEvent *event) {
     this->setIconSize(event->size());
 //    QSvgRenderer m_svgRender;
 //    m_svgRender.load(QString(":/res/icons/account_circle.svg"));
@@ -107,7 +107,7 @@ void IconButon::resizeEvent(QResizeEvent *event) {
 //    setIcon(ico);
 }
 
-void IconButon::paintEvent(QPaintEvent *e) {
+void IconButton::paintEvent(QPaintEvent *e) {
     QToolButton::paintEvent(e);
 
     // can draw title of the button here
@@ -121,13 +121,13 @@ void IconButon::paintEvent(QPaintEvent *e) {
 //    m_svgRender.render(&qPainter ,QRectF(0,0,this->size().width() ,this->size().height()));
 }
 
-void IconButon::enterEvent(QEvent *event) {
+void IconButton::enterEvent(QEvent *event) {
     if(isCheckable()) {
     } else {
         this->setIcon(activateIcon);
     }
 }
-void IconButon::leaveEvent(QEvent *event) {
+void IconButton::leaveEvent(QEvent *event) {
     if(isCheckable()) {
     } else {
         this->setIcon(defaultIcon);

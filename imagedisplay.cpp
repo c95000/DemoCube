@@ -21,7 +21,7 @@ ImageDisplay::ImageDisplay(QWidget *parent) :
     QPushButton *btnPlay = new QPushButton("play");
     connect(btnPlay, SIGNAL(clicked(bool)), this, SLOT(onBtnPlay()));
 
-    IconButon *iconButton = new IconButon(QString(":/res/icons/account_circle_outline.svg"), QString(":/res/icons/account_circle.svg"));
+    IconButton *iconButton = new IconButton(QString(":/res/icons/account_circle_outline.svg"), QString(":/res/icons/account_circle.svg"));
 
 
     imageView = new QLabel();
