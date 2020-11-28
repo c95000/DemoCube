@@ -11,7 +11,7 @@ Navigator::Navigator(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    items<<"回放"<<"摄像头"<<"白板";
+    items<<"video"<<"camera"<<"whiteboard";
 
     /*单选菜单效果*/
     buttonGround = new QButtonGroup();
@@ -22,8 +22,10 @@ Navigator::Navigator(QWidget *parent) :
     QHBoxLayout *hLayout = new QHBoxLayout();
 //    hLayout->setAlignment(Qt::AlignBottom);
     for(int i = 0; i < items.size(); i++) {
-        QPushButton *button = new QPushButton(items.at(i));
-        button->setFixedSize(80, 30);
+//        QPushButton *button = new QPushButton(items.at(i));
+//        button->setFixedSize(80, 30);
+        IconButon *button = new IconButon(tr(":/res/icons/%1_o.svg").arg(items.at(i)), tr(":/res/icons/%1.svg").arg(items.at(i)));
+        button->setFixedSize(80, 80);
         button->setCheckable(true);
         buttonGround->addButton(button, i);
         hLayout->addWidget(button);

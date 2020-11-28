@@ -33,5 +33,11 @@
         <file>res/icons/account_circle.svg</file>
         <file>res/icons/account_circle_outline.svg</file>
         <file>SvgAttr.qml</file>
+        <file>res/icons/camera.svg</file>
+        <file>res/icons/video.svg</file>
+        <file>res/icons/camera_o.svg</file>
+        <file>res/icons/video_o.svg</file>
+        <file>res/icons/whiteboard.svg</file>
+        <file>res/icons/whiteboard_o.svg</file>
     </qresource>
 </RCC>

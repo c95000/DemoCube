@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QButtonGroup>
+#include "iconbuton.h"
 
 namespace Ui {
 class Navigator;
