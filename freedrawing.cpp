@@ -99,6 +99,11 @@ void FreeDrawing::on_btnClose() {
     }
 }
 
+void FreeDrawing::on_penChanged(int rgb, int width) {
+    penColor = QColor::fromRgb(rgb);
+    penWidth = width;
+}
+
 void FreeDrawing::paintEvent(QPaintEvent *) {
     QPixmap pixmap(size());
     pixmap.fill(Qt::white);

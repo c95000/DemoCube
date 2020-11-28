@@ -24,6 +24,7 @@ public:
     int getPenWidth();
 
 signals:
+    void onPenChanged(int rgb, int width);
     void penChanged();
     void undo();
     void close();
@@ -32,8 +33,8 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
 signals:
-    void signalColorChanged(int index);
-    void signalWidthChanged(int index);
+    void signalColorChanged(int rgb);
+    void signalWidthChanged(int width);
     void signalUndo();
     void signalClear();
     void signalClose();

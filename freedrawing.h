@@ -51,6 +51,7 @@ private slots:
     void on_btnUndo();
     void on_btnClear();
     void on_btnClose();
+    void on_penChanged(int rgb, int width);
 
 protected:
     void paintEvent(QPaintEvent *);//重写窗体重绘事件

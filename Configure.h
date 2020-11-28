@@ -39,9 +39,15 @@ public:
 
     QString getUsername() const;
     QString getPassword() const;
+
+    const QList<QColor> getPenColors();
+    const QList<int> getPenWidths();
 private:
 //    QString configPath;
     QSettings* configFile;
+
+    QList<QColor> penColors;
+    QList<int> penWidth;
 };
 
 #endif // CONFIGURE_H

@@ -17,7 +17,15 @@ public:
 private:
     void init();
 
+public:
+    QColor getColor() const;
+    int getWidth() const;
+
 signals:
+
+private slots:
+    void onColorSelected(int index, bool checked);
+    void onWidthSelected(int index, bool checked);
 
 private:
     QColor penColor;

@@ -29,8 +29,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
 //    MainWindow w;
-//    PrimeWindow w;
-    FreeDrawingMenu w;
+    PrimeWindow w;
+//    FreeDrawingMenu w;
 //    LineState w;
 //    FreeDrawing w;
 //    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));

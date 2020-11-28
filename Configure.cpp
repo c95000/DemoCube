@@ -4,6 +4,8 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include "common.h"
+#include <QColor>
+#include <QRgba64>
 
 Configure* Configure::p = NULL;
 
@@ -77,43 +79,48 @@ QString Configure::getPassword() const {
     return QString(value.toUtf8().toBase64());
 }
 
+const QList<QColor> Configure::getPenColors() {
+    if(penColors.isEmpty()) {
+        QString key = tr("pen/colors");
+        QString value = configFile->value(key, "0xFF0000,0x00FF00,0x0000FF,0xFFFF00").toString();
+        QStringList valList = value.split(",");
+        for(int i= 0; i < valList.size(); i++) {
+    //        result.append(valList.at(i).toInt(NULL, 16));
+            QRgb x = valList.at(i).toInt(NULL, 16);
+            penColors.append(QColor::fromRgb(x));
+        }
+    }
+    return penColors;
+}
+
+const QList<int> Configure::getPenWidths() {
+    if(penWidth.isEmpty()) {
+        QString key = tr("pen/widths");
+        QString value = configFile->value(key, "2,4,6,8").toString();
+        QStringList valList = value.split(",");
+        for(int i= 0; i < valList.size(); i++) {
+            penWidth.append(valList.at(i).toInt());
+        }
+    }
+    return penWidth;
+}
+
 const QSize Configure::buttonSize() {
     return QSize(80, 30);
 }
+
 const QColor Configure::colorByIndex(int index){
     QColor color = Qt::red;
-    switch (index) {
-    case 0:
-        color = Qt::red;
-        break;
-    case 1:
-        color = Qt::green;
-        break;
-    case 2:
-        color = Qt::blue;
-        break;
-    case 3:
-        color = Qt::yellow;
-        break;
+    if(index < penColors.size()) {
+        color = penColors.at(index);
     }
     return color;
 }
 
 int Configure::widthByIndex(int index) {
     int width = 2;
-    switch (index) {
-    case 0:
-        width = 2;
-        break;
-    case 1:
-        width = 4;
-        break;
-    case 2:
-        width = 6;
-        break;
-    case 3:
-        width = 8;
-        break;
+    if(index < penWidth.size()) {
+        width = penWidth.at(index);
     }
     return width;
 }

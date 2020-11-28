@@ -25,7 +25,7 @@ Navigator::Navigator(QWidget *parent) :
 //        QPushButton *button = new QPushButton(items.at(i));
 //        button->setFixedSize(80, 30);
         IconButton *button = new IconButton(tr(":/res/icons/%1_o.svg").arg(items.at(i)), tr(":/res/icons/%1.svg").arg(items.at(i)));
-        button->setFixedSize(80, 80);
+        button->setFixedSize(60, 60);
         button->setCheckable(true);
         buttonGround->addButton(button, i);
         hLayout->addWidget(button);

@@ -13,7 +13,7 @@ PenState::PenState(const QColor& color, const int width, QWidget *parent) : Icon
     setStyleSheet(styleSheet);
 }
 
-PenState::PenState(const QColor& color, QWidget *parent) : IconButton(parent), penColor(color), penWidth(20) {
+PenState::PenState(const QColor& color, QWidget *parent) : IconButton(parent), penColor(color), penWidth(10) {
 
     QString styleSheet = this->styleSheet();
     styleSheet += "QToolButton{border-style:flat}";
@@ -54,5 +54,5 @@ void PenState::paintEvent(QPaintEvent *event) {
 
     painter.setBrush(QBrush(penColor));
     painter.translate(width()/2, height()/2);
-    painter.drawEllipse(QPoint(0, 0), penWidth/2, penWidth/2);
+    painter.drawEllipse(QPoint(0, 0), penWidth, penWidth);
 }

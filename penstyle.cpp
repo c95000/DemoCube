@@ -19,17 +19,51 @@ PenStyle::PenStyle(QWidget *parent) : IconButton(parent)
     connect(this, &QPushButton::clicked, [=](){
         printf("clicked");
 //        PenSettingDialog *dlg=new PenSettingDialog(this);
-        PenSettingDialog *dlg=new PenSettingDialog(Qt::blue, 7, this);
+        PenSettingDialog *dlg=new PenSettingDialog(lineColor, lineWidth, this);
 
         int ret = dlg->exec();
         if(ret==QDialog::Accepted) {
             printf("!ret:%d", ret);
+            lineColor = dlg->getColor();
+            lineWidth = dlg->getWidth();
+            update();
         } else {
             printf("ret:%d", ret);
         }
         delete dlg;
         }
     );
+}
+
+PenStyle::PenStyle(const QColor& color, const int width, QWidget *parent) : IconButton(parent)
+  ,lineColor(color)
+  ,lineWidth(width) {
+    connect(this, &QPushButton::clicked, [=](){
+        printf("clicked");
+//        PenSettingDialog *dlg=new PenSettingDialog(this);
+        PenSettingDialog *dlg=new PenSettingDialog(lineColor, lineWidth, this);
+
+        int ret = dlg->exec();
+        if(ret==QDialog::Accepted) {
+            printf("!ret:%d", ret);
+            lineColor = dlg->getColor();
+            lineWidth = dlg->getWidth();
+            update();
+            emit onPenChanged(lineColor.rgb(), lineWidth);
+        } else {
+            printf("ret:%d", ret);
+        }
+        delete dlg;
+        }
+    );
+}
+
+QColor PenStyle::getColor() const {
+    return lineColor;
+}
+
+int PenStyle::getWidth() const {
+    return lineWidth;
 }
 
 void PenStyle::paintEvent(QPaintEvent *event) {
@@ -76,3 +110,5 @@ void PenStyle::paintEvent(QPaintEvent *event) {
     //            painter.drawEllipse(points[i], 4, 4);
     //        }
 }
+
+

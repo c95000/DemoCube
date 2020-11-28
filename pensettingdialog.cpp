@@ -23,8 +23,8 @@ void PenSettingDialog::init() {
 
 
     QLabel *lineColorLabel = new QLabel("颜色:");
-    QList<QColor> colorList;
-    colorList<<Qt::red<<Qt::green<<Qt::blue<<Qt::black;
+    QList<QColor> colorList = Configure::getInstance()->getPenColors();
+//    colorList<<Qt::red<<Qt::green<<Qt::blue<<Qt::black;
 
 
     /*单选菜单效果*/
@@ -45,8 +45,8 @@ void PenSettingDialog::init() {
 
 
     QLabel *lineWidthLabel = new QLabel("粗细:");
-    QList<int> widthList;
-    widthList<<4<<7<<10<<13;
+    QList<int> widthList = Configure::getInstance()->getPenWidths();
+//    widthList<<4<<7<<10<<13;
 
 
     /*单选菜单效果*/
@@ -88,5 +88,31 @@ void PenSettingDialog::init() {
     vLayout->addStretch();
     vLayout->addWidget(buttonBox);
     setLayout(vLayout);
+
+
+    connect(colorButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(onColorSelected(int, bool)));
+    connect(widthButtonGroup, SIGNAL(buttonToggled(int, bool)), this, SLOT(onWidthSelected(int, bool)));
+
 }
 
+void PenSettingDialog::onColorSelected(int index, bool checked) {
+    printf("%s index: %d checked: %d", __FUNCTION__, index, checked);
+    if(checked) {
+        penColor = Configure::getInstance()->colorByIndex(index);
+    }
+}
+
+void PenSettingDialog::onWidthSelected(int index, bool checked) {
+    printf("%s index: %d checked: %d", __FUNCTION__, index, checked);
+    if(checked) {
+        penWidth = Configure::getInstance()->widthByIndex(index);
+    }
+}
+
+QColor PenSettingDialog::getColor() const {
+    return penColor;
+}
+
+int PenSettingDialog::getWidth() const {
+    return penWidth;
+}

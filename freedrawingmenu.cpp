@@ -22,16 +22,16 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     widthCombo->addItems(weightList);
 
     lineState = new LineState();
-    penStyle = new PenStyle();
+    penStyle = new PenStyle(Configure::getInstance()->getPenColors().at(0), Configure::getInstance()->getPenWidths().at(0));
     btnUndo = new IconButton(tr(":res/icons/undo_o.svg"), tr(":res/icons/undo.svg"));
     btnClear = new IconButton(tr(":res/icons/eraser.svg"), tr(":res/icons/eraser.svg"));
     btnClose = new IconButton(tr(":res/icons/save_o.svg"), tr(":res/icons/save.svg"));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
-    hLayout->addWidget(colorCombo);
-    hLayout->addWidget(widthCombo);
-    hLayout->addWidget(lineState);
+//    hLayout->addWidget(colorCombo);
+//    hLayout->addWidget(widthCombo);
+//    hLayout->addWidget(lineState);
     hLayout->addWidget(penStyle);
     hLayout->addWidget(btnUndo);
     hLayout->addWidget(btnClear);
@@ -52,7 +52,10 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     connect(btnUndo, SIGNAL(clicked(bool)), this, SIGNAL(signalUndo()));
     connect(btnClear, SIGNAL(clicked(bool)), this, SIGNAL(signalClear()));
     connect(btnClose, SIGNAL(clicked(bool)), this, SIGNAL(signalClose()));
-
+    connect(penStyle, &PenStyle::onPenChanged, [=](int rgb, int width) {
+        printf("onPenChanged: rgb: 0x%x width: %d", rgb, width);
+        emit onPenChanged(rgb, width);
+    });
 
 //    on_colorChanged(colorCombo->currentIndex());
 //    on_widthChanged(widthCombo->currentIndex());

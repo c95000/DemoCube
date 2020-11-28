@@ -183,6 +183,7 @@ void PrimeWindow::connectWhiteboardSignals() {
     connect(whiteboardController, SIGNAL(signalUndo()), whiteboardView, SLOT(on_btnUndo()));
     connect(whiteboardController, SIGNAL(signalClear()), whiteboardView, SLOT(on_btnClear()));
     connect(whiteboardController, SIGNAL(signalClose()), whiteboardView, SLOT(on_btnClose()));
+    connect(whiteboardController, SIGNAL(onPenChanged(int, int)), whiteboardView, SLOT(on_penChanged(int, int)));
 }
 
 void PrimeWindow::checkPermission(){
