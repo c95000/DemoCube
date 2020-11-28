@@ -49,18 +49,18 @@ private slots:
 
 
 private:
-    QPushButton *btnConnect;
+    IconButton *btnConnect;
     QPushButton *btnPlay;
     QPushButton *btnPause;
-    QPushButton *btnDisconnect;
-    QPushButton *btnTakePicture;
-    QPushButton *btnComment;
+    IconButton *btnDisconnect;
+    IconButton *btnTakePicture;
+    IconButton *btnComment;
     QPushButton *btnExit;
-    QPushButton *btnZoomWide; // 缩小
-    QPushButton *btnZoomTele; // 放大
+    IconButton *btnZoomWide; // 缩小
+    IconButton *btnZoomTele; // 放大
 
-    QPushButton *btnStartRecord;
-    QPushButton *btnStopRecord;
+    IconButton *btnStartRecord;
+    IconButton *btnStopRecord;
     RecordIndicator *recordIndicator;
 
     QString sourceUrl;

@@ -10,27 +10,29 @@ VlcPlayerController::VlcPlayerController(QWidget *parent) :
     ui(new Ui::VlcPlayerController)
 {
     ui->setupUi(this);
-    btnOpen = new QPushButton("打开文件");
-    btnPlay = new QPushButton("播放");
-    btnPlay->hide();
-    btnPause = new QPushButton("暂停");
-    btnStop = new QPushButton("停止");
-    btnTakePicture = new QPushButton("拍照");
-    btnComment = new QPushButton("批注");
-    btnExit = new QPushButton("退出");
-    btnExit->hide();
+    btnOpen = new IconButton(tr(":res/icons/open_file_o.svg"), tr(":res/icons/open_file.svg"));
+    btnPlay = new IconButton(tr(":res/icons/play_o.svg"), tr(":res/icons/play.svg"));
 
-    btnPlay->setEnabled(false);
-    btnPause->setEnabled(false);;
-    btnStop->setEnabled(false);;
-    btnTakePicture->setEnabled(false);;
-    btnComment->setEnabled(false);
+    btnPause = new IconButton(tr(":res/icons/pause_o.svg"), tr(":res/icons/pause.svg"));
+    btnStop = new IconButton(tr(":res/icons/stop_o.svg"), tr(":res/icons/stop.svg"));
+    btnTakePicture = new IconButton(tr(":res/icons/capture_o.svg"), tr(":res/icons/capture.svg"));
+    btnComment = new IconButton(tr(":res/icons/comment_o.svg"), tr(":res/icons/comment.svg"));
+    btnExit = new QPushButton("退出");
+
+//    btnPlay->hide();
+//    btnExit->hide();
+
+//    btnPlay->setEnabled(false);
+//    btnPause->setEnabled(false);;
+//    btnStop->setEnabled(false);;
+//    btnTakePicture->setEnabled(false);;
+//    btnComment->setEnabled(false);
 
     connect(btnPlay, SIGNAL(clicked(bool)), this, SIGNAL(play()));
     connect(btnPause, SIGNAL(clicked(bool)), this, SIGNAL(pause()));
     connect(btnStop, SIGNAL(clicked(bool)), this, SIGNAL(stop()));
-    connect(btnTakePicture, SIGNAL(clicked(bool)), this, SIGNAL(takePicture()));
     connect(btnComment, SIGNAL(clicked(bool)), this, SIGNAL(comment()));
+    connect(btnTakePicture, SIGNAL(clicked(bool)), this, SIGNAL(takePicture()));
     connect(btnExit, SIGNAL(clicked(bool)), this, SIGNAL(close()));
 
     connect(btnOpen, SIGNAL(clicked(bool)), this, SLOT(onOpen()));

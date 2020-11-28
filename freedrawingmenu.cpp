@@ -22,9 +22,9 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     widthCombo->addItems(weightList);
 
     lineState = new LineState();
-    btnUndo = new QPushButton("撤销");
-    btnClear = new QPushButton("清除");
-    btnClose = new QPushButton("保存");
+    btnUndo = new IconButton(tr(":res/icons/undo_o.svg"), tr(":res/icons/undo.svg"));
+    btnClear = new IconButton(tr(":res/icons/eraser.svg"), tr(":res/icons/eraser.svg"));
+    btnClose = new IconButton(tr(":res/icons/save_o.svg"), tr(":res/icons/save.svg"));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
@@ -76,12 +76,12 @@ void FreeDrawingMenu::resizeEvent(QResizeEvent *event) {
 
     QSize size = Configure::getInstance()->buttonSize();
 
-    colorCombo->setFixedSize(size);
-    widthCombo->setFixedSize(size);
-    lineState->setFixedSize(size);
-    btnUndo->setFixedSize(size);
-    btnClear->setFixedSize(size);
-    btnClose->setFixedSize(size);
+//    colorCombo->setFixedSize(size);
+//    widthCombo->setFixedSize(size);
+//    lineState->setFixedSize(size);
+//    btnUndo->setFixedSize(size);
+//    btnClear->setFixedSize(size);
+//    btnClose->setFixedSize(size);
 }
 
 QColor& FreeDrawingMenu::getPenColor() {

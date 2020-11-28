@@ -4,6 +4,9 @@
 #include <QtSvg/QSvgRenderer>
 #include <QDomDocument>
 
+IconButton::IconButton(QWidget *parent) : QToolButton(parent) {
+
+}
 
 IconButton::IconButton(const QString& defaultIconRes, const QString& activeIconRes, QWidget *parent) : QToolButton(parent)
 {
@@ -33,8 +36,9 @@ IconButton::IconButton(const QString& defaultIconRes, const QString& activeIconR
     QString styleSheet = this->styleSheet();
     styleSheet += "QToolButton{border-style:flat}";
     styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px}";
-
     setStyleSheet(styleSheet);
+
+    setFixedSize(60, 60);
 
 
 //    QString styleSheet = this->styleSheet();
@@ -123,13 +127,13 @@ void IconButton::paintEvent(QPaintEvent *e) {
 
 void IconButton::enterEvent(QEvent *event) {
     if(isCheckable()) {
-    } else {
+    } else if(isEnabled()) {
         this->setIcon(activateIcon);
     }
 }
 void IconButton::leaveEvent(QEvent *event) {
     if(isCheckable()) {
-    } else {
+    } else if(isEnabled()) {
         this->setIcon(defaultIcon);
     }
 }

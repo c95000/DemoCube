@@ -5,6 +5,7 @@
 #include <QComboBox>
 #include "linestate.h"
 #include <QPushButton>
+#include "iconbutton.h"
 
 namespace Ui {
 class FreeDrawingMenu;
@@ -49,9 +50,9 @@ private:
     QComboBox *colorCombo;
     QComboBox *widthCombo;
     LineState *lineState;
-    QPushButton *btnUndo;
-    QPushButton *btnClear;
-    QPushButton *btnClose;
+    IconButton *btnUndo;
+    IconButton *btnClear;
+    IconButton *btnClose;
 
     QColor penColor;
     int penWidth;

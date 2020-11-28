@@ -21,27 +21,30 @@ void CameraController1::init() {
         sourceUrl = tr("rtsp://192.168.1.225/");
     }
 
-    btnConnect = new QPushButton("连接");
+    btnConnect = new IconButton(tr(":res/icons/connect_camera_o.svg"), tr(":res/icons/connect_camera.svg"));
+    btnConnect->setFixedSize(60, 60);
     btnPlay = new QPushButton("播放");
     btnPlay->hide();
     btnPause = new QPushButton("暂停");
     btnPause->hide();
-    btnDisconnect = new QPushButton("断开");
-    btnTakePicture = new QPushButton("拍照");
-    btnComment = new QPushButton("批注");
+    btnDisconnect = new IconButton(tr(":res/icons/disconnect_camera_o.svg"), tr(":res/icons/disconnect_camera.svg"));
+    btnDisconnect->setFixedSize(60, 60);
+    btnTakePicture = new IconButton(tr(":res/icons/capture_o.svg"), tr(":res/icons/capture.svg"));
+    btnTakePicture->setFixedSize(60, 60);
+    btnComment = new IconButton(tr(":res/icons/comment_o.svg"), tr(":res/icons/comment.svg"));
     btnExit = new QPushButton("退出");
     btnExit->hide();
-    btnStartRecord = new QPushButton("开始录制");
-    btnStopRecord = new QPushButton("结束录制");
+    btnStartRecord = new IconButton(tr(":res/icons/start_record_o.svg"), tr(":res/icons/start_record.svg"));
+    btnStopRecord = new IconButton(tr(":res/icons/stop_record_o.svg"), tr(":res/icons/stop_record.svg"));
+
+    btnZoomTele = new IconButton(tr(":res/icons/zoom_in.svg"), tr(":res/icons/zoom_in.svg"));
+    btnZoomWide = new IconButton(tr(":res/icons/zoom_out.svg"), tr(":res/icons/zoom_out.svg"));
+
+    btnStopRecord->hide();
     btnStartRecord->setEnabled(false);
     btnStopRecord->setEnabled(false);
-    btnStopRecord->hide();
-    btnZoomTele = new QPushButton("放大");
-    btnZoomWide = new QPushButton("缩小");
     btnZoomTele->setEnabled(false);
     btnZoomWide->setEnabled(false);
-
-
     btnPlay->setEnabled(false);
     btnPause->setEnabled(false);
     btnDisconnect->setEnabled(false);
@@ -54,8 +57,8 @@ void CameraController1::init() {
     hLayout->addWidget(btnPlay);
     hLayout->addWidget(btnPause);
     hLayout->addWidget(btnDisconnect);
-    hLayout->addWidget(btnTakePicture);
     hLayout->addWidget(btnComment);
+    hLayout->addWidget(btnTakePicture);
     hLayout->addWidget(btnStartRecord);
     hLayout->addWidget(btnStopRecord);
     hLayout->addWidget(btnZoomTele);

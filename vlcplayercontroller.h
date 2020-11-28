@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include "progressbar.h"
+#include "iconbutton.h"
 
 namespace Ui {
 class VlcPlayerController;
@@ -42,12 +43,12 @@ public slots:
 private:
     Ui::VlcPlayerController *ui;
 
-    QPushButton *btnOpen;
-    QPushButton *btnPlay;
-    QPushButton *btnPause;
-    QPushButton *btnStop;
-    QPushButton *btnTakePicture;
-    QPushButton *btnComment;
+    IconButton *btnOpen;
+    IconButton *btnPlay;
+    IconButton *btnPause;
+    IconButton *btnStop;
+    IconButton *btnTakePicture;
+    IconButton *btnComment;
     QPushButton *btnExit;
 
     ProgressBar *progressBar;

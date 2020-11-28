@@ -28,13 +28,13 @@ int main(int argc, char *argv[])
 
 //    MainWindow w;
 //    PrimeWindow w;
-//    FreeDrawingMenu w;
+    FreeDrawingMenu w;
 //    LineState w;
 //    FreeDrawing w;
 //    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 //    VlcPlayerController w;
 //    ImageDisplay w;
-    CameraController1 w;
+//    CameraController1 w;
 //    RecordIndicator w;
 //    VlcPlayerController w;
 //    ProgressBar w;
@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
     //    QIcon icon2;
     //    icon2.addFile(":/res/icons/account_circle.svg");
 //    IconButton w(QString(":/res/icons/account_circle_outline.svg"), QString(":/res/icons/account_circle.svg"));
+//    IconButton w(QString(":/res/icons/connect_camera_o.svg"), QString(":/res/icons/connect_camera.svg"));
 //    Navigator w;
 //    FFPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
 

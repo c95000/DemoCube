@@ -39,5 +39,32 @@
         <file>res/icons/video_o.svg</file>
         <file>res/icons/whiteboard.svg</file>
         <file>res/icons/whiteboard_o.svg</file>
+        <file>res/icons/connect_camera.svg</file>
+        <file>res/icons/connect_camera_o.svg</file>
+        <file>res/icons/disconnect_camera_o.svg</file>
+        <file>res/icons/disconnect_camera.svg</file>
+        <file>res/icons/capture_o.svg</file>
+        <file>res/icons/capture.svg</file>
+        <file>res/icons/start_record.svg</file>
+        <file>res/icons/start_record_o.svg</file>
+        <file>res/icons/stop_record.svg</file>
+        <file>res/icons/stop_record_o.svg</file>
+        <file>res/icons/zoom_out.svg</file>
+        <file>res/icons/zoom_in.svg</file>
+        <file>res/icons/comment.svg</file>
+        <file>res/icons/comment_o.svg</file>
+        <file>res/icons/open_file_o.svg</file>
+        <file>res/icons/open_file.svg</file>
+        <file>res/icons/stop.svg</file>
+        <file>res/icons/stop_o.svg</file>
+        <file>res/icons/pause_o.svg</file>
+        <file>res/icons/pause.svg</file>
+        <file>res/icons/play_o.svg</file>
+        <file>res/icons/play.svg</file>
+        <file>res/icons/eraser.svg</file>
+        <file>res/icons/undo.svg</file>
+        <file>res/icons/undo_o.svg</file>
+        <file>res/icons/save_o.svg</file>
+        <file>res/icons/save.svg</file>
     </qresource>
 </RCC>
