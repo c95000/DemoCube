@@ -28,7 +28,9 @@ Navigator::Navigator(QWidget *parent) :
         button->setFixedSize(60, 60);
         button->setCheckable(true);
         buttonGround->addButton(button, i);
+        hLayout->addSpacing(10);
         hLayout->addWidget(button);
+        hLayout->addSpacing(10);
     }
     hLayout->addStretch();
     setLayout(hLayout);

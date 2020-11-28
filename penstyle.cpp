@@ -35,7 +35,7 @@ PenStyle::PenStyle(QWidget *parent) : IconButton(parent)
     );
 }
 
-PenStyle::PenStyle(const QColor& color, const int width, QWidget *parent) : IconButton(parent)
+PenStyle::PenStyle(const QColor& color, const int width, QWidget *parent) : IconButton(tr(":/res/icons/pen_style.svg"), tr(":/res/icons/pen_style.svg"), parent)
   ,lineColor(color)
   ,lineWidth(width) {
     connect(this, &QPushButton::clicked, [=](){

@@ -82,12 +82,15 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     navigatorStack->setStyleSheet("QStackedWidget{border-radius:10px;border:1px solid #aaaaaa;}");
     navigatorStack->addWidget(navigator);
 
+    assist = new Assist();
+
     // bottom
     QHBoxLayout *bottomLayout = new QHBoxLayout();
     bottomLayout->addWidget(navigatorStack);
 //    bottomLayout->addStretch();
     bottomLayout->addWidget(controllerStack, 1);
 //    bottomLayout->addStretch();
+    bottomLayout->addWidget(assist);
 
 
     // whole

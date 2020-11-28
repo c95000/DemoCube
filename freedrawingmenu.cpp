@@ -33,6 +33,7 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
 //    hLayout->addWidget(widthCombo);
 //    hLayout->addWidget(lineState);
     hLayout->addWidget(penStyle);
+    hLayout->addSpacing(40);
     hLayout->addWidget(btnUndo);
     hLayout->addWidget(btnClear);
     hLayout->addWidget(btnClose);

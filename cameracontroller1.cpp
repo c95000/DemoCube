@@ -37,8 +37,8 @@ void CameraController1::init() {
     btnStartRecord = new IconButton(tr(":res/icons/start_record_o.svg"), tr(":res/icons/start_record.svg"));
     btnStopRecord = new IconButton(tr(":res/icons/stop_record_o.svg"), tr(":res/icons/stop_record.svg"));
 
-    btnZoomTele = new IconButton(tr(":res/icons/zoom_in.svg"), tr(":res/icons/zoom_in.svg"));
-    btnZoomWide = new IconButton(tr(":res/icons/zoom_out.svg"), tr(":res/icons/zoom_out.svg"));
+    btnZoomTele = new IconButton(tr(":res/icons/zoom_in_o.svg"), tr(":res/icons/zoom_in.svg"));
+    btnZoomWide = new IconButton(tr(":res/icons/zoom_out_o.svg"), tr(":res/icons/zoom_out.svg"));
 
     btnStopRecord->hide();
     btnStartRecord->setEnabled(false);
@@ -54,15 +54,17 @@ void CameraController1::init() {
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
     hLayout->addWidget(btnConnect);
+    hLayout->addWidget(btnDisconnect);
     hLayout->addWidget(btnPlay);
     hLayout->addWidget(btnPause);
-    hLayout->addWidget(btnDisconnect);
-    hLayout->addWidget(btnComment);
-    hLayout->addWidget(btnTakePicture);
-    hLayout->addWidget(btnStartRecord);
-    hLayout->addWidget(btnStopRecord);
+    hLayout->addSpacing(40);
     hLayout->addWidget(btnZoomTele);
     hLayout->addWidget(btnZoomWide);
+    hLayout->addSpacing(40);
+    hLayout->addWidget(btnStartRecord);
+    hLayout->addWidget(btnStopRecord);
+    hLayout->addWidget(btnTakePicture);
+    hLayout->addWidget(btnComment);
     hLayout->addStretch();
 
 

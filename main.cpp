@@ -23,6 +23,7 @@
 #include <QQuickWidget>
 #include "penstyle.h"
 #include "penstate.h"
+#include "assist.h"
 
 int main(int argc, char *argv[])
 {
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
 //    ProgressBar w;
 //    PenStyle w;
 //    PenState w(Qt::yellow, 15);
+//    Assist w;
 
     //    QIcon icon1;
     //    icon1.addFile(":/res/icons/account_circle_outline.svg");

@@ -19,14 +19,14 @@ VlcPlayerController::VlcPlayerController(QWidget *parent) :
     btnComment = new IconButton(tr(":res/icons/comment_o.svg"), tr(":res/icons/comment.svg"));
     btnExit = new QPushButton("退出");
 
-//    btnPlay->hide();
-//    btnExit->hide();
+    btnPlay->hide();
+    btnExit->hide();
 
-//    btnPlay->setEnabled(false);
-//    btnPause->setEnabled(false);;
-//    btnStop->setEnabled(false);;
-//    btnTakePicture->setEnabled(false);;
-//    btnComment->setEnabled(false);
+    btnPlay->setEnabled(false);
+    btnPause->setEnabled(false);;
+    btnStop->setEnabled(false);;
+    btnTakePicture->setEnabled(false);;
+    btnComment->setEnabled(false);
 
     connect(btnPlay, SIGNAL(clicked(bool)), this, SIGNAL(play()));
     connect(btnPause, SIGNAL(clicked(bool)), this, SIGNAL(pause()));
@@ -42,9 +42,11 @@ VlcPlayerController::VlcPlayerController(QWidget *parent) :
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
     hLayout->addWidget(btnOpen);
+    hLayout->addSpacing(40);
     hLayout->addWidget(btnPlay);
     hLayout->addWidget(btnPause);
     hLayout->addWidget(btnStop);
+    hLayout->addSpacing(40);
     hLayout->addWidget(btnTakePicture);
     hLayout->addWidget(btnComment);
     hLayout->addStretch();

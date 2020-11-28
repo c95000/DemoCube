@@ -14,6 +14,7 @@
 #include "cameracontroller1.h"
 #include "ArnetWrapper.h"
 #include "Loading/Loading.h"
+#include "assist.h"
 
 namespace Ui {
 class PrimeWindow;
@@ -66,6 +67,7 @@ private:
     VlcPlayer *vlcPlayer;
 
     Navigator *navigator;
+    Assist *assist;
     QStackedWidget *viewStack;
     QStackedWidget *controllerStack;
 

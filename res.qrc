@@ -66,5 +66,12 @@
         <file>res/icons/undo_o.svg</file>
         <file>res/icons/save_o.svg</file>
         <file>res/icons/save.svg</file>
+        <file>res/icons/pen_style.svg</file>
+        <file>res/icons/zoom_in_o.svg</file>
+        <file>res/icons/zoom_out_o.svg</file>
+        <file>res/icons/help_o.svg</file>
+        <file>res/icons/help.svg</file>
+        <file>res/icons/setting_o.svg</file>
+        <file>res/icons/setting.svg</file>
     </qresource>
 </RCC>
