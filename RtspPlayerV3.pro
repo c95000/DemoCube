@@ -60,6 +60,9 @@ SOURCES += \
     mp4encoder.cpp \
     mypaint.cpp \
     navigator.cpp \
+    pensettingdialog.cpp \
+    penstate.cpp \
+    penstyle.cpp \
     playpausebutton.cpp \
     primewindow.cpp \
     progressbar.cpp \
@@ -108,6 +111,9 @@ HEADERS += \
     mp4encoder.h \
     mypaint.h \
     navigator.h \
+    pensettingdialog.h \
+    penstate.h \
+    penstyle.h \
     playpausebutton.h \
     primewindow.h \
     progressbar.h \

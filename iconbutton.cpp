@@ -5,7 +5,12 @@
 #include <QDomDocument>
 
 IconButton::IconButton(QWidget *parent) : QToolButton(parent) {
+    QString styleSheet = this->styleSheet();
+    styleSheet += "QToolButton{border-style:flat}";
+    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px}";
+    setStyleSheet(styleSheet);
 
+    setFixedSize(60, 60);
 }
 
 IconButton::IconButton(const QString& defaultIconRes, const QString& activeIconRes, QWidget *parent) : QToolButton(parent)

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QComboBox>
 #include "linestate.h"
+#include "penstyle.h"
 #include <QPushButton>
 #include "iconbutton.h"
 
@@ -50,6 +51,7 @@ private:
     QComboBox *colorCombo;
     QComboBox *widthCombo;
     LineState *lineState;
+    PenStyle *penStyle;
     IconButton *btnUndo;
     IconButton *btnClear;
     IconButton *btnClose;

@@ -21,6 +21,8 @@
 #include "progressbar.h"
 #include "iconbutton.h"
 #include <QQuickWidget>
+#include "penstyle.h"
+#include "penstate.h"
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +40,8 @@ int main(int argc, char *argv[])
 //    RecordIndicator w;
 //    VlcPlayerController w;
 //    ProgressBar w;
+//    PenStyle w;
+//    PenState w(Qt::yellow, 15);
 
     //    QIcon icon1;
     //    icon1.addFile(":/res/icons/account_circle_outline.svg");

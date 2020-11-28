@@ -22,6 +22,7 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     widthCombo->addItems(weightList);
 
     lineState = new LineState();
+    penStyle = new PenStyle();
     btnUndo = new IconButton(tr(":res/icons/undo_o.svg"), tr(":res/icons/undo.svg"));
     btnClear = new IconButton(tr(":res/icons/eraser.svg"), tr(":res/icons/eraser.svg"));
     btnClose = new IconButton(tr(":res/icons/save_o.svg"), tr(":res/icons/save.svg"));
@@ -31,6 +32,7 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
     hLayout->addWidget(colorCombo);
     hLayout->addWidget(widthCombo);
     hLayout->addWidget(lineState);
+    hLayout->addWidget(penStyle);
     hLayout->addWidget(btnUndo);
     hLayout->addWidget(btnClear);
     hLayout->addWidget(btnClose);
@@ -75,6 +77,7 @@ void FreeDrawingMenu::resizeEvent(QResizeEvent *event) {
 
 
     QSize size = Configure::getInstance()->buttonSize();
+    lineState->setFixedSize(btnUndo->size());
 
 //    colorCombo->setFixedSize(size);
 //    widthCombo->setFixedSize(size);
