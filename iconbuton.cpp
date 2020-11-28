@@ -4,29 +4,8 @@
 #include <QtSvg/QSvgRenderer>
 #include <QDomDocument>
 
-void SetAttrRecur(QDomElement &elem, QString strtagname, QString strattr, QString strattrval);
 
-
-void SetAttrRecur(QDomElement &elem, QString strtagname, QString strattr, QString strattrval)
-{
-    // if it has the tagname then overwritte desired attribute
-    if (elem.tagName().compare(strtagname) == 0)
-    {
-        elem.setAttribute(strattr, strattrval);
-    }
-    // loop all children
-    for (int i = 0; i < elem.childNodes().count(); i++)
-    {
-        if (!elem.childNodes().at(i).isElement())
-        {
-            continue;
-        }
-//        SetAttrRecur(elem.childNodes().at(i).toElement(), strtagname, strattr, strattrval);
-    }
-}
-
-
-IconButon::IconButon(const QString& defaultIcon, const QString& activeIcon, QWidget *parent) : QToolButton(parent)
+IconButon::IconButon(const QString& defaultIconRes, const QString& activeIconRes, QWidget *parent) : QToolButton(parent)
 {
 //    QIcon icon1;
 //    icon1.addFile(":/res/icons/account_circle_outline.svg");
@@ -42,11 +21,39 @@ IconButon::IconButon(const QString& defaultIcon, const QString& activeIcon, QWid
 //    pixmap.setMask(mask);
 
 
-    QIcon icon1(defaultIcon);
-    QIcon icon2(activeIcon);
-    this->setIcon(icon1);
-    setFixedSize(100, 100);
-    setStyleSheet("border-style:flat");  //设置透明的
+//    QIcon icon1(defaultIcon);
+//    QIcon icon2(activeIcon);
+//    this->setIcon(icon1);
+
+    defaultIcon = QIcon(defaultIconRes);
+    activateIcon = QIcon(activeIconRes);
+    this->setIcon(defaultIcon);
+
+
+    QString styleSheet = this->styleSheet();
+    styleSheet += "QToolButton{border-style:flat}";
+    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px}";
+
+    setStyleSheet(styleSheet);
+
+
+//    QString styleSheet = this->styleSheet();
+//    styleSheet += "QLabel{text-align:center; color:#ff6600;}";
+//    styleSheet += "QToolButton{background-image: url(\":/res/images/add1.png\");background-repeat: no-repeat;background-position: center;border-style:flat}"
+//                  "QToolButton:hover{background-image: url(\":/res/images/add2.png\");}"
+//                  "QToolButton:pressed{background-image: url(\":/res/images/add2.png\");}";
+
+//    styleSheet += "QToolButton{border-image: url(:/res/images/add1.png);}"
+//                  "QToolButton:hover{border-image: url(\":/res/images/add2.png\");}"
+//                  "QToolButton:pressed{border-image: url(\":/res/images/close.png\");}";
+
+//    styleSheet += tr("QToolButton{qproperty-icon: url(:/res/icons/account_circle_outline.svg);}"
+//                     "QToolButton:hover{qproperty-icon: url(:/res/icons/account_circle.svg);}"
+//                     "QToolButton:pressed{qproperty-icon: url(:/res/icons/account_circle.svg);}");
+
+//    setStyleSheet(styleSheet);
+
+
 
 //    QSvgRenderer m_svgRender;
 //    m_svgRender.load(QString(":/res/icons/account_circle.svg"));
@@ -64,16 +71,25 @@ IconButon::IconButon(const QString& defaultIcon, const QString& activeIcon, QWid
 //    setStyleSheet(style);
     connect(this, &QPushButton::pressed, [=](){
         printf("pressed");
-        this->setIcon(icon2);
+//        this->setIcon(icon2);
     }
     );
     connect(this, &QPushButton::released, [=](){
         printf("released");
-        this->setIcon(icon1);
+//        this->setIcon(icon1);
     }
     );
-    connect(this, &QPushButton::clicked, [=](){
-        printf("clicked");
+//    connect(this, &QPushButton::clicked, [=](){
+//        printf("clicked");
+//    }
+//    );
+    connect(this, &QPushButton::toggled, [=](bool checked){
+        printf("toggled %d", checked);
+        if(checked) {
+            setIcon(activateIcon);
+        } else {
+            setIcon(defaultIcon);
+        }
     }
     );
 }
@@ -93,8 +109,27 @@ void IconButon::resizeEvent(QResizeEvent *event) {
 
 void IconButon::paintEvent(QPaintEvent *e) {
     QToolButton::paintEvent(e);
+
+    // can draw title of the button here
+//    QPainter painter(this);
+//    painter.drawLine(0, 0, 20, 20);
+//    painter.end();
+
 //    QPainter qPainter(this);
 //    QSvgRenderer m_svgRender;
 //    m_svgRender.load(QString(":/res/icons/account_circle_outline.svg"));
 //    m_svgRender.render(&qPainter ,QRectF(0,0,this->size().width() ,this->size().height()));
+}
+
+void IconButon::enterEvent(QEvent *event) {
+    if(isCheckable()) {
+    } else {
+        this->setIcon(activateIcon);
+    }
+}
+void IconButon::leaveEvent(QEvent *event) {
+    if(isCheckable()) {
+    } else {
+        this->setIcon(defaultIcon);
+    }
 }
