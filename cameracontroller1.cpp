@@ -78,19 +78,6 @@ void CameraController1::init() {
     setLayout(hLayout);
 
     connect(btnConnect, &QPushButton::clicked, this, [=]() {
-//        btnConnect->setEnabled(false);
-//        sourceUrl = "C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4";
-
-//        printf("on_btnLocal_clicked");
-//        QString videoPath = Configure::getInstance()->getVideopath();
-//        QString filename = QFileDialog::getOpenFileName(this,tr("action"),videoPath,"",0);
-//        if(filename.isEmpty()) {
-//            return;
-//        }
-
-//        printf("filename: %s", filename.toStdString().c_str());
-//        filename = filename.replace("/", "\\");
-//        sourceUrl = filename;
         sourceUrl = "rtsp://192.168.1.225/";
 
         QString ip = Configure::getInstance()->getCameraIp(0);
@@ -100,9 +87,7 @@ void CameraController1::init() {
                                              "设置",
                                              "输入摄像头IP，如: 192.168.1.100",
                                              QLineEdit::Normal,
-//                                             "rtsp://192.168.1.100/",
                                              ip,
-//                                             "C:/Users/201708/Pictures/eb3aa50943c201336de9fa1c23b5a6c5-480p.mp4",
                                              &isOK);
         if(isOK) {
             Configure::getInstance()->setCameraIp(0, text);
