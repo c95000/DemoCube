@@ -22,18 +22,18 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("实训优学 v1.0");
 
-    QMenu *menuSetting = menuBar()->addMenu("设置(S)");
-    QAction *actDirSetting = new QAction(tr("默认目录"), this);
-    menuSetting->addAction(actDirSetting);
+//    QMenu *menuSetting = menuBar()->addMenu("设置(S)");
+//    QAction *actDirSetting = new QAction(tr("默认目录"), this);
+//    menuSetting->addAction(actDirSetting);
 
-    QMenu *menuHelp = menuBar()->addMenu("帮助(H)");
-    // 创建子菜单，第一个参数QIcon为添加图标，注意路径是否正确，第二个参数是子菜单的显示文本
-    QAction *actAbout = new QAction(tr("关于软件"), this);
-    menuHelp->addAction(actAbout);
+//    QMenu *menuHelp = menuBar()->addMenu("帮助(H)");
+//    // 创建子菜单，第一个参数QIcon为添加图标，注意路径是否正确，第二个参数是子菜单的显示文本
+//    QAction *actAbout = new QAction(tr("关于软件"), this);
+//    menuHelp->addAction(actAbout);
 
 
-    connect(actDirSetting, SIGNAL(triggered()), this, SLOT(onDirSetting()));
-    connect(actAbout, SIGNAL(triggered()), this, SLOT(onActAbout()));
+//    connect(actDirSetting, SIGNAL(triggered()), this, SLOT(onDirSetting()));
+//    connect(actAbout, SIGNAL(triggered()), this, SLOT(onActAbout()));
 
 
 //    setFixedSize(320, 240);
