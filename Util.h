@@ -77,4 +77,6 @@ namespace CVHelper
 
     void saveImage(QImage& image);
 
+    QString caculateChecksum(QString src);
+
 #endif // Util_h__

@@ -326,7 +326,7 @@ void GLVideoWidget::paintGL()
 //        glGetDoublev(GL_CURRENT_COLOR, glColor);
 //        QColor fontColor = QColor(glColor[0], glColor[1], glColor[2], glColor[3]);
 
-    if(!Configure::getInstance()->isOfficial()) {
+    if(!Configure::getInstance()->isLicensed()) {
 
         QTime time;
         time= QTime::currentTime();
