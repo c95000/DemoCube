@@ -28,7 +28,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
+    QApplication::setApplicationVersion(QString(APP_VERSION));
+    QApplication::setApplicationName(QString("实训优学"));
 //    MainWindow w;
     PrimeWindow w;
 //    FreeDrawingMenu w;

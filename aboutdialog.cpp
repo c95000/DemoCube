@@ -12,13 +12,13 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 //    setStyleSheet("QLabel{text-align:center; color:#ff6600;}");
 //    setStyleSheet("QLabel{color:#ff6600;}");
 
-    software = new QLabel("实训优学v1.0");
+    software = new QLabel(tr("%1(%2)").arg(QApplication::applicationName()).arg(QApplication::applicationVersion()));
     QFont font1 = software->font();
     font1.setPointSize(17);
     software->setFont(font1);
     software->setAlignment(Qt::AlignCenter);
 
-    company = new QLabel("深圳市捷宜电子");
+    company = new QLabel(tr("深圳市捷宜电子"));
     QFont font = company->font();
     font.setPointSize(13);
     company->setFont(font);
