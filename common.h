@@ -12,6 +12,7 @@
 #include "Configure.h"
 #include <QResizeEvent>
 #include <QDebug>
+#include "Util.h"
 
 #define printf qDebug
 

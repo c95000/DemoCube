@@ -4,6 +4,8 @@
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QButtonGroup>
+#include <QMessageBox>
+#include "activatedialog.h"
 
 Navigator::Navigator(QWidget *parent) :
     QWidget(parent),
@@ -17,7 +19,7 @@ Navigator::Navigator(QWidget *parent) :
     buttonGround = new QButtonGroup();
     buttonGround->setExclusive(true);
     connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SLOT(onButtonToggled(int, bool)));
-    connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SIGNAL(buttonToggled(int, bool)));
+//    connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SIGNAL(buttonToggled(int, bool)));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
 //    hLayout->setAlignment(Qt::AlignBottom);
@@ -72,4 +74,27 @@ void Navigator::onButtonReleased(int index) {
 
 void Navigator::onButtonToggled(int index, bool checked) {
     printf("%s() index: %d checked: %d", __FUNCTION__, index, checked);
+
+    bool isLicensed = Configure::getInstance()->isLicensed();
+    if(!isLicensed) {
+//        QMessageBox::critical(this, "错误", tr("error(%1)").arg(101));
+        if(checked) {
+            ActivateDialog *dlg=new ActivateDialog(this);
+
+            int ret = dlg->exec();
+            if(ret==QDialog::Accepted) {
+                QString code = dlg->getCode();
+                printf("!ret:%d code:%s", ret, code.toStdString().c_str());
+                Configure::getInstance()->setActivateCode(code);
+                if(!Configure::getInstance()->isLicensed()) {
+                    QMessageBox::warning(this, "提示", "激活不成功");
+                }
+            } else {
+                printf("ret:%d", ret);
+            }
+            delete dlg;
+        }
+    } else {
+        emit buttonToggled(index, checked);
+    }
 }

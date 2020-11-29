@@ -122,6 +122,10 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     loading->setMaxDiameter(20);
     loading->setMinDiameter(1);
     loading->start();
+
+    QString did("PF0ANW70-L1HF54D02BG-0780D881-53BD-11CB-BEEA-C8C5D34C9729");
+    QString code = caculateChecksum(did);
+    printf("code is: %s", code.toStdString().c_str());
 }
 
 PrimeWindow::~PrimeWindow()

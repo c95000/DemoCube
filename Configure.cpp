@@ -6,6 +6,8 @@
 #include "common.h"
 #include <QColor>
 #include <QRgba64>
+#include "deviceinfo.h"
+#include <QCryptographicHash>
 
 Configure* Configure::p = NULL;
 
@@ -14,6 +16,17 @@ Configure::Configure()
     printf("configure: %s", QDir::currentPath().toStdString().c_str());
     configFile = new QSettings(QCoreApplication::applicationDirPath()+"/info.ini", QSettings::IniFormat);
 
+    QString key = tr("app/lic");
+    QString value = configFile->value(key, "").toString();
+
+    QString deviceInfo = getDeviceInfo();
+    QString md5 = caculateChecksum(deviceInfo);
+
+    if(md5 == value) {
+        bLicensed = true;
+    } else {
+        bLicensed = false;
+    }
 }
 
 Configure::~Configure() {
@@ -103,6 +116,20 @@ const QList<int> Configure::getPenWidths() {
         }
     }
     return penWidth;
+}
+
+bool Configure::isLicensed() const {
+    return bLicensed;
+}
+
+void Configure::setActivateCode(QString code) {
+    QString deviceInfo = getDeviceInfo();
+    QString md5 = caculateChecksum(deviceInfo);
+    if(!code.isNull() && !code.isEmpty() && code == md5) {
+        bLicensed = true;
+        QString key = tr("app/lic");
+        configFile->setValue(key, code);
+    }
 }
 
 const QSize Configure::buttonSize() {

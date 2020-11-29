@@ -98,3 +98,20 @@ QString getDiskSerialnumber()
 {
      return getInfo("wmic diskdrive get serialnumber");
 }
+
+const QString getDeviceInfo() {
+    QString biosSn = getBiosSerialnumber();
+    QString bbSn = getBaseboardSerialnumber();
+    QString bbUuid = getBaseboardUuid();
+    QString content = QString("%1-%2-%3").arg(biosSn).arg(bbSn).arg(bbUuid);
+    printf("%s", content.toStdString().c_str());
+    return content;
+//    QString md5;
+//    QByteArray ba,bb;
+//    QCryptographicHash md(QCryptographicHash::Md5);
+//    ba.append(content);
+//    md.addData(content.toUtf8());
+//    bb = md.result();
+//    md5.append(bb.toHex());
+//    printf("md5 value: %s", md5.toStdString().c_str());
+}

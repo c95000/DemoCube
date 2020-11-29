@@ -10,6 +10,14 @@ CONFIG += c++11
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
+
+#应用图标
+#RC_ICONS += icon.ico
+#版本号
+VERSION = 2.0
+
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -41,6 +49,7 @@ SOURCES += \
     TitleButton.cpp \
     ToolBar.cpp \
     aboutdialog.cpp \
+    activatedialog.cpp \
     assist.cpp \
     cameracontroller1.cpp \
     cameraview.cpp \
@@ -94,6 +103,7 @@ HEADERS += \
     ToolBar.h \
     VideoRenderCallback.h \
     aboutdialog.h \
+    activatedialog.h \
     assist.h \
     cameracontroller1.h \
     cameraview.h \
