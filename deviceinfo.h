@@ -34,4 +34,6 @@ QString getBaseboardUuid();
 //查询硬盘序列号
 QString getDiskSerialnumber();
 
+const QString getDeviceInfo();
+
 #endif // DEVICEINFO_H
