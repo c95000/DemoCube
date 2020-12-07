@@ -67,6 +67,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     Util.cpp \
+    mainwindowv2.cpp \
     mp4encoder.cpp \
     mypaint.cpp \
     navigator.cpp \
@@ -120,6 +121,7 @@ HEADERS += \
     linestate.h \
     mainwindow.h \
     Util.h \
+    mainwindowv2.h \
     mp4encoder.h \
     mypaint.h \
     navigator.h \

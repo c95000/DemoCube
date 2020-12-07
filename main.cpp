@@ -24,6 +24,7 @@
 #include "penstyle.h"
 #include "penstate.h"
 #include "assist.h"
+#include "mainwindowv2.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,56 +32,8 @@ int main(int argc, char *argv[])
     QApplication::setApplicationVersion(QString(APP_VERSION));
     QApplication::setApplicationName(QString("实训优学"));
 //    MainWindow w;
-    PrimeWindow w;
-//    FreeDrawingMenu w;
-//    LineState w;
-//    FreeDrawing w;
-//    VlcPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
-//    VlcPlayerController w;
-//    ImageDisplay w;
-//    CameraController1 w;
-//    RecordIndicator w;
-//    VlcPlayerController w;
-//    ProgressBar w;
-//    PenStyle w;
-//    PenState w(Qt::yellow, 15);
-//    Assist w;
-
-    //    QIcon icon1;
-    //    icon1.addFile(":/res/icons/account_circle_outline.svg");
-
-    //    QIcon icon2;
-    //    icon2.addFile(":/res/icons/account_circle.svg");
-//    IconButton w(QString(":/res/icons/account_circle_outline.svg"), QString(":/res/icons/account_circle.svg"));
-//    IconButton w(QString(":/res/icons/connect_camera_o.svg"), QString(":/res/icons/connect_camera.svg"));
-//    Navigator w;
-//    FFPlayer w(QString("C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4"));
-
-//    QQuickWidget *view = new QQuickWidget;
-//    view->setSource(QUrl::fromLocalFile(":SvgAttr.qml"));
-//    view->show();
-
-
-//    ToolBar w;
-//    w.show();
-
-//    CommentToolBar w;
-//    w.show();
-
-//    MyPaint mypaint;
-//    mypaint.show();
-
-//    CameraController cameraController;
-//    cameraController.show();
-
-//    QWidget qq;
-//    qq.show();
-
-//    CameraManager cm;
-//    cm.show();
-
-//    RecordLabel r;
-//    r.show();
+//    PrimeWindow w;
+    MainWindowV2 w;
 
     w.show();
     return a.exec();
