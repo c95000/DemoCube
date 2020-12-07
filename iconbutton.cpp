@@ -15,32 +15,25 @@ IconButton::IconButton(QWidget *parent) : QToolButton(parent) {
 
 IconButton::IconButton(const QString& defaultIconRes, const QString& activeIconRes, QWidget *parent) : QToolButton(parent)
 {
-//    QIcon icon1;
-//    icon1.addFile(":/res/icons/account_circle_outline.svg");
-
-//    QIcon icon2;
-//    icon2.addFile(":/res/icons/account_circle.svg");
-
-
-
-//    QPixmap pixmap(defaultIcon);
-//    QBitmap mask = pixmap.createMaskFromColor(QColor('black'), Qt::MaskOutColor);
-//    pixmap.fill((QColor('red')));
-//    pixmap.setMask(mask);
-
-
-//    QIcon icon1(defaultIcon);
-//    QIcon icon2(activeIcon);
-//    this->setIcon(icon1);
-
     defaultIcon = QIcon(defaultIconRes);
     activateIcon = QIcon(activeIconRes);
-    this->setIcon(defaultIcon);
 
+    init();
+}
+
+IconButton::IconButton(const QString& title, const QString& icon, const QString& activeIcon, QWidget *parent) : QToolButton(parent){
+    setText(title);
+
+    init();
+}
+
+void IconButton::init() {
+    this->setIcon(defaultIcon);
 
     QString styleSheet = this->styleSheet();
     styleSheet += "QToolButton{border-style:flat}";
-    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px}";
+    styleSheet += "QToolButton{border:1px solid #888888;border-radius:5px;font-size:12px}";
+    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px;font-size:14px}";
     setStyleSheet(styleSheet);
 
     setFixedSize(60, 60);
@@ -103,6 +96,9 @@ IconButton::IconButton(const QString& defaultIconRes, const QString& activeIconR
     );
 }
 
+void IconButton::setIcon(const QIcon &icon) {
+//    QToolButton::setIcon(icon);
+}
 
 void IconButton::resizeEvent(QResizeEvent *event) {
     this->setIconSize(event->size());

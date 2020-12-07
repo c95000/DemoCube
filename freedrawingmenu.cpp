@@ -23,9 +23,9 @@ FreeDrawingMenu::FreeDrawingMenu(QWidget *parent) :
 
     lineState = new LineState();
     penStyle = new PenStyle(Configure::getInstance()->getPenColors().at(0), Configure::getInstance()->getPenWidths().at(0));
-    btnUndo = new IconButton(tr(":res/icons/undo_o.svg"), tr(":res/icons/undo.svg"));
-    btnClear = new IconButton(tr(":res/icons/eraser.svg"), tr(":res/icons/eraser.svg"));
-    btnClose = new IconButton(tr(":res/icons/save_o.svg"), tr(":res/icons/save.svg"));
+    btnUndo = new IconButton(tr("撤销"), tr(":res/icons/undo_o.svg"), tr(":res/icons/undo.svg"));
+    btnClear = new IconButton(tr("擦除"), tr(":res/icons/eraser.svg"), tr(":res/icons/eraser.svg"));
+    btnClose = new IconButton(tr("保存"), tr(":res/icons/save_o.svg"), tr(":res/icons/save.svg"));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();

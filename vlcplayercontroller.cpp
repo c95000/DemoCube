@@ -10,13 +10,13 @@ VlcPlayerController::VlcPlayerController(QWidget *parent) :
     ui(new Ui::VlcPlayerController)
 {
     ui->setupUi(this);
-    btnOpen = new IconButton(tr(":res/icons/open_file_o.svg"), tr(":res/icons/open_file.svg"));
-    btnPlay = new IconButton(tr(":res/icons/play_o.svg"), tr(":res/icons/play.svg"));
+    btnOpen = new IconButton(tr("打开"), tr(":res/icons/open_file_o.svg"), tr(":res/icons/open_file.svg"));
+    btnPlay = new IconButton(tr("播放"), tr(":res/icons/play_o.svg"), tr(":res/icons/play.svg"));
 
-    btnPause = new IconButton(tr(":res/icons/pause_o.svg"), tr(":res/icons/pause.svg"));
-    btnStop = new IconButton(tr(":res/icons/stop_o.svg"), tr(":res/icons/stop.svg"));
-    btnTakePicture = new IconButton(tr(":res/icons/capture_o.svg"), tr(":res/icons/capture.svg"));
-    btnComment = new IconButton(tr(":res/icons/comment_o.svg"), tr(":res/icons/comment.svg"));
+    btnPause = new IconButton(tr("暂停"), tr(":res/icons/pause_o.svg"), tr(":res/icons/pause.svg"));
+    btnStop = new IconButton(tr("停止"), tr(":res/icons/stop_o.svg"), tr(":res/icons/stop.svg"));
+    btnTakePicture = new IconButton(tr("拍照"), tr(":res/icons/capture_o.svg"), tr(":res/icons/capture.svg"));
+    btnComment = new IconButton(tr("批注"), tr(":res/icons/comment_o.svg"), tr(":res/icons/comment.svg"));
     btnExit = new QPushButton("退出");
 
     btnPlay->hide();

@@ -10,8 +10,8 @@ Assist::Assist(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout *hLayout = new QHBoxLayout();
 
-    btnSetting = new IconButton(tr(":res/icons/setting_o.svg"), tr(":res/icons/setting.svg"));
-    btnHelp = new IconButton(tr(":res/icons/help_o.svg"), tr(":res/icons/help.svg"));
+    btnSetting = new IconButton(tr("设置"), tr(":res/icons/setting_o.svg"), tr(":res/icons/setting.svg"));
+    btnHelp = new IconButton(tr("帮助"), tr(":res/icons/help_o.svg"), tr(":res/icons/help.svg"));
 
     hLayout->addStretch();
     hLayout->addSpacing(10);

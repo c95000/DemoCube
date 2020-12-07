@@ -14,6 +14,11 @@ public:
     explicit IconButton(QWidget *parent = nullptr);
     explicit IconButton(const QString& title, QWidget *parent = nullptr);
     explicit IconButton(const QString& icon, const QString& activeIcon, QWidget *parent = nullptr);
+    explicit IconButton(const QString& title, const QString& icon, const QString& activeIcon, QWidget *parent = nullptr);
+
+    void setIcon(const QIcon &icon);
+private:
+    void init();
 
 protected:
     void resizeEvent(QResizeEvent *event);
