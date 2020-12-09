@@ -32,7 +32,6 @@ SOURCES += \
     Resolution.cpp \
     SettingDialog.cpp \
     cameracontroller1.cpp \
-    cameraview.cpp \
     common.cpp \
     ffdecoder.cpp \
     ffplayer.cpp \
@@ -43,7 +42,6 @@ SOURCES += \
     mp4encoder.cpp \
     progressbar.cpp \
     recordindicator.cpp \
-    recordlabel.cpp \
     scaler.cpp \
     sockettest.cpp \
     yuv2jpg.cpp
@@ -55,7 +53,6 @@ HEADERS += \
     Resolution.h \
     SettingDialog.h \
     cameracontroller1.h \
-    cameraview.h \
     common.h \
     ffdecoder.h \
     ffplayer.h \
@@ -65,13 +62,9 @@ HEADERS += \
     mp4encoder.h \
     progressbar.h \
     recordindicator.h \
-    recordlabel.h \
     scaler.h \
     sockettest.h \
     yuv2jpg.h
-
-FORMS += \
-    recordlabel.ui \
 
 
 QT += opengl network widgets

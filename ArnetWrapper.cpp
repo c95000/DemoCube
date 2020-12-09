@@ -43,11 +43,6 @@ QByteArray Http::Post(QByteArray data,
 
 ArnetWrapper::ArnetWrapper()
 {
-//    ip = "192.168.1.225";
-//    username = "YWRtaW4=";
-//    password = "YWRtaW4=";
-//    //1.设置网络地址
-//    Http::setAddr("http://192.168.1.225/");
 }
 
 ArnetWrapper::~ArnetWrapper()
