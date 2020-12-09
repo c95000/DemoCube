@@ -30,9 +30,6 @@ public:
     QString getVideopath();
     QString getCameraIp(int index);
     void setCameraIp(int index, QString& ip);
-    bool isAllowCommenting();
-    bool isOfficial();
-
     const QSize buttonSize();
     const QColor colorByIndex(int index);
     int widthByIndex(int index);

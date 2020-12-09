@@ -1,20 +1,4 @@
-#include "mainwindow.h"
-
 #include <QApplication>
-#include <ToolBar.h>
-#include <CommentToolBar.h>
-#include <mypaint.h>
-#include <CameraController.h>
-#include <CameraManager.h>
-#include "recordlabel.h"
-#include "primewindow.h"
-#include "freedrawingmenu.h"
-#include "linestate.h"
-#include "freedrawing.h"
-#include "vlcplayer.h"
-#include "vlcplayercontroller.h"
-#include "imagedisplay.h"
-#include "navigator.h"
 #include "ffplayer.h"
 #include "cameracontroller1.h"
 #include "recordindicator.h"

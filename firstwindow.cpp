@@ -1,6 +1,7 @@
 #include "firstwindow.h"
 #include <QVBoxLayout>
 #include <QMessageBox>
+#include "yuv2jpg.h"
 
 FirstWindow::FirstWindow(QWidget *parent) : QMainWindow(parent)
 {

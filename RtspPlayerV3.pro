@@ -26,121 +26,52 @@ contains(QT_ARCH, i386) {
 
 
 SOURCES += \
-    AddSubButton.cpp \
     ArnetWrapper.cpp \
-    CameraController.cpp \
-    CameraManager.cpp \
-    CommentToolBar.cpp \
     Configure.cpp \
-    HTitleButton.cpp \
     ImageButton.cpp \
-    Loading/Loading.cpp \
-    MediaController.cpp \
     Resolution.cpp \
     SettingDialog.cpp \
-    TitleButton.cpp \
-    ToolBar.cpp \
-    aboutdialog.cpp \
     cameracontroller1.cpp \
     cameraview.cpp \
     common.cpp \
     ffdecoder.cpp \
     ffplayer.cpp \
     firstwindow.cpp \
-    freedrawing.cpp \
-    freedrawingmenu.cpp \
     glvideowidget.cpp \
-    imagedisplay.cpp \
-    jyplayer.cpp \
-    linestate.cpp \
     main.cpp \
-    mainwindow.cpp \
     Util.cpp \
     mp4encoder.cpp \
-    mypaint.cpp \
-    navigator.cpp \
-    playpausebutton.cpp \
-    primewindow.cpp \
     progressbar.cpp \
     recordindicator.cpp \
     recordlabel.cpp \
     scaler.cpp \
     sockettest.cpp \
-    videorender.cpp \
-    vlcplayer.cpp \
-    vlcplayercontroller.cpp \
-    vlcworker.cpp \
-    vlcwrapper.cpp \
     yuv2jpg.cpp
 
 HEADERS += \
-    AddSubButton.h \
     ArnetWrapper.h \
-    CameraController.h \
-    CameraManager.h \
-    CommentToolBar.h \
     Configure.h \
-    HTitleButton.h \
     ImageButton.h \
-    Loading/Loading.h \
-    MediaController.h \
     Resolution.h \
     SettingDialog.h \
-    TitleButton.h \
-    ToolBar.h \
-    VideoRenderCallback.h \
-    aboutdialog.h \
     cameracontroller1.h \
     cameraview.h \
     common.h \
     ffdecoder.h \
     ffplayer.h \
     firstwindow.h \
-    freedrawing.h \
-    freedrawingmenu.h \
     glvideowidget.h \
-    imagedisplay.h \
-    jyplayer.h \
-    linestate.h \
-    mainwindow.h \
     Util.h \
     mp4encoder.h \
-    mypaint.h \
-    navigator.h \
-    playpausebutton.h \
-    primewindow.h \
     progressbar.h \
     recordindicator.h \
     recordlabel.h \
     scaler.h \
     sockettest.h \
-    videorender.h \
-    vlcplayer.h \
-    vlcplayercontroller.h \
-    vlcworker.h \
-    vlcwrapper.h \
     yuv2jpg.h
 
 FORMS += \
-    AddSubButton.ui \
-    CameraController.ui \
-    CameraManager.ui \
-    CommentToolBar.ui \
-    HTitleButton.ui \
-    MediaController.ui \
-    SettingDialog.ui \
-    TitleButton.ui \
-    ToolBar.ui \
-    freedrawing.ui \
-    freedrawingmenu.ui \
-    imagedisplay.ui \
-    linestate.ui \
-    mainwindow.ui \
-    navigator.ui \
-    primewindow.ui \
     recordlabel.ui \
-    vlcplayer.ui \
-    vlcplayercontroller.ui
 
 
 QT += opengl network widgets

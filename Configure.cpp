@@ -53,18 +53,6 @@ void Configure::setCameraIp(int index, QString& ip) {
     configFile->setValue(key, ip);
 }
 
-bool Configure::isAllowCommenting() {
-    QString key = tr("block/ac");
-    bool value = configFile->value(key, false).toBool();
-    return value;
-}
-
-bool Configure::isOfficial() {
-    QString key = tr("block/offi");
-    bool value = configFile->value(key, false).toBool();
-    return value;
-}
-
 const QSize Configure::buttonSize() {
     return QSize(80, 30);
 }
@@ -107,13 +95,9 @@ int Configure::widthByIndex(int index) {
 }
 
 QString Configure::getUsername() const {
-    QString key = tr("acc/un");
-    QString value = configFile->value(key, "admin").toString();
-    return QString(value.toUtf8().toBase64());
+    return QString("YWRtaW4=");
 }
 
 QString Configure::getPassword() const {
-    QString key = tr("acc/pw");
-    QString value = configFile->value(key, "admin").toString();
-    return QString(value.toUtf8().toBase64());
+    return QString("YWRtaW4=");
 }

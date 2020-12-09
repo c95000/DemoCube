@@ -49,13 +49,14 @@ protected:
 
 public:
     GLVideoWidget* videoView;
+    int videoWidth = 16;
+    int videoHeight = 9;
+    bool tryTakepicture = false;
 
 private:
     QString inputSource; // media source
 
     FFDecoder* ffDecoder;
-    int videoWidth = 16;
-    int videoHeight = 9;
 };
 
 #endif // FFPLAYER_H

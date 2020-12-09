@@ -1,7 +1,7 @@
 #include "ffplayer.h"
 #include "common.h"
 #include "glvideowidget.h"
-
+#include "yuv2jpg.h"
 
 static void printError(int ret) {
     char msg[512];
@@ -35,6 +35,11 @@ void _ffdecoder_data_available_cb(void *opaque, const QByteArray& ba) {
 //        fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".yuv";
 //    }
 //    writeFile(fileName, (char *)ba.data(), ba.size());
+    if(ffPlayer->tryTakepicture) {
+        ffPlayer->tryTakepicture = false;
+        YUV2JPG yuv2jpg;
+        yuv2jpg.archive(ba.data(), ffPlayer->videoWidth, ffPlayer->videoHeight, 16);
+    }
     ffPlayer->videoView->setFrameData(ba);
 }
 
@@ -93,14 +98,15 @@ void FFPlayer::close() {
 
 }
 void FFPlayer::takePicture() {
-    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
-    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
-    printf("filename: %s", fileName.toStdString().c_str());
-    if (fileName.length() > 0)
-    {
-        snapshot().save(fileName);
-    }
+//    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
+//    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+//    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+//    printf("filename: %s", fileName.toStdString().c_str());
+//    if (fileName.length() > 0)
+//    {
+//        snapshot().save(fileName);
+//    }
+    tryTakepicture = true;
 }
 void FFPlayer::comment() {
 
