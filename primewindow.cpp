@@ -174,6 +174,7 @@ void PrimeWindow::connectCameraSignals() {
 //    connect(cameraController, SIGNAL(signalConnect(const QString&)), arnetWrapper, SLOT(connect(const QString&)));
     connect(cameraController, SIGNAL(zoomTele()), arnetWrapper, SLOT(zoomTele()));
     connect(cameraController, SIGNAL(zoomWide()), arnetWrapper, SLOT(zoomWide()));
+    connect(cameraController, SIGNAL(rotation()), cameraView, SLOT(rotation()));
     connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 
     connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(onConnect(const QString&)));

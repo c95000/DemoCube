@@ -38,6 +38,7 @@ public slots:
     void startRecord();
     void stopRecord();
 
+    void rotation();
 public:
     const QPixmap snapshot();
     void setVideoSize(int width, int height);

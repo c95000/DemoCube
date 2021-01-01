@@ -112,6 +112,10 @@ void FFPlayer::stopRecord() {
     emit stopRecorded();
 }
 
+void FFPlayer::rotation() {
+    videoView->rotationFunc();
+}
+
 const QPixmap FFPlayer::snapshot() {
 //    QScreen *screen = QGuiApplication::primaryScreen();
 //    QPixmap pixmap = screen->grabWindow(videoView->winId());

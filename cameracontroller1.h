@@ -36,6 +36,8 @@ signals:
     void zoomWide();
     void zoomTele();
 
+    void rotation();
+
 public slots:
     void connected();
     void disconnected();
@@ -58,6 +60,8 @@ private:
     QPushButton *btnExit;
     IconButton *btnZoomWide; // 缩小
     IconButton *btnZoomTele; // 放大
+
+    IconButton *btnRotation; // 放大
 
     IconButton *btnStartRecord;
     IconButton *btnStopRecord;

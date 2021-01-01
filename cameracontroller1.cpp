@@ -39,6 +39,7 @@ void CameraController1::init() {
 
     btnZoomTele = new IconButton(tr("放大"), tr(":res/icons/zoom_in_o.svg"), tr(":res/icons/zoom_in.svg"));
     btnZoomWide = new IconButton(tr("缩小"), tr(":res/icons/zoom_out_o.svg"), tr(":res/icons/zoom_out.svg"));
+    btnRotation = new IconButton(tr("旋转"), tr(":res/icons/zoom_out_o.svg"), tr(":res/icons/zoom_out.svg"));
 
     btnStopRecord->hide();
     btnStartRecord->setEnabled(false);
@@ -60,6 +61,7 @@ void CameraController1::init() {
     hLayout->addSpacing(40);
     hLayout->addWidget(btnZoomTele);
     hLayout->addWidget(btnZoomWide);
+    hLayout->addWidget(btnRotation);
     hLayout->addSpacing(40);
     hLayout->addWidget(btnStartRecord);
     hLayout->addWidget(btnStopRecord);
@@ -125,6 +127,8 @@ void CameraController1::init() {
 
     connect(btnZoomWide, SIGNAL(clicked(bool)), this, SIGNAL(zoomWide()));
     connect(btnZoomTele, SIGNAL(clicked(bool)), this, SIGNAL(zoomTele()));
+
+    connect(btnRotation, SIGNAL(clicked(bool)), this, SIGNAL(rotation()));
 }
 
 void CameraController1::resizeEvent(QResizeEvent *event) {

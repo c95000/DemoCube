@@ -24,11 +24,41 @@ const GLfloat kVertices[] = {
     1, 1,
     1, -1,
 };
+
+
+const GLfloat kVertices_vertical[] = {
+    -0.32, 1,
+    -0.32, -1,
+    0.32, 1,
+    0.32, -1,
+};
+
 const GLfloat kTexCoords[] = {
     0, 0,
     0, 1,
     1, 0,
     1, 1,
+};
+
+const GLfloat kTexCoords_90[] = {
+    0, 1,
+    1, 1,
+    0, 0,
+    1, 0,
+};
+
+const GLfloat kTexCoords_180[] = {
+    1, 1,
+    1, 0,
+    0, 1,
+    0, 0,
+};
+
+const GLfloat kTexCoords_270[] = {
+    1, 0,
+    0, 0,
+    1, 1,
+    0, 1,
 };
 
 char const *const* attributes()
@@ -171,6 +201,13 @@ void GLVideoWidget::copyCurrentImage(QImage& image) {
     saveImage(image);
 }
 
+void GLVideoWidget::rotationFunc() {
+    printf("%s is called.", __FUNCTION__);
+    int r = rotation;
+    r += 90;
+    rotation = r % 360;
+}
+
 void GLVideoWidget::bind()
 {
     for (int i = 0; i < plane.size(); ++i) {
@@ -309,8 +346,24 @@ void GLVideoWidget::paintGL()
     // uniform end. attribute begin
     // kVertices ...
     // normalize?
-    m_program->setAttributeArray(0, GL_FLOAT, kVertices, 2);
-    m_program->setAttributeArray(1, GL_FLOAT, kTexCoords, 2);
+
+    if(rotation == 0) {
+        m_program->setAttributeArray(0, GL_FLOAT, kVertices, 2);
+        m_program->setAttributeArray(1, GL_FLOAT, kTexCoords, 2);
+    } else if(rotation == 90) {
+        m_program->setAttributeArray(0, GL_FLOAT, kVertices_vertical, 2);
+        m_program->setAttributeArray(1, GL_FLOAT, kTexCoords_90, 2);
+    } else if(rotation == 180) {
+        m_program->setAttributeArray(0, GL_FLOAT, kVertices, 2);
+        m_program->setAttributeArray(1, GL_FLOAT, kTexCoords_180, 2);
+    } else if(rotation == 270) {
+        m_program->setAttributeArray(0, GL_FLOAT, kVertices_vertical, 2);
+        m_program->setAttributeArray(1, GL_FLOAT, kTexCoords_270, 2);
+    } else {
+        m_program->setAttributeArray(0, GL_FLOAT, kVertices, 2);
+        m_program->setAttributeArray(1, GL_FLOAT, kTexCoords, 2);
+    }
+
     char const *const *attr = attributes();
     for (int i = 0; attr[i][0]; ++i) {
         m_program->enableAttributeArray(i); //TODO: in setActiveShader
