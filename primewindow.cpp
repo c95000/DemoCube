@@ -122,6 +122,9 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     loading->setMaxDiameter(20);
     loading->setMinDiameter(1);
     loading->start();
+    QString content = QString("K3N0CV01L858108-N0CV1909MB0016491-C90C287D-4312-BA48-94EA-7AC7FBF724CA");
+    QString code = caculateChecksum(content);
+    printf("code is : %s", code.toStdString().c_str());
 }
 
 PrimeWindow::~PrimeWindow()
@@ -174,6 +177,7 @@ void PrimeWindow::connectCameraSignals() {
 //    connect(cameraController, SIGNAL(signalConnect(const QString&)), arnetWrapper, SLOT(connect(const QString&)));
     connect(cameraController, SIGNAL(zoomTele()), arnetWrapper, SLOT(zoomTele()));
     connect(cameraController, SIGNAL(zoomWide()), arnetWrapper, SLOT(zoomWide()));
+    connect(cameraController, SIGNAL(rotation()), cameraView, SLOT(rotation()));
     connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 
     connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(onConnect(const QString&)));

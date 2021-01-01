@@ -39,17 +39,7 @@ void CameraController1::init() {
 
     btnZoomTele = new IconButton(tr("放大"), tr(":res/icons/zoom_in_o.svg"), tr(":res/icons/zoom_in.svg"));
     btnZoomWide = new IconButton(tr("缩小"), tr(":res/icons/zoom_out_o.svg"), tr(":res/icons/zoom_out.svg"));
-
-    btnStopRecord->hide();
-    btnStartRecord->setEnabled(false);
-    btnStopRecord->setEnabled(false);
-    btnZoomTele->setEnabled(false);
-    btnZoomWide->setEnabled(false);
-    btnPlay->setEnabled(false);
-    btnPause->setEnabled(false);
-    btnDisconnect->setEnabled(false);
-    btnTakePicture->setEnabled(false);
-    btnComment->setEnabled(false);
+    btnRotation = new IconButton(tr("旋转"), tr(":res/icons/zoom_out_o.svg"), tr(":res/icons/zoom_out.svg"));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
@@ -60,6 +50,7 @@ void CameraController1::init() {
     hLayout->addSpacing(40);
     hLayout->addWidget(btnZoomTele);
     hLayout->addWidget(btnZoomWide);
+    hLayout->addWidget(btnRotation);
     hLayout->addSpacing(40);
     hLayout->addWidget(btnStartRecord);
     hLayout->addWidget(btnStopRecord);
@@ -67,6 +58,7 @@ void CameraController1::init() {
     hLayout->addWidget(btnComment);
     hLayout->addStretch();
 
+    enableButtons(false);
 
     recordIndicator = new RecordIndicator(this);
     recordIndicator->resize(130, 30);
@@ -125,6 +117,8 @@ void CameraController1::init() {
 
     connect(btnZoomWide, SIGNAL(clicked(bool)), this, SIGNAL(zoomWide()));
     connect(btnZoomTele, SIGNAL(clicked(bool)), this, SIGNAL(zoomTele()));
+
+    connect(btnRotation, SIGNAL(clicked(bool)), this, SIGNAL(rotation()));
 }
 
 void CameraController1::resizeEvent(QResizeEvent *event) {
@@ -144,18 +138,7 @@ void CameraController1::disconnected() {
 
 void CameraController1::played() {
     printf("%s() is called.", __FUNCTION__);
-//    btnPlay->hide();
-//    btnPause->show();
-    btnConnect->setEnabled(false);
-    btnPlay->setEnabled(true);
-    btnPause->setEnabled(true);
-    btnDisconnect->setEnabled(true);
-    btnTakePicture->setEnabled(true);
-    btnComment->setEnabled(true);
-    btnStartRecord->setEnabled(true);
-    btnStopRecord->setEnabled(true);
-    btnZoomTele->setEnabled(true);
-    btnZoomWide->setEnabled(true);
+    enableButtons(true);
 }
 
 void CameraController1::paused() {
@@ -166,17 +149,7 @@ void CameraController1::paused() {
 
 void CameraController1::stopped() {
     printf("%s() is called.", __FUNCTION__);
-    btnConnect->setEnabled(true);
-
-    btnPlay->setEnabled(false);
-    btnPause->setEnabled(false);
-    btnDisconnect->setEnabled(false);
-    btnTakePicture->setEnabled(false);
-    btnComment->setEnabled(false);
-    btnStartRecord->setEnabled(false);
-    btnStopRecord->setEnabled(false);
-    btnZoomTele->setEnabled(false);
-    btnZoomWide->setEnabled(false);
+    enableButtons(false);
 
     stopRecorded();
 }
@@ -192,4 +165,35 @@ void CameraController1::stopRecorded() {
     recordIndicator->stop();
     btnStartRecord->show();
     btnStopRecord->hide();
+}
+
+void CameraController1::enableButtons(bool enable) {
+    if(!enable) {
+        btnStopRecord->hide();
+        btnConnect->setEnabled(true);
+
+        btnStartRecord->setEnabled(false);
+        btnStopRecord->setEnabled(false);
+        btnZoomTele->setEnabled(false);
+        btnZoomWide->setEnabled(false);
+        btnPlay->setEnabled(false);
+        btnPause->setEnabled(false);
+        btnDisconnect->setEnabled(false);
+        btnTakePicture->setEnabled(false);
+        btnComment->setEnabled(false);
+        btnRotation->setEnabled(false);
+    } else {
+        btnConnect->setEnabled(false);
+
+        btnPlay->setEnabled(true);
+        btnPause->setEnabled(true);
+        btnDisconnect->setEnabled(true);
+        btnTakePicture->setEnabled(true);
+        btnComment->setEnabled(true);
+        btnStartRecord->setEnabled(true);
+        btnStopRecord->setEnabled(true);
+        btnZoomTele->setEnabled(true);
+        btnZoomWide->setEnabled(true);
+        btnRotation->setEnabled(true);
+    }
 }

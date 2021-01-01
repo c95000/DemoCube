@@ -42,6 +42,8 @@ public:
     void stopRenderring();
 
     void copyCurrentImage(QImage& image);
+
+    void rotationFunc();
 protected:
     void bind();
     void bindPlane(int p);
@@ -88,6 +90,7 @@ private:
 
     bool isRenderring = true;
     int textPos = 0;
+    int rotation = 0;
 };
 
 #endif // WIDGET_H
