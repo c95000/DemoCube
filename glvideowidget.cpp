@@ -204,7 +204,7 @@ void GLVideoWidget::copyCurrentImage(QImage& image) {
 void GLVideoWidget::rotationFunc() {
     printf("%s is called.", __FUNCTION__);
     int r = rotation;
-    r += 90;
+    r += 180;
     rotation = r % 360;
 }
 
