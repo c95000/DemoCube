@@ -31,9 +31,13 @@ void IconButton::init() {
     this->setIcon(defaultIcon);
 
     QString styleSheet = this->styleSheet();
-    styleSheet += "QToolButton{border-style:flat}";
-    styleSheet += "QToolButton{border:1px solid #888888;border-radius:5px;font-size:12px}";
-    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px;font-size:14px}";
+    styleSheet += "QToolButton{border-style:flat;border-radius:5px;}";
+
+//    styleSheet += "QToolButton{border:1px solid #888888;border-radius:5px;font-size:12px}";
+//    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px;font-size:14px}";
+
+    styleSheet += "QToolButton{background-color:#33000000;color:rgb(0,0,0,255);font-size:14px}";
+    styleSheet += "QToolButton:hover{background-color:#80000000;color:rgb(255,255,255,255);font-size:16px;font-weight:500}";
     setStyleSheet(styleSheet);
 
     setFixedSize(60, 60);
