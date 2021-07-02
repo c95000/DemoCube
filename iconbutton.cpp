@@ -37,9 +37,13 @@ void IconButton::init() {
 //    styleSheet += "QToolButton{border:1px solid #888888;border-radius:5px;font-size:12px}";
 //    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px;font-size:14px}";
 
-    styleSheet += "QToolButton{background-color:#33000000;color:rgb(0,0,0,255);font-size:12px;}";
-    styleSheet += "QToolButton:hover{background-color:#80000000;color:rgb(255,255,255,255);font-size:14px;font-weight:400}";
-    styleSheet += "QToolButton:disabled{background-color:#33000000;color:rgb(255,255,255,255);font-size:12px}";
+    styleSheet += "QToolButton{background-color:#33000000;color:rgb(0,0,0,255);font-size:14px;"
+                  "border-left:2px solid #ffffff;border-top:2px solid #ffffff;border-right:2px solid #888888;border-bottom:2px solid #888888;}";
+    styleSheet += "QToolButton:hover{background-color:#80000000;color:rgb(255,255,255,255);font-size:14px;font-weight:400;}";
+    styleSheet += "QToolButton:pressed{background-color:#80000000;color:rgb(255,255,255,255);font-size:14px;font-weight:400;"
+                  "border-left:2px solid #888888;border-top:2px solid #888888;border-right:2px solid #ffffff;border-bottom:2px solid #ffffff;"
+                  "margin-left:2px;margin-top:2px}";
+    styleSheet += "QToolButton:disabled{background-color:#33000000;color:rgb(240,240,240,255);font-size:12px}";
     setStyleSheet(styleSheet);
 
     setFixedSize(60, 60);

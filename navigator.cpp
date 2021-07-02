@@ -14,7 +14,7 @@ Navigator::Navigator(QWidget *parent) :
     items<<"video"<<"camera"<<"whiteboard";
 
     QStringList buttonTitle;
-    buttonTitle<<"回放"<<"摄像头"<<"白板";
+    buttonTitle<<"回放"<<"摄像机"<<"白板";
 
     /*单选菜单效果*/
     buttonGround = new QButtonGroup();
