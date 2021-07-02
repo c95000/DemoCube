@@ -58,6 +58,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     Util.cpp \
+    mainwindowv12.cpp \
     mp4encoder.cpp \
     mypaint.cpp \
     navigator.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     linestate.h \
     mainwindow.h \
     Util.h \
+    mainwindowv12.h \
     mp4encoder.h \
     mypaint.h \
     navigator.h \
@@ -144,6 +146,7 @@ FORMS += \
     imagedisplay.ui \
     linestate.ui \
     mainwindow.ui \
+    mainwindowv12.ui \
     navigator.ui \
     primewindow.ui \
     recordlabel.ui \

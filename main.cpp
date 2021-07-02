@@ -24,13 +24,15 @@
 #include "penstyle.h"
 #include "penstate.h"
 #include "assist.h"
+#include "mainwindowv12.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
 //    MainWindow w;
-    PrimeWindow w;
+      MainWindowV12 w;
+//    PrimeWindow w;
 //    FreeDrawingMenu w;
 //    LineState w;
 //    FreeDrawing w;
