@@ -23,7 +23,7 @@ Assist::Assist(QWidget *parent) : QWidget(parent)
     setLayout(hLayout);
 
     QString styleSheet = this->styleSheet();
-    styleSheet += "Assist{border-radius:10px;border:1px solid #aaaaaa;}";
+    styleSheet += "Assist{}";
     setStyleSheet(styleSheet);
 
 

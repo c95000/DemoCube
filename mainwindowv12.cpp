@@ -34,7 +34,7 @@ MainWindowV12::MainWindowV12(QWidget *parent) :
 
     viewStack = new QStackedWidget();
     viewStack->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    viewStack->setStyleSheet("QStackedWidget{border:1px solid #aaaaaa;}");
+    viewStack->setStyleSheet("QStackedWidget{background-color:#aaaaaa;}");
     viewStack->addWidget(videoView);
     viewStack->addWidget(cameraView);
     viewStack->addWidget(whiteboardView);
@@ -51,7 +51,7 @@ MainWindowV12::MainWindowV12(QWidget *parent) :
     controllerStack = new QStackedWidget();
     controllerStack->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     controllerStack->setMinimumHeight(bottomMinimumHeight);
-    controllerStack->setStyleSheet("QStackedWidget{border-radius:10px;border:1px solid #aaaaaa;}");
+    controllerStack->setStyleSheet("QStackedWidget{}");
 
     controllerStack->addWidget(videoController);
     controllerStack->addWidget(cameraController);
@@ -63,7 +63,7 @@ MainWindowV12::MainWindowV12(QWidget *parent) :
     QStackedWidget* navigatorStack = new QStackedWidget();
     navigatorStack->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     navigatorStack->setMinimumHeight(bottomMinimumHeight);
-    navigatorStack->setStyleSheet("QStackedWidget{border-radius:10px;border:1px solid #aaaaaa;}");
+    navigatorStack->setStyleSheet("QStackedWidget{}");
     navigatorStack->addWidget(navigator);
 
     assist = new Assist();
@@ -82,7 +82,38 @@ MainWindowV12::MainWindowV12(QWidget *parent) :
     vLayout->addWidget(viewStack, 1);
     vLayout->addLayout(bottomLayout);
 
-    ui->centralwidget->setLayout(vLayout);
+
+
+
+    QPushButton *pb,*pb1,*pb2,*pb3,*pb4,*pb5,*pb6;
+    pb=new QPushButton("AAA");   	 pb1=new QPushButton("BBB");    pb2=new QPushButton("CCC");
+    pb3=new QPushButton("DDD");    pb4=new QPushButton("EEE");
+    pb5=new QPushButton("FFF");    pb6=new QPushButton("GGG");
+
+    QWidget *pw1;
+    pw1 = new QWidget();
+    pw1->setStyleSheet("background-color:black;");
+
+    QGridLayout *pg=new QGridLayout;
+//    pg->setVerticalSpacing(22);   //设置各子部件之间的垂直间距，不会为该间距分配索引。
+    pg->addWidget(viewStack,0,0,1,2);  //把按钮pb添加到第0行0列，该按钮占据1行和1列单元格。
+//    pg->addWidget(pb1,0,1,1,1);
+    pg->addWidget(navigatorStack,1,0,1,1);  //该按钮占据3列单元格的宽度
+    pg->addWidget(controllerStack,1,1,1,1);  //该按钮占据3列单元格的宽度
+    pg->addWidget(assist,1,2,1,1);  //pb3在其单元格内左下对齐
+    ui->centralwidget->setLayout(pg);
+
+    pg->setRowStretch(0, 1);
+    pg->setRowStretch(1, 0);
+    pg->setColumnStretch(1, 1);
+//    pg->setColumnStretch(0, 1);
+//    pg->setColumnStretch(1, 0);
+//    pg->setRowMinimumHeight(1,100);  //把第2行的最小高度设置为66像素
+//    pg->setColumnMinimumWidth(1,100);  //把第0列的最小宽度设置为111像素
+
+    printf("column: %d row: %d", pg->columnCount(), pg->rowCount());
+
+//    ui->centralwidget->setLayout(vLayout);
 
 
     arnetWrapper = new ArnetWrapper();

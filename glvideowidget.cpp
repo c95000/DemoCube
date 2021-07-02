@@ -326,7 +326,7 @@ void GLVideoWidget::paintGL()
     Q_UNUSED(lock);
     if (plane.isEmpty() || !plane[0].data) {
         //清除之前图形并将背景设置为黑色（设置为黑色纯粹个人爱好！）
-        glClearColor(200.0/255, 200.0/255, 200.0/255, 1.0f);
+        glClearColor(170.0/255, 170.0/255, 170.0/255, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         return;
     }

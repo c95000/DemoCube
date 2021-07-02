@@ -51,6 +51,7 @@ void CameraController1::init() {
     btnDisconnect->setEnabled(false);
     btnTakePicture->setEnabled(false);
     btnComment->setEnabled(false);
+    btnRotation->setEnabled(false);
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
@@ -160,6 +161,7 @@ void CameraController1::played() {
     btnStopRecord->setEnabled(true);
     btnZoomTele->setEnabled(true);
     btnZoomWide->setEnabled(true);
+    btnRotation->setEnabled(true);
 }
 
 void CameraController1::paused() {
@@ -181,6 +183,7 @@ void CameraController1::stopped() {
     btnStopRecord->setEnabled(false);
     btnZoomTele->setEnabled(false);
     btnZoomWide->setEnabled(false);
+    btnRotation->setEnabled(false);
 
     stopRecorded();
 }

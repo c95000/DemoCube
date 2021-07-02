@@ -3,6 +3,7 @@
 #include <QBitmap>
 #include <QtSvg/QSvgRenderer>
 #include <QDomDocument>
+#include <QGraphicsDropShadowEffect>
 
 IconButton::IconButton(QWidget *parent) : QToolButton(parent) {
     QString styleSheet = this->styleSheet();
@@ -36,11 +37,13 @@ void IconButton::init() {
 //    styleSheet += "QToolButton{border:1px solid #888888;border-radius:5px;font-size:12px}";
 //    styleSheet += "QToolButton:hover{border:2px solid black;border-radius:5px;font-size:14px}";
 
-    styleSheet += "QToolButton{background-color:#33000000;color:rgb(0,0,0,255);font-size:14px}";
-    styleSheet += "QToolButton:hover{background-color:#80000000;color:rgb(255,255,255,255);font-size:16px;font-weight:500}";
+    styleSheet += "QToolButton{background-color:#33000000;color:rgb(0,0,0,255);font-size:12px;}";
+    styleSheet += "QToolButton:hover{background-color:#80000000;color:rgb(255,255,255,255);font-size:14px;font-weight:400}";
+    styleSheet += "QToolButton:disabled{background-color:#33000000;color:rgb(255,255,255,255);font-size:12px}";
     setStyleSheet(styleSheet);
 
     setFixedSize(60, 60);
+
 
 
 //    QString styleSheet = this->styleSheet();
