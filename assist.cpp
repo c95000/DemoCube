@@ -2,9 +2,8 @@
 #include <QStyleOption>
 #include <QPainter>
 #include <QDialog>
-#include "SettingDialog.h"
 #include "aboutdialog.h"
-
+#include "settingdialogv2.h"
 Assist::Assist(QWidget *parent) : QWidget(parent)
 {
 
@@ -29,7 +28,7 @@ Assist::Assist(QWidget *parent) : QWidget(parent)
 
     connect(btnSetting, &QPushButton::clicked, [=]() {
         printf("onSettingButtonClicked");
-        SettingDialog *dlg=new SettingDialog(this);
+        SettingDialogV2 *dlg=new SettingDialogV2(this);
 
         int ret = dlg->exec();
         if(ret==QDialog::Accepted) {

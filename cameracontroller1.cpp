@@ -1,7 +1,8 @@
 #include "cameracontroller1.h"
 #include <QFileDialog>
 #include <QInputDialog>
-
+#include <QButtonGroup>
+#include "common.h"
 CameraController1::CameraController1(QWidget *parent) : QWidget(parent)
 {
     init();
@@ -21,8 +22,19 @@ void CameraController1::init() {
         sourceUrl = tr("rtsp://192.168.1.225/");
     }
 
-    btnConnect = new IconButton(tr("连接"), tr(":res/icons/connect_camera_o.svg"), tr(":res/icons/connect_camera.svg"));
-    btnConnect->setFixedSize(60, 60);
+    btnConnect1 = new IconButton(tr("CH1"), tr(":res/icons/connect_camera_o.svg"), tr(":res/icons/connect_camera.svg"));
+    btnConnect1->setFixedSize(60, 60);
+
+
+    btnConnect2 = new IconButton(tr("CH2"), tr(":res/icons/connect_camera_o.svg"), tr(":res/icons/connect_camera.svg"));
+    btnConnect2->setFixedSize(60, 60);
+    btnConnect2->setEnabled(false);
+
+    btnConnect3 = new IconButton(tr("CH3"), tr(":res/icons/connect_camera_o.svg"), tr(":res/icons/connect_camera.svg"));
+    btnConnect3->setFixedSize(60, 60);
+    btnConnect3->setEnabled(false);
+
+
     btnPlay = new QPushButton("播放");
     btnPlay->hide();
     btnPause = new QPushButton("暂停");
@@ -53,17 +65,34 @@ void CameraController1::init() {
     btnComment->setEnabled(false);
     btnRotation->setEnabled(false);
 
+
+    /*单选菜单效果*/
+    buttonGround = new QButtonGroup();
+    buttonGround->setExclusive(true);
+    connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SLOT(onButtonToggled(int, bool)));
+    connect(buttonGround, SIGNAL(buttonPressed(int)), this, SLOT(onButtonPressed(int)));
+
+    //    btnConnect1->setCheckable(true);
+    //    btnConnect2->setCheckable(true);
+    //    btnConnect3->setCheckable(true);
+    buttonGround->addButton(btnConnect1, 0);
+    buttonGround->addButton(btnConnect2, 1);
+    buttonGround->addButton(btnConnect3, 2);
+
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
-    hLayout->addWidget(btnConnect);
+    hLayout->addWidget(btnConnect1);
+    hLayout->addWidget(btnConnect2);
+    hLayout->addWidget(btnConnect3);
+    hLayout->addSpacing(30);
     hLayout->addWidget(btnDisconnect);
     hLayout->addWidget(btnPlay);
     hLayout->addWidget(btnPause);
-    hLayout->addSpacing(40);
+    hLayout->addSpacing(30);
     hLayout->addWidget(btnZoomTele);
     hLayout->addWidget(btnZoomWide);
     hLayout->addWidget(btnRotation);
-    hLayout->addSpacing(40);
+    hLayout->addSpacing(30);
     hLayout->addWidget(btnStartRecord);
     hLayout->addWidget(btnStopRecord);
     hLayout->addWidget(btnTakePicture);
@@ -73,49 +102,36 @@ void CameraController1::init() {
 
     recordIndicator = new RecordIndicator(this);
     recordIndicator->resize(130, 30);
-//    QHBoxLayout *recordLayout = new QHBoxLayout();
-//    QSpacerItem *leftSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
-//    recordLayout->addSpacerItem(leftSpacer);
-//    recordLayout->addStretch();
-//    recordLayout->addWidget(recordIndicator);
-//    recordLayout->addStretch();
+    //    QHBoxLayout *recordLayout = new QHBoxLayout();
+    //    QSpacerItem *leftSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
+    //    recordLayout->addSpacerItem(leftSpacer);
+    //    recordLayout->addStretch();
+    //    recordLayout->addWidget(recordIndicator);
+    //    recordLayout->addStretch();
 
-//    QVBoxLayout *vLayout = new QVBoxLayout();
-//    vLayout->addLayout(recordLayout);
-//    vLayout->addLayout(hLayout);
+    //    QVBoxLayout *vLayout = new QVBoxLayout();
+    //    vLayout->addLayout(recordLayout);
+    //    vLayout->addLayout(hLayout);
 
 
     setLayout(hLayout);
 
-    connect(btnConnect, &QPushButton::clicked, this, [=]() {
-//        sourceUrl = "C:\\nginx-1.16.0\\html\\mfc\\20s_video.mp4";
+    //    connect(btnConnect1, &QPushButton::clicked, this, [=]() {
+    //        QString ip = Configure::getInstance()->getCameraIp(0);
 
-//        printf("on_btnLocal_clicked");
-//        QString videoPath = Configure::getInstance()->getVideopath();
-//        QString filename = QFileDialog::getOpenFileName(this,tr("action"),videoPath,"",0);
-//        if(filename.isEmpty()) {
-//            return;
-//        }
-
-//        printf("filename: %s", filename.toStdString().c_str());
-//        filename = filename.replace("/", "\\");
-//        sourceUrl = filename;
-
-        QString ip = Configure::getInstance()->getCameraIp(0);
-
-        bool isOK;//QInputDialog 是否成功得到输入
-        QString text = QInputDialog::getText(NULL,
-                                             "设置",
-                                             "输入摄像头IP，如: 192.168.1.100",
-                                             QLineEdit::Normal,
-                                             ip,
-                                             &isOK);
-        if(isOK) {
-            Configure::getInstance()->setCameraIp(0, text);
-            printf("text: %s", text.toStdString().c_str());
-            emit signalConnect(text);
-        }
-    });
+    //        bool isOK;//QInputDialog 是否成功得到输入
+    //        QString text = QInputDialog::getText(NULL,
+    //                                             "设置",
+    //                                             "输入摄像头IP，如: 192.168.1.100",
+    //                                             QLineEdit::Normal,
+    //                                             ip,
+    //                                             &isOK);
+    //        if(isOK) {
+    //            Configure::getInstance()->setCameraIp(0, text);
+    //            printf("text: %s", text.toStdString().c_str());
+    //            emit signalConnect(text);
+    //        }
+    //    });
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
 
     connect(btnPlay, SIGNAL(clicked(bool)), this, SIGNAL(play()));
@@ -133,9 +149,9 @@ void CameraController1::init() {
 }
 
 void CameraController1::resizeEvent(QResizeEvent *event) {
-//    QSize size = btnConnect->size();
-//    QPoint point = btnConnect->pos();
-    recordIndicator->move((width() - recordIndicator->width())/2, btnConnect->y() - recordIndicator->height());
+    //    QSize size = btnConnect->size();
+    //    QPoint point = btnConnect->pos();
+    recordIndicator->move((width() - recordIndicator->width())/2, btnConnect1->y() - recordIndicator->height());
 }
 
 void CameraController1::connected() {
@@ -144,14 +160,14 @@ void CameraController1::connected() {
 
 void CameraController1::disconnected() {
     printf("%s() is called.", __FUNCTION__);
-    btnConnect->setEnabled(true);
+    btnConnect1->setEnabled(true);
 }
 
 void CameraController1::played() {
     printf("%s() is called.", __FUNCTION__);
-//    btnPlay->hide();
-//    btnPause->show();
-    btnConnect->setEnabled(false);
+    //    btnPlay->hide();
+    //    btnPause->show();
+    btnConnect1->setEnabled(false);
     btnPlay->setEnabled(true);
     btnPause->setEnabled(true);
     btnDisconnect->setEnabled(true);
@@ -172,7 +188,7 @@ void CameraController1::paused() {
 
 void CameraController1::stopped() {
     printf("%s() is called.", __FUNCTION__);
-    btnConnect->setEnabled(true);
+    btnConnect1->setEnabled(true);
 
     btnPlay->setEnabled(false);
     btnPause->setEnabled(false);
@@ -199,4 +215,50 @@ void CameraController1::stopRecorded() {
     recordIndicator->stop();
     btnStartRecord->show();
     btnStopRecord->hide();
+}
+
+void CameraController1::onButtonToggled(int index, bool checked) {
+    printf("%s() index: %d checked: %d", __FUNCTION__, index, checked);
+    if(!checked) {
+
+    }
+    if(checked) {
+        QString ip = Configure::getInstance()->getCameraIp(index);
+
+        bool isOK;//QInputDialog 是否成功得到输入
+        QString text = QInputDialog::getText(NULL,
+                                             "设置",
+                                             "输入摄像头IP，如: 192.168.1.100",
+                                             QLineEdit::Normal,
+                                             ip,
+                                             &isOK);
+        if(isOK && !text.isNull() && !text.isEmpty()) {
+            Configure::getInstance()->setCameraIp(index, text);
+            printf("text: %s", text.toStdString().c_str());
+            emit signalConnect(text);
+        } else {
+            emit releaseButton(index);
+        }
+    }
+}
+
+void CameraController1::onButtonPressed(int index) {
+    printf("%s() index: %d", __FUNCTION__, index);
+    buttonGround->button(index)->setCheckable(true);
+
+    QString ip = Configure::getInstance()->getCameraIp(index);
+
+    bool isOK;//QInputDialog 是否成功得到输入
+    QString text = QInputDialog::getText(NULL,
+                                         "设置",
+                                         "输入摄像头IP，如: 192.168.1.100",
+                                         QLineEdit::Normal,
+                                         ip,
+                                         &isOK);
+    printf("isOK: %d text: %s", isOK, text.toStdString().c_str());
+    if(isOK && !text.isNull() && !text.isEmpty()) {
+        Configure::getInstance()->setCameraIp(index, text);
+        printf("text: %s", text.toStdString().c_str());
+        emit signalConnect(text);
+    }
 }

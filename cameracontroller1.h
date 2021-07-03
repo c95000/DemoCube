@@ -37,6 +37,7 @@ signals:
     void zoomTele();
 
     void rotation();
+    void releaseButton(int);
 
 public slots:
     void connected();
@@ -48,10 +49,15 @@ public slots:
 private slots:
     void startRecorded();
     void stopRecorded();
-
+    void onButtonToggled(int index, bool);
+    void onButtonPressed(int index);
 
 private:
-    IconButton *btnConnect;
+    QButtonGroup *buttonGround;
+
+    IconButton *btnConnect1;
+    IconButton *btnConnect2;
+    IconButton *btnConnect3;
     QPushButton *btnPlay;
     QPushButton *btnPause;
     IconButton *btnDisconnect;

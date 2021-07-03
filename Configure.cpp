@@ -46,11 +46,11 @@ QString Configure::getVideopath() {
 QString Configure::getCameraIp(int index) {
     QString key = tr("camera/ip%1").arg(index);
     QString value = configFile->value(key,
-                                      tr("192.168.1.100")).toString();
+                                      tr("")).toString();
     return value;
 }
 
-void Configure::setCameraIp(int index, QString& ip) {
+void Configure::setCameraIp(int index, const QString& ip) {
     QString key = tr("camera/ip%1").arg(index);
     configFile->setValue(key, ip);
 }

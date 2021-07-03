@@ -29,7 +29,7 @@ public:
     QString getPicpath();
     QString getVideopath();
     QString getCameraIp(int index);
-    void setCameraIp(int index, QString& ip);
+    void setCameraIp(int index, const QString& ip);
     bool isAllowCommenting();
     bool isOfficial();
 

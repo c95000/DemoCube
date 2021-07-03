@@ -25,13 +25,15 @@
 #include "penstate.h"
 #include "assist.h"
 #include "mainwindowv12.h"
-
+#include "SettingDialog.h"
+#include "settingdialogv2.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
 //    MainWindow w;
       MainWindowV12 w;
+//    CameraController1 w;
 //    PrimeWindow w;
 //    FreeDrawingMenu w;
 //    LineState w;
