@@ -361,7 +361,13 @@ void FFDecoder::setSource(const QString &inputSrc, ffdecoder_video_format_cb vid
     inputSource = inputSrc;
 }
 
-void FFDecoder::play() {
+void FFDecoder::play(bool replay) {
+    if(replay && (isState(FFDECODER_PAUSED) || isState(FFDECODER_PLAYING))) {
+        setState(FFDECODER_STOPPED);
+        quit();
+        printf("L:%d FFDecoder %s() ", __LINE__, __FUNCTION__);
+        wait();
+    }
     if(isState(FFDECODER_PAUSED) && isState(FFDECODER_PLAYING)) {
         setState(FFDECODER_PAUSED, false);
         emit played();

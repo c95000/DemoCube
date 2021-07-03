@@ -28,11 +28,11 @@ void CameraController1::init() {
 
     btnConnect2 = new IconButton(tr("CH2"), tr(":res/icons/connect_camera_o.svg"), tr(":res/icons/connect_camera.svg"));
     btnConnect2->setFixedSize(60, 60);
-    btnConnect2->setEnabled(false);
+    //    btnConnect2->setEnabled(false);
 
     btnConnect3 = new IconButton(tr("CH3"), tr(":res/icons/connect_camera_o.svg"), tr(":res/icons/connect_camera.svg"));
     btnConnect3->setFixedSize(60, 60);
-    btnConnect3->setEnabled(false);
+    //    btnConnect3->setEnabled(false);
 
 
     btnPlay = new QPushButton("播放");
@@ -65,6 +65,10 @@ void CameraController1::init() {
     btnComment->setEnabled(false);
     btnRotation->setEnabled(false);
 
+
+    btnConnect1->setCheckable(true);
+    btnConnect2->setCheckable(true);
+    btnConnect3->setCheckable(true);
 
     /*单选菜单效果*/
     //    buttonGround = new QButtonGroup();
@@ -117,21 +121,26 @@ void CameraController1::init() {
     setLayout(hLayout);
 
     connect(btnConnect1, &QPushButton::clicked, this, [=]() {
-        QString ip = Configure::getInstance()->getCameraIp(0);
-
-        bool isOK;//QInputDialog 是否成功得到输入
-        QString text = QInputDialog::getText(NULL,
-                                             "设置",
-                                             "输入摄像头IP，如: 192.168.1.100",
-                                             QLineEdit::Normal,
-                                             ip,
-                                             &isOK);
-        if(isOK) {
-            Configure::getInstance()->setCameraIp(0, text);
-            printf("text: %s", text.toStdString().c_str());
-            emit signalConnect(text);
-        }
+        btnConnect1->setChecked(true);
+        btnConnect2->setChecked(false);
+        btnConnect3->setChecked(false);
+        connectSource(0);
     });
+
+    connect(btnConnect2, &QPushButton::clicked, this, [=]() {
+        btnConnect1->setChecked(false);
+        btnConnect2->setChecked(true);
+        btnConnect3->setChecked(false);
+        connectSource(1);
+    });
+
+    connect(btnConnect3, &QPushButton::clicked, this, [=]() {
+        btnConnect1->setChecked(false);
+        btnConnect2->setChecked(false);
+        btnConnect3->setChecked(true);
+        connectSource(2);
+    });
+
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
 
     connect(btnPlay, SIGNAL(clicked(bool)), this, SIGNAL(play()));
@@ -160,14 +169,14 @@ void CameraController1::connected() {
 
 void CameraController1::disconnected() {
     printf("%s() is called.", __FUNCTION__);
-    btnConnect1->setEnabled(true);
+    btnConnect1->setChecked(false);
+    btnConnect2->setChecked(false);
+    btnConnect3->setChecked(false);
 }
 
 void CameraController1::played() {
     printf("%s() is called.", __FUNCTION__);
-    //    btnPlay->hide();
-    //    btnPause->show();
-    btnConnect1->setEnabled(false);
+
     btnPlay->setEnabled(true);
     btnPause->setEnabled(true);
     btnDisconnect->setEnabled(true);
@@ -188,7 +197,7 @@ void CameraController1::paused() {
 
 void CameraController1::stopped() {
     printf("%s() is called.", __FUNCTION__);
-    btnConnect1->setEnabled(true);
+//    btnConnect1->setEnabled(true);
 
     btnPlay->setEnabled(false);
     btnPause->setEnabled(false);
@@ -261,4 +270,22 @@ void CameraController1::onButtonPressed(int index) {
         printf("text: %s", text.toStdString().c_str());
         emit signalConnect(text);
     }
+}
+
+void CameraController1::connectSource(int index) {
+    QString ip = Configure::getInstance()->getCameraIp(index);
+
+    if(ip.isNull() || ip.isEmpty()) {
+        bool isOK;//QInputDialog 是否成功得到输入
+        ip = QInputDialog::getText(NULL,
+                                   "设置",
+                                   "输入摄像头IP，如: 192.168.1.100",
+                                   QLineEdit::Normal,
+                                   ip,
+                                   &isOK);
+    }
+
+    Configure::getInstance()->setCameraIp(index, ip);
+    printf("text: %s", ip.toStdString().c_str());
+    emit signalConnect(ip);
 }

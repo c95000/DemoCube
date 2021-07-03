@@ -43,7 +43,7 @@ signals:
 
 public:
     void setSource(const QString& inputSrc, ffdecoder_video_format_cb video_format_cb = nullptr, ffdecoder_data_available_cb data_available_cb = nullptr, void* opaque = nullptr);
-    void play();
+    void play(bool replay = false);
     void stop();
     void pause();
     void resume();

@@ -3,7 +3,7 @@
 
 #define MyAppName "สตัตำลัง1.0"
 #define MyAppVersion "1.0"
-#define MyAppExeName "RtspPlayerV3.exe"
+#define MyAppExeName "DemoCubeV12.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -30,7 +30,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: ".\bin32\RtspPlayerV3.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\bin32\DemoCubeV12.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\bin32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

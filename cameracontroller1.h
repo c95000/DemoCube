@@ -52,6 +52,8 @@ private slots:
     void onButtonToggled(int index, bool);
     void onButtonPressed(int index);
 
+    void connectSource(int index);
+
 private:
     QButtonGroup *buttonGround;
 
