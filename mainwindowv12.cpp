@@ -162,14 +162,6 @@ void MainWindowV12::connectViewSignals() {
 }
 void MainWindowV12::connectCameraSignals() {
 
-//    void signalConnect(const QString& sourceUrl);
-//    void signalDisconnect();
-//    void play();
-//    void pause();
-//    void takePicture();
-//    void comment();
-
-//    connect(cameraController, SIGNAL(signalConnect(const QString&)), cameraView, SLOT(play(const QString&)));
     connect(cameraController, SIGNAL(signalDisconnect()), cameraView, SLOT(stop()));
     connect(cameraController, SIGNAL(play()), cameraView, SLOT(play()));
     connect(cameraController, SIGNAL(pause()), cameraView, SLOT(pause()));
@@ -186,14 +178,12 @@ void MainWindowV12::connectCameraSignals() {
     connect(cameraView, SIGNAL(startRecorded()), cameraController, SLOT(startRecorded()));
     connect(cameraView, SIGNAL(stopRecorded()), cameraController, SLOT(stopRecorded()));
 
-//    connect(cameraController, SIGNAL(signalConnect(const QString&)), arnetWrapper, SLOT(connect(const QString&)));
     connect(cameraController, SIGNAL(zoomTele()), arnetWrapper, SLOT(zoomTele()));
     connect(cameraController, SIGNAL(zoomWide()), arnetWrapper, SLOT(zoomWide()));
     connect(cameraController, SIGNAL(rotation()), cameraView, SLOT(rotation()));
     connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 
     connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(onConnect(const QString&)));
-//    connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(checkPermission()));
 }
 void MainWindowV12::connectWhiteboardSignals() {
 
@@ -225,16 +215,6 @@ void MainWindowV12::checkPermission(){
 void MainWindowV12::onConnect(const QString ip) {
 
     loading->show();
-//    QTimer *myTimer = new QTimer(this);
-//    myTimer->start(1000*10);
-//    connect(myTimer,&QTimer::timeout,[=](){
-
-//            myTimer->stop();
-//            static int i = 0;
-//            i++;
-//            //ui->lcdNumber->display(i);
-//            loading->close();
-//        });
     bool ret = arnetWrapper->connect(ip);
     if(ret) {
         loading->close();

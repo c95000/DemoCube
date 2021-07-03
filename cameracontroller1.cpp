@@ -67,17 +67,17 @@ void CameraController1::init() {
 
 
     /*单选菜单效果*/
-    buttonGround = new QButtonGroup();
-    buttonGround->setExclusive(true);
-    connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SLOT(onButtonToggled(int, bool)));
-    connect(buttonGround, SIGNAL(buttonPressed(int)), this, SLOT(onButtonPressed(int)));
+    //    buttonGround = new QButtonGroup();
+    //    buttonGround->setExclusive(true);
+    //    connect(buttonGround, SIGNAL(buttonToggled(int, bool)), this, SLOT(onButtonToggled(int, bool)));
+    //    connect(buttonGround, SIGNAL(buttonPressed(int)), this, SLOT(onButtonPressed(int)));
 
-    //    btnConnect1->setCheckable(true);
-    //    btnConnect2->setCheckable(true);
-    //    btnConnect3->setCheckable(true);
-    buttonGround->addButton(btnConnect1, 0);
-    buttonGround->addButton(btnConnect2, 1);
-    buttonGround->addButton(btnConnect3, 2);
+    //    //    btnConnect1->setCheckable(true);
+    //    //    btnConnect2->setCheckable(true);
+    //    //    btnConnect3->setCheckable(true);
+    //    buttonGround->addButton(btnConnect1, 0);
+    //    buttonGround->addButton(btnConnect2, 1);
+    //    buttonGround->addButton(btnConnect3, 2);
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addStretch();
@@ -116,22 +116,22 @@ void CameraController1::init() {
 
     setLayout(hLayout);
 
-    //    connect(btnConnect1, &QPushButton::clicked, this, [=]() {
-    //        QString ip = Configure::getInstance()->getCameraIp(0);
+    connect(btnConnect1, &QPushButton::clicked, this, [=]() {
+        QString ip = Configure::getInstance()->getCameraIp(0);
 
-    //        bool isOK;//QInputDialog 是否成功得到输入
-    //        QString text = QInputDialog::getText(NULL,
-    //                                             "设置",
-    //                                             "输入摄像头IP，如: 192.168.1.100",
-    //                                             QLineEdit::Normal,
-    //                                             ip,
-    //                                             &isOK);
-    //        if(isOK) {
-    //            Configure::getInstance()->setCameraIp(0, text);
-    //            printf("text: %s", text.toStdString().c_str());
-    //            emit signalConnect(text);
-    //        }
-    //    });
+        bool isOK;//QInputDialog 是否成功得到输入
+        QString text = QInputDialog::getText(NULL,
+                                             "设置",
+                                             "输入摄像头IP，如: 192.168.1.100",
+                                             QLineEdit::Normal,
+                                             ip,
+                                             &isOK);
+        if(isOK) {
+            Configure::getInstance()->setCameraIp(0, text);
+            printf("text: %s", text.toStdString().c_str());
+            emit signalConnect(text);
+        }
+    });
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
 
     connect(btnPlay, SIGNAL(clicked(bool)), this, SIGNAL(play()));

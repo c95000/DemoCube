@@ -38,6 +38,7 @@ void FFDecoder::run() {
     AVDictionary *options = NULL;
 
     av_dict_set(&options, "rtsp_transport" , "tcp", 0);
+    av_dict_set(&options, "stimeout" , "5000000", 0);
 
     // A1. 打开视频文件：读取文件头，将文件格式信息存储在"fmt context"中
     ret = avformat_open_input(&p_fmt_ctx, url, NULL, &options);

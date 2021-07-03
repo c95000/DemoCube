@@ -14,33 +14,43 @@ Http::Http()
 QByteArray Http::Post(QByteArray data,
                       bool isAsync)
 {
+    QTimer timer;
+    timer.setSingleShot(true);
+
     QNetworkAccessManager manager;
     QEventLoop eventLoop;
+
+    QObject::connect(&timer, SIGNAL(timeout()), &eventLoop, SLOT(quit()));
     QObject::connect(&manager, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
     QNetworkRequest request;
     request.setUrl(QUrl(m_dest));
-//    LogEvent::postLog(LogEvent::LOG_DEBUG, QString(__FUNCTION__).append("() - ") + QString("Url: %1, Request: %2").arg(m_dest).arg(QString(data)));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
+
+    timer.start(5000);   // 30 secs. timeout
 
     QNetworkReply *reply = manager.post(request, data);
     if(!isAsync)
         eventLoop.exec(QEventLoop::ExcludeUserInputEvents);
     else
         eventLoop.exec();
-    QByteArray response;
-    printf("failed. %d", reply->error());
-    if (reply->error() == QNetworkReply::NoError) {
-        response = reply->readAll();
-        printf("success. %s", QString(response).toStdString().c_str());
-//        LogEvent::postLog(LogEvent::LOG_DEBUG, QString(__FUNCTION__).append("() - ") +
-//            QString("Response: %1").arg(QString(response)));
+
+    if(timer.isActive()) {
+        timer.stop();
+        QByteArray response;
+        if (reply->error() == QNetworkReply::NoError) {
+            response = reply->readAll();
+            printf("success. %s", QString(response).toStdString().c_str());
+        } else {
+            printf("failed");
+        }
+        reply->deleteLater();
+        return response;
     } else {
-        printf("failed");
-        //failure
-//        LogEvent::postLog(LogEvent::LOG_DEBUG, QString(__FUNCTION__).append("() - ") +
-//            QString("Network Ex: %1").arg(reply->errorString()));
+       // timeout
+       QObject::disconnect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+       reply->abort();
     }
-    reply->deleteLater();
+    QByteArray response;
     return response;
 }
 
