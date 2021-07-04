@@ -53,6 +53,7 @@ Navigator::~Navigator()
 
 void Navigator::setChecked(int index) {
     buttonGround->button(index)->setChecked(true);
+    emit buttonToggled(index, true);
 }
 
 void Navigator::paintEvent(QPaintEvent *event) {

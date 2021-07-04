@@ -137,6 +137,8 @@ MainWindowV12::MainWindowV12(QWidget *parent) :
     loading->setMaxDiameter(20);
     loading->setMinDiameter(1);
     loading->start();
+
+    navigator->setChecked(1);
 }
 
 MainWindowV12::~MainWindowV12()
