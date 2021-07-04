@@ -28,12 +28,12 @@ static char* m_videobuf = NULL;
 static int count = 0;
 
 static void *video_lock_cb(void *opaque, void **planes) {
-//    printf("%s opaque:%p\n", __FUNCTION__, opaque);
+    //    printf("%s opaque:%p\n", __FUNCTION__, opaque);
     VlcPlayer* obj = (VlcPlayer*)opaque;
     planes[0] = m_videobuf;
     planes[1] = m_videobuf + m_width * m_height;
     planes[2] = m_videobuf + m_width * m_height * 5 / 4;
-//    printf("%s planes: [%p ,%p ,%p]", __FUNCTION__, planes[0], planes[1], planes[2]);
+    //    printf("%s planes: [%p ,%p ,%p]", __FUNCTION__, planes[0], planes[1], planes[2]);
     return m_videobuf;
 }
 
@@ -41,35 +41,35 @@ static void video_unlock_cb(void *opaque, void *picture, void *const *planes) {
     Q_UNUSED(opaque);
     Q_UNUSED(picture);
     Q_UNUSED(planes);
-//    printf("%s picture:%p planes:%p\n", __FUNCTION__, picture, planes);
-//    printf("%s planes: [%p ,%p ,%p]", __FUNCTION__, planes[0], planes[1], planes[2]);
-//    VlcWrapper* obj = (VlcWrapper*)opaque;
-//    QImage qimg((uchar*)planes, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);
+    //    printf("%s picture:%p planes:%p\n", __FUNCTION__, picture, planes);
+    //    printf("%s planes: [%p ,%p ,%p]", __FUNCTION__, planes[0], planes[1], planes[2]);
+    //    VlcWrapper* obj = (VlcWrapper*)opaque;
+    //    QImage qimg((uchar*)planes, obj->m_frameWidth, obj->m_frameHeight, QImage::Format_ARGB32);
 
-//    VlcWrapper* obj = (VlcWrapper*)opaque;
-//    if(NULL != obj->vlcRenderCb) {
-//        obj->vlcRenderCb->renderYUV((uchar*)picture, 1280, 738, 0);
-//    }
-
-
-
-//    printf("count: %d", count);
-//    if(m_filename.isEmpty()) {
-//        QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-//        m_filename = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".bin";
-//    }
-//    writeFile(m_filename, (char*)picture, m_videobuf_size);
+    //    VlcWrapper* obj = (VlcWrapper*)opaque;
+    //    if(NULL != obj->vlcRenderCb) {
+    //        obj->vlcRenderCb->renderYUV((uchar*)picture, 1280, 738, 0);
+    //    }
 
 
-//    if(count % 300 == 0) {
-//        QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-//        QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".bin";
-//        writeFile(fileName, (char*)picture, m_videobuf_size);
-//    }
+
+    //    printf("count: %d", count);
+    //    if(m_filename.isEmpty()) {
+    //        QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    //        m_filename = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".bin";
+    //    }
+    //    writeFile(m_filename, (char*)picture, m_videobuf_size);
+
+
+    //    if(count % 300 == 0) {
+    //        QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    //        QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".bin";
+    //        writeFile(fileName, (char*)picture, m_videobuf_size);
+    //    }
 }
 
 static void video_display_cb(void *opaque, void *picture) {
-//    printf("%s opaque:%p picture:%p", __FUNCTION__, opaque, picture);
+    //    printf("%s opaque:%p picture:%p", __FUNCTION__, opaque, picture);
 
     VlcPlayer* obj = static_cast<VlcPlayer*>(opaque);
     if(nullptr != obj->videoView) {
@@ -77,11 +77,11 @@ static void video_display_cb(void *opaque, void *picture) {
         QByteArray ba;
         ba.append((char *)picture, m_videobuf_size);
         obj->videoView->setFrameData(ba);
-//        if(count % 250 == 0) {
-//            QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-//            QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".bin";
-//            writeFile(fileName, (char*)ba.data(), ba.size());
-//        }
+        //        if(count % 250 == 0) {
+        //            QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+        //            QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".bin";
+        //            writeFile(fileName, (char*)ba.data(), ba.size());
+        //        }
     }
 }
 
@@ -91,9 +91,9 @@ static void video_display_cb(void *opaque, void *picture) {
 //                                           unsigned *pitches,
 //                                           unsigned *lines);
 static unsigned video_format_cb(void **opaque, char *chroma,
-                         unsigned *width, unsigned *height,
-                         unsigned *pitches,
-                         unsigned *lines) {
+                                unsigned *width, unsigned *height,
+                                unsigned *pitches,
+                                unsigned *lines) {
     printf("%s opaque:%p(%p) chroma:%s (%d x %d)\n", __FUNCTION__, opaque, *opaque, chroma, *width, *height);
     printf("%s pitches:%p(%d) lines:%p(%d)\n", __FUNCTION__, pitches, *pitches, lines, *lines);
     count = 0;
@@ -105,15 +105,15 @@ static unsigned video_format_cb(void **opaque, char *chroma,
 
     m_width = *width;
     m_height = *height;
-//    std::string format = "RV32";
-//    memcpy(chroma, format.c_str(), 4);
-//    m_videobuf_size = ((*width * *height) << 2);
-//    m_videobuf = new char[m_videobuf_size];
-//    memset(m_videobuf, 0x5e, m_videobuf_size);
-//    *pitches = (*width) << 2;
-//    *lines = *height;
-//    printf("%s m_videobuf:%p\n", __FUNCTION__, m_videobuf);
-//    return 1;
+    //    std::string format = "RV32";
+    //    memcpy(chroma, format.c_str(), 4);
+    //    m_videobuf_size = ((*width * *height) << 2);
+    //    m_videobuf = new char[m_videobuf_size];
+    //    memset(m_videobuf, 0x5e, m_videobuf_size);
+    //    *pitches = (*width) << 2;
+    //    *lines = *height;
+    //    printf("%s m_videobuf:%p\n", __FUNCTION__, m_videobuf);
+    //    return 1;
 
     strncpy(chroma, "I420", 4);
 
@@ -176,24 +176,24 @@ VlcPlayer::~VlcPlayer()
 }
 
 void VlcPlayer::init() {
-//    videoView = new QLabel("test", this);
-//    videoView = new VideoRender(this);
+    //    videoView = new QLabel("test", this);
+    //    videoView = new VideoRender(this);
     videoView = new GLVideoWidget(this);
 
     // opengl cancel pal setting.
-//    QPalette pal(videoView->palette());
-//    pal.setColor(QPalette::Background, QColor(200,200,200)); //设置背景黑色
-//    videoView->setAutoFillBackground(true);
-//    videoView->setPalette(pal);
+    //    QPalette pal(videoView->palette());
+    //    pal.setColor(QPalette::Background, QColor(200,200,200)); //设置背景黑色
+    //    videoView->setAutoFillBackground(true);
+    //    videoView->setPalette(pal);
 
-//    QHBoxLayout *layout = new QHBoxLayout();
-//    layout->setAlignment(Qt::AlignCenter);
-//    layout->setContentsMargins(0, 0, 0, 0);
-//    layout->addStretch();
-//    layout->addWidget(videoView);
-//    layout->addStretch();
+    //    QHBoxLayout *layout = new QHBoxLayout();
+    //    layout->setAlignment(Qt::AlignCenter);
+    //    layout->setContentsMargins(0, 0, 0, 0);
+    //    layout->addStretch();
+    //    layout->addWidget(videoView);
+    //    layout->addStretch();
 
-//    setLayout(layout);
+    //    setLayout(layout);
 
     //创建vlc实例
     m_vlcInstance = libvlc_new(0, NULL);
@@ -215,7 +215,7 @@ void VlcPlayer::play(const QString& inputSrc) {
     printf("VlcPlayer::%s(inputSrc: %s) %p", __FUNCTION__, inputSrc.toStdString().c_str(), QThread::currentThreadId());
     inputSource = inputSrc;
     //如果视频正在播放，先停止播放
-//    if (m_vlcMediaPlayer && libvlc_media_player_is_playing(m_vlcMediaPlayer))
+    //    if (m_vlcMediaPlayer && libvlc_media_player_is_playing(m_vlcMediaPlayer))
     if (m_vlcMediaPlayer)
     {
         printf("stop mediaplayer");
@@ -259,7 +259,7 @@ void VlcPlayer::play() {
     libvlc_video_set_format_callbacks(m_vlcMediaPlayer, video_format_cb, video_cleanup_cb);
 
     //vlcplayer和Qt控件关联
-//    libvlc_media_player_set_hwnd(m_vlcMediaPlayer, (void*)(videoView->winId()));
+    //    libvlc_media_player_set_hwnd(m_vlcMediaPlayer, (void*)(videoView->winId()));
     libvlc_media_player_play(m_vlcMediaPlayer);
 
     while (true)
@@ -296,16 +296,28 @@ void VlcPlayer::pause() {
 
 }
 
-void VlcPlayer::stop() {
+void VlcPlayer::stop() {    
 
     if (m_vlcMediaPlayer)
     {
-        libvlc_media_player_stop(m_vlcMediaPlayer);
-        libvlc_media_player_release(m_vlcMediaPlayer);
-        m_vlcMediaPlayer = NULL;
-    }
 
-    emit stopped();
+        libvlc_media_player_stop(m_vlcMediaPlayer);
+
+        while (true)
+        {
+            libvlc_state_t state = libvlc_media_player_get_state(m_vlcMediaPlayer);
+            printf("current state: %d", state);
+            if(libvlc_Playing != state) {
+                break;
+            }
+            MSleep(1000);
+        }
+
+        /* release the media player */
+        libvlc_media_player_release(m_vlcMediaPlayer);
+        m_vlcMediaPlayer = nullptr;
+        emit stopped();
+    }
 }
 
 void VlcPlayer::close() {
@@ -324,30 +336,35 @@ void VlcPlayer::takePicture() {
 }
 
 void VlcPlayer::comment() {
-//    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
-//    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-//    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
-//    printf("filename: %s", fileName.toStdString().c_str());
-//    if (fileName.length() > 0)
-//    {
-//        QScreen *screen = QGuiApplication::primaryScreen();
-//        QPixmap pixmap = screen->grabWindow(videoView->winId());
-//        pixmap.save(fileName);
-//    }
+    //    printf("VlcPlayer::%s():%p", __FUNCTION__, QThread::currentThreadId());
+    //    QString picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    //    QString fileName = picPath + QDir::separator() + QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss-zzz") + ".png";
+    //    printf("filename: %s", fileName.toStdString().c_str());
+    //    if (fileName.length() > 0)
+    //    {
+    //        QScreen *screen = QGuiApplication::primaryScreen();
+    //        QPixmap pixmap = screen->grabWindow(videoView->winId());
+    //        pixmap.save(fileName);
+    //    }
 }
 
 const QPixmap VlcPlayer::snapshot() {
     QImage img = videoView->grabFramebuffer();
     return QPixmap::fromImage(img);
-//    QScreen *screen = QGuiApplication::primaryScreen();
-//    QPixmap pixmap = screen->grabWindow(videoView->winId());
-//    return pixmap;
+    //    QScreen *screen = QGuiApplication::primaryScreen();
+    //    QPixmap pixmap = screen->grabWindow(videoView->winId());
+    //    return pixmap;
 }
 
 void VlcPlayer::updatePts(int frameIdx) {
-//    int currentPts = frameIdx * 1000/fps;
-    int currentTime = libvlc_media_player_get_time(m_vlcMediaPlayer);
-    emit updateProgress(currentTime, (int)duration);
+    //    int currentPts = frameIdx * 1000/fps;
+    if(frameIdx % 10 == 0) {
+        if (m_vlcMediaPlayer && libvlc_media_player_is_playing(m_vlcMediaPlayer))
+        {
+            int currentTime = libvlc_media_player_get_time(m_vlcMediaPlayer);
+            emit updateProgress(currentTime, (int)duration);
+        }
+    }
 }
 
 bool VlcPlayer::isPlaying() {

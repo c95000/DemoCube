@@ -75,6 +75,7 @@ SOURCES += \
     videorender.cpp \
     vlcplayer.cpp \
     vlcplayercontroller.cpp \
+    vlctest.cpp \
     vlcworker.cpp \
     vlcwrapper.cpp \
     yuv2jpg.cpp
@@ -129,6 +130,7 @@ HEADERS += \
     videorender.h \
     vlcplayer.h \
     vlcplayercontroller.h \
+    vlctest.h \
     vlcworker.h \
     vlcwrapper.h \
     yuv2jpg.h
