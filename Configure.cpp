@@ -6,6 +6,8 @@
 #include "common.h"
 #include <QColor>
 #include <QRgba64>
+#include "deviceinfo.h"
+#include <QCryptographicHash>
 
 Configure* Configure::p = NULL;
 
@@ -13,7 +15,17 @@ Configure::Configure()
 {
     printf("configure: %s", QDir::currentPath().toStdString().c_str());
     configFile = new QSettings(QCoreApplication::applicationDirPath()+"/info.ini", QSettings::IniFormat);
+    QString key = tr("app/lic");
+    QString value = configFile->value(key, "").toString();
 
+    QString deviceInfo = getDeviceInfo();
+    QString md5 = caculateChecksum(deviceInfo);
+
+    if(md5 == value) {
+        bLicensed = true;
+    } else {
+        bLicensed = false;
+    }
 }
 
 Configure::~Configure() {
@@ -31,7 +43,7 @@ void Configure::getValue() {
 }
 
 QString Configure::getPicpath() {
-//    picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    //    picPath = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     QString value = configFile->value(tr("path/picture"),
                                       QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)).toString();
     return value;
@@ -85,7 +97,7 @@ const QList<QColor> Configure::getPenColors() {
         QString value = configFile->value(key, "0xFF0000,0x00FF00,0x0000FF,0xFFFF00").toString();
         QStringList valList = value.split(",");
         for(int i= 0; i < valList.size(); i++) {
-    //        result.append(valList.at(i).toInt(NULL, 16));
+            //        result.append(valList.at(i).toInt(NULL, 16));
             QRgb x = valList.at(i).toInt(NULL, 16);
             penColors.append(QColor::fromRgb(x));
         }
@@ -103,6 +115,22 @@ const QList<int> Configure::getPenWidths() {
         }
     }
     return penWidth;
+}
+
+bool Configure::isLicensed() const {
+    return bLicensed;
+}
+
+void Configure::setActivateCode(QString code) {
+    QString deviceInfo = getDeviceInfo();
+    QString md5 = caculateChecksum(deviceInfo);
+    if(!code.isNull() && !code.isEmpty() && code == md5) {
+        bLicensed = true;
+        QString key = tr("app/lic");
+        configFile->setValue(key, code);
+    } else {
+        bLicensed = false;
+    }
 }
 
 const QSize Configure::buttonSize() {

@@ -41,6 +41,7 @@ SOURCES += \
     TitleButton.cpp \
     ToolBar.cpp \
     aboutdialog.cpp \
+    activatewidget.cpp \
     assist.cpp \
     cameracontroller1.cpp \
     cameraview.cpp \
@@ -97,6 +98,7 @@ HEADERS += \
     ToolBar.h \
     VideoRenderCallback.h \
     aboutdialog.h \
+    activatewidget.h \
     assist.h \
     cameracontroller1.h \
     cameraview.h \

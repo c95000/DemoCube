@@ -27,14 +27,18 @@
 #include "mainwindowv12.h"
 #include "SettingDialog.h"
 #include "settingdialogv2.h"
+#include "aboutdialog.h"
 #include "vlctest.h"
-
+#include "activatewidget.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
 //    MainWindow w;
     MainWindowV12 w;
+//    AboutDialog w;
+//    SettingDialogV2 w;
+//    ActivateWidget w;
 //    VlcTest w;
 //    CameraController1 w;
 //    PrimeWindow w;

@@ -17,5 +17,6 @@
 
 #include "Resolution.h"
 
+QString caculateChecksum(QString src);
 
 #endif // COMMON_H

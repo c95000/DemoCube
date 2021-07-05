@@ -8,6 +8,7 @@
 #include <QDesktopServices>
 #include "Configure.h"
 #include "common.h"
+#include "activatewidget.h"
 
 SettingDialogV2::SettingDialogV2(QWidget *parent) : QDialog(parent)
 {

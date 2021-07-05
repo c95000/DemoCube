@@ -42,12 +42,17 @@ public:
 
     const QList<QColor> getPenColors();
     const QList<int> getPenWidths();
+
+    bool isLicensed() const;
+    void setActivateCode(QString code);
 private:
 //    QString configPath;
     QSettings* configFile;
 
     QList<QColor> penColors;
     QList<int> penWidth;
+    QString license;
+    bool bLicensed;
 };
 
 #endif // CONFIGURE_H
