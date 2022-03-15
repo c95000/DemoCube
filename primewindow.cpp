@@ -208,27 +208,18 @@ void PrimeWindow::checkPermission(){
 }
 
 void PrimeWindow::onConnect(const QString ip) {
-
-    loading->show();
-//    QTimer *myTimer = new QTimer(this);
-//    myTimer->start(1000*10);
-//    connect(myTimer,&QTimer::timeout,[=](){
-
-//            myTimer->stop();
-//            static int i = 0;
-//            i++;
-//            //ui->lcdNumber->display(i);
-//            loading->close();
-//        });
-    bool ret = arnetWrapper->connect(ip);
-    if(ret) {
-        loading->close();
-        FFPlayer *ffplayer = static_cast<FFPlayer*>(cameraView);
-        ffplayer->play(ip);
-    } else {
-        loading->close();
-        onError(-101);
-    }
+    FFPlayer *ffplayer = static_cast<FFPlayer*>(cameraView);
+    ffplayer->play(ip);
+//    loading->show();
+//    bool ret = arnetWrapper->connect(ip);
+//    if(ret) {
+//        loading->close();
+//        FFPlayer *ffplayer = static_cast<FFPlayer*>(cameraView);
+////        ffplayer->play(ip);
+//    } else {
+//        loading->close();
+//        onError(-101);
+//    }
 }
 
 void PrimeWindow::replaceWidget(QWidget* widget) {

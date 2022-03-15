@@ -24,7 +24,8 @@ QByteArray Http::Post(QByteArray data,
     QObject::connect(&manager, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
     QNetworkRequest request;
     request.setUrl(QUrl(m_dest));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
+//    LogEvent::postLog(LogEvent::LOG_DEBUG, QString(__FUNCTION__).append("() - ") + QString("Url: %1, Request: %2").arg(m_dest).arg(QString(data)));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded;charset=UTF-8");
 
     timer.start(5000);   // 30 secs. timeout
 
@@ -78,7 +79,7 @@ void ArnetWrapper::sendEvent(ArnetEvent event) {
 
 bool ArnetWrapper::connect(const QString& ip) {
     this->ip = ip;
-    Http::setAddr(tr("http://%1/").arg(ip));
+    Http::setAddr(tr("http://%1/cmdparse").arg(ip));
     username = Configure::getInstance()->getUsername();
     password = Configure::getInstance()->getPassword();
 
@@ -151,9 +152,9 @@ bool ArnetWrapper::login() {
 
     QJsonDocument document;
     document.setObject(json);
-    QByteArray byte_array = document.toJson(QJsonDocument::Compact);
-    QString json_str_content(byte_array);
-
+    QByteArray byte_array;
+    byte_array.append("CmdData=").append(document.toJson(QJsonDocument::Compact));
+    printf(byte_array);
 
 //    printf("data is: %s", byte_array.data());
 //    printf("datalen: %d", byte_array.length());

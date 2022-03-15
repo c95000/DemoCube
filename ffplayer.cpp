@@ -71,7 +71,7 @@ void FFPlayer::init() {
 }
 
 void FFPlayer::play(const QString& ip) {
-    inputSource = tr("rtsp://%1/").arg(ip);
+    inputSource = tr("rtsp://admin:admin@%1:554/live0").arg(ip);
     ffDecoder->setSource(inputSource, _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
     ffDecoder->play(true);
 }
