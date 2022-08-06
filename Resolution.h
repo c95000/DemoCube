@@ -1,7 +1,6 @@
 #ifndef RESOLUTION_H
 #define RESOLUTION_H
 
-#include "common.h"
 #include <QApplication>
 #include <QDesktopWidget>
 

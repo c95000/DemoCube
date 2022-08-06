@@ -1,6 +1,7 @@
 #include "CameraController.h"
 #include "ui_CameraController.h"
 #include "common.h"
+#include "Resolution.h"
 
 CameraController::CameraController(QWidget *parent) :
     QWidget(parent),

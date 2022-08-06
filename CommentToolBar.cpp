@@ -4,6 +4,7 @@
 #include <QSpacerItem>
 #include <QResizeEvent>
 #include "common.h"
+#include "Resolution.h"
 
 
 CommentToolBar::CommentToolBar(QWidget *parent) :

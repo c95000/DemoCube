@@ -8,6 +8,7 @@
 #include <QRgba64>
 #include "deviceinfo.h"
 #include <QCryptographicHash>
+#include <QCoreApplication>
 
 Configure* Configure::p = NULL;
 
@@ -73,11 +74,6 @@ bool Configure::isAllowCommenting() {
     return value;
 }
 
-bool Configure::isOfficial() {
-    QString key = tr("block/offi");
-    bool value = configFile->value(key, false).toBool();
-    return value;
-}
 
 QString Configure::getUsername() const {
     QString key = tr("acc/un");

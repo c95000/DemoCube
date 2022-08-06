@@ -1,5 +1,7 @@
 #include "penstyle.h"
 #include "pensettingdialog.h"
+#include "qpainterpath.h"
+
 
 PenStyle::PenStyle(QWidget *parent) : IconButton(parent)
   ,lineColor(Qt::black)

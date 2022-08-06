@@ -31,7 +31,6 @@ public:
     QString getCameraIp(int index);
     void setCameraIp(int index, const QString& ip);
     bool isAllowCommenting();
-    bool isOfficial();
 
     const QSize buttonSize();
     const QColor colorByIndex(int index);

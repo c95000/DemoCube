@@ -257,10 +257,11 @@ int JyPlayer::stopPlay() {
 
 int JyPlayer::pausePlay() {
     setState(enJYPLAYER_STATE::PAUSED);
+    return 0;
 }
 
 int JyPlayer::resumePlay() {
-
+    return 0;
 }
 
 int JyPlayer::togglePlay() {
@@ -272,6 +273,7 @@ int JyPlayer::togglePlay() {
     {
         startPlay();
     }
+    return 0;
 }
 
 bool JyPlayer::isWorking() {

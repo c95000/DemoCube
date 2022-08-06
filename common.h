@@ -12,10 +12,9 @@
 #include "Configure.h"
 #include <QResizeEvent>
 #include <QDebug>
+#include "Resolution.h"
 
 #define printf qDebug
-
-#include "Resolution.h"
 
 QString caculateChecksum(QString src);
 

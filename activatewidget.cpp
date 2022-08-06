@@ -51,7 +51,8 @@ ActivateWidget::ActivateWidget(QWidget *parent) : QWidget(parent)
     connect(btnCopy, &QPushButton::clicked, [=]() {
         QClipboard *board = QApplication::clipboard();
         board->setText(deviceId->text());
-        //        QString code = caculateChecksum(snValue->text());
+//        QString code = caculateChecksum(deviceId->text());
+//        qDebug("code: %s", code.toStdString().c_str());
         //        codeEdit->setText(code);
         QMessageBox::information(this, "", "复制成功");
     });

@@ -203,7 +203,7 @@ int Mp4Encoder::start(int width, int height, const char* output_file) {
 }
 
 int Mp4Encoder::encode(const char* data, const int size) {
-
+    return 0;
 }
 
 int Mp4Encoder::yuv2h264_start(int width, int height) {

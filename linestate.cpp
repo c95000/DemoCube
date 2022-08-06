@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QResizeEvent>
 #include "common.h"
+#include "qpainterpath.h"
 
 LineState::LineState(QWidget *parent) :
     QWidget(parent),
