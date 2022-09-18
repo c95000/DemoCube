@@ -1,3 +1,9 @@
+/bin32
+/bin64
+/bin
+
+*.pro.user
+
 # Prerequisites
 *.d
 

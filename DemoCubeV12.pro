@@ -169,22 +169,18 @@ QT += opengl network widgets svg xml quickwidgets
 THRIDPARTIES_PATH = $$PWD/thirdparties
 
 contains(QT_ARCH, i386) {
-    VLC_PATH = $$PWD/win32/vlc-2.2.2/sdk
-#    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/win32
-#    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
+    VLC_PATH = $$PWD/win32/vlc-2.2.2
+    LIBS += -L$${VLC_PATH}/lib -lvlc
     LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win32 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 } else {
-    VLC_PATH = $$PWD/x86_64/vlc-2.2.2/sdk
-#    ARNET_LIB_PATH = $${THRIDPARTIES_PATH}/arnet/lib/x86_64
-#    LIBS += -L$${ARNET_LIB_PATH} -lARNET_SDK
+    VLC_PATH = $$PWD/x86_64/vlc-2.2.2
+    LIBS += -L$${VLC_PATH}/lib -lvlc
     LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win64 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
 }
 
 #INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
 INCLUDEPATH += $${THRIDPARTIES_PATH}/ffmpeg/include
 INCLUDEPATH += $${VLC_PATH}/include
-
-LIBS += -L$${VLC_PATH}/lib -lvlc
 
 
 # Default rules for deployment.

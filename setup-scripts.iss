@@ -32,6 +32,17 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: ".\bin32\DemoCubeV12.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\bin32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\thirdparties\ffmpeg\lib\win32\avcodec-58.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\thirdparties\ffmpeg\lib\win32\avdevice-58.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\thirdparties\ffmpeg\lib\win32\avfilter-7.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\thirdparties\ffmpeg\lib\win32\avformat-58.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\thirdparties\ffmpeg\lib\win32\avutil-56.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\thirdparties\ffmpeg\lib\win32\swresample-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\thirdparties\ffmpeg\lib\win32\swscale-5.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\thirdparties\ffmpeg\lib\win32\postproc-55.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\win32\vlc-2.2.2\lib\libvlc.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\win32\vlc-2.2.2\lib\libvlccore.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\win32\vlc-2.2.2\lib\plugins\*"; DestDir: "{app}\plugins"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
