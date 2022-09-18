@@ -15,6 +15,8 @@
 #include "ArnetWrapper.h"
 #include "Loading/Loading.h"
 #include "assist.h"
+#include "keystore/KeyStore.h"
+
 
 namespace Ui {
 class MainWindowV12;
@@ -30,6 +32,7 @@ public:
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
+    virtual bool nativeEvent(const QByteArray &eventType, void *message, long *result);
 
 private:
     void connectViewSignals();
@@ -60,6 +63,7 @@ private slots:
     void onConnect(const int index);
 private:
     Ui::MainWindowV12 *ui;
+    KeyStore keyStore;
 
 //    JyPlayer *m_player = NULL;
     //MyPaint *m_paint = NULL;

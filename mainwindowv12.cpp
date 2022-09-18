@@ -139,6 +139,8 @@ MainWindowV12::MainWindowV12(QWidget *parent) :
     loading->start();
 
     navigator->setChecked(1);
+
+    keyStore.doRegisterDeviceInterface(this);
 }
 
 MainWindowV12::~MainWindowV12()
@@ -466,4 +468,46 @@ void MainWindowV12::resizeEvent(QResizeEvent *event) {
 //    printf("viewStackSize %d x %d", viewStackSize.width(), viewStackSize.height());
 //    QSizeF destSz = QSizeF(16, 9).scaled(viewStackSize, Qt::KeepAspectRatio);
 //    viewStack->resize(QSize(round(destSz.width()), round(destSz.height())));
+}
+
+bool MainWindowV12::nativeEvent(const QByteArray &eventType, void *message, long *result) {
+    Q_UNUSED(result);
+    Q_UNUSED(eventType);
+
+    MSG *msg = static_cast<MSG*>(message);
+    if(msg->message == WM_DEVICECHANGE)
+    {
+        qDebug() << msg->message << QString::number(msg->message, 16);
+        qDebug() << "wParam: " << QString::number(msg->wParam, 16);
+        switch (msg->wParam)
+          {
+          PDEV_BROADCAST_HDR broadcastHdr;
+
+          case DBT_DEVICEARRIVAL:
+
+            broadcastHdr = (PDEV_BROADCAST_HDR) msg->lParam;
+
+            if (DBT_DEVTYP_DEVICEINTERFACE == broadcastHdr -> dbch_devicetype)
+              {
+                //if(ytsoftkey->CheckKeyByFindort_2()==0)  QMessageBox::critical(NULL, QStringLiteral("警告"),QStringLiteral("加密锁被插入。"), QMessageBox::Close);
+              }
+            break;
+
+          case DBT_DEVICEREMOVEPENDING:
+          case DBT_DEVICEREMOVECOMPLETE://收到硬件拨出信息后，调用检查锁函数来检查是否锁被拨出
+            {
+              //这里使用 CheckKeyByFindort_2检查加密锁是否被拨出，也可以使用其它检查锁函数来检查加密锁是否被拨出
+              if(keyStore.getSoftkey()->CheckKeyByFindort_2()!=0)
+              {
+                    QMessageBox::critical(NULL, QStringLiteral("警告"),QStringLiteral("加密锁被拨出。"), QMessageBox::Close);
+                    exit(0);
+              }
+            }
+            break;
+
+          default:
+            break;
+          }
+    }
+    return false;
 }

@@ -77,6 +77,8 @@ SOURCES += \
     recordlabel.cpp \
     scaler.cpp \
     settingdialogv2.cpp \
+    keystore/KeyStore.cpp \
+    keystore/Softkey.cpp \
     videorender.cpp \
     vlcplayer.cpp \
     vlcplayercontroller.cpp \
@@ -133,6 +135,13 @@ HEADERS += \
     recordlabel.h \
     scaler.h \
     settingdialogv2.h \
+    keystore/KeyDef.h \
+    keystore/KeyStore.h \
+    keystore/Softkey.h \
+    keystore/UKey.h \
+    keystore/hidpi.h \
+    keystore/hidsdi.h \
+    keystore/hidusage.h \
     videorender.h \
     vlcplayer.h \
     vlcplayercontroller.h \
