@@ -24,6 +24,7 @@ protected:
 signals:
     void signalConnect();
     void signalConnect(const QString& url);
+    void signalConnect(const int index);
     void signalDisconnect();
     void play();
     void pause();
@@ -46,6 +47,7 @@ public slots:
     void played();
     void paused();
     void stopped();
+    void connectFailed(int index);
 
 private slots:
     void startRecorded();

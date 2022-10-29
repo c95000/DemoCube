@@ -20,7 +20,7 @@ MainWindowV12::MainWindowV12(QWidget *parent) :
     ui(new Ui::MainWindowV12)
 {
     ui->setupUi(this);
-    setWindowTitle("实训优学 v1.0");
+    setWindowTitle("实训优学 v2.0");
 
     int bottomMinimumHeight = 120;
     int default_width = 1280 * Resolution::getInstance()->scaleX();
@@ -187,6 +187,7 @@ void MainWindowV12::connectCameraSignals() {
     connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 
     connect(cameraController, SIGNAL(signalConnect(const QString&)), this, SLOT(onConnect(const QString&)));
+    connect(cameraController, SIGNAL(signalConnect(const int)), this, SLOT(onConnect(const int)));
 }
 void MainWindowV12::connectWhiteboardSignals() {
 
@@ -226,6 +227,36 @@ void MainWindowV12::onConnect(const QString ip) {
     } else {
         loading->close();
         onError(-101);
+    }
+}
+
+void MainWindowV12::onConnect(const int index) {
+
+    QString ip = Configure::getInstance()->getCameraIp(index);
+
+    if(ip.isNull() || ip.isEmpty()) {
+        bool isOK;//QInputDialog 是否成功得到输入
+        ip = QInputDialog::getText(NULL,
+                                   "设置",
+                                   "输入摄像头IP，如: 192.168.1.100",
+                                   QLineEdit::Normal,
+                                   ip,
+                                   &isOK);
+    }
+
+    Configure::getInstance()->setCameraIp(index, ip);
+    printf("text: %s", ip.toStdString().c_str());
+
+    loading->show();
+    bool ret = arnetWrapper->connect(ip);
+    if(ret) {
+        loading->close();
+        FFPlayer *ffplayer = static_cast<FFPlayer*>(cameraView);
+        ffplayer->play(ip);
+    } else {
+        loading->close();
+        onError(-101);
+        ((CameraController1*)cameraController)->connectFailed(index);
     }
 }
 
@@ -426,7 +457,8 @@ void MainWindowV12::on_btnConnect() {
 
 void MainWindowV12::onError(int errorCode) {
     printf("errorcode : %d", errorCode);
-    QMessageBox::critical(this, "错误", tr("error(%1)").arg(errorCode));
+//    QMessageBox::critical(this, "错误", tr("error(%1)").arg(errorCode));
+    QMessageBox::critical(this, "错误", tr("连接失败").arg(errorCode));
 }
 
 void MainWindowV12::resizeEvent(QResizeEvent *event) {

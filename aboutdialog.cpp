@@ -1,4 +1,4 @@
-#include "aboutdialog.h"
+﻿#include "aboutdialog.h"
 #include <QLabel>
 #include "common.h"
 #include <QPushButton>
@@ -14,7 +14,7 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 //    setStyleSheet("QLabel{text-align:center; color:#ff6600;}");
 //    setStyleSheet("QLabel{color:#ff6600;}");
 
-    software = new QLabel("实训优学v1.0");
+    software = new QLabel("实训优学v2.0");
     QFont font1 = software->font();
     font1.setPointSize(17);
     software->setFont(font1);

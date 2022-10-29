@@ -20,7 +20,7 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     ui(new Ui::PrimeWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("实训优学 v1.0");
+    setWindowTitle("实训优学 v2.0");
 
 //    QMenu *menuSetting = menuBar()->addMenu("设置(S)");
 //    QAction *actDirSetting = new QAction(tr("默认目录"), this);

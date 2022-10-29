@@ -1,4 +1,4 @@
-#ifndef MAINWINDOWV12_H
+﻿#ifndef MAINWINDOWV12_H
 #define MAINWINDOWV12_H
 
 #include <QMainWindow>
@@ -57,6 +57,7 @@ private slots:
 
     void checkPermission();
     void onConnect(const QString ip);
+    void onConnect(const int index);
 private:
     Ui::MainWindowV12 *ui;
 

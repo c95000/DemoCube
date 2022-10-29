@@ -27,7 +27,7 @@ QByteArray Http::Post(QByteArray data,
 //    LogEvent::postLog(LogEvent::LOG_DEBUG, QString(__FUNCTION__).append("() - ") + QString("Url: %1, Request: %2").arg(m_dest).arg(QString(data)));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded;charset=UTF-8");
 
-    timer.start(5000);   // 30 secs. timeout
+    timer.start(4000);   // 30 secs. timeout
 
     QNetworkReply *reply = manager.post(request, data);
     if(!isAsync)

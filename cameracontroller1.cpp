@@ -124,21 +124,24 @@ void CameraController1::init() {
         btnConnect1->setChecked(true);
         btnConnect2->setChecked(false);
         btnConnect3->setChecked(false);
-        connectSource(0);
+        //        connectSource(0);
+        emit signalConnect(0);
     });
 
     connect(btnConnect2, &QPushButton::clicked, this, [=]() {
         btnConnect1->setChecked(false);
         btnConnect2->setChecked(true);
         btnConnect3->setChecked(false);
-        connectSource(1);
+        //        connectSource(1);
+        emit signalConnect(1);
     });
 
     connect(btnConnect3, &QPushButton::clicked, this, [=]() {
         btnConnect1->setChecked(false);
         btnConnect2->setChecked(false);
         btnConnect3->setChecked(true);
-        connectSource(2);
+        //        connectSource(2);
+        emit signalConnect(2);
     });
 
     connect(btnDisconnect, SIGNAL(clicked(bool)), this, SIGNAL(signalDisconnect()));
@@ -157,6 +160,20 @@ void CameraController1::init() {
     connect(btnZoomTele, SIGNAL(released()), this, SIGNAL(zoomStop()));
 
     connect(btnRotation, SIGNAL(clicked(bool)), this, SIGNAL(rotation()));
+}
+
+void CameraController1::connectFailed(int index) {
+    switch(index) {
+    case 0:
+        btnConnect1->setChecked(false);
+        break;
+    case 1:
+        btnConnect2->setChecked(false);
+        break;
+    case 2:
+        btnConnect3->setChecked(false);
+        break;
+    }
 }
 
 void CameraController1::resizeEvent(QResizeEvent *event) {
@@ -199,7 +216,7 @@ void CameraController1::paused() {
 
 void CameraController1::stopped() {
     printf("%s() is called.", __FUNCTION__);
-//    btnConnect1->setEnabled(true);
+    //    btnConnect1->setEnabled(true);
 
     btnPlay->setEnabled(false);
     btnPause->setEnabled(false);
