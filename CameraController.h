@@ -1,4 +1,4 @@
-#ifndef CAMERACONTROLLER_H
+﻿#ifndef CAMERACONTROLLER_H
 #define CAMERACONTROLLER_H
 
 #include <QWidget>
@@ -18,6 +18,7 @@ public:
 signals:
     void zoomTele();
     void zoomWide();
+    void zoomStop();
 
 private slots:
     void onZoomTeleClicked();

@@ -1,4 +1,4 @@
-#include "cameracontroller1.h"
+﻿#include "cameracontroller1.h"
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QButtonGroup>
@@ -151,8 +151,10 @@ void CameraController1::init() {
     connect(btnStartRecord, SIGNAL(clicked(bool)), this, SIGNAL(startRecord()));
     connect(btnStopRecord, SIGNAL(clicked(bool)), this, SIGNAL(stopRecord()));
 
-    connect(btnZoomWide, SIGNAL(clicked(bool)), this, SIGNAL(zoomWide()));
-    connect(btnZoomTele, SIGNAL(clicked(bool)), this, SIGNAL(zoomTele()));
+    connect(btnZoomWide, SIGNAL(pressed()), this, SIGNAL(zoomWide()));
+    connect(btnZoomWide, SIGNAL(released()), this, SIGNAL(zoomStop()));
+    connect(btnZoomTele, SIGNAL(pressed()), this, SIGNAL(zoomTele()));
+    connect(btnZoomTele, SIGNAL(released()), this, SIGNAL(zoomStop()));
 
     connect(btnRotation, SIGNAL(clicked(bool)), this, SIGNAL(rotation()));
 }

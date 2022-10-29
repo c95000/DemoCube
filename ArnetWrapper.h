@@ -1,4 +1,4 @@
-#ifndef ARNETWRAPPER_H
+﻿#ifndef ARNETWRAPPER_H
 #define ARNETWRAPPER_H
 
 #include <QObject>
@@ -69,8 +69,8 @@ public:
     virtual ~ArnetWrapper();
 
 private:
-    void zoomStop();
-    void zoomOps(const QString& ops);
+//    void zoomStop();
+    void zoomOps(const QString& ops, int ParamH = 0, int ParamV = 0);
     bool login();
     QString version();
     QString& url() const;
@@ -88,6 +88,7 @@ public slots:
     void disconnect();
     void zoomWide(); //  缩小
     void zoomTele(); //  放大
+    void zoomStop(); //  放大
 
 public:
     QString ip;

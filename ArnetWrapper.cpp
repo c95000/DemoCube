@@ -1,4 +1,4 @@
-#include <QtConcurrent/QtConcurrent>
+﻿#include <QtConcurrent/QtConcurrent>
 #include <Configure.h>
 #include <QFileDialog>
 #include "ArnetWrapper.h"
@@ -93,28 +93,30 @@ void ArnetWrapper::disconnect() {
 
 void ArnetWrapper::zoomWide() {
     printf("%s is called", __FUNCTION__);
-    zoomOps(tr("ZoomWide"));
-    QtConcurrent::run(this, &ArnetWrapper::zoomStop);
+    zoomOps(tr("ZoomWide"), 2, 2);
+//    QtConcurrent::run(this, &ArnetWrapper::zoomStop);
 }
 
 void ArnetWrapper::zoomTele() {
     printf("%s is called", __FUNCTION__);
-    zoomOps(tr("ZoomTele"));
-    QtConcurrent::run(this, &ArnetWrapper::zoomStop);
+    zoomOps(tr("ZoomTele"), 2, 2);
+//    QtConcurrent::run(this, &ArnetWrapper::zoomStop);
 }
 
 void ArnetWrapper::zoomStop() {
     printf("%s is called", __FUNCTION__);
-    QThread::msleep(250);
+//    QThread::msleep(250);
+    zoomOps(tr("ZoomStop"));
+    QThread::msleep(100);
     zoomOps(tr("Stop"));
 }
 
-void ArnetWrapper::zoomOps(const QString& cmdType) {
+void ArnetWrapper::zoomOps(const QString& cmdType, int ParamH, int ParamV) {
 
     QJsonObject jsonContent;
     jsonContent.insert("PtzCmd", cmdType);
-    jsonContent.insert("ParamH", 0);
-    jsonContent.insert("ParamV", 0);
+    jsonContent.insert("ParamH", ParamH);
+    jsonContent.insert("ParamV", ParamV);
 
     QJsonObject json;
     json.insert("Cmd", tr("ReqPtzCtrl"));
@@ -128,9 +130,9 @@ void ArnetWrapper::zoomOps(const QString& cmdType) {
 //    printf("data is: %s", QString(document.toJson(QJsonDocument::Compact)).toStdString().c_str());
 //    printf("datalen: %d", QString(document.toJson(QJsonDocument::Compact)).length());
 
-    QString data("ReqUserName=%1&ReqUserPwd=%2&%3");
+    QString data("ReqUserName=%1&ReqUserPwd=%2&CmdData=%3");
     data = data.arg(username).arg(password).arg(QString(document.toJson(QJsonDocument::Compact)));
-//    printf("new data: %s", data.toStdString().c_str());
+    printf("new data: %s", data.toStdString().c_str());
 //    printf("data lengh: %d", data.toUtf8().length());
 //    printf("data sfdas: %s", data.toUtf8().data());
     QByteArray response = Http::Post(data.toUtf8(), false);

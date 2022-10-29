@@ -31,7 +31,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: ".\bin32\DemoCubeV12.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\bin32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\bin32\*"; DestDir: "{app}"; Excludes: "info.ini"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\ini\info.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\thirdparties\ffmpeg\lib\win32\avcodec-58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\thirdparties\ffmpeg\lib\win32\avdevice-58.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\thirdparties\ffmpeg\lib\win32\avfilter-7.dll"; DestDir: "{app}"; Flags: ignoreversion

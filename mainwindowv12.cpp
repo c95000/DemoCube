@@ -1,4 +1,4 @@
-#include "mainwindowv12.h"
+﻿#include "mainwindowv12.h"
 #include "ui_mainwindowv12.h"
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -182,6 +182,7 @@ void MainWindowV12::connectCameraSignals() {
 
     connect(cameraController, SIGNAL(zoomTele()), arnetWrapper, SLOT(zoomTele()));
     connect(cameraController, SIGNAL(zoomWide()), arnetWrapper, SLOT(zoomWide()));
+    connect(cameraController, SIGNAL(zoomStop()), arnetWrapper, SLOT(zoomStop()));
     connect(cameraController, SIGNAL(rotation()), cameraView, SLOT(rotation()));
     connect(arnetWrapper, SIGNAL(error(int)), this, SLOT(onError(int)));
 

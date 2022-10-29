@@ -1,4 +1,4 @@
-#ifndef CAMERACONTROLLER1_H
+﻿#ifndef CAMERACONTROLLER1_H
 #define CAMERACONTROLLER1_H
 
 #include <QWidget>
@@ -35,6 +35,7 @@ signals:
 
     void zoomWide();
     void zoomTele();
+    void zoomStop();
 
     void rotation();
     void releaseButton(int);
