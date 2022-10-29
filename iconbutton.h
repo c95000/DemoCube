@@ -1,4 +1,4 @@
-#ifndef ICONBUTON_H
+﻿#ifndef ICONBUTON_H
 #define ICONBUTON_H
 
 #include <QObject>
@@ -25,12 +25,15 @@ protected:
     void paintEvent(QPaintEvent *) override;
     virtual void enterEvent(QEvent *event);
     virtual void leaveEvent(QEvent *event);
+    // Event handlers
+    bool event(QEvent *event) override;
 signals:
 
 private:
     QIcon defaultIcon;
     QIcon activateIcon;
     QString title;
+    bool m_bTouchEnd = false;
 };
 
 #endif // ICONBUTON_H

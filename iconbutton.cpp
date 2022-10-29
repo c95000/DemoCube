@@ -1,4 +1,4 @@
-#include "iconbutton.h"
+﻿#include "iconbutton.h"
 #include <QIcon>
 #include <QBitmap>
 #include <QtSvg/QSvgRenderer>
@@ -30,7 +30,7 @@ IconButton::IconButton(const QString& title, const QString& icon, const QString&
 
 void IconButton::init() {
     this->setIcon(defaultIcon);
-
+    setAttribute(Qt::WA_AcceptTouchEvents,true);
     QString styleSheet = this->styleSheet();
     styleSheet += "QToolButton{border-style:flat;border-radius:5px;}";
 
@@ -39,7 +39,7 @@ void IconButton::init() {
 
     styleSheet += "QToolButton{background-color:#33000000;color:rgb(0,0,0,255);font-size:12px;"
                   "border-left:2px solid #ffffff;border-top:2px solid #ffffff;border-right:2px solid #888888;border-bottom:2px solid #888888;}";
-    styleSheet += "QToolButton:hover{background-color:#80000000;color:rgb(255,255,255,255);font-size:14px;font-weight:400;}";
+//    styleSheet += "QToolButton:hover{background-color:#80000000;color:rgb(255,255,255,255);font-size:14px;font-weight:400;}";
     styleSheet += "QToolButton:pressed{background-color:#80000000;color:rgb(255,255,255,255);font-size:14px;font-weight:400;"
                   "border-left:2px solid #888888;border-top:2px solid #888888;border-right:2px solid #ffffff;border-bottom:2px solid #ffffff;"
                   "margin-left:2px;margin-top:2px}";
@@ -151,4 +151,57 @@ void IconButton::leaveEvent(QEvent *event) {
     } else if(isEnabled()) {
         this->setIcon(defaultIcon);
     }
+}
+
+
+
+// Event handlers
+bool IconButton::event(QEvent *e) {
+//    switch (e->type()) {
+//        case QEvent::TouchBegin:
+//        case QEvent::TouchEnd:
+//        case QEvent::HoverEnter:
+//        case QEvent::HoverLeave:
+//        case QEvent::TouchCancel:
+//        case QEvent::MouseButtonPress:
+//        case QEvent::MouseButtonRelease:
+//        setText(QString("%1 %2").arg(text()).arg(e->type()));
+//        default:
+//            break;
+//        }
+    switch (e->type()) {
+        case QEvent::TouchBegin:
+        {
+            m_bTouchEnd = false;
+            QMouseEvent mouseEvent(QEvent::MouseButtonPress,QPointF(0,0),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+            QCoreApplication::sendEvent(this,&mouseEvent);
+            e->accept();
+            return true;
+        } break;
+
+        case QEvent::TouchEnd:
+        {
+            QMouseEvent mouseEvent(QEvent::MouseButtonRelease,QPointF(0,0),Qt::LeftButton,Qt::LeftButton,Qt::NoModifier);
+            QCoreApplication::sendEvent(this,&mouseEvent);
+            m_bTouchEnd = true;
+            e->accept();
+            return true;
+        } break;
+        case QEvent::MouseButtonPress:
+        case QEvent::MouseButtonRelease:
+        {
+            if(m_bTouchEnd){
+                m_bTouchEnd = false;
+                e->accept();
+                return true;
+            }
+        }break;
+        case QEvent::HoverEnter:
+        case QEvent::HoverLeave:
+        case QEvent::TouchCancel:
+        default:
+            break;
+        }
+
+        return QToolButton::event(e);
 }
