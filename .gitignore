@@ -1,7 +1,7 @@
 /bin32
 /bin64
 /bin
-
+win32/vlc-2.2.2/lib/plugins/*.dat
 *.pro.user
 
 # Prerequisites
