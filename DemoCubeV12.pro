@@ -64,6 +64,7 @@ SOURCES += \
     mainwindow.cpp \
     Util.cpp \
     mainwindowv12.cpp \
+    model/DeviceModel.cpp \
     mp4encoder.cpp \
     mypaint.cpp \
     navigator.cpp \
@@ -77,7 +78,15 @@ SOURCES += \
     recordlabel.cpp \
     scaler.cpp \
     settingdialogv2.cpp \
+    ui/CameraPreview.cpp \
+    ui/CameraViewWidget.cpp \
+    ui/FlowLayout.cpp \
+    ui/MainUI.cpp \
+    ui/MenuDialog.cpp \
+    ui/TestViewController.cpp \
+    ui/TouchButton.cpp \
     ui/homev2_2.cpp \
+    utils/ThemeUtils.cpp \
     videorender.cpp \
     vlcplayer.cpp \
     vlcplayercontroller.cpp \
@@ -121,6 +130,7 @@ HEADERS += \
     mainwindow.h \
     Util.h \
     mainwindowv12.h \
+    model/DeviceModel.h \
     mp4encoder.h \
     mypaint.h \
     navigator.h \
@@ -134,7 +144,15 @@ HEADERS += \
     recordlabel.h \
     scaler.h \
     settingdialogv2.h \
+    ui/CameraPreview.h \
+    ui/CameraViewWidget.h \
+    ui/FlowLayout.h \
+    ui/MainUI.h \
+    ui/MenuDialog.h \
+    ui/TestViewController.h \
+    ui/TouchButton.h \
     ui/homev2_2.h \
+    utils/ThemeUtils.h \
     videorender.h \
     vlcplayer.h \
     vlcplayercontroller.h \
