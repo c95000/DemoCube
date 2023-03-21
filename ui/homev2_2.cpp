@@ -55,7 +55,7 @@ void HomeV2_2::resizeEvent(QResizeEvent *event) {
 void HomeV2_2::mousePressEvent(QMouseEvent *event) {
     QMainWindow::mousePressEvent(event);
     qDebug() << tr("(%1,%2)").arg(event->x()).arg(event->y());
-    if(event->x() < width() / 3) {
+    if(event->x() < width() / 4) {
         menuDialog->show();
         qDebug() << menuDialog->isHidden();
     } else {

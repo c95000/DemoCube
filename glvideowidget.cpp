@@ -1,4 +1,4 @@
-// www.qtav.org
+﻿// www.qtav.org
 
 #include "glvideowidget.h"
 #include "Util.h"
@@ -120,10 +120,17 @@ GLVideoWidget::GLVideoWidget(QWidget *parent)
     , upload_tex(true)
     , m_program(0)
 {
+    qDebug() << __FUNCTION__;
 //    setAttribute(Qt::WA_OpaquePaintEvent);
   //  setAttribute(Qt::WA_NoSystemBackground);
     //default: swap in qpainter dtor. we should swap before QPainter.endNativePainting()
     memset(tex, 0, 3);
+    QSizePolicy sizePolicy = this->sizePolicy();
+    qDebug() << __FUNCTION__ << " " << sizePolicy.horizontalPolicy() << " " << sizePolicy.verticalPolicy();
+    sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
+    sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
+//    sizePolicy.setHorizontalPolicy(QSizePolicy::Minimum);
+    this->setSizePolicy(sizePolicy);
 }
 
 GLVideoWidget::~GLVideoWidget() {
@@ -423,7 +430,7 @@ void GLVideoWidget::initializeGL()
 
 void GLVideoWidget::resizeGL(int w, int h)
 {
-    printf("resizeGL : %d x %d", w, h);
+    qDebug("resizeGL : %d x %d", w, h);
     glViewport(0, 0, w, h);
     m_mat.setToIdentity();
 //    m_mat.ortho(QRectF(0, 0, w, h));
@@ -435,6 +442,20 @@ bool GLVideoWidget::event(QEvent* event) {
         return true;
     }
     return QOpenGLWidget::event(event);
+}
+
+QSize GLVideoWidget::sizeHint() const {
+    QSize size = QOpenGLWidget::sizeHint();
+    qDebug() << __FUNCTION__ << " " << size;
+    qDebug() << "parent size: " << parentWidget()->size();
+    qDebug() << "parent geometry: " << parentWidget()->geometry();
+    return size;
+}
+
+void GLVideoWidget::resizeEvent(QResizeEvent *event) {
+    QOpenGLWidget::resizeEvent(event);
+    qDebug() << __FILE__ << " " << __FUNCTION__ << event->size();
+    qDebug() << __FILE__ << " " << __FUNCTION__ << parentWidget()->size();
 }
 
 void GLVideoWidget::initializeShader()

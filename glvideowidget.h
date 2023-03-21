@@ -1,4 +1,4 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
 #include <QtOpenGL>
@@ -53,9 +53,12 @@ protected:
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
     virtual bool event(QEvent* event) override;
+    virtual QSize sizeHint() const override;
+    virtual void resizeEvent(QResizeEvent *event) override;
 //    virtual void resizeEvent(QResizeEvent *event) override;
 //private:
 //    void renderText();
+
 signals:
     void doubleClicked();
 

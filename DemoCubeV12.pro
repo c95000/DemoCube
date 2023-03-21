@@ -64,6 +64,7 @@ SOURCES += \
     mainwindow.cpp \
     Util.cpp \
     mainwindowv12.cpp \
+    model/Device.cpp \
     model/DeviceModel.cpp \
     mp4encoder.cpp \
     mypaint.cpp \
@@ -130,6 +131,7 @@ HEADERS += \
     mainwindow.h \
     Util.h \
     mainwindowv12.h \
+    model/Device.h \
     model/DeviceModel.h \
     mp4encoder.h \
     mypaint.h \
