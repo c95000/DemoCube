@@ -22,6 +22,7 @@ Device::Device(const Device& other)
 }
 
 QString Device::getUrl() const {
-    QString url = QString("rtsp://%1").arg(ip);
+//    rtsp://admin:ipc123456@192.168.50.85:554/h265/ch1/main/av_stream
+    QString url = QString("rtsp://admin:ipc123456@%1:%2/h265/ch1/main/av_stream").arg(ip).arg(554);
     return url;
 }

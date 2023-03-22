@@ -5,6 +5,7 @@
 #include "model/DeviceModel.h"
 #include "glvideowidget.h"
 #include "FlowLayout.h"
+#include "ffdecoder.h"
 
 class CameraViewWidget : public QWidget
 {
@@ -15,9 +16,16 @@ public:
     virtual void resizeEvent(QResizeEvent *event);
 signals:
 
+public:
+    GLVideoWidget* videoView;
+
 private:
     Device& device;
-    GLVideoWidget* videoView;
+
+
+    FFDecoder* ffDecoder;
+    int videoWidth = 16;
+    int videoHeight = 9;
 };
 
 #endif // CAMERAVIEWWIDGET_H
