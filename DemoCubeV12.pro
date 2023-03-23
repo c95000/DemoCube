@@ -86,6 +86,7 @@ SOURCES += \
     ui/MenuDialog.cpp \
     ui/TestViewController.cpp \
     ui/TouchButton.cpp \
+    ui/VideoGLRender.cpp \
     ui/homev2_2.cpp \
     utils/ThemeUtils.cpp \
     videorender.cpp \
@@ -153,6 +154,7 @@ HEADERS += \
     ui/MenuDialog.h \
     ui/TestViewController.h \
     ui/TouchButton.h \
+    ui/VideoGLRender.h \
     ui/homev2_2.h \
     utils/ThemeUtils.h \
     videorender.h \

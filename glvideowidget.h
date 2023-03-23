@@ -53,20 +53,21 @@ protected:
     virtual void paintGL() override;
     virtual void resizeGL(int w, int h) override;
     virtual bool event(QEvent* event) override;
-    virtual QSize sizeHint() const override;
-    virtual void resizeEvent(QResizeEvent *event) override;
+//    virtual QSize sizeHint() const override;
+//    virtual void resizeEvent(QResizeEvent *event) override;
 //    virtual void resizeEvent(QResizeEvent *event) override;
 //private:
 //    void renderText();
 
+    void setMatrix();
 signals:
     void doubleClicked();
 
 private:
     bool update_res;
     bool upload_tex;
-    int width;
-    int height;
+    int width = 0;
+    int height = 0;
     //char *pitch[3];
     QByteArray m_data;
     uchar* m_yuvdata = NULL;

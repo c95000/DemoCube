@@ -125,12 +125,12 @@ GLVideoWidget::GLVideoWidget(QWidget *parent)
   //  setAttribute(Qt::WA_NoSystemBackground);
     //default: swap in qpainter dtor. we should swap before QPainter.endNativePainting()
     memset(tex, 0, 3);
-    QSizePolicy sizePolicy = this->sizePolicy();
-    qDebug() << __FUNCTION__ << " " << sizePolicy.horizontalPolicy() << " " << sizePolicy.verticalPolicy();
-    sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
-    sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
+//    QSizePolicy sizePolicy = this->sizePolicy();
+//    qDebug() << __FUNCTION__ << " " << sizePolicy.horizontalPolicy() << " " << sizePolicy.verticalPolicy();
+//    sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
+//    sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
 //    sizePolicy.setHorizontalPolicy(QSizePolicy::Minimum);
-    this->setSizePolicy(sizePolicy);
+//    this->setSizePolicy(sizePolicy);
 }
 
 GLVideoWidget::~GLVideoWidget() {
@@ -289,6 +289,8 @@ void GLVideoWidget::setYUV420pParameters(int w, int h, int *strides)
         p.bpp = 1;
 //        qDebug() << p.tex_size;
     }
+
+    setMatrix();
 }
 
 void GLVideoWidget::setQImageParameters(QImage::Format fmt, int w, int h, int stride)
@@ -333,7 +335,7 @@ void GLVideoWidget::paintGL()
     Q_UNUSED(lock);
     if (plane.isEmpty() || !plane[0].data) {
         //清除之前图形并将背景设置为黑色（设置为黑色纯粹个人爱好！）
-        glClearColor(170.0/255, 170.0/255, 170.0/255, 1.0f);
+        glClearColor(100.0/255, 100.0/255, 100.0/255, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         return;
     }
@@ -425,15 +427,18 @@ void GLVideoWidget::paintGL()
 
 void GLVideoWidget::initializeGL()
 {
+    qDebug() << __FUNCTION__;
     initializeOpenGLFunctions();
+    glClearColor(100.0/255, 100.0/255, 100.0/255, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GLVideoWidget::resizeGL(int w, int h)
 {
     qDebug("resizeGL : %d x %d", w, h);
+    qDebug() << width << "x" << height;
     glViewport(0, 0, w, h);
-    m_mat.setToIdentity();
-//    m_mat.ortho(QRectF(0, 0, w, h));
+    setMatrix();
 }
 
 bool GLVideoWidget::event(QEvent* event) {
@@ -444,18 +449,18 @@ bool GLVideoWidget::event(QEvent* event) {
     return QOpenGLWidget::event(event);
 }
 
-QSize GLVideoWidget::sizeHint() const {
-    QSize size = QOpenGLWidget::sizeHint();
-    qDebug() << __FUNCTION__ << " " << size;
-    qDebug() << "parent size: " << parentWidget()->size();
-    qDebug() << "parent geometry: " << parentWidget()->geometry();
-    return size;
-}
-
-void GLVideoWidget::resizeEvent(QResizeEvent *event) {
-    QOpenGLWidget::resizeEvent(event);
-    qDebug() << __FILE__ << " " << __FUNCTION__ << event->size();
-    qDebug() << __FILE__ << " " << __FUNCTION__ << parentWidget()->size();
+void GLVideoWidget::setMatrix() {
+    m_mat.setToIdentity();
+    if(width > 0 && height > 0) {
+        double videoRatio = width * 1.0 / height;
+        double viewRatio = size().width() * 1.0 / size().height();
+        if(videoRatio > viewRatio ) {
+            m_mat.scale(1, viewRatio / videoRatio);
+        } else {
+            m_mat.scale(videoRatio / viewRatio, 1);
+        }
+        qDebug() << "m_mat: " << m_mat;
+    }
 }
 
 void GLVideoWidget::initializeShader()

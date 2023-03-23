@@ -6,7 +6,7 @@
 #include "glvideowidget.h"
 #include "FlowLayout.h"
 #include "ffdecoder.h"
-
+#include "VideoGLRender.h"
 class CameraViewWidget : public QWidget
 {
     Q_OBJECT
@@ -18,7 +18,7 @@ signals:
 
 public:
     GLVideoWidget* videoView;
-
+    VideoGLRender* videoRender;
 private:
     Device& device;
 

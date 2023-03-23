@@ -36,12 +36,16 @@ HomeV2_2::HomeV2_2(QWidget *parent)
     });
 
     connect(menuDialog, &MenuDialog::onModelClicked, this, [=](Device& device) {
-        qDebug() << device.getUrl();
         if(!pageMap[device]) {
             pageMap.insert(device, new CameraViewWidget(device) );
         }
-        takeCentralWidget();
-        setCentralWidget(pageMap[device]);
+        if(this->centralWidget() != pageMap[device]) {
+            takeCentralWidget();
+            setCentralWidget(pageMap[device]);
+        } else {
+            qDebug() << "same centralWidget";
+        }
+
         qDebug() << "pageMap.count: " << pageMap.count();
         menuDialog->raise();
     });

@@ -28,8 +28,11 @@ CameraViewWidget::CameraViewWidget(Device& device, QWidget *parent)
 //        rootLayout->addWidget(title, 0, Qt::AlignHCenter);
 
     videoView = new GLVideoWidget(this);
+//    videoRender = new VideoGLRender(this);
     QFlowLayout* controllerView = new QFlowLayout;
     rootLayout->addStretch(1);
+//    rootLayout->addWidget(videoView, 1);
+//    rootLayout->addWidget(videoRender, 1);
     rootLayout->addLayout(controllerView);
     QPushButton* button1 = new QPushButton("button1");
     controllerView->addWidget(button1);
@@ -45,5 +48,5 @@ CameraViewWidget::CameraViewWidget(Device& device, QWidget *parent)
 
 void CameraViewWidget::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
-    videoView->setFixedSize(event->size());
+    videoView->resize(event->size());
 }
