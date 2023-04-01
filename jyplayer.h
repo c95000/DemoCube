@@ -1,4 +1,4 @@
-#ifndef JYPLAYER_H
+﻿#ifndef JYPLAYER_H
 #define JYPLAYER_H
 
 #include <QObject>
@@ -6,15 +6,16 @@
 #include <QFile>
 #include "glvideowidget.h"
 
-extern "C"
-{
-    #include "libavcodec/avcodec.h"
-    #include "libavformat/avformat.h"
-    #include "libswscale/swscale.h"
-    #include "libavdevice/avdevice.h"
-    #include "libavutil/opt.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <QThread>
+extern "C" {
+    #include <libavformat/avformat.h>
+    #include <libavcodec/avcodec.h>
+    #include <libswscale/swscale.h>
+    #include <libavutil/imgutils.h>
 }
-
 enum enJYPLAYER_STATE {
     IDLE = 0,
     PREPARING,
@@ -56,6 +57,7 @@ public:
 
 private:
     void setState(enJYPLAYER_STATE state);
+    int playDirectly(const char *source);
 
 private:
     QString source;
@@ -69,6 +71,8 @@ private:
     QString recordedFileName;
     FILE *h264File;
     QFile qh264File;
+
+    bool playing;
 };
 
 #endif // JYPLAYER_H

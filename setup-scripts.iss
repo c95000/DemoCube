@@ -16,7 +16,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=D:\
+OutputDir=D:\Inno-output
 OutputBaseFilename=实训优学软件
 SetupIconFile=.\res\images\iconfinder_htc_setup_1419108.ico
 Compression=lzma

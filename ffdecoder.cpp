@@ -1,4 +1,4 @@
-#include "ffdecoder.h"
+﻿#include "ffdecoder.h"
 #include <QDateTime>
 #include "mp4encoder.h"
 
@@ -85,7 +85,7 @@ void FFDecoder::run() {
     // A5.1 获取解码器参数AVCodecParameters
     p_codec_par = p_fmt_ctx->streams[v_idx]->codecpar;
     // A5.2 获取解码器
-    p_codec = avcodec_find_decoder(p_codec_par->codec_id);
+    const AVCodec* p_codec = avcodec_find_decoder(p_codec_par->codec_id);
     if (p_codec == NULL)
     {
         printf("Cann't find codec!\n");
@@ -407,9 +407,9 @@ void FFDecoder::startRecord() {
 void FFDecoder::stopRecord() {
     printf("FFDecoder: %s", __FUNCTION__);
     setState(FFDECODER_RECORDING, false);
-    Mp4Encoder::h2642mp4(tr("%1%2").arg(recordFileName).arg(".h264").toStdString().c_str(),
-                                 tr("%1%2").arg(recordFileName).arg(".mp4").toStdString().c_str());
-    QFile::remove(tr("%1%2").arg(recordFileName).arg(".h264"));
+//    Mp4Encoder::h2642mp4(tr("%1%2").arg(recordFileName).arg(".h264").toStdString().c_str(),
+//                                 tr("%1%2").arg(recordFileName).arg(".mp4").toStdString().c_str());
+//    QFile::remove(tr("%1%2").arg(recordFileName).arg(".h264"));
 }
 
 void FFDecoder::setState(FFDECODER_STATE state, bool enable) {

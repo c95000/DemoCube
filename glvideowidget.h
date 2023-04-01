@@ -44,6 +44,8 @@ public:
     void copyCurrentImage(QImage& image);
 
     void rotationFunc();
+
+    QImage& grabFrame();
 protected:
     void bind();
     void bindPlane(int p);

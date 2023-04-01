@@ -215,6 +215,12 @@ void GLVideoWidget::rotationFunc() {
     rotation = r % 360;
 }
 
+QImage& GLVideoWidget::grabFrame() {
+    QMutexLocker lock(&m_mutex);
+    Q_UNUSED(lock);
+//    QImage image(width, height, QImage::Format_YUV420P);
+}
+
 void GLVideoWidget::bind()
 {
     for (int i = 0; i < plane.size(); ++i) {

@@ -1,5 +1,5 @@
 QT       += core gui
-
+QT += opengl network widgets svg xml quickwidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -18,15 +18,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
-#DESTDIR=$$PWD/bin/
-contains(QT_ARCH, i386) {
-    message("32-bit")
-    DESTDIR = $${PWD}/bin32
-} else {
-    message("64-bit")
-    DESTDIR = $${PWD}/bin64
-}
 
 
 SOURCES += \
@@ -79,6 +70,7 @@ SOURCES += \
     recordlabel.cpp \
     scaler.cpp \
     settingdialogv2.cpp \
+    ui/CameraControllerV2.cpp \
     ui/CameraPreview.cpp \
     ui/CameraViewWidget.cpp \
     ui/FlowLayout.cpp \
@@ -147,6 +139,7 @@ HEADERS += \
     recordlabel.h \
     scaler.h \
     settingdialogv2.h \
+    ui/CameraControllerV2.h \
     ui/CameraPreview.h \
     ui/CameraViewWidget.h \
     ui/FlowLayout.h \
@@ -188,25 +181,6 @@ FORMS += \
     vlcplayercontroller.ui
 
 
-QT += opengl network widgets svg xml quickwidgets
-
-THRIDPARTIES_PATH = $$PWD/thirdparties
-
-contains(QT_ARCH, i386) {
-    VLC_PATH = $$PWD/win32/vlc-2.2.2
-    LIBS += -L$${VLC_PATH}/lib -lvlc
-    LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win32 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
-} else {
-    VLC_PATH = $$PWD/x86_64/vlc-2.2.2
-    LIBS += -L$${VLC_PATH}/lib -lvlc
-    LIBS += -L$${THRIDPARTIES_PATH}/ffmpeg/lib/win64 -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lpostproc -lswresample -lswscale
-}
-
-#INCLUDEPATH += $${THRIDPARTIES_PATH}/arnet/inc
-INCLUDEPATH += $${THRIDPARTIES_PATH}/ffmpeg/include
-INCLUDEPATH += $${VLC_PATH}/include
-
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -216,3 +190,25 @@ RESOURCES += \
     res.qrc
 
 RC_FILE = resources.rc
+
+win32{
+    equals(QT_ARCH, x86_64) {
+        DESTDIR = $${PWD}/bin64
+        FFMPEG_DIR = $$PWD/contrib/ffmpeg/win64
+        VLC_DIR = $$PWD/contrib/vlc/win64
+    }
+
+    equals(QT_ARCH, i386) {
+        DESTDIR = $${PWD}/bin32
+        FFMPEG_DIR = $$PWD/contrib/ffmpeg/win32
+        VLC_DIR = $$PWD/contrib/vlc/win32
+    }
+
+    LIBS += -L$${FFMPEG_DIR}/bin -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lswresample -lswscale
+    INCLUDEPATH += $${FFMPEG_DIR}/include
+    DEPENDPATH += $${FFMPEG_DIR}/bin
+
+    LIBS += -L$${VLC_DIR}/sdk/lib -llibvlc
+    INCLUDEPATH += $${VLC_DIR}/sdk/include
+    DEPENDPATH +=$${VLC_DIR}
+}

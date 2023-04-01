@@ -5,9 +5,6 @@
 static void _ffdecoder_video_format_cb(void *opaque, int* width, int *height, int* lineSize) {
 //    qDebug() << __FUNCTION__;
     CameraViewWidget* ffPlayer = qobject_cast<CameraViewWidget *>((QObject*)opaque);
-//    FFPlayer* ffPlayer = (FFPlayer*)opaque;
-//    printf("*video size: %d x %d lineSize: %d / %d / %d", *width, *height, lineSize[0], lineSize[1], lineSize[2]);
-//    ffPlayer->setVideoSize(*width, *height);
     ffPlayer->videoView->setYUV420pParameters(*width, *height, lineSize);
 }
 
@@ -23,30 +20,41 @@ CameraViewWidget::CameraViewWidget(Device& device, QWidget *parent)
     QVBoxLayout* rootLayout = new QVBoxLayout;
     setLayout(rootLayout);
 
-//        QLabel* title = new QLabel();
-//        title->setText(device.ip);
-//        rootLayout->addWidget(title, 0, Qt::AlignHCenter);
-
     videoView = new GLVideoWidget(this);
-//    videoRender = new VideoGLRender(this);
-    QFlowLayout* controllerView = new QFlowLayout;
-    rootLayout->addStretch(1);
-//    rootLayout->addWidget(videoView, 1);
-//    rootLayout->addWidget(videoRender, 1);
-    rootLayout->addLayout(controllerView);
-    QPushButton* button1 = new QPushButton("button1");
-    controllerView->addWidget(button1);
-    connect(button1, &QPushButton::clicked, this, [=]() {
-        qDebug() << __FUNCTION__;
-        qDebug() << device.getUrl();
-        ffDecoder->setSource(device.getUrl(), _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
-        ffDecoder->play(true);
-    });
+//    QFlowLayout* controllerView = new QFlowLayout;
+//    QPushButton* button1 = new QPushButton("button1");
+//    controllerView->addWidget(button1);
+    controllerBar = new CameraControllerV2;
 
-    ffDecoder = new FFDecoder();
+    rootLayout->addStretch(1);
+    rootLayout->addWidget(controllerBar);
+
+    connect(controllerBar, &CameraControllerV2::play, this, &CameraViewWidget::play);
+    connect(controllerBar, &CameraControllerV2::stop, this, &CameraViewWidget::stop);
+    connect(controllerBar, &CameraControllerV2::takePicture, this, &CameraViewWidget::takePicture);
 }
 
 void CameraViewWidget::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
     videoView->resize(event->size());
 }
+
+void CameraViewWidget::play() {
+    qDebug() << __FUNCTION__;
+    if(nullptr == ffDecoder) {
+        ffDecoder = new FFDecoder;
+    }
+    qDebug() << device.getUrl();
+    ffDecoder->setSource(device.getUrl(), _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
+    ffDecoder->play(true);
+}
+void CameraViewWidget::stop() {
+    ffDecoder->stop();
+}
+
+void CameraViewWidget::takePicture() {
+//    QImage img = videoView->grabFramebuffer();
+//    qDebug() << img;
+//    videoView->takePicture();
+}
+

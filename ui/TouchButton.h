@@ -11,7 +11,9 @@ public:
     explicit TouchButton(QWidget *parent = nullptr);
     explicit TouchButton(const QString &text, QWidget *parent = nullptr);
 signals:
-
+    void play();
+    void stop();
+    void pause();
 private:
     void initView();
 };
