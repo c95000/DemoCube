@@ -1,4 +1,4 @@
-// www.qtav.org
+﻿// www.qtav.org
 
 #include "glvideowidget.h"
 #include "Util.h"
@@ -398,6 +398,7 @@ void GLVideoWidget::paintGL()
 
         QFont font;
         font.setPixelSize(size().height()/10);
+        font.setWeight(800);
         painter.setFont(font);
 
         QPen pen;
@@ -407,8 +408,8 @@ void GLVideoWidget::paintGL()
 
         QTextOption option(Qt::AlignLeft | Qt::AlignTop);
         option.setWrapMode(QTextOption::WordWrap);
-        QRectF rect(0, size().height() / 2, size().width(), size().height() / 2);
-        QString date = QDateTime::currentDateTime().toString("欢迎使用软件, 现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
+        QRectF rect(0, 0 + 20, size().width(), size().height() / 2);
+        QString date = QDateTime::currentDateTime().toString("欢迎使用实训优学\n现在时刻：yyyy-MM-dd hh:mm:ss.zzz");
         painter.drawText(rect, date, option);
         painter.end();
     }
