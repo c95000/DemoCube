@@ -17,6 +17,11 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
 signals:
     void resized();
+    void closed(); // 当窗口关闭时发出的信号
+
+protected:
+    void closeEvent(QCloseEvent *event) override; // 重写 closeEvent
+
 private:
     MenuDialog* menuDialog;
     QWidget *mainView;

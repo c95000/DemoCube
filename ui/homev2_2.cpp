@@ -68,3 +68,8 @@ void HomeV2_2::mousePressEvent(QMouseEvent *event) {
     }
 }
 
+void HomeV2_2::closeEvent(QCloseEvent *event) {
+    emit closed(); // 发出关闭信号
+    QWidget::closeEvent(event); // 继续执行默认的关闭事件
+}
+
