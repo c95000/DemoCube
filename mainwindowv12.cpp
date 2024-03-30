@@ -219,7 +219,8 @@ void MainWindowV12::checkPermission(){
 void MainWindowV12::onConnect(const QString ip) {
 
     loading->show();
-    bool ret = arnetWrapper->connect(ip);
+//    bool ret = arnetWrapper->connect(ip);
+    bool ret = true;
     if(ret) {
         loading->close();
         FFPlayer *ffplayer = static_cast<FFPlayer*>(cameraView);

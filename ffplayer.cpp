@@ -1,4 +1,4 @@
-#include "ffplayer.h"
+﻿#include "ffplayer.h"
 #include "common.h"
 #include "glvideowidget.h"
 
@@ -71,7 +71,8 @@ void FFPlayer::init() {
 }
 
 void FFPlayer::play(const QString& ip) {
-    inputSource = tr("rtsp://admin:admin@%1:554/live0").arg(ip);
+//    inputSource = tr("rtsp://admin:admin@%1:554/live0").arg(ip);
+    inputSource = QString("rtsp://admin:ipc123456@%1:%2/h265/ch1/main/av_stream").arg(ip).arg(554);
     ffDecoder->setSource(inputSource, _ffdecoder_video_format_cb, _ffdecoder_data_available_cb, this);
     ffDecoder->play(true);
 }
