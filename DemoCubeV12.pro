@@ -76,6 +76,7 @@ SOURCES += \
     ui/FlowLayout.cpp \
     ui/MainUI.cpp \
     ui/MenuDialog.cpp \
+    ui/MyGraphicsView.cpp \
     ui/TestViewController.cpp \
     ui/TouchButton.cpp \
     ui/VideoGLRender.cpp \
@@ -145,6 +146,7 @@ HEADERS += \
     ui/FlowLayout.h \
     ui/MainUI.h \
     ui/MenuDialog.h \
+    ui/MyGraphicsView.h \
     ui/TestViewController.h \
     ui/TouchButton.h \
     ui/VideoGLRender.h \

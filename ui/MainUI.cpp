@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "ui/MenuDialog.h"
 #include "ui/homev2_2.h"
+#include "ui/MyGraphicsView.h"
 
 MainUI::MainUI(QWidget *parent)
     : QMainWindow{parent}
@@ -66,7 +67,7 @@ MainUI::MainUI(QWidget *parent)
 
     // 创建内容小部件
     QWidget *content1 = new HomeV2_2();
-    QWidget *content2 = new QLabel("content2");
+    QWidget *content2 = new MyGraphicsView();
     QWidget *content3 = new QLabel("content3");
     stackedWidget->addWidget(content1);
     stackedWidget->addWidget(content2);
