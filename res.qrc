@@ -73,5 +73,6 @@
         <file>res/icons/help.svg</file>
         <file>res/icons/setting_o.svg</file>
         <file>res/icons/setting.svg</file>
+        <file>res/icons/upward_selected_icon.svg</file>
     </qresource>
 </RCC>

@@ -78,6 +78,7 @@ SOURCES += \
     ui/MenuDialog.cpp \
     ui/MyGraphicsView.cpp \
     ui/TestViewController.cpp \
+    ui/TopBar.cpp \
     ui/TouchButton.cpp \
     ui/VideoGLRender.cpp \
     ui/homev2_2.cpp \
@@ -88,6 +89,7 @@ SOURCES += \
     vlctest.cpp \
     vlcworker.cpp \
     vlcwrapper.cpp \
+    widgets/AspectRatioSvgWidget.cpp \
     yuv2jpg.cpp
 
 HEADERS += \
@@ -148,6 +150,7 @@ HEADERS += \
     ui/MenuDialog.h \
     ui/MyGraphicsView.h \
     ui/TestViewController.h \
+    ui/TopBar.h \
     ui/TouchButton.h \
     ui/VideoGLRender.h \
     ui/homev2_2.h \
@@ -158,6 +161,7 @@ HEADERS += \
     vlctest.h \
     vlcworker.h \
     vlcwrapper.h \
+    widgets/AspectRatioSvgWidget.h \
     yuv2jpg.h
 
 FORMS += \
